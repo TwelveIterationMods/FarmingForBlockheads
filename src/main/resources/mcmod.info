@@ -1,0 +1,16 @@
+[
+{
+  "modid": "farmingforblockheads",
+  "name": "Farming for Blockheads",
+  "description": "Yes.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["BlayTheNinth"],
+  "credits": "BlayTheNinth",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

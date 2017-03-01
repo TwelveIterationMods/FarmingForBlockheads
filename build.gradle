@@ -1,0 +1,52 @@
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+apply from: 'gradle/scripts/common.gradle'
+apply from: 'gradle/scripts/with-at.gradle'
+apply from: 'gradle/scripts/with-api.gradle'
+
+apply from: 'dependencies.gradle'
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+
+def BUILD_NUMBER = System.getenv("BUILD_NUMBER") ?: "0"
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+version = major_version + "." + minor_version + "." + BUILD_NUMBER
+group = "net.blay09.mods"
+archivesBaseName = mod_name + "_" + minecraft_version
+
+minecraft {
+    version = minecraft_version + "-" + forge_version
+    runDir = "run"
+    useDepAts = true
+    mappings = mappings_version
+}
+
+processResources{
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+

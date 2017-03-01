@@ -1,0 +1,4 @@
+dependencies {
+    deobfCompile "mezz.jei:jei_1.10.2:3.14.7.415"
+    provided "hosted-api:MouseTweaks:2.6.4"
+}

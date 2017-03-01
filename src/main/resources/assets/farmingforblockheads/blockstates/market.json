@@ -1,0 +1,33 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "farmingforblockheads:market",
+    "transform": "forge:default-block",
+    "textures": {
+      "particle": "minecraft:blocks/log_spruce",
+      "texture": "minecraft:blocks/log_spruce",
+      "board": "farmingforblockheads:blocks/market_top",
+      "planks": "minecraft:blocks/planks_spruce",
+      "roof": "farmingforblockheads:blocks/market_roof"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+      "model": "farmingforblockheads:market_inventory"
+    }],
+    "facing": {
+      "west": {
+        "y": -90
+      },
+      "east": {
+        "y": 90
+      },
+      "north": {
+      },
+      "south": {
+        "y": 180
+      }
+    }
+  }
+}

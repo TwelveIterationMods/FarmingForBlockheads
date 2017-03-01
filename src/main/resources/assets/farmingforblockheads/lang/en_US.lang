@@ -1,0 +1,14 @@
+tile.farmingforblockheads:market.name=Market
+
+itemGroup.farmingforblockheads=Farming for Blockheads
+
+container.farmingforblockheads:market=Market
+
+gui.farmingforblockheads:market.no_selection=No Selection
+gui.farmingforblockheads:market.tooltip_cost=Cost: %s
+gui.farmingforblockheads:market.tooltip_seeds=Seeds
+gui.farmingforblockheads:market.tooltip_saplings=Saplings
+gui.farmingforblockheads:market.tooltip_other=Other
+gui.farmingforblockheads:market.cost=%dx %s
+
+jei.farmingforblockheads:market=Market
