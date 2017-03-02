@@ -14,11 +14,13 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -84,17 +86,42 @@ public class BlockMarket extends BlockContainer {
 
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack itemStack) {
+		EnumFacing facing = state.getValue(FACING);
+		BlockPos entityPos = pos.offset(facing.getOpposite());
+		EntityMerchant.SpawnAnimationType spawnAnimationType = EntityMerchant.SpawnAnimationType.MAGIC;
+		if(world.canBlockSeeSky(entityPos)) {
+			spawnAnimationType = EntityMerchant.SpawnAnimationType.FALLING;
+		} else if(!world.isAirBlock(entityPos.down())) {
+			spawnAnimationType = EntityMerchant.SpawnAnimationType.DIGGING;
+		}
 		if(!world.isRemote) {
-			EnumFacing facing = state.getValue(FACING);
-			BlockPos entityPos = pos.offset(facing.getOpposite());
 			EntityMerchant merchant = new EntityMerchant(world);
-			merchant.setPosition(entityPos.getX() + 0.5, 255, entityPos.getZ() + 0.5);
 			merchant.setMarket(pos, facing);
 			merchant.setToFacingAngle();
+			merchant.setSpawnAnimation(spawnAnimationType);
+
+			if(world.canBlockSeeSky(entityPos)) {
+				merchant.setPosition(entityPos.getX() + 0.5, entityPos.getY() + 172, entityPos.getZ() + 0.5);
+			} else if(!world.isAirBlock(entityPos.down())) {
+				merchant.setPosition(entityPos.getX() + 0.5, entityPos.getY(), entityPos.getZ() + 0.5);
+			} else {
+				merchant.setPosition(entityPos.getX() + 0.5, entityPos.getY(), entityPos.getZ() + 0.5);
+			}
+
 			world.spawnEntityInWorld(merchant);
 			merchant.onInitialSpawn(world.getDifficultyForLocation(pos), null);
 		}
-		world.playSound(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, ModSounds.falling, SoundCategory.NEUTRAL, 1f, 1f, false);
+		if(spawnAnimationType == EntityMerchant.SpawnAnimationType.FALLING) {
+			world.playSound(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, ModSounds.falling, SoundCategory.NEUTRAL, 1f, 1f, false);
+		} else if(spawnAnimationType == EntityMerchant.SpawnAnimationType.DIGGING) {
+//			world.playSound(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, ModSounds.falling, SoundCategory.NEUTRAL, 1f, 1f, false);
+		} else {
+			world.playSound(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.NEUTRAL, 1f, 1f, false);
+			for (int i = 0; i < 50; i++) {
+				world.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
+			}
+			world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0, 0, 0);
+		}
 	}
 
 	@Override

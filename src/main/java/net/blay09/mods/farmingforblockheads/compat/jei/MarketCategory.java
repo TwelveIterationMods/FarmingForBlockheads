@@ -20,7 +20,7 @@ public class MarketCategory extends BlankRecipeCategory<MarketRecipe> {
 	private final IDrawableStatic background;
 
 	public MarketCategory(IGuiHelper guiHelper) {
-		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 85, 47);
+		this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 86, 48);
 	}
 
 	@Override

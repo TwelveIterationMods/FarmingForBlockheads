@@ -3,6 +3,8 @@ package net.blay09.mods.farmingforblockheads.entity;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.network.GuiHandler;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.INpc;
@@ -11,6 +13,7 @@ import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,6 +32,12 @@ import java.util.Random;
 
 public class EntityMerchant extends EntityCreature implements INpc {
 
+	public enum SpawnAnimationType {
+		MAGIC,
+		FALLING,
+		DIGGING
+	}
+
 	private static final Random rand = new Random();
 	public static final String[] NAMES = new String[]{
 			"Swap-O-Matic",
@@ -38,9 +47,13 @@ public class EntityMerchant extends EntityCreature implements INpc {
 	};
 
 	private BlockPos marketPos;
-	private BlockPos marketEntityPos;
-	private boolean hasFallen;
 	private EnumFacing facing;
+	private boolean spawnDone;
+	private SpawnAnimationType spawnAnimation;
+
+	private BlockPos marketEntityPos;
+	private int diggingAnimation;
+	private IBlockState diggingBlockState;
 
 	public EntityMerchant(World world) {
 		super(world);
@@ -76,8 +89,9 @@ public class EntityMerchant extends EntityCreature implements INpc {
 		if (marketPos != null) {
 			compound.setLong("MarketPos", marketPos.toLong());
 		}
-		compound.setBoolean("HasFallen", hasFallen);
 		compound.setByte("Facing", (byte) facing.getIndex());
+		compound.setBoolean("SpawnDone", spawnDone);
+		compound.setByte("SpawnAnimation", (byte) spawnAnimation.ordinal());
 	}
 
 	@Override
@@ -89,7 +103,8 @@ public class EntityMerchant extends EntityCreature implements INpc {
 		if (compound.hasKey("MarketPos")) {
 			setMarket(BlockPos.fromLong(compound.getLong("MarketPos")), EnumFacing.getFront(compound.getByte("Facing")));
 		}
-		hasFallen = compound.getBoolean("HasFallen");
+		spawnDone = compound.getBoolean("SpawnDone");
+		spawnAnimation = SpawnAnimationType.values()[compound.getByte("SpawnAnimation")];
 	}
 
 	@Override
@@ -123,6 +138,22 @@ public class EntityMerchant extends EntityCreature implements INpc {
 				}
 			}
 		}
+
+		if(!spawnDone && spawnAnimation == SpawnAnimationType.DIGGING) {
+			worldObj.setEntityState(this, (byte) 13);
+			spawnDone = true;
+		}
+		if(diggingAnimation > 0) {
+			diggingAnimation--;
+			for(int i = 0; i < 4; i++) {
+				int stateId = Block.getStateId(diggingBlockState != null ? diggingBlockState : Blocks.DIRT.getDefaultState());
+				worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX, posY, posZ, Math.random() * 2 - 1, Math.random() * 4, Math.random() * 2 - 1, stateId);
+				worldObj.spawnParticle(EnumParticleTypes.BLOCK_DUST, posX, posY, posZ, (Math.random() - 0.5) * 0.5, Math.random() * 0.5f, (Math.random() - 0.5) * 0.5, stateId);
+			}
+			if(diggingAnimation % 2 == 0) {
+				worldObj.playSound(posX, posY, posZ, Blocks.DIRT.getSoundType().getHitSound(), SoundCategory.BLOCKS, 1f, (float) (Math.random() + 0.5), false);
+			}
+		}
 	}
 
 	@Override
@@ -130,15 +161,19 @@ public class EntityMerchant extends EntityCreature implements INpc {
 		if(id == 12) {
 			disappear();
 			return;
+		} else if(id == 13) {
+			diggingBlockState = worldObj.getBlockState(getPosition().down());
+			diggingAnimation = 60;
+			return;
 		}
 		super.handleStatusUpdate(id);
 	}
 
 	@Override
 	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
-		if (!hasFallen && damageSrc == DamageSource.fall) {
+		if (!spawnDone && damageSrc == DamageSource.fall) {
 			worldObj.playSound(posX, posY, posZ, getHurtSound(), SoundCategory.NEUTRAL, 1f, 2f, false);
-			hasFallen = true;
+			spawnDone = true;
 			return;
 		}
 		super.damageEntity(damageSrc, damageAmount);
@@ -158,6 +193,8 @@ public class EntityMerchant extends EntityCreature implements INpc {
 		}
 		return super.onInitialSpawn(difficulty, livingData);
 	}
+
+
 
 	@Override
 	public boolean canBeLeashedTo(EntityPlayer player) {
@@ -197,5 +234,13 @@ public class EntityMerchant extends EntityCreature implements INpc {
 		}
 		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, posX, posY + 1, posZ, 0, 0, 0);
 		setDead();
+	}
+
+	public void setSpawnAnimation(SpawnAnimationType spawnAnimation) {
+		this.spawnAnimation = spawnAnimation;
+	}
+
+	public int getDiggingAnimation() {
+		return diggingAnimation;
 	}
 }

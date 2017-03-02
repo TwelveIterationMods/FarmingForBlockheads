@@ -33,6 +33,14 @@ public class RenderMerchant extends RenderLiving<EntityMerchant> {
 	protected void preRenderCallback(EntityMerchant merchant, float partialTickTime) {
 		float scale = 0.9375f;
 		GlStateManager.scale(scale, scale, scale);
+		int diggingAnimation = merchant.getDiggingAnimation();
+		if(diggingAnimation > 0) {
+			GlStateManager.translate(0,diggingAnimation * 0.05, 0);
+		}
 	}
 
+	@Override
+	protected boolean canRenderName(EntityMerchant entity) {
+		return entity.getDiggingAnimation() <= 0 && super.canRenderName(entity);
+	}
 }

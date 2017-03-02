@@ -2,7 +2,7 @@
 {
   "modid": "farmingforblockheads",
   "name": "Farming for Blockheads",
-  "description": "Yes.",
+  "description": "Adds a seed market with a search bar and a scrolling grid.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
