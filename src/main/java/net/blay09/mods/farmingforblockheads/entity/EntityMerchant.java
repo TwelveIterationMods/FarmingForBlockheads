@@ -49,7 +49,7 @@ public class EntityMerchant extends EntityCreature implements INpc {
 	private BlockPos marketPos;
 	private EnumFacing facing;
 	private boolean spawnDone;
-	private SpawnAnimationType spawnAnimation;
+	private SpawnAnimationType spawnAnimation = SpawnAnimationType.MAGIC;
 
 	private BlockPos marketEntityPos;
 	private int diggingAnimation;
@@ -89,7 +89,9 @@ public class EntityMerchant extends EntityCreature implements INpc {
 		if (marketPos != null) {
 			compound.setLong("MarketPos", marketPos.toLong());
 		}
-		compound.setByte("Facing", (byte) facing.getIndex());
+		if(facing != null) {
+			compound.setByte("Facing", (byte) facing.getIndex());
+		}
 		compound.setBoolean("SpawnDone", spawnDone);
 		compound.setByte("SpawnAnimation", (byte) spawnAnimation.ordinal());
 	}

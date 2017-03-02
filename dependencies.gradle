@@ -1,4 +1,5 @@
 dependencies {
     deobfCompile "mezz.jei:jei_1.10.2:3.14.7.415"
+    deobfCompile "mcp.mobius.waila:Waila:1.7.0-B3_1.9.4"
     provided "hosted-api:MouseTweaks:2.6.4"
 }
