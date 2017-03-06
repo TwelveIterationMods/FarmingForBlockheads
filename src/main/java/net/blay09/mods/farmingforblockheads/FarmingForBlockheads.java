@@ -1,7 +1,10 @@
 package net.blay09.mods.farmingforblockheads;
 
+import com.google.common.base.Optional;
 import net.blay09.mods.farmingforblockheads.block.BlockMarket;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
+import net.blay09.mods.farmingforblockheads.compat.Compat;
+import net.blay09.mods.farmingforblockheads.compat.VanillaAddon;
 import net.blay09.mods.farmingforblockheads.entity.EntityMerchant;
 import net.blay09.mods.farmingforblockheads.network.GuiHandler;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
@@ -13,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -27,7 +31,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
-@Mod(modid = FarmingForBlockheads.MOD_ID, name = "Farming for Blockheads")
+@Mod(modid = FarmingForBlockheads.MOD_ID, name = "Farming for Blockheads", dependencies = "after:mousetweaks[2.8,)")
 @Mod.EventBusSubscriber
 public class FarmingForBlockheads {
 
@@ -76,6 +80,11 @@ public class FarmingForBlockheads {
 		NetworkHandler.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
+		new VanillaAddon();
+		buildSoftDependProxy(Compat.HARVESTCRAFT, "net.blay09.mods.farmingforblockheads.compat.HarvestcraftAddon");
+		// AgriCraft does its registry/recipe stuff too late. Can't add support at this point.
+		// buildSoftDependProxy(Compat.AGRICRAFT, "net.blay09.mods.farmingforblockheads.compat.AgriCraftAddon");
+
 		ModRecipes.init();
 		MarketRegistry.INSTANCE.load(configDir);
 
@@ -96,6 +105,18 @@ public class FarmingForBlockheads {
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		event.getRegistry().registerAll(new ItemBlock(ModBlocks.market).setRegistryName(ModBlocks.market.getRegistryName()));
+	}
+
+	private Optional<?> buildSoftDependProxy(String modId, String className) {
+		if (Loader.isModLoaded(modId)) {
+			try {
+				Class<?> clz = Class.forName(className, true, Loader.instance().getModClassLoader());
+				return Optional.fromNullable(clz.newInstance());
+			} catch (Exception e) {
+				return Optional.absent();
+			}
+		}
+		return Optional.absent();
 	}
 
 }

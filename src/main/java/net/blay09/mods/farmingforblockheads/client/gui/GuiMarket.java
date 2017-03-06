@@ -2,7 +2,6 @@ package net.blay09.mods.farmingforblockheads.client.gui;
 
 import com.google.common.collect.Lists;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.compat.Compat;
 import net.blay09.mods.farmingforblockheads.container.ContainerMarketClient;
 import net.blay09.mods.farmingforblockheads.container.FakeSlotMarket;
 import net.blay09.mods.farmingforblockheads.container.SlotMarketBuy;
@@ -18,18 +17,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Mouse;
-import yalter.mousetweaks.api.IMTModGuiContainer;
+import yalter.mousetweaks.api.MouseTweaksIgnore;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-@Optional.Interface(modid = Compat.MOUSE_TWEAKS, iface = "yalter.mousetweaks.api.IMTModGuiContainer")
-public class GuiMarket extends GuiContainer implements IMTModGuiContainer {
+@MouseTweaksIgnore
+public class GuiMarket extends GuiContainer {
 
 	private static final int SCROLLBAR_COLOR = 0xFFAAAAAA;
 	private static final int SCROLLBAR_Y = 8;
@@ -259,56 +256,4 @@ public class GuiMarket extends GuiContainer implements IMTModGuiContainer {
 		return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().stackSize, entry.getCostItem().getDisplayName());
 	}
 
-	@Override
-	public int getAPIVersion() {
-		return 1;
-	}
-
-	@Override
-	public String getModName() {
-		return "Farming for Blockheads";
-	}
-
-	@Override
-	public boolean isMouseTweaksDisabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isWheelTweakDisabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isCraftingOutputSlot(Object o, Object o1) {
-		return false;
-	}
-
-	@Override
-	public Object getModContainer() {
-		return container;
-	}
-
-	@Override
-	public int getModSlotCount(Object o) {
-		return container.inventorySlots.size();
-	}
-
-	@Override
-	public Object getModSlot(Object o, int i) {
-		return container.inventorySlots.get(i);
-	}
-
-	@Override
-	public Object getModSelectedSlot(Object o, int i) {
-		return getSlotUnderMouse();
-	}
-
-	@Override
-	public void clickModSlot(Object o, Object o1, int i, boolean b) {
-	}
-
-	@Override
-	public void disableRMBDragIfRequired(Object o, Object o1, boolean b) {
-	}
 }

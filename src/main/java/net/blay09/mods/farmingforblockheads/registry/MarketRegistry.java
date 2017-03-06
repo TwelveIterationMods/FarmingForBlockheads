@@ -1,21 +1,16 @@
 package net.blay09.mods.farmingforblockheads.registry;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
-import net.blay09.mods.farmingforblockheads.compat.HarvestcraftMarket;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +21,8 @@ public class MarketRegistry extends AbstractRegistry {
 	private static final Pattern ITEMSTACK_PATTERN = Pattern.compile("(?:([0-9]+)\\*)?(?:([\\w]+):)([\\w]+)(?::([0-9]+))?");
 
 	private final List<MarketEntry> entries = Lists.newArrayList();
+
+	private final Map<String, MarketRegistryDefaultHandler> defaultHandlers = Maps.newHashMap();
 
 	public MarketRegistry() {
 		super("Market");
@@ -59,8 +56,8 @@ public class MarketRegistry extends AbstractRegistry {
 		JsonObject root = new JsonObject();
 
 		JsonObject defaults = new JsonObject();
-		defaults.addProperty("__comment", "You can disable defaults by setting these to false. Do *NOT* try to add additional entries here. You can add additional entries in the custom section.");
-		root.add("defaults", defaults);
+		defaults.addProperty("__comment", "You can disable defaultHandlers by setting these to false. Do *NOT* try to add additional entries here. You can add additional entries in the custom section.");
+		root.add("defaultHandlers", defaults);
 
 		JsonObject custom = new JsonObject();
 		custom.addProperty("__comment", "You can define additional items to be sold by the Market here.");
@@ -118,44 +115,19 @@ public class MarketRegistry extends AbstractRegistry {
 		registerEntry(outputStack, costStack, type);
 	}
 
-	private static final String[] ANIMALS = new String[] {
-			"minecraft:pig", "minecraft:sheep", "minecraft:cow", "minecraft:chicken", "minecraft:horse"
-	};
+
 
 	@Override
-	protected void registerDefaults(JsonObject defaults) {
-		if(tryGetBoolean(defaults, "Vanilla Seeds", true)) {
-			registerEntry(new ItemStack(Items.WHEAT_SEEDS), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SEEDS);
-			registerEntry(new ItemStack(Items.MELON_SEEDS), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SEEDS);
-			registerEntry(new ItemStack(Items.PUMPKIN_SEEDS), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SEEDS);
-			registerEntry(new ItemStack(Items.BEETROOT_SEEDS), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SEEDS);
-		}
-
-		if(tryGetBoolean(defaults, "Vanilla Saplings", true)) {
-			for(BlockPlanks.EnumType type : BlockSapling.TYPE.getAllowedValues()) {
-				registerEntry(new ItemStack(Blocks.SAPLING, 1, type.getMetadata()), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SAPLINGS);
+	protected void registerDefaults(JsonObject json) {
+		for(Map.Entry<String, MarketRegistryDefaultHandler> entry : defaultHandlers.entrySet()) {
+			if(tryGetBoolean(json, entry.getKey(), entry.getValue().isEnabledByDefault())) {
+				entry.getValue().apply(this);
 			}
 		}
+	}
 
-		if(tryGetBoolean(defaults, "Bonemeal", true)) {
-			registerEntry(new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()), new ItemStack(Items.EMERALD), MarketEntry.EntryType.OTHER);
-		}
-
-		if(tryGetBoolean(defaults, "Animal Eggs", false)) {
-			for(String animalName : ANIMALS) {
-				ItemStack eggStack = new ItemStack(Items.SPAWN_EGG);
-				ItemMonsterPlacer.applyEntityIdToItemStack(eggStack, animalName);
-				registerEntry(eggStack, new ItemStack(Items.EMERALD), MarketEntry.EntryType.OTHER);
-			}
-		}
-
-		if(tryGetBoolean(defaults, "Pams Harvestcraft Seeds", true)) {
-			HarvestcraftMarket.registerSeeds(this);
-		}
-
-		if(tryGetBoolean(defaults, "Pams Saplings", true)) {
-			HarvestcraftMarket.registerSaplings(this);
-		}
+	public void registerDefaultHandler(String defaultKey, MarketRegistryDefaultHandler handler) {
+		defaultHandlers.put(defaultKey, handler);
 	}
 
 }
