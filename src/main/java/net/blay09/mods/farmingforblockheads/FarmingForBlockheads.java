@@ -1,6 +1,5 @@
 package net.blay09.mods.farmingforblockheads;
 
-import com.google.common.base.Optional;
 import net.blay09.mods.farmingforblockheads.block.BlockMarket;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.compat.Compat;
@@ -30,6 +29,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.util.Optional;
 
 @Mod(modid = FarmingForBlockheads.MOD_ID, name = "Farming for Blockheads", dependencies = "after:mousetweaks[2.8,);after:forestry;after:agricraft")
 @Mod.EventBusSubscriber
@@ -83,8 +83,8 @@ public class FarmingForBlockheads {
 		new VanillaAddon();
 		buildSoftDependProxy(Compat.HARVESTCRAFT, "net.blay09.mods.farmingforblockheads.compat.HarvestcraftAddon");
 		buildSoftDependProxy(Compat.FORESTRY, "net.blay09.mods.farmingforblockheads.compat.ForestryAddon");
-		// AgriCraft does its registry/recipe stuff too late. Can't add support at this point.
-		// buildSoftDependProxy(Compat.AGRICRAFT, "net.blay09.mods.farmingforblockheads.compat.AgriCraftAddon");
+		// AgriCraft does its registry/recipe stuff too late so the following doesn't have any effect yet. Still leaving it in case it gets fixed over there.
+		buildSoftDependProxy(Compat.AGRICRAFT, "net.blay09.mods.farmingforblockheads.compat.AgriCraftAddon");
 
 		ModRecipes.init();
 		MarketRegistry.INSTANCE.load(configDir);
@@ -112,12 +112,12 @@ public class FarmingForBlockheads {
 		if (Loader.isModLoaded(modId)) {
 			try {
 				Class<?> clz = Class.forName(className, true, Loader.instance().getModClassLoader());
-				return Optional.fromNullable(clz.newInstance());
+				return Optional.ofNullable(clz.newInstance());
 			} catch (Exception e) {
-				return Optional.absent();
+				return Optional.empty();
 			}
 		}
-		return Optional.absent();
+		return Optional.empty();
 	}
 
 }
