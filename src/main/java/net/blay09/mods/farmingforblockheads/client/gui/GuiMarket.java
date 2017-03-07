@@ -90,7 +90,7 @@ public class GuiMarket extends GuiContainer {
 				container.setFilterType(((GuiButtonMarketFilter) button).getFilterType());
 			}
 			container.populateMarketSlots();
-			recalculateScrollBar();
+			setCurrentOffset(currentOffset);
 		}
 	}
 
@@ -121,7 +121,7 @@ public class GuiMarket extends GuiContainer {
 			searchBar.setText("");
 			container.search(null);
 			container.populateMarketSlots();
-			recalculateScrollBar();
+			setCurrentOffset(currentOffset);
 		} else {
 			searchBar.mouseClicked(mouseX, mouseY, button);
 		}
@@ -136,7 +136,7 @@ public class GuiMarket extends GuiContainer {
 		if (searchBar.textboxKeyTyped(c, keyCode)) {
 			container.search(searchBar.getText());
 			container.populateMarketSlots();
-			recalculateScrollBar();
+			setCurrentOffset(currentOffset);
 		} else {
 			super.keyTyped(c, keyCode);
 		}
