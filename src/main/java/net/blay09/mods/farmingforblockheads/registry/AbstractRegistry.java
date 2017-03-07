@@ -13,6 +13,7 @@ import net.blay09.mods.farmingforblockheads.ModConfig;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -49,18 +50,28 @@ public abstract class AbstractRegistry {
 		try(JsonReader jsonReader = new JsonReader(new FileReader(configFile))) {
 			jsonReader.setLenient(true);
 			root = gson.fromJson(jsonReader, JsonObject.class);
-			if(hasOptions()) {
-				JsonObject options = tryGetObject(root, "options");
-				loadOptions(options);
-			}
-			JsonObject defaults = tryGetObject(root, "defaults");
-			registerDefaults(defaults);
-			JsonObject custom = tryGetObject(root, "custom");
-			for(Map.Entry<String, JsonElement> entry : custom.entrySet()) {
-				loadCustom(entry.getKey(), entry.getValue().getAsString());
+			if(hasCustomLoader()) {
+				load(root);
+			} else {
+				if(hasOptions()) {
+					JsonObject options = tryGetObject(root, "options");
+					loadOptions(options);
+				}
+				JsonObject defaults = tryGetObject(root, "defaults");
+				registerDefaults(defaults);
+				JsonObject custom = tryGetObject(root, "custom");
+				JsonArray entries = tryGetArray(custom, "entries");
+				for(int i = 0; i < entries.size(); i++) {
+					JsonElement element = entries.get(i);
+					if(element.isJsonObject()) {
+						loadCustom(element.getAsJsonObject());
+					} else {
+						logError("Failed to load %s registry: entries must be an array of json objects", registryName);
+					}
+				}
 			}
 		} catch (IOException | ClassCastException | JsonSyntaxException e) {
-			logError("Failed to preInit %s registry: %s", registryName, e);
+			logError("Failed to load %s registry: %s", registryName, e);
 			refuseSave = true;
 		}
 		if(root != null && hasChanged && !refuseSave) {
@@ -76,8 +87,12 @@ public abstract class AbstractRegistry {
 
 	protected abstract void clear();
 	protected abstract JsonObject create();
-	protected abstract void loadCustom(String key, String value);
-	protected abstract void registerDefaults(JsonObject defaults);
+	protected void loadCustom(JsonObject entry) {}
+	protected void registerDefaults(JsonObject defaults) {}
+	protected void load(JsonObject root) {}
+	protected boolean hasCustomLoader() {
+		return false;
+	}
 
 	protected void loadOptions(JsonObject entry) {}
 	protected boolean hasOptions() {

@@ -16,18 +16,22 @@ import java.util.List;
 
 public class AgriCraftAddon {
 
+	private static final String KEY_SEEDS = "AgriCraft Seeds";
+
 	public AgriCraftAddon() {
-		MarketRegistry.INSTANCE.registerDefaultHandler("AgriCraft Seeds", new MarketRegistryDefaultHandler() {
+		MarketRegistry.registerDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(MarketRegistry registry) {
+				ItemStack payment = registry.getPaymentStackForDefault(KEY_SEEDS, new ItemStack(Items.EMERALD, 3));
+
 				Item seedItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.AGRICRAFT, "agri_seed"));
 				if(seedItem != null) {
-					CreativeTabs agriTab = Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY).filter(tab -> tab.getTabLabel().equals("agricraft_seeds")).findFirst().orElse(null);
-					if(agriTab != null) {
+					CreativeTabs agriCraftTab = Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY).filter(tab -> tab.getTabLabel().equals("agricraft_seeds")).findFirst().orElse(null);
+					if(agriCraftTab != null) {
 						List<ItemStack> stackList = Lists.newArrayList();
-						seedItem.getSubItems(seedItem, agriTab, stackList);
+						seedItem.getSubItems(seedItem, agriCraftTab, stackList);
 						for (ItemStack itemStack : stackList) {
-							registry.registerEntry(itemStack, new ItemStack(Items.EMERALD, 3), MarketEntry.EntryType.SEEDS);
+							registry.registerEntry(itemStack, payment, MarketEntry.EntryType.SEEDS);
 						}
 					} else {
 						FarmingForBlockheads.logger.warn("Could not find AgriCraft Seeds creative tab. AgriCraft seeds will not be available in the market.");

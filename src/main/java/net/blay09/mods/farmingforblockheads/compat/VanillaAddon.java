@@ -13,12 +13,12 @@ import net.minecraft.item.ItemStack;
 
 public class VanillaAddon {
 
-	private static final String[] ANIMALS = new String[]{
-			"minecraft:pig", "minecraft:sheep", "minecraft:cow", "minecraft:chicken", "minecraft:horse"
+	private static final String[] ANIMALS = new String[] {
+			"Pig", "Sheep", "Cow", "Chicken", "EntityHorse", "Ozelot", "Rabbit", "PolarBear", "Wolf"
 	};
 
 	public VanillaAddon() {
-		MarketRegistry.INSTANCE.registerDefaultHandler("Vanilla Seeds", new MarketRegistryDefaultHandler() {
+		MarketRegistry.registerDefaultHandler("Vanilla Seeds", new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(MarketRegistry registry) {
 				registry.registerEntry(new ItemStack(Items.WHEAT_SEEDS), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SEEDS);
@@ -33,7 +33,7 @@ public class VanillaAddon {
 			}
 		});
 
-		MarketRegistry.INSTANCE.registerDefaultHandler("Vanilla Saplings", new MarketRegistryDefaultHandler() {
+		MarketRegistry.registerDefaultHandler("Vanilla Saplings", new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(MarketRegistry registry) {
 				for (BlockPlanks.EnumType type : BlockSapling.TYPE.getAllowedValues()) {
@@ -47,7 +47,7 @@ public class VanillaAddon {
 			}
 		});
 
-		MarketRegistry.INSTANCE.registerDefaultHandler("Bonemeal", new MarketRegistryDefaultHandler() {
+		MarketRegistry.registerDefaultHandler("Bonemeal", new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(MarketRegistry registry) {
 				registry.registerEntry(new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()), new ItemStack(Items.EMERALD), MarketEntry.EntryType.OTHER);
@@ -59,7 +59,7 @@ public class VanillaAddon {
 			}
 		});
 
-		MarketRegistry.INSTANCE.registerDefaultHandler("Animal Eggs", new MarketRegistryDefaultHandler() {
+		MarketRegistry.registerDefaultHandler("Animal Eggs", new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(MarketRegistry registry) {
 				for (String animalName : ANIMALS) {

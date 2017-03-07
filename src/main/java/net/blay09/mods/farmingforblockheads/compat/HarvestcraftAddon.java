@@ -10,7 +10,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class HarvestcraftAddon {
 
-	private static final String[] CROPS = new String[] {
+	private static final String KEY_SEEDS = "Pams Harvestcraft Seeds";
+	private static final String KEY_SAPLINGS = "Pams Harvestcraft Saplings";
+	private static final String[] SEEDS = new String[] {
 			"blackberry", "blueberry", "candleberry", "raspberry", "strawberry", "cactusfruit", "asparagus", "barley", "oats", "rye", "corn", "bambooshoot", "cantaloupe", "cucumber", "wintersquash", "zucchini", "beet", "onion", "parsnip", "peanut", "radish", "rutabaga", "sweetpotato", "turnip", "rhubarb", "celery", "garlic", "ginger", "spiceleaf", "tealeaf", "coffeebean", "mustardseeds", "broccoli", "cauliflower", "leek", "lettuce", "scallion", "artichoke", "brusselsprout", "cabbage", "spinach", "whitemushroom", "bean", "soybean", "bellpepper", "chilipepper", "eggplant", "okra", "peas", "tomato", "cotton", "pineapple", "grape", "kiwi", "cranberry", "rice", "seaweed", "curryleaf", "sesameseeds", "waterchestnut",
 	};
 
@@ -19,14 +21,15 @@ public class HarvestcraftAddon {
 	};
 
 	public HarvestcraftAddon() {
-		MarketRegistry.INSTANCE.registerDefaultHandler("Pams Harvestcraft Seeds", new MarketRegistryDefaultHandler() {
+		MarketRegistry.registerDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(MarketRegistry registry) {
-				for (String cropName : CROPS) {
+				ItemStack payment = registry.getPaymentStackForDefault(KEY_SAPLINGS, new ItemStack(Items.EMERALD));
+				for (String cropName : SEEDS) {
 					String seedName = cropName + "seedItem";
 					Item seedItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.HARVESTCRAFT, seedName));
 					if (seedItem != null) {
-						registry.registerEntry(new ItemStack(seedItem), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SEEDS);
+						registry.registerEntry(new ItemStack(seedItem), payment, MarketEntry.EntryType.SEEDS);
 					}
 				}
 			}
@@ -37,14 +40,15 @@ public class HarvestcraftAddon {
 			}
 		});
 
-		MarketRegistry.INSTANCE.registerDefaultHandler("Pams Harvestcraft Saplings", new MarketRegistryDefaultHandler() {
+		MarketRegistry.registerDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(MarketRegistry registry) {
+				ItemStack payment = registry.getPaymentStackForDefault(KEY_SAPLINGS, new ItemStack(Items.EMERALD));
 				for (String treeName : SAPLINGS) {
 					String saplingName = treeName + "_sapling";
 					Item saplingItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.HARVESTCRAFT, saplingName));
 					if (saplingItem != null) {
-						registry.registerEntry(new ItemStack(saplingItem), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SAPLINGS);
+						registry.registerEntry(new ItemStack(saplingItem), payment, MarketEntry.EntryType.SAPLINGS);
 					}
 				}
 			}
