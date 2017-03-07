@@ -4,6 +4,8 @@ itemGroup.farmingforblockheads=Farming for Blockheads
 
 container.farmingforblockheads:market=Market
 
+commands.farmingforblockheads:reload.success=Farming for Blockheads registries reloaded.
+
 gui.farmingforblockheads:market.no_selection=No Selection
 gui.farmingforblockheads:market.tooltip_cost=Cost: %s
 gui.farmingforblockheads:market.tooltip_seeds=Seeds

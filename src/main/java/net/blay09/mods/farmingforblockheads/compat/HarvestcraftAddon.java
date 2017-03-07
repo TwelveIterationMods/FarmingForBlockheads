@@ -23,13 +23,12 @@ public class HarvestcraftAddon {
 	public HarvestcraftAddon() {
 		MarketRegistry.registerDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry) {
-				ItemStack payment = registry.getPaymentStackForDefault(KEY_SAPLINGS, new ItemStack(Items.EMERALD));
+			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
 				for (String cropName : SEEDS) {
 					String seedName = cropName + "seedItem";
 					Item seedItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.HARVESTCRAFT, seedName));
 					if (seedItem != null) {
-						registry.registerEntry(new ItemStack(seedItem), payment, MarketEntry.EntryType.SEEDS);
+						registry.registerEntry(new ItemStack(seedItem), defaultPayment, MarketEntry.EntryType.SEEDS);
 					}
 				}
 			}
@@ -37,18 +36,22 @@ public class HarvestcraftAddon {
 			@Override
 			public boolean isEnabledByDefault() {
 				return true;
+			}
+
+			@Override
+			public ItemStack getDefaultPayment() {
+				return new ItemStack(Items.EMERALD);
 			}
 		});
 
 		MarketRegistry.registerDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry) {
-				ItemStack payment = registry.getPaymentStackForDefault(KEY_SAPLINGS, new ItemStack(Items.EMERALD));
+			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
 				for (String treeName : SAPLINGS) {
 					String saplingName = treeName + "_sapling";
 					Item saplingItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.HARVESTCRAFT, saplingName));
 					if (saplingItem != null) {
-						registry.registerEntry(new ItemStack(saplingItem), payment, MarketEntry.EntryType.SAPLINGS);
+						registry.registerEntry(new ItemStack(saplingItem), defaultPayment, MarketEntry.EntryType.SAPLINGS);
 					}
 				}
 			}
@@ -56,6 +59,11 @@ public class HarvestcraftAddon {
 			@Override
 			public boolean isEnabledByDefault() {
 				return true;
+			}
+
+			@Override
+			public ItemStack getDefaultPayment() {
+				return new ItemStack(Items.EMERALD);
 			}
 		});
 	}

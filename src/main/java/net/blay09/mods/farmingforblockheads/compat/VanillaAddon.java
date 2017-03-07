@@ -20,24 +20,29 @@ public class VanillaAddon {
 	public VanillaAddon() {
 		MarketRegistry.registerDefaultHandler("Vanilla Seeds", new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry) {
-				registry.registerEntry(new ItemStack(Items.WHEAT_SEEDS), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SEEDS);
-				registry.registerEntry(new ItemStack(Items.MELON_SEEDS), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SEEDS);
-				registry.registerEntry(new ItemStack(Items.PUMPKIN_SEEDS), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SEEDS);
-				registry.registerEntry(new ItemStack(Items.BEETROOT_SEEDS), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SEEDS);
+			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
+				registry.registerEntry(new ItemStack(Items.WHEAT_SEEDS), defaultPayment, MarketEntry.EntryType.SEEDS);
+				registry.registerEntry(new ItemStack(Items.MELON_SEEDS), defaultPayment, MarketEntry.EntryType.SEEDS);
+				registry.registerEntry(new ItemStack(Items.PUMPKIN_SEEDS), defaultPayment, MarketEntry.EntryType.SEEDS);
+				registry.registerEntry(new ItemStack(Items.BEETROOT_SEEDS), defaultPayment, MarketEntry.EntryType.SEEDS);
 			}
 
 			@Override
 			public boolean isEnabledByDefault() {
 				return true;
 			}
+
+			@Override
+			public ItemStack getDefaultPayment() {
+				return new ItemStack(Items.EMERALD);
+			}
 		});
 
 		MarketRegistry.registerDefaultHandler("Vanilla Saplings", new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry) {
+			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
 				for (BlockPlanks.EnumType type : BlockSapling.TYPE.getAllowedValues()) {
-					registry.registerEntry(new ItemStack(Blocks.SAPLING, 1, type.getMetadata()), new ItemStack(Items.EMERALD), MarketEntry.EntryType.SAPLINGS);
+					registry.registerEntry(new ItemStack(Blocks.SAPLING, 1, type.getMetadata()), defaultPayment, MarketEntry.EntryType.SAPLINGS);
 				}
 			}
 
@@ -45,33 +50,48 @@ public class VanillaAddon {
 			public boolean isEnabledByDefault() {
 				return true;
 			}
+
+			@Override
+			public ItemStack getDefaultPayment() {
+				return new ItemStack(Items.EMERALD);
+			}
 		});
 
 		MarketRegistry.registerDefaultHandler("Bonemeal", new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry) {
-				registry.registerEntry(new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()), new ItemStack(Items.EMERALD), MarketEntry.EntryType.OTHER);
+			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
+				registry.registerEntry(new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()), defaultPayment, MarketEntry.EntryType.OTHER);
 			}
 
 			@Override
 			public boolean isEnabledByDefault() {
 				return true;
 			}
+
+			@Override
+			public ItemStack getDefaultPayment() {
+				return new ItemStack(Items.EMERALD);
+			}
 		});
 
 		MarketRegistry.registerDefaultHandler("Animal Eggs", new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry) {
+			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
 				for (String animalName : ANIMALS) {
 					ItemStack eggStack = new ItemStack(Items.SPAWN_EGG);
 					ItemMonsterPlacer.applyEntityIdToItemStack(eggStack, animalName);
-					registry.registerEntry(eggStack, new ItemStack(Items.EMERALD), MarketEntry.EntryType.OTHER);
+					registry.registerEntry(eggStack, defaultPayment, MarketEntry.EntryType.OTHER);
 				}
 			}
 
 			@Override
 			public boolean isEnabledByDefault() {
 				return false;
+			}
+
+			@Override
+			public ItemStack getDefaultPayment() {
+				return new ItemStack(Items.EMERALD);
 			}
 		});
 	}

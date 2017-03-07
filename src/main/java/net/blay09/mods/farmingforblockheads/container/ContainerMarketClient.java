@@ -12,12 +12,15 @@ import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 public class ContainerMarketClient extends ContainerMarket {
 
 	private final List<MarketEntry> itemList = Lists.newArrayList();
 	private final List<MarketEntry> filteredItems = Lists.newArrayList();
+
+	private final Comparator<MarketEntry> comparator = Comparator.comparingInt(o -> o.getType().ordinal());
 
 	private String currentSearch;
 	private MarketEntry.EntryType currentFilter;
@@ -73,6 +76,8 @@ public class ContainerMarketClient extends ContainerMarket {
 				filteredItems.add(entry);
 			}
 		}
+
+		filteredItems.sort(comparator);
 	}
 
 	public int getFilteredListCount() {
@@ -108,8 +113,8 @@ public class ContainerMarketClient extends ContainerMarket {
 		this.itemList.clear();
 		this.itemList.addAll(entryList);
 
-		// Re-apply the search to populate filteredItems
-		search(currentSearch);
+		// Re-apply the filters to populate filteredItems
+		applyFilters();
 
 		// Updates the items inside the entry slots
 		populateMarketSlots();

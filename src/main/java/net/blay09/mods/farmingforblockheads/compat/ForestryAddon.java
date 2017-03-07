@@ -16,17 +16,21 @@ public class ForestryAddon {
 	public ForestryAddon() {
 		MarketRegistry.registerDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry) {
-				ItemStack payment = registry.getPaymentStackForDefault(KEY_SAPLINGS, new ItemStack(Items.EMERALD, 2));
+			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
 				for(ITree tree : TreeManager.treeRoot.getIndividualTemplates()) {
 					ItemStack saplingStack = TreeManager.treeRoot.getMemberStack(tree, EnumGermlingType.SAPLING);
-					registry.registerEntry(saplingStack, payment, MarketEntry.EntryType.SAPLINGS);
+					registry.registerEntry(saplingStack, defaultPayment, MarketEntry.EntryType.SAPLINGS);
 				}
 			}
 
 			@Override
 			public boolean isEnabledByDefault() {
 				return false;
+			}
+
+			@Override
+			public ItemStack getDefaultPayment() {
+				return new ItemStack(Items.EMERALD, 2);
 			}
 		});
 	}

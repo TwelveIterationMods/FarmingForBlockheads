@@ -68,7 +68,6 @@ public class MarketRegistry extends AbstractRegistry {
 
 		JsonObject payment = new JsonObject();
 		payment.addProperty("__comment", "You can define custom payment items for the default entries here.");
-		payment.addProperty("Example: Vanilla Seeds", "minecraft:diamond");
 		root.add("defaults payment", payment);
 
 		JsonArray blacklist = new JsonArray();
@@ -151,15 +150,18 @@ public class MarketRegistry extends AbstractRegistry {
 		}
 	}
 
-	private void loadDefaultPayments(JsonObject entry) {
-		for(String key : defaultHandlers.keySet()) {
-			String value = tryGetString(entry, key, "");
-			if(!value.isEmpty()) {
-				ItemStack itemStack = parseItemStack(value);
-				if(itemStack != null) {
-					defaultPayments.put(key, itemStack);
-				}
+	private void loadDefaultPayments(JsonObject defaults) {
+		for(Map.Entry<String, MarketRegistryDefaultHandler> entry : defaultHandlers.entrySet()) {
+			String value = tryGetString(defaults, entry.getKey(), "");
+			if(value.isEmpty()) {
+				ItemStack defaultPayment = entry.getValue().getDefaultPayment();
+				defaults.addProperty(entry.getKey(), String.format("%d*%s:%d", defaultPayment.stackSize, defaultPayment.getItem().getRegistryName(), defaultPayment.getItemDamage()));
 			}
+			ItemStack itemStack = !value.isEmpty() ? parseItemStack(value) : null;
+			if(itemStack == null) {
+				itemStack = entry.getValue().getDefaultPayment();
+			}
+			defaultPayments.put(entry.getKey(), itemStack);
 		}
 	}
 
@@ -167,7 +169,7 @@ public class MarketRegistry extends AbstractRegistry {
 	protected void registerDefaults(JsonObject json) {
 		for(Map.Entry<String, MarketRegistryDefaultHandler> entry : defaultHandlers.entrySet()) {
 			if(tryGetBoolean(json, entry.getKey(), entry.getValue().isEnabledByDefault())) {
-				entry.getValue().apply(this);
+				entry.getValue().apply(this, INSTANCE.defaultPayments.get(entry.getKey()));
 			}
 		}
 	}
@@ -176,16 +178,8 @@ public class MarketRegistry extends AbstractRegistry {
 		INSTANCE.defaultHandlers.put(defaultKey, handler);
 	}
 
-	public ItemStack getPaymentStackForDefault(String defaultKey, ItemStack defaultPayment) {
-		ItemStack itemStack = INSTANCE.defaultPayments.get(defaultKey);
-		if(itemStack == null) {
-			return defaultPayment;
-		}
-		return itemStack;
-	}
-
 	private boolean tryRemoveEntry(ItemStack itemStack) {
-		for(int i = entries.size(); i >= 0; i--) {
+		for(int i = entries.size() - 1; i >= 0; i--) {
 			MarketEntry entry = entries.get(i);
 			if(entry.getOutputItem().isItemEqual(itemStack) && ItemStack.areItemStackTagsEqual(entry.getOutputItem(), itemStack)) {
 				entries.remove(i);

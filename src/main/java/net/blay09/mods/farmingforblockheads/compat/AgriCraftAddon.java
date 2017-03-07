@@ -21,9 +21,7 @@ public class AgriCraftAddon {
 	public AgriCraftAddon() {
 		MarketRegistry.registerDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry) {
-				ItemStack payment = registry.getPaymentStackForDefault(KEY_SEEDS, new ItemStack(Items.EMERALD, 3));
-
+			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
 				Item seedItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.AGRICRAFT, "agri_seed"));
 				if(seedItem != null) {
 					CreativeTabs agriCraftTab = Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY).filter(tab -> tab.getTabLabel().equals("agricraft_seeds")).findFirst().orElse(null);
@@ -31,7 +29,7 @@ public class AgriCraftAddon {
 						List<ItemStack> stackList = Lists.newArrayList();
 						seedItem.getSubItems(seedItem, agriCraftTab, stackList);
 						for (ItemStack itemStack : stackList) {
-							registry.registerEntry(itemStack, payment, MarketEntry.EntryType.SEEDS);
+							registry.registerEntry(itemStack, defaultPayment, MarketEntry.EntryType.SEEDS);
 						}
 					} else {
 						FarmingForBlockheads.logger.warn("Could not find AgriCraft Seeds creative tab. AgriCraft seeds will not be available in the market.");
@@ -44,6 +42,11 @@ public class AgriCraftAddon {
 			@Override
 			public boolean isEnabledByDefault() {
 				return false;
+			}
+
+			@Override
+			public ItemStack getDefaultPayment() {
+				return new ItemStack(Items.EMERALD, 2);
 			}
 		});
 	}
