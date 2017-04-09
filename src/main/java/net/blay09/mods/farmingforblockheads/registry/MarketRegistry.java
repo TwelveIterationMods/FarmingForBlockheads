@@ -121,7 +121,7 @@ public class MarketRegistry extends AbstractRegistry {
 		}
 
 		ItemStack outputStack = parseItemStack(key);
-		ItemStack costStack = parseItemStack(key);
+		ItemStack costStack = parseItemStack(value);
 		if(outputStack == null || costStack == null) {
 			return;
 		}
