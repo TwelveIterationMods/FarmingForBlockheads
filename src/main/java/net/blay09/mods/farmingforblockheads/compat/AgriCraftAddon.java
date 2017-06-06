@@ -24,7 +24,7 @@ public class AgriCraftAddon {
 			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
 				Item seedItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.AGRICRAFT, "agri_seed"));
 				if(seedItem != null) {
-					CreativeTabs agriCraftTab = Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY).filter(tab -> tab.getTabLabel().equals("agricraft_seeds")).findFirst().orElse(null);
+					CreativeTabs agriCraftTab = Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY).filter(tab -> tab.tabLabel.equals("agricraft_seeds")).findFirst().orElse(null);
 					if(agriCraftTab != null) {
 						List<ItemStack> stackList = Lists.newArrayList();
 						seedItem.getSubItems(seedItem, agriCraftTab, stackList);
