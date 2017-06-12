@@ -25,7 +25,7 @@ public class HarvestcraftAddon {
 			@Override
 			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
 				for (String cropName : SEEDS) {
-					String seedName = cropName + "seedItem";
+					String seedName = cropName + "seeditem";
 					Item seedItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.HARVESTCRAFT, seedName));
 					if (seedItem != null) {
 						registry.registerEntry(new ItemStack(seedItem), defaultPayment, MarketEntry.EntryType.SEEDS);
