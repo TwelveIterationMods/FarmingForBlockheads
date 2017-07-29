@@ -35,7 +35,7 @@ public class EntityAIMerchant extends EntityAIBase {
 	}
 
 	@Override
-	public boolean continueExecuting() {
+	public boolean shouldContinueExecuting() {
 		return !entity.getNavigator().noPath();
 	}
 

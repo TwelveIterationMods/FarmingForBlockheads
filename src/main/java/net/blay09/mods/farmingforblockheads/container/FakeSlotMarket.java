@@ -24,7 +24,7 @@ public class FakeSlotMarket extends FakeSlot {
 	}
 
 	@Override
-	public boolean canBeHovered() {
+	public boolean isEnabled() {
 		return entry != null;
 	}
 

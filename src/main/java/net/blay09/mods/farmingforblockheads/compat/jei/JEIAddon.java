@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.compat.jei;
 
 import com.google.common.collect.Lists;
-import mezz.jei.api.BlankModPlugin;
+import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.gui.IAdvancedGuiHandler;
@@ -18,7 +18,7 @@ import java.awt.*;
 import java.util.List;
 
 @JEIPlugin
-public class JEIAddon extends BlankModPlugin {
+public class JEIAddon implements IModPlugin {
 
 	@Override
 	public void register(IModRegistry registry) {
@@ -40,7 +40,7 @@ public class JEIAddon extends BlankModPlugin {
 			public List<Rectangle> getGuiExtraAreas(GuiMarket guiContainer) {
 				List<Rectangle> list = Lists.newArrayList();
 				for(GuiButton button : guiContainer.getFilterButtons()) {
-					list.add(new Rectangle(button.xPosition, button.yPosition, button.width, button.height));
+					list.add(new Rectangle(button.x, button.y, button.width, button.height));
 				}
 				return list;
 			}

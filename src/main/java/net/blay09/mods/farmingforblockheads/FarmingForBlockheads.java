@@ -1,6 +1,5 @@
 package net.blay09.mods.farmingforblockheads;
 
-import net.blay09.mods.farmingforblockheads.block.BlockMarket;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.compat.Compat;
 import net.blay09.mods.farmingforblockheads.compat.VanillaAddon;
@@ -13,12 +12,12 @@ import net.blay09.mods.farmingforblockheads.tile.TileMarket;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -32,7 +31,6 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
@@ -50,7 +48,7 @@ public class FarmingForBlockheads {
 	@SidedProxy(clientSide = "net.blay09.mods.farmingforblockheads.client.ClientProxy", serverSide = "net.blay09.mods.farmingforblockheads.CommonProxy")
 	public static CommonProxy proxy;
 
-	public static final Logger logger = LogManager.getLogger();
+	public static Logger logger;
 
 	public static final CreativeTabs creativeTab = new CreativeTabs(MOD_ID) {
 		@Override
@@ -60,29 +58,24 @@ public class FarmingForBlockheads {
 	};
 
 	public static File configDir;
-	private Configuration config;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		logger = event.getModLog();
 		configDir = new File(event.getModConfigurationDirectory(), "FarmingForBlockheads");
 		if (!configDir.exists() && !configDir.mkdirs()) {
 			throw new RuntimeException("Couldn't create Farming for Blockheads configuration directory");
 		}
-		config = new Configuration(new File(configDir, "FarmingForBlockheads.cfg"));
-		config.load();
-		ModConfig.preInit(config);
 
 		GameRegistry.registerTileEntity(TileMarket.class, MOD_ID + ":market");
 
 		proxy.preInit();
-
-		if(config.hasChanged()) {
-			config.save();
-		}
 	}
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
+		ModConfig.validate();
+
 		NetworkHandler.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
@@ -93,7 +86,6 @@ public class FarmingForBlockheads {
 		buildSoftDependProxy(Compat.BIOMESOPLENTY, "net.blay09.mods.farmingforblockheads.compat.BiomesOPlentyAddon");
 		buildSoftDependProxy(Compat.NATURA, "net.blay09.mods.farmingforblockheads.compat.NaturaAddon");
 
-		ModRecipes.init();
 		MarketRegistry.INSTANCE.load(configDir);
 
 		EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID + ":merchant"), EntityMerchant.class, "merchant", 0, this, 64, 3, true);
@@ -112,12 +104,22 @@ public class FarmingForBlockheads {
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
-		event.getRegistry().registerAll((ModBlocks.market = new BlockMarket()));
+		ModBlocks.register(event.getRegistry());
 	}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
-		event.getRegistry().registerAll(new ItemBlock(ModBlocks.market).setRegistryName(ModBlocks.market.getRegistryName()));
+		ModBlocks.registerItemBlocks(event.getRegistry());
+	}
+
+	@SubscribeEvent
+	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
+		ModSounds.register(event.getRegistry());
+	}
+
+	@SubscribeEvent
+	public static void registerModels(ModelRegistryEvent event) {
+		ModBlocks.registerModels();
 	}
 
 	@SubscribeEvent

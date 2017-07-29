@@ -1,0 +1,24 @@
+{
+  "result": {
+    "item": "farmingforblockheads:market",
+    "data": 2
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "PCP",
+    "W W",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wool",
+      "data": 14
+    },
+    "P": {
+      "item": "#PLANKS"
+    },
+    "W": {
+      "item": "#LOGS"
+    }
+  }
+}

@@ -21,20 +21,22 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockMarket extends BlockContainer {
 
+	public static final String name = "market";
+	public static final ResourceLocation registryName = new ResourceLocation(FarmingForBlockheads.MOD_ID, name);
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
 	public BlockMarket() {
 		super(Material.WOOD);
-		setRegistryName(FarmingForBlockheads.MOD_ID, "market");
 		setSoundType(SoundType.WOOD);
 		setHardness(2f);
-		setUnlocalizedName(getRegistryName().toString());
+		setUnlocalizedName(registryName.toString());
 		setCreativeTab(FarmingForBlockheads.creativeTab);
 	}
 

@@ -94,7 +94,7 @@ public class EntityMerchant extends EntityCreature implements INpc {
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
 		if (!hasCustomName()) {
-			setCustomNameTag(ModConfig.merchantNames[rand.nextInt(ModConfig.merchantNames.length)]);
+			setCustomNameTag(ModConfig.general.merchantNames[rand.nextInt(ModConfig.general.merchantNames.length)]);
 		}
 		if (compound.hasKey("MarketPos")) {
 			setMarket(BlockPos.fromLong(compound.getLong("MarketPos")), EnumFacing.getFront(compound.getByte("Facing")));
@@ -113,8 +113,9 @@ public class EntityMerchant extends EntityCreature implements INpc {
 		return SoundEvents.ENTITY_VILLAGER_AMBIENT;
 	}
 
+	@Nullable
 	@Override
-	protected SoundEvent getHurtSound() {
+	protected SoundEvent getHurtSound(DamageSource damageSource) {
 		return SoundEvents.ENTITY_VILLAGER_HURT;
 	}
 
@@ -166,13 +167,13 @@ public class EntityMerchant extends EntityCreature implements INpc {
 	}
 
 	@Override
-	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
-		if (!spawnDone && damageSrc == DamageSource.FALL) {
-			world.playSound(posX, posY, posZ, getHurtSound(), SoundCategory.NEUTRAL, 1f, 2f, false);
+	protected void damageEntity(DamageSource damageSource, float damageAmount) {
+		if (!spawnDone && damageSource == DamageSource.FALL) {
+			world.playSound(posX, posY, posZ, getHurtSound(damageSource), SoundCategory.NEUTRAL, 1f, 2f, false);
 			spawnDone = true;
 			return;
 		}
-		super.damageEntity(damageSrc, damageAmount);
+		super.damageEntity(damageSource, damageAmount);
 	}
 
 	@Override
@@ -185,7 +186,7 @@ public class EntityMerchant extends EntityCreature implements INpc {
 		if(Math.random() < 0.001) {
 			setCustomNameTag(Math.random() <= 0.5 ? "Pam" : "Blay");
 		} else {
-			setCustomNameTag(ModConfig.merchantNames[rand.nextInt(ModConfig.merchantNames.length)]);
+			setCustomNameTag(ModConfig.general.merchantNames[rand.nextInt(ModConfig.general.merchantNames.length)]);
 		}
 		return super.onInitialSpawn(difficulty, livingData);
 	}

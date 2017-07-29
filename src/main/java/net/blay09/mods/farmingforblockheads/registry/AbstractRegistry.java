@@ -13,13 +13,11 @@ import net.blay09.mods.farmingforblockheads.ModConfig;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public abstract class AbstractRegistry {
 
@@ -200,7 +198,7 @@ public abstract class AbstractRegistry {
 	protected final void logWarning(String format, Object... args) {
 		String s = String.format(format, args);
 		FarmingForBlockheads.logger.error(s);
-		if(ModConfig.showRegistryWarnings) {
+		if(ModConfig.client.showRegistryWarnings) {
 			registryErrors.add(s);
 		}
 	}

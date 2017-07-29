@@ -26,7 +26,7 @@ public class AgriCraftAddon {
 					CreativeTabs agriCraftTab = Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY).filter(tab -> tab.tabLabel.equals("agricraft_seeds")).findFirst().orElse(null);
 					if(agriCraftTab != null) {
 						NonNullList<ItemStack> stackList = NonNullList.create();
-						seedItem.getSubItems(seedItem, agriCraftTab, stackList);
+						seedItem.getSubItems(agriCraftTab, stackList);
 						for (ItemStack itemStack : stackList) {
 							registry.registerEntry(itemStack, defaultPayment, MarketEntry.EntryType.SEEDS);
 						}
