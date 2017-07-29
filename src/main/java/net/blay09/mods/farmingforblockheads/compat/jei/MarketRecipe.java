@@ -26,8 +26,8 @@ public class MarketRecipe extends BlankRecipeWrapper {
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 		String costText = getFormattedCostString(entry);
-		int stringWidth = minecraft.fontRendererObj.getStringWidth(costText);
-		minecraft.fontRendererObj.drawString(costText, 42 - stringWidth / 2, 35, 0xFFFFFF, true);
+		int stringWidth = minecraft.fontRenderer.getStringWidth(costText);
+		minecraft.fontRenderer.drawString(costText, 42 - stringWidth / 2, 35, 0xFFFFFF, true);
 	}
 
 	private String getFormattedCostString(MarketEntry entry) {
@@ -35,7 +35,7 @@ public class MarketRecipe extends BlankRecipeWrapper {
 		if(entry.getCostItem().getItem() == Items.DIAMOND) {
 			color = TextFormatting.AQUA.toString();
 		}
-		return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().stackSize, entry.getCostItem().getDisplayName());
+		return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
 	}
 
 }

@@ -6,8 +6,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nullable;
-
 public class SlotMarketBuy extends Slot {
 
 	private final ContainerMarket container;
@@ -23,18 +21,17 @@ public class SlotMarketBuy extends Slot {
 	}
 
 	@Override
-	public boolean isItemValid(@Nullable ItemStack stack) {
+	public boolean isItemValid(ItemStack stack) {
 		return false;
 	}
 
 	@Override
-	public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
+	public ItemStack onTake(EntityPlayer thePlayer, ItemStack stack) {
 		MarketEntry entry = container.getSelectedEntry();
-		if (entry == null) {
-			return;
+		if (entry != null) {
+			container.onItemBought();
 		}
-
-		container.onItemBought();
+		return stack;
 	}
 
 }

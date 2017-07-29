@@ -8,7 +8,6 @@ import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -58,47 +57,46 @@ public class ContainerMarket extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
-		ItemStack itemStack = null;
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) { // TODO fixme
+		ItemStack itemStack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(slotIndex);
 		if (slot != null && slot.getHasStack()) {
 			ItemStack slotStack = slot.getStack();
-			//noinspection ConstantConditions
 			itemStack = slotStack.copy();
 			if (slotIndex == 1) {
 				if (!this.mergeItemStack(slotStack, 14, 50, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 				slot.onSlotChange(slotStack, itemStack);
 			} else if (slotIndex == 0) {
 				if (!mergeItemStack(slotStack, 14, 50, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			} else if ((selectedEntry == null && slotStack.getItem() == Items.EMERALD) || (selectedEntry != null && selectedEntry.getCostItem().isItemEqual(slotStack))) {
 				if (!this.mergeItemStack(slotStack, 0, 1, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			} else if (slotIndex >= 41 && slotIndex < 50) {
 				if (!mergeItemStack(slotStack, 14, 41, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			} else if (slotIndex >= 14 && slotIndex < 41) {
 				if (!mergeItemStack(slotStack, 41, 50, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			}
 
-			if (slotStack.stackSize == 0) {
-				slot.putStack(null);
+			if (slotStack.getCount() == 0) {
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
 
-			if (slotStack.stackSize == itemStack.stackSize) {
-				return null;
+			if (slotStack.getCount() == itemStack.getCount()) {
+				return ItemStack.EMPTY;
 			}
 
-			slot.onPickupFromSlot(player, slotStack);
+			slot.onTake(player, slotStack);
 		}
 		return itemStack;
 	}
@@ -107,7 +105,7 @@ public class ContainerMarket extends Container {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 
-		if (!player.worldObj.isRemote && !sentItemList) {
+		if (!player.world.isRemote && !sentItemList) {
 			NetworkHandler.instance.sendTo(new MessageMarketList(MarketRegistry.getEntries()), (EntityPlayerMP) player);
 			sentItemList = true;
 		}
@@ -116,9 +114,9 @@ public class ContainerMarket extends Container {
 	@Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		if (!player.worldObj.isRemote) {
+		if (!player.world.isRemote) {
 			ItemStack itemStack = this.marketInputBuffer.removeStackFromSlot(0);
-			if (itemStack != null) {
+			if (!itemStack.isEmpty()) {
 				player.dropItem(itemStack, false);
 			}
 		}
@@ -126,7 +124,7 @@ public class ContainerMarket extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return player.worldObj.getBlockState(pos).getBlock() == ModBlocks.market && player.getDistanceSq( pos.getX() + 0.5,  pos.getY() + 0.5,  pos.getZ() + 0.5) <= 64;
+		return player.world.getBlockState(pos).getBlock() == ModBlocks.market && player.getDistanceSq( pos.getX() + 0.5,  pos.getY() + 0.5,  pos.getZ() + 0.5) <= 64;
 	}
 
 	@Override
@@ -134,7 +132,7 @@ public class ContainerMarket extends Container {
 		if (selectedEntry != null) {
 			marketOutputBuffer.setInventorySlotContents(0, selectedEntry.getOutputItem().copy());
 		} else {
-			marketOutputBuffer.setInventorySlotContents(0, null);
+			marketOutputBuffer.setInventorySlotContents(0, ItemStack.EMPTY);
 		}
 	}
 
@@ -155,12 +153,12 @@ public class ContainerMarket extends Container {
 
 	public boolean isReadyToBuy() {
 		ItemStack payment = marketInputBuffer.getStackInSlot(0);
-		return payment != null && !(selectedEntry == null || !payment.isItemEqual(selectedEntry.getCostItem()) || payment.stackSize < selectedEntry.getCostItem().stackSize);
+		return !payment.isEmpty() && !(selectedEntry == null || !payment.isItemEqual(selectedEntry.getCostItem()) || payment.getCount() < selectedEntry.getCostItem().getCount());
 	}
 
 	public void onItemBought() {
 		if(selectedEntry != null) {
-			marketInputBuffer.decrStackSize(0, selectedEntry.getCostItem().stackSize);
+			marketInputBuffer.decrStackSize(0, selectedEntry.getCostItem().getCount());
 			onCraftMatrixChanged(marketInputBuffer);
 		}
 	}

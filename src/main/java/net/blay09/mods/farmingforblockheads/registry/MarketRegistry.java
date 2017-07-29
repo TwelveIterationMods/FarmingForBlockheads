@@ -122,17 +122,20 @@ public class MarketRegistry extends AbstractRegistry {
 
 		ItemStack outputStack = parseItemStack(key);
 		ItemStack costStack = parseItemStack(value);
-		if(outputStack == null || costStack == null) {
+		if(outputStack.isEmpty() || costStack.isEmpty()) {
 			return;
 		}
 
 		tryRemoveEntry(outputStack);
 
 		MarketEntry.EntryType type = MarketEntry.EntryType.OTHER;
-		if(outputStack.getItem().getRegistryName().getResourcePath().contains("sapling")) {
-			type = MarketEntry.EntryType.SAPLINGS;
-		} else if(outputStack.getItem().getRegistryName().getResourcePath().contains("seed")) {
-			type = MarketEntry.EntryType.SEEDS;
+		ResourceLocation registryName = outputStack.getItem().getRegistryName();
+		if(registryName != null) {
+			if (registryName.getResourcePath().contains("sapling")) {
+				type = MarketEntry.EntryType.SAPLINGS;
+			} else if (registryName.getResourcePath().contains("seed")) {
+				type = MarketEntry.EntryType.SEEDS;
+			}
 		}
 
 		registerEntry(outputStack, costStack, type);
@@ -143,7 +146,7 @@ public class MarketRegistry extends AbstractRegistry {
 			return;
 		}
 		ItemStack itemStack = parseItemStack(input);
-		if(itemStack != null) {
+		if(!itemStack.isEmpty()) {
 			if(!tryRemoveEntry(itemStack)) {
 				logError("Could not find default entry for blacklisted item %s", input);
 			}
@@ -155,7 +158,7 @@ public class MarketRegistry extends AbstractRegistry {
 			String value = tryGetString(defaults, entry.getKey(), "");
 			if(value.isEmpty()) {
 				ItemStack defaultPayment = entry.getValue().getDefaultPayment();
-				defaults.addProperty(entry.getKey(), String.format("%d*%s:%d", defaultPayment.stackSize, defaultPayment.getItem().getRegistryName(), defaultPayment.getItemDamage()));
+				defaults.addProperty(entry.getKey(), String.format("%d*%s:%d", defaultPayment.getCount(), defaultPayment.getItem().getRegistryName(), defaultPayment.getItemDamage()));
 			}
 			ItemStack itemStack = !value.isEmpty() ? parseItemStack(value) : null;
 			if(itemStack == null) {
@@ -189,19 +192,18 @@ public class MarketRegistry extends AbstractRegistry {
 		return false;
 	}
 
-	@Nullable
 	private ItemStack parseItemStack(String input) {
 		Matcher matcher = ITEMSTACK_PATTERN.matcher(input);
 		if(!matcher.find()) {
 			logError("Invalid item %s, format mismatch", input);
-			return null;
+			return ItemStack.EMPTY;
 		}
 
 		ResourceLocation resourceLocation = new ResourceLocation(matcher.group(2), matcher.group(3));
 		Item item = Item.REGISTRY.getObject(resourceLocation);
 		if(item == null) {
 			logUnknownItem(resourceLocation);
-			return null;
+			return ItemStack.EMPTY;
 		}
 		int count = matcher.group(1) != null ? tryParseInt(matcher.group(1)) : 1;
 		int meta = matcher.group(4) != null ? tryParseInt(matcher.group(4)) : 0;

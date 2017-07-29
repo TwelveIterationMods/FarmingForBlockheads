@@ -1,6 +1,5 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
-import com.google.common.collect.Lists;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
@@ -9,10 +8,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class AgriCraftAddon {
 
@@ -26,7 +25,7 @@ public class AgriCraftAddon {
 				if(seedItem != null) {
 					CreativeTabs agriCraftTab = Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY).filter(tab -> tab.tabLabel.equals("agricraft_seeds")).findFirst().orElse(null);
 					if(agriCraftTab != null) {
-						List<ItemStack> stackList = Lists.newArrayList();
+						NonNullList<ItemStack> stackList = NonNullList.create();
 						seedItem.getSubItems(seedItem, agriCraftTab, stackList);
 						for (ItemStack itemStack : stackList) {
 							registry.registerEntry(itemStack, defaultPayment, MarketEntry.EntryType.SEEDS);

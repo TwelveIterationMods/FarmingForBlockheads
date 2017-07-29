@@ -4,11 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nullable;
-
 public class FakeSlot extends Slot {
 
-	private ItemStack displayStack;
+	private ItemStack displayStack = ItemStack.EMPTY;
 
 	public FakeSlot(int slotId, int x, int y) {
 		super(null, slotId, x, y);
@@ -29,14 +27,13 @@ public class FakeSlot extends Slot {
 	}
 
 	@Override
-	public void putStack(@Nullable ItemStack stack) {
+	public void putStack(ItemStack stack) {
 		// NOP
 	}
 
 	@Override
-	@Nullable
 	public ItemStack decrStackSize(int amount) {
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -50,7 +47,7 @@ public class FakeSlot extends Slot {
 	}
 
 	@Override
-	public boolean isItemValid(@Nullable ItemStack itemStack) {
+	public boolean isItemValid(ItemStack itemStack) {
 		return false;
 	}
 

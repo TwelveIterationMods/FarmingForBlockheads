@@ -35,7 +35,7 @@ public class ContainerMarketClient extends ContainerMarket {
 	public ItemStack slotClick(int slotNumber, int dragType, ClickType clickType, EntityPlayer player) {
 		if (slotNumber >= 0 && slotNumber < inventorySlots.size()) {
 			Slot slot = inventorySlots.get(slotNumber);
-			if (player.worldObj.isRemote) {
+			if (player.world.isRemote) {
 				if (slot instanceof FakeSlotMarket) {
 					FakeSlotMarket slotMarket = (FakeSlotMarket) slot;
 					MarketEntry entry = slotMarket.getEntry();

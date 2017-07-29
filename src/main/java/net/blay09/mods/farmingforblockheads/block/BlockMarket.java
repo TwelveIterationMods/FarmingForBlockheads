@@ -25,8 +25,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class BlockMarket extends BlockContainer {
 
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
@@ -80,7 +78,7 @@ public class BlockMarket extends BlockContainer {
 
 	@Override
 	@SuppressWarnings("deprecation")
-	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
 
@@ -108,7 +106,7 @@ public class BlockMarket extends BlockContainer {
 				merchant.setPosition(entityPos.getX() + 0.5, entityPos.getY(), entityPos.getZ() + 0.5);
 			}
 
-			world.spawnEntityInWorld(merchant);
+			world.spawnEntity(merchant);
 			merchant.onInitialSpawn(world.getDifficultyForLocation(pos), null);
 		}
 		if(spawnAnimationType == EntityMerchant.SpawnAnimationType.FALLING) {
@@ -125,7 +123,7 @@ public class BlockMarket extends BlockContainer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!world.isRemote) {
 			player.openGui(FarmingForBlockheads.instance, GuiHandler.MARKET, world, pos.getX(), pos.getY(), pos.getZ());
 		}

@@ -14,6 +14,8 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Configuration;
@@ -36,7 +38,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.Optional;
 
-@Mod(modid = FarmingForBlockheads.MOD_ID, name = "Farming for Blockheads", dependencies = "after:mousetweaks[2.8,);after:forestry;after:agricraft")
+@Mod(modid = FarmingForBlockheads.MOD_ID, name = "Farming for Blockheads", dependencies = "after:mousetweaks[2.8,);after:forestry;after:agricraft", acceptedMinecraftVersions = "1.11")
 @Mod.EventBusSubscriber
 public class FarmingForBlockheads {
 
@@ -52,9 +54,8 @@ public class FarmingForBlockheads {
 
 	public static final CreativeTabs creativeTab = new CreativeTabs(MOD_ID) {
 		@Override
-		public Item getTabIconItem() {
-			//noinspection ConstantConditions
-			return Item.getItemFromBlock(ModBlocks.market);
+		public ItemStack getTabIconItem() {
+			return new ItemStack(ModBlocks.market);
 		}
 	};
 
@@ -95,7 +96,7 @@ public class FarmingForBlockheads {
 		ModRecipes.init();
 		MarketRegistry.INSTANCE.load(configDir);
 
-		EntityRegistry.registerModEntity(EntityMerchant.class, "merchant", 0, this, 64, 3, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID + ":merchant"), EntityMerchant.class, "merchant", 0, this, 64, 3, true);
 
 		proxy.init();
 	}
@@ -122,10 +123,10 @@ public class FarmingForBlockheads {
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		if (AbstractRegistry.registryErrors.size() > 0) {
-			event.player.addChatComponentMessage(new TextComponentString(TextFormatting.RED + "There were errors loading the Farming for Blockheads registries:"));
+			event.player.sendStatusMessage(new TextComponentString(TextFormatting.RED + "There were errors loading the Farming for Blockheads registries:"), false);
 			TextFormatting lastFormatting = TextFormatting.WHITE;
 			for (String error : AbstractRegistry.registryErrors) {
-				event.player.addChatMessage(new TextComponentString(lastFormatting + "* " + error));
+				event.player.sendStatusMessage(new TextComponentString(lastFormatting + "* " + error), false);
 				lastFormatting = lastFormatting == TextFormatting.GRAY ? TextFormatting.WHITE : TextFormatting.GRAY;
 			}
 		}

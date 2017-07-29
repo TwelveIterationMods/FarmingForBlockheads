@@ -61,7 +61,7 @@ public class GuiMarket extends GuiContainer {
 		ySize = 174;
 		super.initGui();
 
-		searchBar = new GuiTextField(0, fontRendererObj, guiLeft + xSize - 78, guiTop - 5, 70, 10);
+		searchBar = new GuiTextField(0, fontRenderer, guiLeft + xSize - 78, guiTop - 5, 70, 10);
 
 		int id = 1;
 		int curY = -80;
@@ -178,12 +178,12 @@ public class GuiMarket extends GuiContainer {
 			}
 		}
 
-		fontRendererObj.drawString(I18n.format("container.farmingforblockheads:market"), guiLeft + 10, guiTop + 10, 0xFFFFFF, true);
+		fontRenderer.drawString(I18n.format("container.farmingforblockheads:market"), guiLeft + 10, guiTop + 10, 0xFFFFFF, true);
 
 		if(container.getSelectedEntry() == null) {
-			drawCenteredString(fontRendererObj, I18n.format("gui.farmingforblockheads:market.no_selection"), guiLeft + 49, guiTop + 65, 0xFFFFFF);
+			drawCenteredString(fontRenderer, I18n.format("gui.farmingforblockheads:market.no_selection"), guiLeft + 49, guiTop + 65, 0xFFFFFF);
 		} else {
-			drawCenteredString(fontRendererObj, getFormattedCostStringShort(container.getSelectedEntry()), guiLeft + 49, guiTop + 65, 0xFFFFFF);
+			drawCenteredString(fontRenderer, getFormattedCostStringShort(container.getSelectedEntry()), guiLeft + 49, guiTop + 65, 0xFFFFFF);
 		}
 
 		GuiContainer.drawRect(scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
@@ -224,7 +224,6 @@ public class GuiMarket extends GuiContainer {
 	@SubscribeEvent
 	public void onItemTooltip(ItemTooltipEvent event) {
 		Slot hoverSlot = getSlotUnderMouse();
-		//noinspection ConstantConditions
 		if (hoverSlot != null && event.getItemStack() == hoverSlot.getStack()) {
 			MarketEntry hoverEntry = null;
 
@@ -245,7 +244,7 @@ public class GuiMarket extends GuiContainer {
 		if(entry.getCostItem().getItem() == Items.DIAMOND) {
 			color = TextFormatting.AQUA.toString();
 		}
-		return color + I18n.format("gui.farmingforblockheads:market.tooltip_cost", I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().stackSize, entry.getCostItem().getDisplayName()));
+		return color + I18n.format("gui.farmingforblockheads:market.tooltip_cost", I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName()));
 	}
 
 	private String getFormattedCostStringShort(MarketEntry entry) {
@@ -253,7 +252,7 @@ public class GuiMarket extends GuiContainer {
 		if(entry.getCostItem().getItem() == Items.DIAMOND) {
 			color = TextFormatting.AQUA.toString();
 		}
-		return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().stackSize, entry.getCostItem().getDisplayName());
+		return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
 	}
 
 }

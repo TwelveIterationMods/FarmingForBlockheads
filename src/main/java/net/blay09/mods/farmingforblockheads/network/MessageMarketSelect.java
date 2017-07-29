@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class MessageMarketSelect implements IMessage {
 
-	private ItemStack outputItem;
+	private ItemStack outputItem = ItemStack.EMPTY;
 
 	public MessageMarketSelect() {
 	}

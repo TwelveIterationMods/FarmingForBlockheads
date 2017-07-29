@@ -15,7 +15,7 @@ public class HandlerMarketSelect implements IMessageHandler<MessageMarketSelect,
 		NetworkHandler.getThreadListener(ctx).addScheduledTask(new Runnable() {
 			@Override
 			public void run() {
-				Container container = ctx.getServerHandler().playerEntity.openContainer;
+				Container container = ctx.getServerHandler().player.openContainer;
 				if(container instanceof ContainerMarket) {
 					((ContainerMarket) container).selectMarketEntry(message.getOutputItem());
 				}

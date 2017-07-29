@@ -15,7 +15,7 @@ public class FakeSlotMarket extends FakeSlot {
 
 	@Override
 	public ItemStack getStack() {
-		return entry != null ? entry.getOutputItem() : null;
+		return entry != null ? entry.getOutputItem() : ItemStack.EMPTY;
 	}
 
 	@Override

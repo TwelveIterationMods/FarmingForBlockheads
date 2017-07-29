@@ -15,7 +15,6 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
@@ -75,12 +74,12 @@ public class EntityMerchant extends EntityCreature implements INpc {
 	}
 
 	@Override
-	public boolean processInteract(EntityPlayer player, EnumHand hand, @Nullable ItemStack itemStack) {
+	protected boolean processInteract(EntityPlayer player, EnumHand hand) {
 		if (isMarketValid()) {
-			player.openGui(FarmingForBlockheads.MOD_ID, GuiHandler.MARKET, worldObj, marketPos.getX(), marketPos.getY(), marketPos.getZ());
+			player.openGui(FarmingForBlockheads.MOD_ID, GuiHandler.MARKET, world, marketPos.getX(), marketPos.getY(), marketPos.getZ());
 			return true;
 		}
-		return super.processInteract(player, hand, itemStack);
+		return super.processInteract(player, hand);
 	}
 
 	@Override
@@ -132,28 +131,28 @@ public class EntityMerchant extends EntityCreature implements INpc {
 	@Override
 	public void onEntityUpdate() {
 		super.onEntityUpdate();
-		if(!worldObj.isRemote) {
+		if(!world.isRemote) {
 			if (ticksExisted % 20 == 0) {
 				if (!isMarketValid()) {
-					worldObj.setEntityState(this, (byte) 12);
+					world.setEntityState(this, (byte) 12);
 					setDead();
 				}
 			}
 		}
 
 		if(!spawnDone && spawnAnimation == SpawnAnimationType.DIGGING) {
-			worldObj.setEntityState(this, (byte) 13);
+			world.setEntityState(this, (byte) 13);
 			spawnDone = true;
 		}
 		if(diggingAnimation > 0) {
 			diggingAnimation--;
 			for(int i = 0; i < 4; i++) {
 				int stateId = Block.getStateId(diggingBlockState != null ? diggingBlockState : Blocks.DIRT.getDefaultState());
-				worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX, posY, posZ, Math.random() * 2 - 1, Math.random() * 4, Math.random() * 2 - 1, stateId);
-				worldObj.spawnParticle(EnumParticleTypes.BLOCK_DUST, posX, posY, posZ, (Math.random() - 0.5) * 0.5, Math.random() * 0.5f, (Math.random() - 0.5) * 0.5, stateId);
+				world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX, posY, posZ, Math.random() * 2 - 1, Math.random() * 4, Math.random() * 2 - 1, stateId);
+				world.spawnParticle(EnumParticleTypes.BLOCK_DUST, posX, posY, posZ, (Math.random() - 0.5) * 0.5, Math.random() * 0.5f, (Math.random() - 0.5) * 0.5, stateId);
 			}
 			if(diggingAnimation % 2 == 0) {
-				worldObj.playSound(posX, posY, posZ, Blocks.DIRT.getSoundType().getHitSound(), SoundCategory.BLOCKS, 1f, (float) (Math.random() + 0.5), false);
+				world.playSound(posX, posY, posZ, Blocks.DIRT.getSoundType().getHitSound(), SoundCategory.BLOCKS, 1f, (float) (Math.random() + 0.5), false);
 			}
 		}
 	}
@@ -164,7 +163,7 @@ public class EntityMerchant extends EntityCreature implements INpc {
 			disappear();
 			return;
 		} else if(id == 13) {
-			diggingBlockState = worldObj.getBlockState(getPosition().down());
+			diggingBlockState = world.getBlockState(getPosition().down());
 			diggingAnimation = 60;
 			return;
 		}
@@ -173,8 +172,8 @@ public class EntityMerchant extends EntityCreature implements INpc {
 
 	@Override
 	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
-		if (!spawnDone && damageSrc == DamageSource.fall) {
-			worldObj.playSound(posX, posY, posZ, getHurtSound(), SoundCategory.NEUTRAL, 1f, 2f, false);
+		if (!spawnDone && damageSrc == DamageSource.FALL) {
+			world.playSound(posX, posY, posZ, getHurtSound(), SoundCategory.NEUTRAL, 1f, 2f, false);
 			spawnDone = true;
 			return;
 		}
@@ -219,7 +218,7 @@ public class EntityMerchant extends EntityCreature implements INpc {
 	}
 
 	private boolean isMarketValid() {
-		return marketPos != null && worldObj.getBlockState(marketPos).getBlock() == ModBlocks.market;
+		return marketPos != null && world.getBlockState(marketPos).getBlock() == ModBlocks.market;
 	}
 
 	public void setToFacingAngle() {
@@ -230,11 +229,11 @@ public class EntityMerchant extends EntityCreature implements INpc {
 	}
 
 	public void disappear() {
-		worldObj.playSound(posX, posY, posZ, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.NEUTRAL, 1f, 1f, false);
+		world.playSound(posX, posY, posZ, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.NEUTRAL, 1f, 1f, false);
 		for (int i = 0; i < 50; i++) {
-			worldObj.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, posX, posY + 1, posZ, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
+			world.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, posX, posY + 1, posZ, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
 		}
-		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, posX, posY + 1, posZ, 0, 0, 0);
+		world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, posX, posY + 1, posZ, 0, 0, 0);
 		setDead();
 	}
 

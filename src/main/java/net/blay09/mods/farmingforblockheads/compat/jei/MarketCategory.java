@@ -34,6 +34,11 @@ public class MarketCategory extends BlankRecipeCategory<MarketRecipe> {
 	}
 
 	@Override
+	public String getModName() {
+		return "Farming for Blockheads";
+	}
+
+	@Override
 	public IDrawable getBackground() {
 		return background;
 	}

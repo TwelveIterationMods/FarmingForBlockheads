@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -24,7 +23,6 @@ public class ClientProxy extends CommonProxy {
 			}
 		});
 
-		//noinspection ConstantConditions
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.market), 0, new ModelResourceLocation(ModBlocks.market.getRegistryName(), "inventory"));
 	}
 

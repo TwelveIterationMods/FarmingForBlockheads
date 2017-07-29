@@ -18,39 +18,39 @@ import java.util.List;
 public class CommandFarmingForBlockheads extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "farmingforblockheads";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "/farmingforblockheads reload";
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if(args.length == 0) {
-			throw new WrongUsageException(getCommandUsage(sender));
+			throw new WrongUsageException(getUsage(sender));
 		}
 		if(args[0].equals("reload")) {
 			AbstractRegistry.registryErrors.clear();
 			MarketRegistry.INSTANCE.load(FarmingForBlockheads.configDir);
-			sender.addChatMessage(new TextComponentTranslation("commands.farmingforblockheads:reload.success"));
+			sender.sendMessage(new TextComponentTranslation("commands.farmingforblockheads:reload.success"));
 			if(AbstractRegistry.registryErrors.size() > 0) {
-				sender.addChatMessage(new TextComponentString(TextFormatting.RED + "There were errors loading the Farming for Blockheads registries:"));
+				sender.sendMessage(new TextComponentString(TextFormatting.RED + "There were errors loading the Farming for Blockheads registries:"));
 				TextFormatting lastFormatting = TextFormatting.WHITE;
 				for(String error : AbstractRegistry.registryErrors) {
-					sender.addChatMessage(new TextComponentString(lastFormatting + "* " + error));
+					sender.sendMessage(new TextComponentString(lastFormatting + "* " + error));
 					lastFormatting = lastFormatting == TextFormatting.GRAY ? TextFormatting.WHITE : TextFormatting.GRAY;
 				}
 			}
 		} else {
-			throw new WrongUsageException(getCommandUsage(sender));
+			throw new WrongUsageException(getUsage(sender));
 		}
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
 		return getListOfStringsMatchingLastWord(args, "reload");
 	}
 
