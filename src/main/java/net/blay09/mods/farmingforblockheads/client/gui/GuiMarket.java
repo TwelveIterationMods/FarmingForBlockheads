@@ -144,6 +144,7 @@ public class GuiMarket extends GuiContainer {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 
 		for (GuiButton sortButton : filterButtons) {
@@ -151,6 +152,8 @@ public class GuiMarket extends GuiContainer {
 				drawHoveringText(((GuiButtonMarketFilter) sortButton).getTooltipLines(), mouseX, mouseY);
 			}
 		}
+
+		renderHoveredToolTip(mouseX, mouseY);
 	}
 
 	@Override

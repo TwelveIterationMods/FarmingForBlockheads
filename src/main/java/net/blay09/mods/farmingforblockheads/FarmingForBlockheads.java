@@ -67,7 +67,7 @@ public class FarmingForBlockheads {
 			throw new RuntimeException("Couldn't create Farming for Blockheads configuration directory");
 		}
 
-		GameRegistry.registerTileEntity(TileMarket.class, MOD_ID + ":market");
+		ModBlocks.registerTileEntities();
 
 		proxy.preInit();
 	}
