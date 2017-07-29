@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads.entity;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.blay09.mods.farmingforblockheads.ModConfig;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.network.GuiHandler;
 import net.minecraft.block.Block;
@@ -38,12 +39,6 @@ public class EntityMerchant extends EntityCreature implements INpc {
 	}
 
 	private static final Random rand = new Random();
-	public static final String[] NAMES = new String[]{
-			"Swap-O-Matic",
-			"Emerald Muncher",
-			"Back Alley Dealer",
-			"Weathered Salesperson"
-	};
 
 	private BlockPos marketPos;
 	private EnumFacing facing;
@@ -99,7 +94,7 @@ public class EntityMerchant extends EntityCreature implements INpc {
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
 		if (!hasCustomName()) {
-			setCustomNameTag(NAMES[rand.nextInt(NAMES.length)]);
+			setCustomNameTag(ModConfig.merchantNames[rand.nextInt(ModConfig.merchantNames.length)]);
 		}
 		if (compound.hasKey("MarketPos")) {
 			setMarket(BlockPos.fromLong(compound.getLong("MarketPos")), EnumFacing.getFront(compound.getByte("Facing")));
@@ -190,7 +185,7 @@ public class EntityMerchant extends EntityCreature implements INpc {
 		if(Math.random() < 0.001) {
 			setCustomNameTag(Math.random() <= 0.5 ? "Pam" : "Blay");
 		} else {
-			setCustomNameTag(NAMES[rand.nextInt(NAMES.length)]);
+			setCustomNameTag(ModConfig.merchantNames[rand.nextInt(ModConfig.merchantNames.length)]);
 		}
 		return super.onInitialSpawn(difficulty, livingData);
 	}
