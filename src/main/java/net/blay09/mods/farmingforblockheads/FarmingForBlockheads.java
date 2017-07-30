@@ -68,8 +68,6 @@ public class FarmingForBlockheads {
 		}
 
 		ModBlocks.registerTileEntities();
-
-		proxy.preInit();
 	}
 
 	@Mod.EventHandler
@@ -89,8 +87,6 @@ public class FarmingForBlockheads {
 		MarketRegistry.INSTANCE.load(configDir);
 
 		EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID + ":merchant"), EntityMerchant.class, "merchant", 0, this, 64, 3, true);
-
-		proxy.init();
 	}
 
 	@Mod.EventHandler
@@ -120,6 +116,7 @@ public class FarmingForBlockheads {
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
 		ModBlocks.registerModels();
+		proxy.registerModels();
 	}
 
 	@SubscribeEvent

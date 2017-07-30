@@ -1,4 +1,5 @@
 tile.farmingforblockheads:market.name=Market
+tile.farmingforblockheads:chicken_nest.name=Chicken Nest
 
 itemGroup.farmingforblockheads=Farming for Blockheads
 
@@ -14,3 +15,5 @@ gui.farmingforblockheads:market.tooltip_other=Other
 gui.farmingforblockheads:market.cost=%dx %s
 
 jei.farmingforblockheads:market=Market
+
+tooltip.farmingforblockheads:chicken_nest=

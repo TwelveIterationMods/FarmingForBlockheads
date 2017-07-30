@@ -16,6 +16,7 @@ public class NetworkHandler {
 	public static void init() {
 		instance.registerMessage(HandlerMarketList.class, MessageMarketList.class, 0, Side.CLIENT);
 		instance.registerMessage(HandlerMarketSelect.class, MessageMarketSelect.class, 1, Side.SERVER);
+		instance.registerMessage(HandlerChickenNestEffect.class, MessageChickenNestEffect.class, 2, Side.CLIENT);
 	}
 
 	public static IThreadListener getThreadListener(MessageContext ctx) {
