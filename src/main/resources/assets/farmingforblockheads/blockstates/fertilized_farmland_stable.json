@@ -1,0 +1,29 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "farmingforblockheads:fertilized_farmland",
+    "textures": {
+      "top": "farmingforblockheads:blocks/fertilized_farmland_stable_dry",
+      "dirt": "minecraft:blocks/dirt",
+      "particle": "minecraft:blocks/dirt"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "moisture": {
+      "0": {},
+      "1": {},
+      "2": {},
+      "3": {},
+      "4": {},
+      "5": {},
+      "6": {},
+      "7": {
+        "textures": {
+          "top": "farmingforblockheads:blocks/fertilized_farmland_stable_wet"
+        }
+      }
+    }
+  }
+}

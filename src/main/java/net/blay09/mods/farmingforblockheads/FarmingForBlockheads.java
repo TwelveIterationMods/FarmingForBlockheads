@@ -4,11 +4,11 @@ import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.compat.Compat;
 import net.blay09.mods.farmingforblockheads.compat.VanillaAddon;
 import net.blay09.mods.farmingforblockheads.entity.EntityMerchant;
+import net.blay09.mods.farmingforblockheads.item.ModItems;
 import net.blay09.mods.farmingforblockheads.network.GuiHandler;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.registry.AbstractRegistry;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
-import net.blay09.mods.farmingforblockheads.tile.TileMarket;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -18,6 +18,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -30,7 +31,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
@@ -39,6 +39,8 @@ import java.util.Optional;
 @Mod(modid = FarmingForBlockheads.MOD_ID, name = "Farming for Blockheads", dependencies = "after:mousetweaks[2.8,);after:forestry;after:agricraft", acceptedMinecraftVersions = "1.11")
 @Mod.EventBusSubscriber
 public class FarmingForBlockheads {
+
+	// TODO Chicken Nest / Trough Bounding Box
 
 	public static final String MOD_ID = "farmingforblockheads";
 
@@ -68,6 +70,8 @@ public class FarmingForBlockheads {
 		}
 
 		ModBlocks.registerTileEntities();
+
+		MinecraftForge.EVENT_BUS.register(new FarmlandHandler());
 	}
 
 	@Mod.EventHandler
@@ -106,6 +110,7 @@ public class FarmingForBlockheads {
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		ModBlocks.registerItemBlocks(event.getRegistry());
+		ModItems.register(event.getRegistry());
 	}
 
 	@SubscribeEvent
@@ -116,6 +121,7 @@ public class FarmingForBlockheads {
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
 		ModBlocks.registerModels();
+		ModItems.registerModels();
 		proxy.registerModels();
 	}
 

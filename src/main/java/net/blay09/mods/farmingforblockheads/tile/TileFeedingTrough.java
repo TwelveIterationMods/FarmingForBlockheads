@@ -3,8 +3,7 @@ package net.blay09.mods.farmingforblockheads.tile;
 import net.blay09.mods.farmingforblockheads.network.MessageChickenNestEffect;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.network.VanillaPacketHandler;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Items;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -21,17 +20,13 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileChickenNest extends TileEntity implements ITickable {
+public class TileFeedingTrough extends TileEntity implements ITickable {
 
 	private static final int TICK_INTERVAL = 20;
 	private static final int RANGE = 8;
+	private static final int MAX_ANIMALS = 8;
 
 	private final ItemStackHandler itemHandler = new ItemStackHandler(1) {
-		@Override
-		public int getSlotLimit(int slot) {
-			return 4;
-		}
-
 		@Override
 		protected void onContentsChanged(int slot) {
 			isDirty = true;
@@ -47,7 +42,7 @@ public class TileChickenNest extends TileEntity implements ITickable {
 		if(!world.isRemote) {
 			tickTimer++;
 			if (tickTimer >= TICK_INTERVAL) {
-				stealEgg();
+				teehee();
 				tickTimer = 0;
 			}
 
@@ -56,21 +51,6 @@ public class TileChickenNest extends TileEntity implements ITickable {
 				isDirty = false;
 			}
 		}
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ||
-				super.hasCapability(capability, facing);
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return (T) itemHandler;
-		}
-		return super.getCapability(capability, facing);
 	}
 
 	@Override
@@ -104,31 +84,39 @@ public class TileChickenNest extends TileEntity implements ITickable {
 		return new SPacketUpdateTileEntity(pos, 0, getUpdateTag());
 	}
 
-	private void stealEgg() {
-		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE, pos.getX() + RANGE, pos.getY() + RANGE, pos.getZ() + RANGE);
-		//noinspection ConstantConditions
-		List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, aabb, p -> p != null && p.getItem().getItem() == Items.EGG && p.getItem().getCount() == 1 && p.getThrower() == null);
-		if(list.isEmpty()) {
-			return;
-		}
-		EntityItem entityItem = list.get(0);
-		ItemStack restStack = entityItem.getItem().copy();
-		for(int i = 0; i < itemHandler.getSlots(); i++) {
-			restStack = itemHandler.insertItem(i, restStack, false);
-			if(restStack.isEmpty()) {
-				break;
-			}
-		}
-		if(restStack.isEmpty()) {
-			entityItem.setDead();
-			NetworkHandler.instance.sendToAllAround(new MessageChickenNestEffect(pos), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 32));
-		} else {
-			entityItem.setItem(restStack);
-		}
-		markDirty();
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ||
+				super.hasCapability(capability, facing);
 	}
 
-	public int getEggCount() {
-		return itemHandler.getStackInSlot(0).getCount();
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return (T) itemHandler;
+		}
+		return super.getCapability(capability, facing);
 	}
+
+	private void teehee() {
+		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE, pos.getX() + RANGE, pos.getY() + RANGE, pos.getZ() + RANGE);
+		List<EntityAnimal> list = world.getEntitiesWithinAABB(EntityAnimal.class, aabb);
+		if(list.isEmpty() || list.size() > MAX_ANIMALS) {
+			return;
+		}
+		ItemStack itemStack = itemHandler.extractItem(0, 1, true);
+		if(!itemStack.isEmpty()) {
+			for (EntityAnimal entity : list) {
+				if (entity.getGrowingAge() == 0 && !entity.isInLove() && !entity.isChild() && entity.isBreedingItem(itemStack)) {
+					entity.setInLove(null);
+					itemHandler.extractItem(0, 1, false);
+					markDirty();
+					NetworkHandler.instance.sendToAllAround(new MessageChickenNestEffect(pos), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 32));
+					break;
+				}
+			}
+		}
+	}
+
 }

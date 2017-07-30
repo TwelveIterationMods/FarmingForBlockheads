@@ -1,5 +1,13 @@
 tile.farmingforblockheads:market.name=Market
 tile.farmingforblockheads:chicken_nest.name=Chicken Nest
+tile.farmingforblockheads:feeding_trough.name=Feeding Trough
+tile.farmingforblockheads:fertilized_farmland_rich.name=Fertilized Farmland
+tile.farmingforblockheads:fertilized_farmland_healthy.name=Fertilized Farmland
+tile.farmingforblockheads:fertilized_farmland_stable.name=Fertilized Farmland
+
+item.farmingforblockheads:fertilizer_healthy.name=Red Fertilizer
+item.farmingforblockheads:fertilizer_rich.name=Green Fertilizer
+item.farmingforblockheads:fertilizer_stable.name=Yellow Fertilizer
 
 itemGroup.farmingforblockheads=Farming for Blockheads
 
@@ -16,4 +24,8 @@ gui.farmingforblockheads:market.cost=%dx %s
 
 jei.farmingforblockheads:market=Market
 
-tooltip.farmingforblockheads:chicken_nest=
+tooltip.farmingforblockheads:chicken_nest=Chicken Egg Collector
+tooltip.farmingforblockheads:feeding_trough=Auto-feeds nearby animals
+tooltip.farmingforblockheads:fertilizer_healthy=Speeds up growth
+tooltip.farmingforblockheads:fertilizer_rich=Increases crop output
+tooltip.farmingforblockheads:fertilizer_stable=Prevents trampling
