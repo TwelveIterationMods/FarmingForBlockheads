@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -100,6 +101,11 @@ public class FarmingForBlockheads {
 		MarketRegistry.INSTANCE.load(configDir);
 
 		EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID + ":merchant"), EntityMerchant.class, "merchant", 0, this, 64, 3, true);
+	}
+
+	@Mod.EventHandler
+	public void imc(FMLInterModComms.IMCEvent event) {
+		IMCHandler.handleIMCMessage(event);
 	}
 
 	@Mod.EventHandler
