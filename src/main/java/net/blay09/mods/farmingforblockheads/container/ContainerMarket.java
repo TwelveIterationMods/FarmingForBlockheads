@@ -57,36 +57,36 @@ public class ContainerMarket extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) { // TODO fixme
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemStack = ItemStack.EMPTY;
-		Slot slot = inventorySlots.get(slotIndex);
+		Slot slot = inventorySlots.get(index);
 		if (slot != null && slot.getHasStack()) {
 			ItemStack slotStack = slot.getStack();
 			itemStack = slotStack.copy();
-			if (slotIndex == 1) {
-				if (!this.mergeItemStack(slotStack, 14, 50, true)) {
+			if (index == 1) {
+				if (!mergeItemStack(slotStack, 14, 50, true)) {
 					return ItemStack.EMPTY;
 				}
 				slot.onSlotChange(slotStack, itemStack);
-			} else if (slotIndex == 0) {
+			} else if (index == 0) {
 				if (!mergeItemStack(slotStack, 14, 50, true)) {
 					return ItemStack.EMPTY;
 				}
 			} else if ((selectedEntry == null && slotStack.getItem() == Items.EMERALD) || (selectedEntry != null && selectedEntry.getCostItem().isItemEqual(slotStack))) {
-				if (!this.mergeItemStack(slotStack, 0, 1, true)) {
+				if (!mergeItemStack(slotStack, 0, 1, true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (slotIndex >= 41 && slotIndex < 50) {
+			} else if (index >= 41 && index < 50) {
 				if (!mergeItemStack(slotStack, 14, 41, true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (slotIndex >= 14 && slotIndex < 41) {
+			} else if (index >= 14 && index < 41) {
 				if (!mergeItemStack(slotStack, 41, 50, false)) {
 					return ItemStack.EMPTY;
 				}
 			}
 
-			if (slotStack.getCount() == 0) {
+			if (slotStack.isEmpty()) {
 				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
