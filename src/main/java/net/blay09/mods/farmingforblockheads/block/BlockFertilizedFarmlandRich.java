@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads.block;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.blay09.mods.farmingforblockheads.ModConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -17,6 +18,6 @@ public class BlockFertilizedFarmlandRich extends BlockFertilizedFarmland {
 
 	@Override
 	public float getBonusCropChance() {
-		return 1f;
+		return ModConfig.general.fertilizerBonusCropChance;
 	}
 }

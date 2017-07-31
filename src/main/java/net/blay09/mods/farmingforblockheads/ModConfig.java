@@ -18,6 +18,30 @@ public class ModConfig {
 		@Config.Name("Merchant Names")
 		@Config.Comment("List of names the merchant can have.")
 		public String[] merchantNames = DEFAULT_MERCHANT_NAMES;
+
+		@Config.Name("Feeding Trough Range")
+		@Config.Comment("The range within animals can be fed by the feeding trough")
+		public int feedingTroughRange = 8;
+
+		@Config.Name("Feeding Trough Max Animals")
+		@Config.Comment("The maximum amount of animals (per type) until the feeding trough stops feeding")
+		public int feedingTroughMaxAnimals = 8;
+
+		@Config.Name("Chicken Nest Range")
+		@Config.Comment("The range at which the chicken nest picks up laid eggs")
+		public int chickenNestRange = 8;
+
+		@Config.Name("Fertilizer Bonus Crop Chance")
+		@Config.Comment("The chance to get a bonus crop when using Green Fertilizer.")
+		public float fertilizerBonusCropChance = 1f;
+
+		@Config.Name("Fertilizer Bonus Growth Chance")
+		@Config.Comment("The chance to get a bonus growth when using Red Fertilizer.")
+		public float fertilizerBonusGrowthChance = 1f;
+
+		@Config.Name("Fertilizer Regression Chance")
+		@Config.Comment("The chance for Fertilized Farmland to turn back into regular Farmland (per provided bonus)")
+		public float fertilizerRegressionChance = 0f;
 	}
 
 	public static class Client {

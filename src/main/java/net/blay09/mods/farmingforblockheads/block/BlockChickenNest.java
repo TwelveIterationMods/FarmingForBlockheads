@@ -17,7 +17,9 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -26,6 +28,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class BlockChickenNest extends BlockContainer {
+	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.0625, 0, 0.0625, 0.9375, 0.1875, 0.9375);
+
 	public static final String name = "chicken_nest";
 	public static final ResourceLocation registryName = new ResourceLocation(FarmingForBlockheads.MOD_ID, name);
 
@@ -100,5 +104,11 @@ public class BlockChickenNest extends BlockContainer {
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.MODEL;
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return BOUNDING_BOX;
 	}
 }

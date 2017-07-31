@@ -40,8 +40,6 @@ import java.util.Optional;
 @Mod.EventBusSubscriber
 public class FarmingForBlockheads {
 
-	// TODO Chicken Nest / Trough Bounding Box
-
 	public static final String MOD_ID = "farmingforblockheads";
 
 	@Mod.Instance(MOD_ID)

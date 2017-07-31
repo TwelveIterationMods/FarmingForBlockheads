@@ -1,5 +1,6 @@
 package net.blay09.mods.farmingforblockheads.tile;
 
+import net.blay09.mods.farmingforblockheads.ModConfig;
 import net.blay09.mods.farmingforblockheads.network.MessageChickenNestEffect;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.network.VanillaPacketHandler;
@@ -18,15 +19,24 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileChickenNest extends TileEntity implements ITickable {
 
 	private static final int TICK_INTERVAL = 20;
-	private static final int RANGE = 8;
 
 	private final ItemStackHandler itemHandler = new ItemStackHandler(1) {
+		@Nonnull
+		@Override
+		public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+			if(stack.getItem() != Items.EGG) {
+				return stack;
+			}
+			return super.insertItem(slot, stack, simulate);
+		}
+
 		@Override
 		public int getSlotLimit(int slot) {
 			return 4;
@@ -105,7 +115,8 @@ public class TileChickenNest extends TileEntity implements ITickable {
 	}
 
 	private void stealEgg() {
-		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE, pos.getX() + RANGE, pos.getY() + RANGE, pos.getZ() + RANGE);
+		final float range = ModConfig.general.chickenNestRange;
+		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
 		//noinspection ConstantConditions
 		List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, aabb, p -> p != null && p.getItem().getItem() == Items.EGG && p.getItem().getCount() == 1 && p.getThrower() == null);
 		if(list.isEmpty()) {

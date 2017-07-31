@@ -17,7 +17,9 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -27,6 +29,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class BlockFeedingTrough extends BlockContainer {
+
+	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0, 1, 0.625, 1);
+
 	public static final String name = "feeding_trough";
 	public static final ResourceLocation registryName = new ResourceLocation(FarmingForBlockheads.MOD_ID, name);
 
@@ -52,10 +57,21 @@ public class BlockFeedingTrough extends BlockContainer {
 			if(tileEntity != null) {
 				IItemHandler itemHandler = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 				if (itemHandler != null) {
-					heldItem = ItemHandlerHelper.insertItem(itemHandler, heldItem, false);
+					if(player.isSneaking()) {
+						if(heldItem.isEmpty()) {
+							player.setHeldItem(hand, itemHandler.extractItem(0, 64, false));
+						} else {
+							ItemStack restStack = itemHandler.extractItem(0, 64, false);
+							if(!player.inventory.addItemStackToInventory(restStack)) {
+								ItemHandlerHelper.insertItem(itemHandler, restStack, false);
+							}
+						}
+					} else {
+						heldItem = ItemHandlerHelper.insertItem(itemHandler, heldItem, false);
+						player.setHeldItem(hand, heldItem);
+					}
 				}
 			}
-			player.setHeldItem(hand, heldItem);
 		}
 		return true;
 	}
@@ -100,5 +116,11 @@ public class BlockFeedingTrough extends BlockContainer {
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.MODEL;
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return BOUNDING_BOX;
 	}
 }

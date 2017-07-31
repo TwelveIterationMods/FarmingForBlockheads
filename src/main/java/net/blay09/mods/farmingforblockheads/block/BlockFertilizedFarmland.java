@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads.block;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.blay09.mods.farmingforblockheads.ModConfig;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -37,6 +38,6 @@ public abstract class BlockFertilizedFarmland extends BlockFarmland {
 	}
 
 	public float getRegressionChance() {
-		return 0f;
+		return ModConfig.general.fertilizerRegressionChance;
 	}
 }

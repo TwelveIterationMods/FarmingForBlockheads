@@ -1,5 +1,7 @@
 package net.blay09.mods.farmingforblockheads.tile;
 
+import com.google.common.collect.ArrayListMultimap;
+import net.blay09.mods.farmingforblockheads.ModConfig;
 import net.blay09.mods.farmingforblockheads.network.MessageChickenNestEffect;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.network.VanillaPacketHandler;
@@ -22,9 +24,7 @@ import java.util.List;
 
 public class TileFeedingTrough extends TileEntity implements ITickable {
 
-	private static final int TICK_INTERVAL = 20;
-	private static final int RANGE = 8;
-	private static final int MAX_ANIMALS = 8;
+	private static final int TICK_INTERVAL = 20 * 5;
 
 	private final ItemStackHandler itemHandler = new ItemStackHandler(1) {
 		@Override
@@ -39,14 +39,14 @@ public class TileFeedingTrough extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			tickTimer++;
 			if (tickTimer >= TICK_INTERVAL) {
 				teehee();
 				tickTimer = 0;
 			}
 
-			if(isDirty) {
+			if (isDirty) {
 				VanillaPacketHandler.sendTileEntityUpdate(this);
 				isDirty = false;
 			}
@@ -93,30 +93,46 @@ public class TileFeedingTrough extends TileEntity implements ITickable {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return (T) itemHandler;
 		}
 		return super.getCapability(capability, facing);
 	}
 
 	private void teehee() {
-		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE, pos.getX() + RANGE, pos.getY() + RANGE, pos.getZ() + RANGE);
-		List<EntityAnimal> list = world.getEntitiesWithinAABB(EntityAnimal.class, aabb);
-		if(list.isEmpty() || list.size() > MAX_ANIMALS) {
+		ItemStack itemStack = itemHandler.getStackInSlot(0);
+		if (itemStack.isEmpty() || itemStack.getCount() < 2) {
 			return;
 		}
-		ItemStack itemStack = itemHandler.extractItem(0, 1, true);
-		if(!itemStack.isEmpty()) {
-			for (EntityAnimal entity : list) {
-				if (entity.getGrowingAge() == 0 && !entity.isInLove() && !entity.isChild() && entity.isBreedingItem(itemStack)) {
-					entity.setInLove(null);
-					itemHandler.extractItem(0, 1, false);
-					markDirty();
-					NetworkHandler.instance.sendToAllAround(new MessageChickenNestEffect(pos), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 32));
-					break;
+		final float range = ModConfig.general.feedingTroughRange;
+		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
+		List<EntityAnimal> entities = world.getEntitiesWithinAABB(EntityAnimal.class, aabb);
+		if (entities.isEmpty()) {
+			return;
+		}
+		ArrayListMultimap<Class<? extends EntityAnimal>, EntityAnimal> map = ArrayListMultimap.create();
+		for (EntityAnimal animal : entities) {
+			map.put(animal.getClass(), animal);
+		}
+		for (Class<? extends EntityAnimal> key : map.keySet()) {
+			List<EntityAnimal> list = map.get(key);
+			if (list.size() < ModConfig.general.feedingTroughMaxAnimals) {
+				if (list.stream().filter(p -> p.getGrowingAge() == 0).count() >= 2) {
+					for (EntityAnimal entity : list) {
+						if (entity.getGrowingAge() == 0 && !entity.isInLove() && !entity.isChild() && entity.isBreedingItem(itemStack)) {
+							entity.setInLove(null);
+							itemHandler.extractItem(0, 1, false);
+							markDirty();
+							NetworkHandler.instance.sendToAllAround(new MessageChickenNestEffect(pos), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 32));
+							break;
+						}
+					}
 				}
 			}
 		}
 	}
 
+	public ItemStack getContentStack() {
+		return itemHandler.getStackInSlot(0);
+	}
 }

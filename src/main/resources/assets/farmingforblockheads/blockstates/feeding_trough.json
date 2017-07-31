@@ -1,11 +1,12 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "farmingforblockheads:chicken_nest",
+    "model": "farmingforblockheads:feeding_trough",
     "transform": "forge:default-block",
     "textures": {
-      "particle": "minecraft:blocks/hay_block_top",
-      "texture": "minecraft:blocks/hay_block_top"
+      "particle": "minecraft:blocks/planks_spruce",
+      "texture": "minecraft:blocks/planks_spruce",
+      "content": "minecraft:blocks/hay_block_top"
     }
   },
   "variants": {
