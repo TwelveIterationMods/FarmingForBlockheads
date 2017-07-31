@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "farmingforblockheads:feeding_trough"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "PCP",
+    "PHP"
+  ],
+  "key": {
+    "H": {
+      "item": "minecraft:hay_block"
+    },
+    "P": {
+      "item": "#PLANKS"
+    },
+    "C": {
+      "item": "minecraft:golden_carrot"
+    }
+  }
+}

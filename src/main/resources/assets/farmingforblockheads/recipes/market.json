@@ -1,7 +1,6 @@
 {
   "result": {
-    "item": "farmingforblockheads:market",
-    "data": 2
+    "item": "farmingforblockheads:market"
   },
   "type": "forge:ore_shaped",
   "pattern": [
@@ -10,7 +9,7 @@
     "WWW"
   ],
   "key": {
-    "W": {
+    "C": {
       "item": "minecraft:wool",
       "data": 14
     },
@@ -18,7 +17,7 @@
       "item": "#PLANKS"
     },
     "W": {
-      "item": "#LOGS"
+      "item": "#WOOD"
     }
   }
 }

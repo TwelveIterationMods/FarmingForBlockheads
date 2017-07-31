@@ -1,0 +1,28 @@
+{
+  "result": {
+    "item": "farmingforblockheads:fertilizer",
+    "data": 2,
+    "amount": 4
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "GGG",
+    "NSN",
+    "DDD"
+  ],
+  "key": {
+    "G": {
+      "item": "#DYE_YELLOW"
+    },
+    "N": {
+      "item": "#GOLD_NUGGET"
+    },
+    "S": {
+      "item": "minecraft:wheat_seeds"
+    },
+    "D": {
+      "item": "minecraft:dirt",
+      "data": 1
+    }
+  }
+}

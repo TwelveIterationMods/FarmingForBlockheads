@@ -12,5 +12,40 @@
       "type": "forge:ore_dict",
       "ore": "logWood"
     }
+  },
+  {
+    "name": "SLAB",
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "slabWood"
+    }
+  },
+  {
+    "name": "DYE_RED",
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeRed"
+    }
+  },
+  {
+    "name": "DYE_GREEN",
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeGreen"
+    }
+  },
+  {
+    "name": "DYE_YELLOW",
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "dyeYellow"
+    }
+  },
+  {
+    "name": "GOLD_NUGGET",
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetGold"
+    }
   }
 ]

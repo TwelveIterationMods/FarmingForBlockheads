@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "farmingforblockheads:chicken_nest"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "PHP"
+  ],
+  "key": {
+    "H": {
+      "item": "minecraft:hay_block"
+    },
+    "P": {
+      "item": "#PLANKS"
+    }
+  }
+}
