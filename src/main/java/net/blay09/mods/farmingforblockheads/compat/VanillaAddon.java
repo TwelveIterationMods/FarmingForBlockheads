@@ -14,16 +14,18 @@ import net.minecraft.util.ResourceLocation;
 
 public class VanillaAddon {
 
-	private static final ResourceLocation[] ANIMALS = new ResourceLocation[] { // TODO add missing animals and test
+	private static final ResourceLocation[] ANIMALS = new ResourceLocation[] {
 			new ResourceLocation("minecraft", "pig"),
 			new ResourceLocation("minecraft", "sheep"),
 			new ResourceLocation("minecraft", "cow"),
 			new ResourceLocation("minecraft", "chicken"),
 			new ResourceLocation("minecraft", "horse"),
-			new ResourceLocation("minecraft", "ozelot"),
+			new ResourceLocation("minecraft", "ocelot"),
 			new ResourceLocation("minecraft", "rabbit"),
-			new ResourceLocation("minecraft", "polarbear"),
+			new ResourceLocation("minecraft", "polar_bear"),
 			new ResourceLocation("minecraft", "wolf"),
+			new ResourceLocation("minecraft", "llama"),
+			new ResourceLocation("minecraft", "parrot"),
 	};
 
 	public VanillaAddon() {
