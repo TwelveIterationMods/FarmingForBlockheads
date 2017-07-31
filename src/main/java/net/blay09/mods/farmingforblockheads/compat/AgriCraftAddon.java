@@ -1,9 +1,8 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
+import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -18,9 +17,9 @@ public class AgriCraftAddon {
 	private static final String KEY_SEEDS = "AgriCraft Seeds";
 
 	public AgriCraftAddon() {
-		MarketRegistry.registerDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
+		FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
+			public void apply(ItemStack defaultPayment) {
 				Item seedItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.AGRICRAFT, "agri_seed"));
 				if(seedItem != null) {
 					CreativeTabs agriCraftTab = Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY).filter(tab -> tab.tabLabel.equals("agricraft_seeds")).findFirst().orElse(null);
@@ -28,7 +27,7 @@ public class AgriCraftAddon {
 						NonNullList<ItemStack> stackList = NonNullList.create();
 						seedItem.getSubItems(agriCraftTab, stackList);
 						for (ItemStack itemStack : stackList) {
-							registry.registerEntry(itemStack, defaultPayment, MarketEntry.EntryType.SEEDS);
+							FarmingForBlockheadsAPI.registerMarketEntry(itemStack, defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
 						}
 					} else {
 						FarmingForBlockheads.logger.warn("Could not find AgriCraft Seeds creative tab. AgriCraft seeds will not be available in the market.");

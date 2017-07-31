@@ -2,7 +2,11 @@ package net.blay09.mods.farmingforblockheads.network;
 
 import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
+import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
+import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
+import net.blay09.mods.farmingforblockheads.registry.MarketCategory;
 import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
+import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -11,11 +15,11 @@ import java.util.Collection;
 
 public class MessageMarketList implements IMessage {
 
-	private Collection<MarketEntry> entryList;
+	private Collection<IMarketEntry> entryList;
 
 	public MessageMarketList() {}
 
-	public MessageMarketList(Collection<MarketEntry> entryList) {
+	public MessageMarketList(Collection<IMarketEntry> entryList) {
 		this.entryList = entryList;
 	}
 
@@ -32,26 +36,26 @@ public class MessageMarketList implements IMessage {
 	public void toBytes(ByteBuf buf) {
 		int count = entryList.size();
 		buf.writeInt(count);
-		for (MarketEntry recipe : entryList) {
+		for (IMarketEntry recipe : entryList) {
 			writeEntry(recipe, buf);
 		}
 	}
 
-	public Collection<MarketEntry> getEntryList() {
+	public Collection<IMarketEntry> getEntryList() {
 		return entryList;
 	}
 
 	private MarketEntry readEntry(ByteBuf buf) {
 		ItemStack outputItem = ByteBufUtils.readItemStack(buf);
 		ItemStack costItem = ByteBufUtils.readItemStack(buf);
-		MarketEntry.EntryType type = MarketEntry.EntryType.fromId(buf.readByte());
-		return new MarketEntry(outputItem, costItem, type);
+		IMarketCategory category = MarketRegistry.getCategories().get(buf.readByte());
+		return new MarketEntry(outputItem, costItem, category);
 	}
 
-	private void writeEntry(MarketEntry entry, ByteBuf buf) {
+	private void writeEntry(IMarketEntry entry, ByteBuf buf) {
 		ByteBufUtils.writeItemStack(buf, entry.getOutputItem());
 		ByteBufUtils.writeItemStack(buf, entry.getCostItem());
-		buf.writeByte(entry.getType().ordinal());
+		buf.writeByte(((MarketCategory) entry.getCategory()).getRuntimeId());
 	}
 
 }

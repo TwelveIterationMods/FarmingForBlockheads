@@ -1,19 +1,19 @@
 package net.blay09.mods.farmingforblockheads.compat.jei;
 
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeWrapper;
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 
-public class MarketRecipe extends BlankRecipeWrapper {
+public class MarketRecipe implements IRecipeWrapper {
 
-	private final MarketEntry entry;
+	private final IMarketEntry entry;
 
-	public MarketRecipe(MarketEntry entry) {
+	public MarketRecipe(IMarketEntry entry) {
 		this.entry = entry;
 	}
 
@@ -30,7 +30,7 @@ public class MarketRecipe extends BlankRecipeWrapper {
 		minecraft.fontRenderer.drawString(costText, 42 - stringWidth / 2, 35, 0xFFFFFF, true);
 	}
 
-	private String getFormattedCostString(MarketEntry entry) {
+	private String getFormattedCostString(IMarketEntry entry) {
 		String color = TextFormatting.GREEN.toString();
 		if(entry.getCostItem().getItem() == Items.DIAMOND) {
 			color = TextFormatting.AQUA.toString();

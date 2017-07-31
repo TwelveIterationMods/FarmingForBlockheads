@@ -1,13 +1,13 @@
 package net.blay09.mods.farmingforblockheads.container;
 
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
+import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
 
 public class FakeSlotMarket extends FakeSlot {
 
-	private MarketEntry entry;
+	private IMarketEntry entry;
 
 	public FakeSlotMarket(int slotId, int x, int y) {
 		super(slotId, x, y);
@@ -28,12 +28,12 @@ public class FakeSlotMarket extends FakeSlot {
 		return entry != null;
 	}
 
-	public void setEntry(@Nullable MarketEntry entry) {
+	public void setEntry(@Nullable IMarketEntry entry) {
 		this.entry = entry;
 	}
 
 	@Nullable
-	public MarketEntry getEntry() {
+	public IMarketEntry getEntry() {
 		return entry;
 	}
 

@@ -1,8 +1,7 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
+import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,14 +20,14 @@ public class HarvestcraftAddon {
 	};
 
 	public HarvestcraftAddon() {
-		MarketRegistry.registerDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
+		FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
+			public void apply(ItemStack defaultPayment) {
 				for (String cropName : SEEDS) {
 					String seedName = cropName + "seeditem";
 					Item seedItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.HARVESTCRAFT, seedName));
 					if (seedItem != null) {
-						registry.registerEntry(new ItemStack(seedItem), defaultPayment, MarketEntry.EntryType.SEEDS);
+						FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(seedItem), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
 					}
 				}
 			}
@@ -44,14 +43,14 @@ public class HarvestcraftAddon {
 			}
 		});
 
-		MarketRegistry.registerDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
+		FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
+			public void apply(ItemStack defaultPayment) {
 				for (String treeName : SAPLINGS) {
 					String saplingName = treeName + "_sapling";
 					Item saplingItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.HARVESTCRAFT, saplingName));
 					if (saplingItem != null) {
-						registry.registerEntry(new ItemStack(saplingItem), defaultPayment, MarketEntry.EntryType.SAPLINGS);
+						FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(saplingItem), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
 					}
 				}
 			}

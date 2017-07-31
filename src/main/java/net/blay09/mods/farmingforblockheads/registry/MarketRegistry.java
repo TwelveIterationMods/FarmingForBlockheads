@@ -6,6 +6,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
+import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
+import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
+import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
@@ -26,7 +30,9 @@ public class MarketRegistry extends AbstractRegistry {
 
 	private static final Pattern ITEMSTACK_PATTERN = Pattern.compile("(?:([0-9]+)\\*)?(?:([\\w]+):)([\\w]+)(?::([0-9]+))?(?:@(.+))?");
 
-	private final List<MarketEntry> entries = Lists.newArrayList();
+	private final Map<ResourceLocation, IMarketCategory> indexedCategories = Maps.newHashMap();
+	private final List<IMarketCategory> categories = Lists.newArrayList();
+	private final List<IMarketEntry> entries = Lists.newArrayList();
 
 	private final Map<String, ItemStack> defaultPayments = Maps.newHashMap();
 	private final Map<String, MarketRegistryDefaultHandler> defaultHandlers = Maps.newHashMap();
@@ -35,13 +41,21 @@ public class MarketRegistry extends AbstractRegistry {
 		super("Market");
 	}
 
-	public void registerEntry(ItemStack outputItem, ItemStack costItem, MarketEntry.EntryType type) {
+	public void registerCategory(IMarketCategory category) {
+		if(indexedCategories.containsKey(category.getRegistryName())) {
+			throw new RuntimeException("Attempted to register duplicate market category " + category.getRegistryName());
+		}
+		indexedCategories.put(category.getRegistryName(), category);
+		categories.add(category);
+	}
+
+	public void registerEntry(ItemStack outputItem, ItemStack costItem, IMarketCategory type) {
 		entries.add(new MarketEntry(outputItem, costItem, type));
 	}
 
 	@Nullable
-	public static MarketEntry getEntryFor(ItemStack outputItem) {
-		for(MarketEntry entry : INSTANCE.entries) {
+	public static IMarketEntry getEntryFor(ItemStack outputItem) {
+		for(IMarketEntry entry : INSTANCE.entries) {
 			if(entry.getOutputItem().isItemEqual(outputItem) && ItemStack.areItemStackTagsEqual(entry.getOutputItem(), outputItem)) {
 				return entry;
 			}
@@ -49,7 +63,7 @@ public class MarketRegistry extends AbstractRegistry {
 		return null;
 	}
 
-	public static Collection<MarketEntry> getEntries() {
+	public static Collection<IMarketEntry> getEntries() {
 		return INSTANCE.entries;
 	}
 
@@ -128,17 +142,17 @@ public class MarketRegistry extends AbstractRegistry {
 
 		tryRemoveEntry(outputStack);
 
-		MarketEntry.EntryType type = MarketEntry.EntryType.OTHER;
+		IMarketCategory category = indexedCategories.get(FarmingForBlockheadsAPI.MARKET_CATEGORY_OTHER);
 		ResourceLocation registryName = outputStack.getItem().getRegistryName();
 		if(registryName != null) {
 			if (registryName.getResourcePath().contains("sapling")) {
-				type = MarketEntry.EntryType.SAPLINGS;
+				category = indexedCategories.get(FarmingForBlockheadsAPI.MARKET_CATEGORY_SAPLINGS);
 			} else if (registryName.getResourcePath().contains("seed")) {
-				type = MarketEntry.EntryType.SEEDS;
+				category = indexedCategories.get(FarmingForBlockheadsAPI.MARKET_CATEGORY_SEEDS);
 			}
 		}
 
-		registerEntry(outputStack, costStack, type);
+		registerEntry(outputStack, costStack, category);
 	}
 
 	private void loadDefaultBlacklistEntry(String input) {
@@ -172,18 +186,21 @@ public class MarketRegistry extends AbstractRegistry {
 	protected void registerDefaults(JsonObject json) {
 		for(Map.Entry<String, MarketRegistryDefaultHandler> entry : defaultHandlers.entrySet()) {
 			if(tryGetBoolean(json, entry.getKey(), entry.getValue().isEnabledByDefault())) {
-				entry.getValue().apply(this, INSTANCE.defaultPayments.get(entry.getKey()));
+				entry.getValue().apply(INSTANCE.defaultPayments.get(entry.getKey()));
 			}
 		}
 	}
 
 	public static void registerDefaultHandler(String defaultKey, MarketRegistryDefaultHandler handler) {
+		if(INSTANCE.defaultHandlers.containsKey(defaultKey)) {
+			throw new RuntimeException("Attempted to register duplicate default handler");
+		}
 		INSTANCE.defaultHandlers.put(defaultKey, handler);
 	}
 
 	private boolean tryRemoveEntry(ItemStack itemStack) {
 		for(int i = entries.size() - 1; i >= 0; i--) {
-			MarketEntry entry = entries.get(i);
+			IMarketEntry entry = entries.get(i);
 			if(entry.getOutputItem().isItemEqual(itemStack) && ItemStack.areItemStackTagsEqual(entry.getOutputItem(), itemStack)) {
 				entries.remove(i);
 				return true;
@@ -223,4 +240,12 @@ public class MarketRegistry extends AbstractRegistry {
 		return itemStack;
 	}
 
+	public static List<IMarketCategory> getCategories() {
+		return INSTANCE.categories;
+	}
+
+	@Nullable
+	public static IMarketCategory getCategory(ResourceLocation id) {
+		return INSTANCE.indexedCategories.get(id);
+	}
 }

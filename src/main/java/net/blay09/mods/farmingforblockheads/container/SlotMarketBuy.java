@@ -1,6 +1,6 @@
 package net.blay09.mods.farmingforblockheads.container;
 
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
+import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -27,7 +27,7 @@ public class SlotMarketBuy extends Slot {
 
 	@Override
 	public ItemStack onTake(EntityPlayer thePlayer, ItemStack stack) {
-		MarketEntry entry = container.getSelectedEntry();
+		IMarketEntry entry = container.getSelectedEntry();
 		if (entry != null) {
 			container.onItemBought();
 		}

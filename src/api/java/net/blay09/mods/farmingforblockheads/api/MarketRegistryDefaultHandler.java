@@ -1,9 +1,9 @@
-package net.blay09.mods.farmingforblockheads.registry;
+package net.blay09.mods.farmingforblockheads.api;
 
 import net.minecraft.item.ItemStack;
 
 public interface MarketRegistryDefaultHandler {
-	void apply(MarketRegistry registry, ItemStack defaultPayment);
+	void apply(ItemStack defaultPayment);
 	boolean isEnabledByDefault();
 	ItemStack getDefaultPayment();
 }

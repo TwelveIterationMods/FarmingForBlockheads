@@ -1,69 +1,34 @@
 package net.blay09.mods.farmingforblockheads.registry;
 
-import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
+import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
-public class MarketEntry {
-
-	public enum EntryType {
-		SEEDS("gui.farmingforblockheads:market.tooltip_seeds"),
-		SAPLINGS("gui.farmingforblockheads:market.tooltip_saplings"),
-		OTHER("gui.farmingforblockheads:market.tooltip_other");
-
-		private static final ResourceLocation TEXTURE = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
-		private static final EntryType[] values = values();
-		private String tooltip;
-
-		EntryType(String tooltip) {
-			this.tooltip = tooltip;
-		}
-
-		public String getTooltip() {
-			return tooltip;
-		}
-
-		public ResourceLocation getIconTexture() {
-			return TEXTURE;
-		}
-
-		public int getIconTextureX() {
-			return 196 + ordinal() * 20;
-		}
-
-		public int getIconTextureY() {
-			return 14;
-		}
-
-		public boolean passes(MarketEntry entry) {
-			return entry.getType() == this;
-		}
-
-		public static EntryType fromId(int id) {
-			return values[id];
-		}
-	}
+public class MarketEntry implements IMarketEntry {
 
 	private final ItemStack outputItem;
 	private final ItemStack costItem;
-	private final EntryType type;
+	private final IMarketCategory category;
 
-	public MarketEntry(ItemStack outputItem, ItemStack costItem, EntryType type) {
+	public MarketEntry(ItemStack outputItem, ItemStack costItem, IMarketCategory category) {
 		this.outputItem = outputItem;
 		this.costItem = costItem;
-		this.type = type;
+		this.category = category;
 	}
 
+	@Override
 	public ItemStack getCostItem() {
 		return costItem;
 	}
 
+	@Override
 	public ItemStack getOutputItem() {
 		return outputItem;
 	}
 
-	public EntryType getType() {
-		return type;
+	@Override
+	public IMarketCategory getCategory() {
+		return category;
 	}
 
 }

@@ -1,10 +1,10 @@
 package net.blay09.mods.farmingforblockheads.container;
 
 import com.google.common.collect.Lists;
+import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.network.MessageMarketList;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -28,7 +28,7 @@ public class ContainerMarket extends Container {
 	protected final List<FakeSlotMarket> marketSlots = Lists.newArrayList();
 
 	private boolean sentItemList;
-	protected MarketEntry selectedEntry;
+	protected IMarketEntry selectedEntry;
 
 	public ContainerMarket(EntityPlayer player, BlockPos pos) {
 		this.player = player;
@@ -142,7 +142,7 @@ public class ContainerMarket extends Container {
 	}
 
 	@Nullable
-	public MarketEntry getSelectedEntry() {
+	public IMarketEntry getSelectedEntry() {
 		return selectedEntry;
 	}
 

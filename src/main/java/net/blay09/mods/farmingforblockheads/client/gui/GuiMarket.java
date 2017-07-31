@@ -2,10 +2,12 @@ package net.blay09.mods.farmingforblockheads.client.gui;
 
 import com.google.common.collect.Lists;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
+import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.blay09.mods.farmingforblockheads.container.ContainerMarketClient;
 import net.blay09.mods.farmingforblockheads.container.FakeSlotMarket;
 import net.blay09.mods.farmingforblockheads.container.SlotMarketBuy;
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
+import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -65,8 +67,8 @@ public class GuiMarket extends GuiContainer {
 
 		int id = 1;
 		int curY = -80;
-		for (MarketEntry.EntryType type : MarketEntry.EntryType.values()) {
-			GuiButtonMarketFilter filterButton = new GuiButtonMarketFilter(id++, width / 2 + 87, height / 2 + curY, container, type);
+		for (IMarketCategory category : MarketRegistry.getCategories()) {
+			GuiButtonMarketFilter filterButton = new GuiButtonMarketFilter(id++, width / 2 + 87, height / 2 + curY, container, category);
 			buttonList.add(filterButton);
 			filterButtons.add(filterButton);
 
@@ -84,10 +86,10 @@ public class GuiMarket extends GuiContainer {
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if(button instanceof GuiButtonMarketFilter) {
-			if(container.getCurrentFilter() == ((GuiButtonMarketFilter) button).getFilterType()) {
-				container.setFilterType(null);
+			if(container.getCurrentCategory() == ((GuiButtonMarketFilter) button).getCategory()) {
+				container.setFilterCategory(null);
 			} else {
-				container.setFilterType(((GuiButtonMarketFilter) button).getFilterType());
+				container.setFilterCategory(((GuiButtonMarketFilter) button).getCategory());
 			}
 			container.populateMarketSlots();
 			setCurrentOffset(currentOffset);
@@ -228,7 +230,7 @@ public class GuiMarket extends GuiContainer {
 	public void onItemTooltip(ItemTooltipEvent event) {
 		Slot hoverSlot = getSlotUnderMouse();
 		if (hoverSlot != null && event.getItemStack() == hoverSlot.getStack()) {
-			MarketEntry hoverEntry = null;
+			IMarketEntry hoverEntry = null;
 
 			if (hoverSlot instanceof FakeSlotMarket) {
 				hoverEntry = ((FakeSlotMarket) hoverSlot).getEntry();
@@ -242,7 +244,7 @@ public class GuiMarket extends GuiContainer {
 		}
 	}
 
-	private String getFormattedCostString(MarketEntry entry) {
+	private String getFormattedCostString(IMarketEntry entry) {
 		String color = TextFormatting.GREEN.toString();
 		if(entry.getCostItem().getItem() == Items.DIAMOND) {
 			color = TextFormatting.AQUA.toString();
@@ -250,7 +252,7 @@ public class GuiMarket extends GuiContainer {
 		return color + I18n.format("gui.farmingforblockheads:market.tooltip_cost", I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName()));
 	}
 
-	private String getFormattedCostStringShort(MarketEntry entry) {
+	private String getFormattedCostStringShort(IMarketEntry entry) {
 		String color = TextFormatting.GREEN.toString();
 		if(entry.getCostItem().getItem() == Items.DIAMOND) {
 			color = TextFormatting.AQUA.toString();

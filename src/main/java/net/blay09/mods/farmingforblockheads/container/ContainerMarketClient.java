@@ -1,9 +1,11 @@
 package net.blay09.mods.farmingforblockheads.container;
 
 import com.google.common.collect.Lists;
+import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
+import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.blay09.mods.farmingforblockheads.network.MessageMarketSelect;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
+import net.blay09.mods.farmingforblockheads.registry.MarketCategory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
@@ -17,13 +19,13 @@ import java.util.List;
 
 public class ContainerMarketClient extends ContainerMarket {
 
-	private final List<MarketEntry> itemList = Lists.newArrayList();
-	private final List<MarketEntry> filteredItems = Lists.newArrayList();
+	private final List<IMarketEntry> itemList = Lists.newArrayList();
+	private final List<IMarketEntry> filteredItems = Lists.newArrayList();
 
-	private final Comparator<MarketEntry> comparator = Comparator.comparingInt(o -> o.getType().ordinal());
+	private final Comparator<IMarketEntry> comparator = Comparator.comparingInt(o -> ((MarketCategory) o.getCategory()).getRuntimeId());
 
 	private String currentSearch;
-	private MarketEntry.EntryType currentFilter;
+	private IMarketCategory currentCategory;
 	private boolean isDirty;
 	private int scrollOffset;
 
@@ -38,7 +40,7 @@ public class ContainerMarketClient extends ContainerMarket {
 			if (player.world.isRemote) {
 				if (slot instanceof FakeSlotMarket) {
 					FakeSlotMarket slotMarket = (FakeSlotMarket) slot;
-					MarketEntry entry = slotMarket.getEntry();
+					IMarketEntry entry = slotMarket.getEntry();
 					if (entry != null) {
 						selectedEntry = entry;
 						NetworkHandler.instance.sendToServer(new MessageMarketSelect(entry.getOutputItem()));
@@ -54,8 +56,8 @@ public class ContainerMarketClient extends ContainerMarket {
 		applyFilters();
 	}
 
-	public void setFilterType(@Nullable MarketEntry.EntryType filterType) {
-		this.currentFilter = filterType;
+	public void setFilterCategory(@Nullable IMarketCategory category) {
+		this.currentCategory = category;
 		applyFilters();
 	}
 
@@ -63,14 +65,14 @@ public class ContainerMarketClient extends ContainerMarket {
 		this.scrollOffset = 0;
 		filteredItems.clear();
 		boolean hasSearchFilter = currentSearch != null && !currentSearch.trim().isEmpty();
-		if (currentFilter == null && !hasSearchFilter) {
+		if (currentCategory == null && !hasSearchFilter) {
 			filteredItems.addAll(itemList);
 		} else {
-			for (MarketEntry entry : itemList) {
+			for (IMarketEntry entry : itemList) {
 				if(hasSearchFilter && !entry.getOutputItem().getDisplayName().toLowerCase().contains(currentSearch.toLowerCase())) {
 					continue;
 				}
-				if(currentFilter != null && !currentFilter.passes(entry)) {
+				if(currentCategory != null && !currentCategory.passes(entry)) {
 					continue;
 				}
 				filteredItems.add(entry);
@@ -109,7 +111,7 @@ public class ContainerMarketClient extends ContainerMarket {
 		isDirty = dirty;
 	}
 
-	public void setEntryList(Collection<MarketEntry> entryList) {
+	public void setEntryList(Collection<IMarketEntry> entryList) {
 		this.itemList.clear();
 		this.itemList.addAll(entryList);
 
@@ -123,7 +125,7 @@ public class ContainerMarketClient extends ContainerMarket {
 	}
 
 	@Nullable
-	public MarketEntry.EntryType getCurrentFilter() {
-		return currentFilter;
+	public IMarketCategory getCurrentCategory() {
+		return currentCategory;
 	}
 }

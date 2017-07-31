@@ -1,8 +1,7 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
+import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
@@ -29,13 +28,13 @@ public class VanillaAddon {
 	};
 
 	public VanillaAddon() {
-		MarketRegistry.registerDefaultHandler("Vanilla Seeds", new MarketRegistryDefaultHandler() {
+		FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Seeds", new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
-				registry.registerEntry(new ItemStack(Items.WHEAT_SEEDS), defaultPayment, MarketEntry.EntryType.SEEDS);
-				registry.registerEntry(new ItemStack(Items.MELON_SEEDS), defaultPayment, MarketEntry.EntryType.SEEDS);
-				registry.registerEntry(new ItemStack(Items.PUMPKIN_SEEDS), defaultPayment, MarketEntry.EntryType.SEEDS);
-				registry.registerEntry(new ItemStack(Items.BEETROOT_SEEDS), defaultPayment, MarketEntry.EntryType.SEEDS);
+			public void apply(ItemStack defaultPayment) {
+				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.WHEAT_SEEDS), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.MELON_SEEDS), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.PUMPKIN_SEEDS), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.BEETROOT_SEEDS), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
 			}
 
 			@Override
@@ -49,11 +48,11 @@ public class VanillaAddon {
 			}
 		});
 
-		MarketRegistry.registerDefaultHandler("Vanilla Saplings", new MarketRegistryDefaultHandler() {
+		FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Saplings", new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
+			public void apply(ItemStack defaultPayment) {
 				for (BlockPlanks.EnumType type : BlockSapling.TYPE.getAllowedValues()) {
-					registry.registerEntry(new ItemStack(Blocks.SAPLING, 1, type.getMetadata()), defaultPayment, MarketEntry.EntryType.SAPLINGS);
+					FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Blocks.SAPLING, 1, type.getMetadata()), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
 				}
 			}
 
@@ -68,10 +67,10 @@ public class VanillaAddon {
 			}
 		});
 
-		MarketRegistry.registerDefaultHandler("Bonemeal", new MarketRegistryDefaultHandler() {
+		FarmingForBlockheadsAPI.registerMarketDefaultHandler("Bonemeal", new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
-				registry.registerEntry(new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()), defaultPayment, MarketEntry.EntryType.OTHER);
+			public void apply(ItemStack defaultPayment) {
+				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()), defaultPayment, FarmingForBlockheadsAPI.getMarketCategoryOther());
 			}
 
 			@Override
@@ -85,13 +84,13 @@ public class VanillaAddon {
 			}
 		});
 
-		MarketRegistry.registerDefaultHandler("Animal Eggs", new MarketRegistryDefaultHandler() {
+		FarmingForBlockheadsAPI.registerMarketDefaultHandler("Animal Eggs", new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
+			public void apply(ItemStack defaultPayment) {
 				for (ResourceLocation animalName : ANIMALS) {
 					ItemStack eggStack = new ItemStack(Items.SPAWN_EGG);
 					ItemMonsterPlacer.applyEntityIdToItemStack(eggStack, animalName);
-					registry.registerEntry(eggStack, defaultPayment, MarketEntry.EntryType.OTHER);
+					FarmingForBlockheadsAPI.registerMarketEntry(eggStack, defaultPayment, FarmingForBlockheadsAPI.getMarketCategoryOther());
 				}
 			}
 

@@ -1,8 +1,7 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
+import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -13,9 +12,9 @@ public class NaturaAddon {
 	private static final String KEY_SAPLINGS = "Natura Saplings";
 
 	public NaturaAddon() {
-		MarketRegistry.registerDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
+		FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
 			@Override
-			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
+			public void apply(ItemStack defaultPayment) {
 				final String[] SAPLINGS = new String[] { "overworld_sapling", "overworld_sapling2", "redwood_sapling" };
 
 				for(int i = 0; i < SAPLINGS.length; i++) {
@@ -24,7 +23,7 @@ public class NaturaAddon {
 						Block blockSapling = Block.REGISTRY.getObject(location);
 						for (int j = 0; j < (i == 2 ? 1 : 4); j++) {
 							ItemStack saplingStack = new ItemStack(blockSapling, 1, j);
-							registry.registerEntry(saplingStack, defaultPayment, MarketEntry.EntryType.SAPLINGS);
+							FarmingForBlockheadsAPI.registerMarketEntry(saplingStack, defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
 						}
 					}
 				}
