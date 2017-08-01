@@ -106,7 +106,7 @@ public class ContainerMarket extends Container {
 		super.detectAndSendChanges();
 
 		if (!player.world.isRemote && !sentItemList) {
-			NetworkHandler.instance.sendTo(new MessageMarketList(MarketRegistry.getEntries()), (EntityPlayerMP) player);
+			NetworkHandler.instance.sendTo(new MessageMarketList(MarketRegistry.getGroupedEntries()), (EntityPlayerMP) player);
 			sentItemList = true;
 		}
 	}

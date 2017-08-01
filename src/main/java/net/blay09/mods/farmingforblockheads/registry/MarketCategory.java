@@ -9,15 +9,15 @@ public class MarketCategory implements IMarketCategory {
 	private final ResourceLocation texturePath;
 	private final int textureX;
 	private final int textureY;
+	private int sortIndex;
 
-	private int runtimeId;
-
-	public MarketCategory(ResourceLocation registryName, String tooltipLangKey, ResourceLocation texturePath, int textureX, int textureY) {
+	public MarketCategory(ResourceLocation registryName, String tooltipLangKey, ResourceLocation texturePath, int textureX, int textureY, int sortIndex) {
 		this.registryName = registryName;
 		this.tooltipLangKey = tooltipLangKey;
 		this.texturePath = texturePath;
 		this.textureX = textureX;
 		this.textureY = textureY;
+		this.sortIndex = sortIndex;
 	}
 
 	@Override
@@ -45,11 +45,8 @@ public class MarketCategory implements IMarketCategory {
 		return textureY;
 	}
 
-	public void setRuntimeId(int runtimeId) {
-		this.runtimeId = runtimeId;
-	}
-
-	public int getRuntimeId() {
-		return runtimeId;
+	@Override
+	public int getSortIndex() {
+		return sortIndex;
 	}
 }

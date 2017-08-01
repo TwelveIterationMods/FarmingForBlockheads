@@ -5,7 +5,6 @@ import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.blay09.mods.farmingforblockheads.network.MessageMarketSelect;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
-import net.blay09.mods.farmingforblockheads.registry.MarketCategory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
@@ -22,7 +21,7 @@ public class ContainerMarketClient extends ContainerMarket {
 	private final List<IMarketEntry> itemList = Lists.newArrayList();
 	private final List<IMarketEntry> filteredItems = Lists.newArrayList();
 
-	private final Comparator<IMarketEntry> comparator = Comparator.comparingInt(o -> ((MarketCategory) o.getCategory()).getRuntimeId());
+	private final Comparator<IMarketEntry> comparator = Comparator.comparingInt(o -> o.getCategory().getSortIndex());
 
 	private String currentSearch;
 	private IMarketCategory currentCategory;

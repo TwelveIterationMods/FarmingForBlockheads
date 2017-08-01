@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 
 public interface InternalMethods {
-	void registerMarketCategory(ResourceLocation id, String tooltipLangKey, ResourceLocation texturePath, int textureX, int textureY);
+	void registerMarketCategory(ResourceLocation id, String tooltipLangKey, ResourceLocation texturePath, int textureX, int textureY, int sortIndex);
 	void registerMarketEntry(ItemStack outputItem, ItemStack costItem, IMarketCategory category);
 	void registerMarketDefaultHandler(String key, MarketRegistryDefaultHandler defaultHandler);
 	@Nullable

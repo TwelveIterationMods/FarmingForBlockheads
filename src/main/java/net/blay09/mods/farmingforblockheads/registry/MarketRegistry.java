@@ -1,6 +1,6 @@
 package net.blay09.mods.farmingforblockheads.registry;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -19,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,8 +31,7 @@ public class MarketRegistry extends AbstractRegistry {
 	private static final Pattern ITEMSTACK_PATTERN = Pattern.compile("(?:([0-9]+)\\*)?(?:([\\w]+):)([\\w]+)(?::([0-9]+))?(?:@(.+))?");
 
 	private final Map<ResourceLocation, IMarketCategory> indexedCategories = Maps.newHashMap();
-	private final List<IMarketCategory> categories = Lists.newArrayList();
-	private final List<IMarketEntry> entries = Lists.newArrayList();
+	private final ArrayListMultimap<IMarketCategory, IMarketEntry> entries = ArrayListMultimap.create();
 
 	private final Map<String, ItemStack> defaultPayments = Maps.newHashMap();
 	private final Map<String, MarketRegistryDefaultHandler> defaultHandlers = Maps.newHashMap();
@@ -46,16 +45,15 @@ public class MarketRegistry extends AbstractRegistry {
 			throw new RuntimeException("Attempted to register duplicate market category " + category.getRegistryName());
 		}
 		indexedCategories.put(category.getRegistryName(), category);
-		categories.add(category);
 	}
 
 	public void registerEntry(ItemStack outputItem, ItemStack costItem, IMarketCategory type) {
-		entries.add(new MarketEntry(outputItem, costItem, type));
+		entries.put(type, new MarketEntry(outputItem, costItem, type));
 	}
 
 	@Nullable
 	public static IMarketEntry getEntryFor(ItemStack outputItem) {
-		for(IMarketEntry entry : INSTANCE.entries) {
+		for(IMarketEntry entry : INSTANCE.entries.values()) {
 			if(entry.getOutputItem().isItemEqual(outputItem) && ItemStack.areItemStackTagsEqual(entry.getOutputItem(), outputItem)) {
 				return entry;
 			}
@@ -63,8 +61,12 @@ public class MarketRegistry extends AbstractRegistry {
 		return null;
 	}
 
-	public static Collection<IMarketEntry> getEntries() {
+	public static ArrayListMultimap<IMarketCategory, IMarketEntry> getGroupedEntries() {
 		return INSTANCE.entries;
+	}
+
+	public static Collection<IMarketEntry> getEntries() {
+		return INSTANCE.entries.values();
 	}
 
 	@Override
@@ -142,13 +144,13 @@ public class MarketRegistry extends AbstractRegistry {
 
 		tryRemoveEntry(outputStack);
 
-		IMarketCategory category = indexedCategories.get(FarmingForBlockheadsAPI.MARKET_CATEGORY_OTHER);
+		IMarketCategory category = FarmingForBlockheadsAPI.getMarketCategoryOther();
 		ResourceLocation registryName = outputStack.getItem().getRegistryName();
 		if(registryName != null) {
 			if (registryName.getResourcePath().contains("sapling")) {
-				category = indexedCategories.get(FarmingForBlockheadsAPI.MARKET_CATEGORY_SAPLINGS);
+				category = FarmingForBlockheadsAPI.getMarketCategorySaplings();
 			} else if (registryName.getResourcePath().contains("seed")) {
-				category = indexedCategories.get(FarmingForBlockheadsAPI.MARKET_CATEGORY_SEEDS);
+				category = FarmingForBlockheadsAPI.getMarketCategorySeeds();
 			}
 		}
 
@@ -199,10 +201,11 @@ public class MarketRegistry extends AbstractRegistry {
 	}
 
 	private boolean tryRemoveEntry(ItemStack itemStack) {
-		for(int i = entries.size() - 1; i >= 0; i--) {
-			IMarketEntry entry = entries.get(i);
+		Iterator<IMarketEntry> it = entries.values().iterator();
+		while(it.hasNext()) {
+			IMarketEntry entry = it.next();
 			if(entry.getOutputItem().isItemEqual(itemStack) && ItemStack.areItemStackTagsEqual(entry.getOutputItem(), itemStack)) {
-				entries.remove(i);
+				it.remove();
 				return true;
 			}
 		}
@@ -240,12 +243,13 @@ public class MarketRegistry extends AbstractRegistry {
 		return itemStack;
 	}
 
-	public static List<IMarketCategory> getCategories() {
-		return INSTANCE.categories;
+	public static Collection<IMarketCategory> getCategories() {
+		return INSTANCE.indexedCategories.values();
 	}
 
 	@Nullable
 	public static IMarketCategory getCategory(ResourceLocation id) {
 		return INSTANCE.indexedCategories.get(id);
 	}
+
 }

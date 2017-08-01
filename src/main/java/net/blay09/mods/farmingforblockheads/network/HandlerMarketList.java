@@ -14,13 +14,10 @@ public class HandlerMarketList implements IMessageHandler<MessageMarketList, IMe
 	@Override
 	@Nullable
 	public IMessage onMessage(final MessageMarketList message, MessageContext ctx) {
-		NetworkHandler.getThreadListener(ctx).addScheduledTask(new Runnable() {
-			@Override
-			public void run() {
-				Container container = FMLClientHandler.instance().getClientPlayerEntity().openContainer;
-				if(container instanceof ContainerMarketClient) {
-					((ContainerMarketClient) container).setEntryList(message.getEntryList());
-				}
+		NetworkHandler.getThreadListener(ctx).addScheduledTask(() -> {
+			Container container = FMLClientHandler.instance().getClientPlayerEntity().openContainer;
+			if(container instanceof ContainerMarketClient) {
+				((ContainerMarketClient) container).setEntryList(message.getEntryMap().values());
 			}
 		});
 		return null;

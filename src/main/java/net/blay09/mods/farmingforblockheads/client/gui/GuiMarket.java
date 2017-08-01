@@ -67,7 +67,8 @@ public class GuiMarket extends GuiContainer {
 
 		int id = 1;
 		int curY = -80;
-		for (IMarketCategory category : MarketRegistry.getCategories()) {
+		IMarketCategory[] categories = MarketRegistry.getCategories().stream().sorted().toArray(IMarketCategory[]::new);
+		for (IMarketCategory category : categories) {
 			GuiButtonMarketFilter filterButton = new GuiButtonMarketFilter(id++, width / 2 + 87, height / 2 + curY, container, category);
 			buttonList.add(filterButton);
 			filterButtons.add(filterButton);

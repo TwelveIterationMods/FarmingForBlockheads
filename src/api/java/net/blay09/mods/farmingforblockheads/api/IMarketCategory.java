@@ -2,7 +2,9 @@ package net.blay09.mods.farmingforblockheads.api;
 
 import net.minecraft.util.ResourceLocation;
 
-public interface IMarketCategory {
+import javax.annotation.Nonnull;
+
+public interface IMarketCategory extends Comparable<IMarketCategory> {
 	ResourceLocation getRegistryName();
 
 	/**
@@ -25,7 +27,14 @@ public interface IMarketCategory {
 	 */
 	int getIconTextureY();
 
+	int getSortIndex();
+
 	default boolean passes(IMarketEntry entry) {
 		return entry.getCategory() == this;
+	}
+
+	@Override
+	default int compareTo(@Nonnull IMarketCategory o) {
+		return Integer.compare(getSortIndex(), o.getSortIndex());
 	}
 }

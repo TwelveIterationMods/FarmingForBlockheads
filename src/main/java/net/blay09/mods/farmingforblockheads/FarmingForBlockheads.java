@@ -7,10 +7,8 @@ import net.blay09.mods.farmingforblockheads.compat.VanillaAddon;
 import net.blay09.mods.farmingforblockheads.entity.EntityMerchant;
 import net.blay09.mods.farmingforblockheads.item.ModItems;
 import net.blay09.mods.farmingforblockheads.network.GuiHandler;
-import net.blay09.mods.farmingforblockheads.network.LoginSyncHandler;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.registry.AbstractRegistry;
-import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -74,13 +72,12 @@ public class FarmingForBlockheads {
 
 		FarmingForBlockheadsAPI.__setupAPI(new InternalMethodsImpl());
 		final ResourceLocation CATEGORY_ICONS = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
-		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "seeds"), "gui.farmingforblockheads:market.tooltip_seeds", CATEGORY_ICONS, 196, 14);
-		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "saplings"), "gui.farmingforblockheads:market.tooltip_saplings", CATEGORY_ICONS, 196 + 20, 14);
-		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "other"), "gui.farmingforblockheads:market.tooltip_other", CATEGORY_ICONS, 196 + 40, 14);
+		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "seeds"), "gui.farmingforblockheads:market.tooltip_seeds", CATEGORY_ICONS, 196, 14, 10);
+		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "saplings"), "gui.farmingforblockheads:market.tooltip_saplings", CATEGORY_ICONS, 196 + 20, 14, 20);
+		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "other"), "gui.farmingforblockheads:market.tooltip_other", CATEGORY_ICONS, 196 + 40, 14, 30);
 
 		ModBlocks.registerTileEntities();
 
-		MinecraftForge.EVENT_BUS.register(new LoginSyncHandler());
 		MinecraftForge.EVENT_BUS.register(new FarmlandHandler());
 	}
 
