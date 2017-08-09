@@ -38,7 +38,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.Optional;
 
-@Mod(modid = FarmingForBlockheads.MOD_ID, name = "Farming for Blockheads", dependencies = "after:mousetweaks[2.8,);after:forestry;after:agricraft", acceptedMinecraftVersions = "1.11")
+@Mod(modid = FarmingForBlockheads.MOD_ID, name = "Farming for Blockheads", dependencies = "after:mousetweaks[2.8,);after:forestry;after:agricraft", acceptedMinecraftVersions = "[1.12]")
 @Mod.EventBusSubscriber
 public class FarmingForBlockheads {
 
