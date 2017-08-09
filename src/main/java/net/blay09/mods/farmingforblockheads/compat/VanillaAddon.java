@@ -10,6 +10,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class VanillaAddon {
 
@@ -79,7 +80,17 @@ public class VanillaAddon {
 			public void apply(MarketRegistry registry, ItemStack defaultPayment) {
 				for (String animalName : ANIMALS) {
 					ItemStack eggStack = new ItemStack(Items.SPAWN_EGG);
-					ItemMonsterPlacer.applyEntityIdToItemStack(eggStack, animalName);
+
+					// \o/ Praise SideOnly \o/
+					NBTTagCompound tagCompound = eggStack.getTagCompound();
+					if(tagCompound == null) {
+						tagCompound = new NBTTagCompound();
+					}
+					NBTTagCompound entityTag = new NBTTagCompound();
+					entityTag.setString("id", animalName);
+					tagCompound.setTag("EntityTag", entityTag);
+					eggStack.setTagCompound(tagCompound);
+
 					registry.registerEntry(eggStack, defaultPayment, MarketEntry.EntryType.OTHER);
 				}
 			}
