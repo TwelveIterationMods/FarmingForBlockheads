@@ -64,6 +64,9 @@ public class ContainerMarket extends Container {
 			ItemStack slotStack = slot.getStack();
 			itemStack = slotStack.copy();
 			if (index == 1) {
+				if(!isReadyToBuy()) {
+					return ItemStack.EMPTY;
+				}
 				if (!mergeItemStack(slotStack, 14, 50, true)) {
 					return ItemStack.EMPTY;
 				}
@@ -162,4 +165,5 @@ public class ContainerMarket extends Container {
 			onCraftMatrixChanged(marketInputBuffer);
 		}
 	}
+
 }
