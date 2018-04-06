@@ -19,6 +19,11 @@ public class BiomesOPlentyAddon {
 		FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(ItemStack defaultPayment) {
+				apply(defaultPayment, 1);
+			}
+
+			@Override
+			public void apply(ItemStack defaultPayment, int defaultAmount) {
 				for(int i = 0; i <= 2; i++) {
 
 					ResourceLocation location = new ResourceLocation(Compat.BIOMESOPLENTY, "sapling_" + i);
@@ -29,7 +34,7 @@ public class BiomesOPlentyAddon {
 								// Sacred Oak Sapling. Done below.
 								continue;
 							}
-							ItemStack saplingStack = new ItemStack(blockSapling, 1, j);
+							ItemStack saplingStack = new ItemStack(blockSapling, defaultAmount, j);
 							FarmingForBlockheadsAPI.registerMarketEntry(saplingStack, defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
 						}
 					}

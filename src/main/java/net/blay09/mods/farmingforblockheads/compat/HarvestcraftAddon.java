@@ -23,11 +23,16 @@ public class HarvestcraftAddon {
 		FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(ItemStack defaultPayment) {
+				apply(defaultPayment, 1);
+			}
+
+			@Override
+			public void apply(ItemStack defaultPayment, int defaultAmount) {
 				for (String cropName : SEEDS) {
 					String seedName = cropName + "seeditem";
 					Item seedItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.HARVESTCRAFT, seedName));
 					if (seedItem != null) {
-						FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(seedItem), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+						FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(seedItem, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
 					}
 				}
 			}

@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.Arrays;
 
@@ -20,6 +21,11 @@ public class AgriCraftAddon {
 		FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(ItemStack defaultPayment) {
+				apply(defaultPayment, 1);
+			}
+
+			@Override
+			public void apply(ItemStack defaultPayment, int defaultAmount) {
 				Item seedItem = Item.REGISTRY.getObject(new ResourceLocation(Compat.AGRICRAFT, "agri_seed"));
 				if(seedItem != null) {
 					CreativeTabs agriCraftTab = Arrays.stream(CreativeTabs.CREATIVE_TAB_ARRAY).filter(tab -> tab.tabLabel.equals("agricraft_seeds")).findFirst().orElse(null);
@@ -27,7 +33,7 @@ public class AgriCraftAddon {
 						NonNullList<ItemStack> stackList = NonNullList.create();
 						seedItem.getSubItems(agriCraftTab, stackList);
 						for (ItemStack itemStack : stackList) {
-							FarmingForBlockheadsAPI.registerMarketEntry(itemStack, defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+							FarmingForBlockheadsAPI.registerMarketEntry(ItemHandlerHelper.copyStackWithSize(itemStack, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
 						}
 					} else {
 						FarmingForBlockheads.logger.warn("Could not find AgriCraft Seeds creative tab. AgriCraft seeds will not be available in the market.");

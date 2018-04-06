@@ -31,10 +31,15 @@ public class VanillaAddon {
 		FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Seeds", new MarketRegistryDefaultHandler() {
 			@Override
 			public void apply(ItemStack defaultPayment) {
-				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.WHEAT_SEEDS), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
-				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.MELON_SEEDS), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
-				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.PUMPKIN_SEEDS), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
-				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.BEETROOT_SEEDS), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+				apply(defaultPayment, 1);
+			}
+
+			@Override
+			public void apply(ItemStack defaultPayment, int defaultAmount) {
+				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.WHEAT_SEEDS, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.MELON_SEEDS, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.PUMPKIN_SEEDS, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+				FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.BEETROOT_SEEDS, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
 			}
 
 			@Override
