@@ -25,7 +25,7 @@ public class ModConfig {
 
 		@Config.Name("Feeding Trough Max Animals")
 		@Config.Comment("The maximum amount of animals (per type) until the feeding trough stops feeding")
-		public int feedingTroughMaxAnimals = 8;
+		public int feedingTroughMaxAnimals = 5;
 
 		@Config.Name("Chicken Nest Range")
 		@Config.Comment("The range at which the chicken nest picks up laid eggs")
