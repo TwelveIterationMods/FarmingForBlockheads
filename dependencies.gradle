@@ -1,7 +1,6 @@
 dependencies {
-    deobfCompile "mezz.jei:jei_1.12:4.7.0.68"
-    deobfCompile "mcp.mobius.waila:Hwyla:1.8.18-B32_1.12"
-    //deobfCompile "hosted-api:agricraft_1.10:2.0.0-0.6.0"
-    deobfCompile "net.sengir.forestry:forestry_1.12:5.4.2.124"
-    provided "hosted-api:MouseTweaks_1.11:2.8:api"
+    deobfCompile "jei:jei_1.12.2:4.8.5.157"
+    provided "hwyla:Hwyla:1.8.23:B38_1.12"
+    deobfCompile "forestry:forestry_1.12.2:5.8.0.262"
+    provided "mouse-tweaks:MouseTweaks:2.8:mc1.12.1"
 }

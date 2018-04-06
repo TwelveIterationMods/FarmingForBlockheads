@@ -24,7 +24,7 @@ public class BlockFertilizedFarmlandStable extends BlockFertilizedFarmland {
 	}
 
 	@Override
-	public void turnToDirt(World world, BlockPos pos) {
+	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
 	}
 
 }
