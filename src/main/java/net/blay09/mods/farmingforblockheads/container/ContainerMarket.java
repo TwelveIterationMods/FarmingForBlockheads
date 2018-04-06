@@ -9,10 +9,7 @@ import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
@@ -75,7 +72,7 @@ public class ContainerMarket extends Container {
 				if (!mergeItemStack(slotStack, 14, 50, true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if ((selectedEntry == null && slotStack.getItem() == Items.EMERALD) || (selectedEntry != null && selectedEntry.getCostItem().isItemEqual(slotStack))) {
+			} else if (isPaymentItem(slotStack)) {
 				if (!mergeItemStack(slotStack, 0, 1, true)) {
 					return ItemStack.EMPTY;
 				}
@@ -102,6 +99,11 @@ public class ContainerMarket extends Container {
 			slot.onTake(player, slotStack);
 		}
 		return itemStack;
+	}
+
+	private boolean isPaymentItem(ItemStack itemStack) {
+		return (selectedEntry == null && itemStack.getItem() == Items.EMERALD)
+				|| (selectedEntry != null && selectedEntry.getCostItem().isItemEqual(itemStack) && ItemStack.areItemStackTagsEqual(selectedEntry.getCostItem(), itemStack));
 	}
 
 	@Override
@@ -156,7 +158,7 @@ public class ContainerMarket extends Container {
 
 	public boolean isReadyToBuy() {
 		ItemStack payment = marketInputBuffer.getStackInSlot(0);
-		return !payment.isEmpty() && !(selectedEntry == null || !payment.isItemEqual(selectedEntry.getCostItem()) || payment.getCount() < selectedEntry.getCostItem().getCount());
+		return !payment.isEmpty() && isPaymentItem(payment) && payment.getCount() >= selectedEntry.getCostItem().getCount();
 	}
 
 	public void onItemBought() {
