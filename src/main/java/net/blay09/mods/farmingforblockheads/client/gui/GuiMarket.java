@@ -30,235 +30,239 @@ import java.util.List;
 @MouseTweaksIgnore
 public class GuiMarket extends GuiContainer {
 
-	private static final int SCROLLBAR_COLOR = 0xFFAAAAAA;
-	private static final int SCROLLBAR_Y = 8;
-	private static final int SCROLLBAR_WIDTH = 7;
-	private static final int SCROLLBAR_HEIGHT = 77;
-	private static final int VISIBLE_ROWS = 4;
+    private static final int SCROLLBAR_COLOR = 0xFFAAAAAA;
+    private static final int SCROLLBAR_Y = 8;
+    private static final int SCROLLBAR_WIDTH = 7;
+    private static final int SCROLLBAR_HEIGHT = 77;
+    private static final int VISIBLE_ROWS = 4;
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
 
-	private final ContainerMarketClient container;
-	private final List<GuiButtonMarketFilter> filterButtons = Lists.newArrayList();
+    private final ContainerMarketClient container;
+    private final List<GuiButtonMarketFilter> filterButtons = Lists.newArrayList();
 
-	private boolean isEventHandler;
-	private int scrollBarScaledHeight;
-	private int scrollBarXPos;
-	private int scrollBarYPos;
-	private int currentOffset;
+    private boolean isEventHandler;
+    private int scrollBarScaledHeight;
+    private int scrollBarXPos;
+    private int scrollBarYPos;
+    private int currentOffset;
 
-	private int mouseClickY = -1;
-	private int indexWhenClicked;
-	private int lastNumberOfMoves;
+    private int mouseClickY = -1;
+    private int indexWhenClicked;
+    private int lastNumberOfMoves;
 
-	private GuiTextField searchBar;
+    private GuiTextField searchBar;
 
-	public GuiMarket(ContainerMarketClient container) {
-		super(container);
-		this.container = container;
-	}
+    public GuiMarket(ContainerMarketClient container) {
+        super(container);
+        this.container = container;
+    }
 
-	@Override
-	public void initGui() {
-		ySize = 174;
-		super.initGui();
+    @Override
+    public void initGui() {
+        ySize = 174;
+        super.initGui();
 
-		searchBar = new GuiTextField(0, fontRenderer, guiLeft + xSize - 78, guiTop - 5, 70, 10);
+        searchBar = new GuiTextField(0, fontRenderer, guiLeft + xSize - 78, guiTop - 5, 70, 10);
 
-		int id = 1;
-		int curY = -80;
-		IMarketCategory[] categories = MarketRegistry.getCategories().stream().sorted().toArray(IMarketCategory[]::new);
-		for (IMarketCategory category : categories) {
-			GuiButtonMarketFilter filterButton = new GuiButtonMarketFilter(id++, width / 2 + 87, height / 2 + curY, container, category);
-			buttonList.add(filterButton);
-			filterButtons.add(filterButton);
+        int id = 1;
+        int curY = -80;
+        IMarketCategory[] categories = MarketRegistry.getCategories().stream().sorted().toArray(IMarketCategory[]::new);
+        for (IMarketCategory category : categories) {
+            if (MarketRegistry.getGroupedEntries().get(category).isEmpty()) {
+                continue;
+            }
 
-			curY += 20;
-		}
+            GuiButtonMarketFilter filterButton = new GuiButtonMarketFilter(id++, width / 2 + 87, height / 2 + curY, container, category);
+            buttonList.add(filterButton);
+            filterButtons.add(filterButton);
 
-		if (!isEventHandler) {
-			MinecraftForge.EVENT_BUS.register(this);
-			isEventHandler = true;
-		}
+            curY += 20;
+        }
 
-		recalculateScrollBar();
-	}
+        if (!isEventHandler) {
+            MinecraftForge.EVENT_BUS.register(this);
+            isEventHandler = true;
+        }
 
-	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
-		if(button instanceof GuiButtonMarketFilter) {
-			if(container.getCurrentCategory() == ((GuiButtonMarketFilter) button).getCategory()) {
-				container.setFilterCategory(null);
-			} else {
-				container.setFilterCategory(((GuiButtonMarketFilter) button).getCategory());
-			}
-			container.populateMarketSlots();
-			setCurrentOffset(currentOffset);
-		}
-	}
+        recalculateScrollBar();
+    }
 
-	@Override
-	public void handleMouseInput() throws IOException {
-		super.handleMouseInput();
-		int delta = Mouse.getEventDWheel();
-		if (delta == 0) {
-			return;
-		}
-		setCurrentOffset(delta > 0 ? currentOffset - 1 : currentOffset + 1);
-	}
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException {
+        if (button instanceof GuiButtonMarketFilter) {
+            if (container.getCurrentCategory() == ((GuiButtonMarketFilter) button).getCategory()) {
+                container.setFilterCategory(null);
+            } else {
+                container.setFilterCategory(((GuiButtonMarketFilter) button).getCategory());
+            }
+            container.populateMarketSlots();
+            setCurrentOffset(currentOffset);
+        }
+    }
 
-	@Override
-	protected void mouseReleased(int mouseX, int mouseY, int state) {
-		super.mouseReleased(mouseX, mouseY, state);
-		if (state != -1 && mouseClickY != -1) {
-			mouseClickY = -1;
-			indexWhenClicked = 0;
-			lastNumberOfMoves = 0;
-		}
-	}
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+        int delta = Mouse.getEventDWheel();
+        if (delta == 0) {
+            return;
+        }
+        setCurrentOffset(delta > 0 ? currentOffset - 1 : currentOffset + 1);
+    }
 
-	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
-		super.mouseClicked(mouseX, mouseY, button);
-		if (button == 1 && mouseX >= searchBar.x && mouseX < searchBar.x + searchBar.width && mouseY >= searchBar.y && mouseY < searchBar.y + searchBar.height) {
-			searchBar.setText("");
-			container.search(null);
-			container.populateMarketSlots();
-			setCurrentOffset(currentOffset);
-		} else {
-			searchBar.mouseClicked(mouseX, mouseY, button);
-		}
-		if (mouseX >= scrollBarXPos && mouseX <= scrollBarXPos + SCROLLBAR_WIDTH && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight) {
-			mouseClickY = mouseY;
-			indexWhenClicked = currentOffset;
-		}
-	}
+    @Override
+    protected void mouseReleased(int mouseX, int mouseY, int state) {
+        super.mouseReleased(mouseX, mouseY, state);
+        if (state != -1 && mouseClickY != -1) {
+            mouseClickY = -1;
+            indexWhenClicked = 0;
+            lastNumberOfMoves = 0;
+        }
+    }
 
-	@Override
-	protected void keyTyped(char c, int keyCode) throws IOException {
-		if (searchBar.textboxKeyTyped(c, keyCode)) {
-			container.search(searchBar.getText());
-			container.populateMarketSlots();
-			setCurrentOffset(currentOffset);
-		} else {
-			super.keyTyped(c, keyCode);
-		}
-	}
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
+        super.mouseClicked(mouseX, mouseY, button);
+        if (button == 1 && mouseX >= searchBar.x && mouseX < searchBar.x + searchBar.width && mouseY >= searchBar.y && mouseY < searchBar.y + searchBar.height) {
+            searchBar.setText("");
+            container.search(null);
+            container.populateMarketSlots();
+            setCurrentOffset(currentOffset);
+        } else {
+            searchBar.mouseClicked(mouseX, mouseY, button);
+        }
+        if (mouseX >= scrollBarXPos && mouseX <= scrollBarXPos + SCROLLBAR_WIDTH && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight) {
+            mouseClickY = mouseY;
+            indexWhenClicked = currentOffset;
+        }
+    }
 
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
+    @Override
+    protected void keyTyped(char c, int keyCode) throws IOException {
+        if (searchBar.textboxKeyTyped(c, keyCode)) {
+            container.search(searchBar.getText());
+            container.populateMarketSlots();
+            setCurrentOffset(currentOffset);
+        } else {
+            super.keyTyped(c, keyCode);
+        }
+    }
 
-		for (GuiButton sortButton : filterButtons) {
-			if (sortButton.isMouseOver() && sortButton.enabled) {
-				drawHoveringText(((GuiButtonMarketFilter) sortButton).getTooltipLines(), mouseX, mouseY);
-			}
-		}
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
 
-		renderHoveredToolTip(mouseX, mouseY);
-	}
+        for (GuiButton sortButton : filterButtons) {
+            if (sortButton.isMouseOver() && sortButton.enabled) {
+                drawHoveringText(((GuiButtonMarketFilter) sortButton).getTooltipLines(), mouseX, mouseY);
+            }
+        }
 
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
-		if (container.isDirty()) {
-			recalculateScrollBar();
-			container.setDirty(false);
-		}
+        renderHoveredToolTip(mouseX, mouseY);
+    }
 
-		GlStateManager.color(1f, 1f, 1f, 1f);
-		mc.getTextureManager().bindTexture(TEXTURE);
-		drawTexturedModalRect(guiLeft, guiTop - 10, 0, 0, xSize, ySize + 10);
-		if(container.getSelectedEntry() != null && !container.isReadyToBuy()) {
-			drawTexturedModalRect(guiLeft + 43, guiTop + 40, 176, 0, 14, 14);
-		}
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
+        if (container.isDirty()) {
+            recalculateScrollBar();
+            container.setDirty(false);
+        }
 
-		if (mouseClickY != -1) {
-			float pixelsPerFilter = (SCROLLBAR_HEIGHT - scrollBarScaledHeight) / (float) Math.max(1, (int) Math.ceil(container.getFilteredListCount() / 3f) - VISIBLE_ROWS);
-			if (pixelsPerFilter != 0) {
-				int numberOfFiltersMoved = (int) ((mouseY - mouseClickY) / pixelsPerFilter);
-				if (numberOfFiltersMoved != lastNumberOfMoves) {
-					setCurrentOffset(indexWhenClicked + numberOfFiltersMoved);
-					lastNumberOfMoves = numberOfFiltersMoved;
-				}
-			}
-		}
+        GlStateManager.color(1f, 1f, 1f, 1f);
+        mc.getTextureManager().bindTexture(TEXTURE);
+        drawTexturedModalRect(guiLeft, guiTop - 10, 0, 0, xSize, ySize + 10);
+        if (container.getSelectedEntry() != null && !container.isReadyToBuy()) {
+            drawTexturedModalRect(guiLeft + 43, guiTop + 40, 176, 0, 14, 14);
+        }
 
-		fontRenderer.drawString(I18n.format("container.farmingforblockheads:market"), guiLeft + 10, guiTop + 10, 0xFFFFFF, true);
+        if (mouseClickY != -1) {
+            float pixelsPerFilter = (SCROLLBAR_HEIGHT - scrollBarScaledHeight) / (float) Math.max(1, (int) Math.ceil(container.getFilteredListCount() / 3f) - VISIBLE_ROWS);
+            if (pixelsPerFilter != 0) {
+                int numberOfFiltersMoved = (int) ((mouseY - mouseClickY) / pixelsPerFilter);
+                if (numberOfFiltersMoved != lastNumberOfMoves) {
+                    setCurrentOffset(indexWhenClicked + numberOfFiltersMoved);
+                    lastNumberOfMoves = numberOfFiltersMoved;
+                }
+            }
+        }
 
-		if(container.getSelectedEntry() == null) {
-			drawCenteredString(fontRenderer, I18n.format("gui.farmingforblockheads:market.no_selection"), guiLeft + 49, guiTop + 65, 0xFFFFFF);
-		} else {
-			drawCenteredString(fontRenderer, getFormattedCostStringShort(container.getSelectedEntry()), guiLeft + 49, guiTop + 65, 0xFFFFFF);
-		}
+        fontRenderer.drawString(I18n.format("container.farmingforblockheads:market"), guiLeft + 10, guiTop + 10, 0xFFFFFF, true);
 
-		GuiContainer.drawRect(scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
+        if (container.getSelectedEntry() == null) {
+            drawCenteredString(fontRenderer, I18n.format("gui.farmingforblockheads:market.no_selection"), guiLeft + 49, guiTop + 65, 0xFFFFFF);
+        } else {
+            drawCenteredString(fontRenderer, getFormattedCostStringShort(container.getSelectedEntry()), guiLeft + 49, guiTop + 65, 0xFFFFFF);
+        }
 
-		GlStateManager.color(1f, 1f, 1f, 1f);
+        GuiContainer.drawRect(scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
 
-		searchBar.drawTextBox();
-	}
+        GlStateManager.color(1f, 1f, 1f, 1f);
 
-	public Collection<GuiButtonMarketFilter> getFilterButtons() {
-		return filterButtons;
-	}
+        searchBar.drawTextBox();
+    }
 
-	@Override
-	public void onGuiClosed() {
-		super.onGuiClosed();
-		if (isEventHandler) {
-			MinecraftForge.EVENT_BUS.unregister(this);
-			isEventHandler = false;
-		}
-	}
+    public Collection<GuiButtonMarketFilter> getFilterButtons() {
+        return filterButtons;
+    }
 
-	public void recalculateScrollBar() {
-		int scrollBarTotalHeight = SCROLLBAR_HEIGHT - 1;
-		this.scrollBarScaledHeight = (int) (scrollBarTotalHeight * Math.min(1f, ((float) VISIBLE_ROWS / (Math.ceil(container.getFilteredListCount() / 3f)))));
-		this.scrollBarXPos = guiLeft + xSize - SCROLLBAR_WIDTH - 9;
-		this.scrollBarYPos = guiTop + SCROLLBAR_Y + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentOffset / Math.max(1, (int) Math.ceil((container.getFilteredListCount() / 3f)) - VISIBLE_ROWS));
-	}
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        if (isEventHandler) {
+            MinecraftForge.EVENT_BUS.unregister(this);
+            isEventHandler = false;
+        }
+    }
 
-	public void setCurrentOffset(int currentOffset) {
-		this.currentOffset = Math.max(0, Math.min(currentOffset, (int) Math.ceil(container.getFilteredListCount() / 3f) - VISIBLE_ROWS));
+    public void recalculateScrollBar() {
+        int scrollBarTotalHeight = SCROLLBAR_HEIGHT - 1;
+        this.scrollBarScaledHeight = (int) (scrollBarTotalHeight * Math.min(1f, ((float) VISIBLE_ROWS / (Math.ceil(container.getFilteredListCount() / 3f)))));
+        this.scrollBarXPos = guiLeft + xSize - SCROLLBAR_WIDTH - 9;
+        this.scrollBarYPos = guiTop + SCROLLBAR_Y + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentOffset / Math.max(1, (int) Math.ceil((container.getFilteredListCount() / 3f)) - VISIBLE_ROWS));
+    }
 
-		container.setScrollOffset(this.currentOffset);
+    public void setCurrentOffset(int currentOffset) {
+        this.currentOffset = Math.max(0, Math.min(currentOffset, (int) Math.ceil(container.getFilteredListCount() / 3f) - VISIBLE_ROWS));
 
-		recalculateScrollBar();
-	}
+        container.setScrollOffset(this.currentOffset);
 
-	@SubscribeEvent
-	public void onItemTooltip(ItemTooltipEvent event) {
-		Slot hoverSlot = getSlotUnderMouse();
-		if (hoverSlot != null && event.getItemStack() == hoverSlot.getStack()) {
-			IMarketEntry hoverEntry = null;
+        recalculateScrollBar();
+    }
 
-			if (hoverSlot instanceof FakeSlotMarket) {
-				hoverEntry = ((FakeSlotMarket) hoverSlot).getEntry();
-			} else if (hoverSlot instanceof SlotMarketBuy) {
-				hoverEntry = container.getSelectedEntry();
-			}
+    @SubscribeEvent
+    public void onItemTooltip(ItemTooltipEvent event) {
+        Slot hoverSlot = getSlotUnderMouse();
+        if (hoverSlot != null && event.getItemStack() == hoverSlot.getStack()) {
+            IMarketEntry hoverEntry = null;
 
-			if (hoverEntry != null) {
-				event.getToolTip().add(getFormattedCostString(hoverEntry));
-			}
-		}
-	}
+            if (hoverSlot instanceof FakeSlotMarket) {
+                hoverEntry = ((FakeSlotMarket) hoverSlot).getEntry();
+            } else if (hoverSlot instanceof SlotMarketBuy) {
+                hoverEntry = container.getSelectedEntry();
+            }
 
-	private String getFormattedCostString(IMarketEntry entry) {
-		String color = TextFormatting.GREEN.toString();
-		if(entry.getCostItem().getItem() == Items.DIAMOND) {
-			color = TextFormatting.AQUA.toString();
-		}
-		return color + I18n.format("gui.farmingforblockheads:market.tooltip_cost", I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName()));
-	}
+            if (hoverEntry != null) {
+                event.getToolTip().add(getFormattedCostString(hoverEntry));
+            }
+        }
+    }
 
-	private String getFormattedCostStringShort(IMarketEntry entry) {
-		String color = TextFormatting.GREEN.toString();
-		if(entry.getCostItem().getItem() == Items.DIAMOND) {
-			color = TextFormatting.AQUA.toString();
-		}
-		return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
-	}
+    private String getFormattedCostString(IMarketEntry entry) {
+        String color = TextFormatting.GREEN.toString();
+        if (entry.getCostItem().getItem() == Items.DIAMOND) {
+            color = TextFormatting.AQUA.toString();
+        }
+        return color + I18n.format("gui.farmingforblockheads:market.tooltip_cost", I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName()));
+    }
+
+    private String getFormattedCostStringShort(IMarketEntry entry) {
+        String color = TextFormatting.GREEN.toString();
+        if (entry.getCostItem().getItem() == Items.DIAMOND) {
+            color = TextFormatting.AQUA.toString();
+        }
+        return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
+    }
 
 }
