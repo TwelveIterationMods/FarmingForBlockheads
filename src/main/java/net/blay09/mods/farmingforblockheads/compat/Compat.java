@@ -7,4 +7,5 @@ public class Compat {
 	public static final String FORESTRY = "forestry";
 	public static final String BIOMESOPLENTY = "biomesoplenty";
 	public static final String NATURA = "natura";
+	public static final String TERRAQUEOUS = "terraqueous";
 }
