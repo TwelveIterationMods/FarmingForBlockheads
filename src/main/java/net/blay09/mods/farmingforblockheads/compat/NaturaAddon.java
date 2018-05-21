@@ -4,6 +4,7 @@ import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -12,8 +13,42 @@ public class NaturaAddon {
     private static final String KEY_SAPLINGS = "Natura Saplings";
     private static final String KEY_BUSHES = "Natura Bushes";
     private static final String KEY_NETHER_BUSHES = "Natura Nether Bushes";
+    private static final String KEY_SEEDS = "Natura Seeds";
 
     public NaturaAddon() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
+            @Override
+            public void apply(ItemStack defaultPayment) {
+                apply(defaultPayment, 1);
+            }
+
+            @Override
+            public void apply(ItemStack defaultPayment, int defaultAmount) {
+                final String[] SEEDS = new String[]{"overworld_seeds"};
+
+                for (String SEED : SEEDS) {
+                    ResourceLocation location = new ResourceLocation(Compat.NATURA, SEED);
+                    if (Item.REGISTRY.containsKey(location)) {
+                        Item itemSeed = Item.REGISTRY.getObject(location);
+                        for (int j = 0; j <= 1; j++) {
+                            ItemStack seedStack = new ItemStack(itemSeed, defaultAmount, j);
+                            FarmingForBlockheadsAPI.registerMarketEntry(seedStack, defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public boolean isEnabledByDefault() {
+                return true;
+            }
+
+            @Override
+            public ItemStack getDefaultPayment() {
+                return new ItemStack(Items.EMERALD);
+            }
+        });
+
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
             @Override
             public void apply(ItemStack defaultPayment) {
