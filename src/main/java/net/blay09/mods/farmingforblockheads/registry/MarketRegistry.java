@@ -28,7 +28,7 @@ public class MarketRegistry extends AbstractRegistry {
 
     public static final MarketRegistry INSTANCE = new MarketRegistry();
 
-    private static final Pattern ITEMSTACK_PATTERN = Pattern.compile("(?:([0-9]+)\\*)?(?:([\\w]+):)([\\w]+)(?::([0-9]+))?(?:@(.+))?");
+    private static final Pattern ITEMSTACK_PATTERN = Pattern.compile("(?:([0-9]+)\\*)?(?:([\\w\\-]+):)([\\w\\-]+)(?::([0-9]+))?(?:@(.+))?");
 
     private final Map<ResourceLocation, IMarketCategory> indexedCategories = Maps.newHashMap();
     private final ArrayListMultimap<IMarketCategory, IMarketEntry> entries = ArrayListMultimap.create();
