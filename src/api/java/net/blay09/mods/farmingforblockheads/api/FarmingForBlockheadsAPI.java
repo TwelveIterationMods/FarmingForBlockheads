@@ -10,6 +10,7 @@ public class FarmingForBlockheadsAPI {
 
 	public static final ResourceLocation MARKET_CATEGORY_SEEDS = new ResourceLocation("farmingforblockheads", "seeds");
 	public static final ResourceLocation MARKET_CATEGORY_SAPLINGS = new ResourceLocation("farmingforblockheads", "saplings");
+	public static final ResourceLocation MARKET_CATEGORY_FLOWERS = new ResourceLocation("farmingforblockheads", "flowers");
 	public static final ResourceLocation MARKET_CATEGORY_OTHER = new ResourceLocation("farmingforblockheads", "other");
 
 	private static InternalMethods internalMethods;
@@ -57,6 +58,10 @@ public class FarmingForBlockheadsAPI {
 
 	public static IMarketCategory getMarketCategorySeeds() {
 		return getMarketCategory(MARKET_CATEGORY_SEEDS);
+	}
+
+	public static IMarketCategory getMarketCategoryFlowers() {
+		return getMarketCategory(MARKET_CATEGORY_FLOWERS);
 	}
 
 	public static IMarketCategory getMarketCategorySaplings() {

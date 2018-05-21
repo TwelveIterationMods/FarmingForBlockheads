@@ -76,7 +76,8 @@ public class FarmingForBlockheads {
 		final ResourceLocation CATEGORY_ICONS = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
 		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "seeds"), "gui.farmingforblockheads:market.tooltip_seeds", CATEGORY_ICONS, 196, 14, 10);
 		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "saplings"), "gui.farmingforblockheads:market.tooltip_saplings", CATEGORY_ICONS, 196 + 20, 14, 20);
-		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "other"), "gui.farmingforblockheads:market.tooltip_other", CATEGORY_ICONS, 196 + 40, 14, 30);
+		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "flowers"), "gui.farmingforblockheads:market.tooltip_flowers", CATEGORY_ICONS, 176, 74, 30);
+		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "other"), "gui.farmingforblockheads:market.tooltip_other", CATEGORY_ICONS, 196 + 40, 14, 40);
 
 		ModBlocks.registerTileEntities();
 

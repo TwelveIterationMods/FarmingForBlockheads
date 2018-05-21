@@ -159,6 +159,8 @@ public class MarketRegistry extends AbstractRegistry {
                 category = FarmingForBlockheadsAPI.getMarketCategorySaplings();
             } else if (registryName.getResourcePath().contains("seed")) {
                 category = FarmingForBlockheadsAPI.getMarketCategorySeeds();
+            } else if (registryName.getResourcePath().contains("flower")) {
+                category = FarmingForBlockheadsAPI.getMarketCategoryFlowers();
             }
         }
 
