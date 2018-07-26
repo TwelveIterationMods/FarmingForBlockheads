@@ -112,7 +112,7 @@ public class EntityMerchant extends EntityCreature implements INpc {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_VILLAGER_AMBIENT;
+        return null;
     }
 
     @Nullable
