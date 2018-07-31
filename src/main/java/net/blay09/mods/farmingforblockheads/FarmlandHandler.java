@@ -38,7 +38,7 @@ public class FarmlandHandler {
 
 	@SubscribeEvent
 	public void onHarvest(BlockEvent.HarvestDropsEvent event) {
-		IBlockState plant = event.getWorld().getBlockState(event.getPos());
+		IBlockState plant = event.getState();
 		IBlockState farmland = event.getWorld().getBlockState(event.getPos().down());
 		if (farmland.getBlock() instanceof BlockFertilizedFarmland && plant.getBlock() instanceof IGrowable) {
 			if(Math.random() <= ((BlockFertilizedFarmland) farmland.getBlock()).getBonusCropChance()) {
