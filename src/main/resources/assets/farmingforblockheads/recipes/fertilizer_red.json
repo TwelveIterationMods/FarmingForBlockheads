@@ -2,7 +2,7 @@
   "result": {
     "item": "farmingforblockheads:fertilizer",
     "data": 0,
-    "amount": 4
+    "count": 4
   },
   "type": "forge:ore_shaped",
   "pattern": [
