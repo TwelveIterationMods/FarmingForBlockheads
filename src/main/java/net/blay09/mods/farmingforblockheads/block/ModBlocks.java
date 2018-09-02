@@ -16,58 +16,72 @@ import net.minecraftforge.registries.IForgeRegistry;
 @GameRegistry.ObjectHolder(FarmingForBlockheads.MOD_ID)
 public class ModBlocks {
 
-	@GameRegistry.ObjectHolder(BlockMarket.name)
-	public static final Block market = Blocks.AIR;
+    private static final String STABLE_SUFFIX = "_stable";
 
-	@GameRegistry.ObjectHolder(BlockChickenNest.name)
-	public static final Block chickenNest = Blocks.AIR;
+    @GameRegistry.ObjectHolder(BlockMarket.name)
+    public static final Block market = Blocks.AIR;
 
-	@GameRegistry.ObjectHolder(BlockFeedingTrough.name)
-	public static final Block feedingTrough = Blocks.AIR;
+    @GameRegistry.ObjectHolder(BlockChickenNest.name)
+    public static final Block chickenNest = Blocks.AIR;
 
-	@GameRegistry.ObjectHolder(BlockFertilizedFarmlandRich.name)
-	public static final Block fertilizedFarmlandRich = Blocks.AIR;
+    @GameRegistry.ObjectHolder(BlockFeedingTrough.name)
+    public static final Block feedingTrough = Blocks.AIR;
 
-	@GameRegistry.ObjectHolder(BlockFertilizedFarmlandHealthy.name)
-	public static final Block fertilizedFarmlandHealthy = Blocks.AIR;
+    @GameRegistry.ObjectHolder(BlockFertilizedFarmlandRich.name)
+    public static final Block fertilizedFarmlandRich = Blocks.AIR;
 
-	@GameRegistry.ObjectHolder(BlockFertilizedFarmlandStable.name)
-	public static final Block fertilizedFarmlandStable = Blocks.AIR;
+    @GameRegistry.ObjectHolder(BlockFertilizedFarmlandRich.name + STABLE_SUFFIX)
+    public static final Block fertilizedFarmlandRichStable = Blocks.AIR;
 
-	public static void register(IForgeRegistry<Block> registry) {
-		registry.registerAll(
-				new BlockMarket().setRegistryName(BlockMarket.name),
-				new BlockChickenNest().setRegistryName(BlockChickenNest.name),
-				new BlockFeedingTrough().setRegistryName(BlockFeedingTrough.name),
-				new BlockFertilizedFarmlandRich().setRegistryName(BlockFertilizedFarmlandRich.name),
-				new BlockFertilizedFarmlandHealthy().setRegistryName(BlockFertilizedFarmlandHealthy.name),
-				new BlockFertilizedFarmlandStable().setRegistryName(BlockFertilizedFarmlandStable.name)
-		);
-	}
+    @GameRegistry.ObjectHolder(BlockFertilizedFarmlandHealthy.name)
+    public static final Block fertilizedFarmlandHealthy = Blocks.AIR;
 
-	public static void registerItemBlocks(IForgeRegistry<Item> registry) {
-		registry.registerAll(
-				new ItemBlock(market).setRegistryName(BlockMarket.name),
-				new ItemBlock(chickenNest).setRegistryName(BlockChickenNest.name),
-				new ItemBlock(feedingTrough).setRegistryName(BlockFeedingTrough.name),
-				new ItemBlock(fertilizedFarmlandRich).setRegistryName(BlockFertilizedFarmlandRich.name),
-				new ItemBlock(fertilizedFarmlandHealthy).setRegistryName(BlockFertilizedFarmlandHealthy.name),
-				new ItemBlock(fertilizedFarmlandStable).setRegistryName(BlockFertilizedFarmlandStable.name)
-		);
-	}
+    @GameRegistry.ObjectHolder(BlockFertilizedFarmlandHealthy.name + STABLE_SUFFIX)
+    public static final Block fertilizedFarmlandHealthyStable = Blocks.AIR;
 
-	public static void registerModels() {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(market), 0, new ModelResourceLocation(BlockMarket.registryName, "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(chickenNest), 0, new ModelResourceLocation(BlockChickenNest.registryName, "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(feedingTrough), 0, new ModelResourceLocation(BlockFeedingTrough.registryName, "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandRich), 0, new ModelResourceLocation(BlockFertilizedFarmlandRich.registryName, "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandHealthy), 0, new ModelResourceLocation(BlockFertilizedFarmlandHealthy.registryName, "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandStable), 0, new ModelResourceLocation(BlockFertilizedFarmlandStable.registryName, "inventory"));
-	}
+    @GameRegistry.ObjectHolder(BlockFertilizedFarmlandStable.name)
+    public static final Block fertilizedFarmlandStable = Blocks.AIR;
 
-	public static void registerTileEntities() {
-		GameRegistry.registerTileEntity(TileMarket.class, BlockMarket.registryName.toString());
-		GameRegistry.registerTileEntity(TileChickenNest.class, BlockChickenNest.registryName.toString());
-		GameRegistry.registerTileEntity(TileFeedingTrough.class, BlockFeedingTrough.registryName.toString());
-	}
+    public static void register(IForgeRegistry<Block> registry) {
+        registry.registerAll(
+                new BlockMarket().setRegistryName(BlockMarket.name),
+                new BlockChickenNest().setRegistryName(BlockChickenNest.name),
+                new BlockFeedingTrough().setRegistryName(BlockFeedingTrough.name),
+                new BlockFertilizedFarmlandRich(false).setRegistryName(BlockFertilizedFarmlandRich.name),
+                new BlockFertilizedFarmlandHealthy(false).setRegistryName(BlockFertilizedFarmlandHealthy.name),
+                new BlockFertilizedFarmlandRich(true).setRegistryName(BlockFertilizedFarmlandRich.name + STABLE_SUFFIX),
+                new BlockFertilizedFarmlandHealthy(true).setRegistryName(BlockFertilizedFarmlandHealthy.name + STABLE_SUFFIX),
+                new BlockFertilizedFarmlandStable().setRegistryName(BlockFertilizedFarmlandStable.name)
+        );
+    }
+
+    public static void registerItemBlocks(IForgeRegistry<Item> registry) {
+        registry.registerAll(
+                new ItemBlock(market).setRegistryName(BlockMarket.name),
+                new ItemBlock(chickenNest).setRegistryName(BlockChickenNest.name),
+                new ItemBlock(feedingTrough).setRegistryName(BlockFeedingTrough.name),
+                new ItemBlock(fertilizedFarmlandRich).setRegistryName(BlockFertilizedFarmlandRich.name),
+                new ItemBlock(fertilizedFarmlandHealthy).setRegistryName(BlockFertilizedFarmlandHealthy.name),
+                new ItemBlock(fertilizedFarmlandRichStable).setRegistryName(BlockFertilizedFarmlandRich.name + STABLE_SUFFIX),
+                new ItemBlock(fertilizedFarmlandHealthyStable).setRegistryName(BlockFertilizedFarmlandHealthy.name + STABLE_SUFFIX),
+                new ItemBlock(fertilizedFarmlandStable).setRegistryName(BlockFertilizedFarmlandStable.name)
+        );
+    }
+
+    public static void registerModels() {
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(market), 0, new ModelResourceLocation(BlockMarket.registryName, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(chickenNest), 0, new ModelResourceLocation(BlockChickenNest.registryName, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(feedingTrough), 0, new ModelResourceLocation(BlockFeedingTrough.registryName, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandRich), 0, new ModelResourceLocation(BlockFertilizedFarmlandRich.registryName, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandHealthy), 0, new ModelResourceLocation(BlockFertilizedFarmlandHealthy.registryName, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandStable), 0, new ModelResourceLocation(BlockFertilizedFarmlandStable.registryName, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandRichStable), 0, new ModelResourceLocation(BlockFertilizedFarmlandRich.registryName + STABLE_SUFFIX, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandHealthyStable), 0, new ModelResourceLocation(BlockFertilizedFarmlandHealthy.registryName + STABLE_SUFFIX, "inventory"));
+    }
+
+    public static void registerTileEntities() {
+        GameRegistry.registerTileEntity(TileMarket.class, BlockMarket.registryName.toString());
+        GameRegistry.registerTileEntity(TileChickenNest.class, BlockChickenNest.registryName.toString());
+        GameRegistry.registerTileEntity(TileFeedingTrough.class, BlockFeedingTrough.registryName.toString());
+    }
 }
