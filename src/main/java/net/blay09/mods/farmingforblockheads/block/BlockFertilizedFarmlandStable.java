@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads.block;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.blay09.mods.farmingforblockheads.item.ItemFertilizer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 
@@ -15,5 +16,17 @@ public class BlockFertilizedFarmlandStable extends BlockFertilizedFarmland {
     public BlockFertilizedFarmlandStable() {
         super(true);
         setUnlocalizedName(registryName.toString());
+    }
+
+    @Override
+    public IBlockState applyFertilizer(IBlockState state, ItemFertilizer.FertilizerType fertilizerType) {
+        switch(fertilizerType) {
+            case RICH:
+                return ModBlocks.fertilizedFarmlandRichStable.getDefaultState();
+            case HEALTHY:
+                return ModBlocks.fertilizedFarmlandHealthyStable.getDefaultState();
+        }
+
+        return state;
     }
 }

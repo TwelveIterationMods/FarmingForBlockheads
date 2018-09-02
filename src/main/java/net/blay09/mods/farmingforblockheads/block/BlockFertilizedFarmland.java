@@ -2,6 +2,7 @@ package net.blay09.mods.farmingforblockheads.block;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.ModConfig;
+import net.blay09.mods.farmingforblockheads.item.ItemFertilizer;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -51,7 +52,5 @@ public abstract class BlockFertilizedFarmland extends BlockFarmland {
         }
     }
 
-    public IBlockState getStableBlockState(IBlockState state) {
-        return state;
-    }
+    public abstract IBlockState applyFertilizer(IBlockState state, ItemFertilizer.FertilizerType fertilizerType);
 }

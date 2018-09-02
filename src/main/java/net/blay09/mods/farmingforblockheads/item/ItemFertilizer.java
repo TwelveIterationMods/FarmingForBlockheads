@@ -14,14 +14,22 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Locale;
 
 public class ItemFertilizer extends Item {
 
-    private static final int DAMAGE_STABLE = 2;
+    public enum FertilizerType {
+        HEALTHY,
+        RICH,
+        STABLE;
+
+        private static FertilizerType[] values = values();
+    }
 
     public static final String name = "fertilizer";
     public static final ResourceLocation registryName = new ResourceLocation(FarmingForBlockheads.MOD_ID, name);
@@ -34,24 +42,16 @@ public class ItemFertilizer extends Item {
 
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
-        switch (itemStack.getItemDamage()) {
-            case 0:
-                return "item." + registryName.toString() + "_healthy";
-            case 1:
-                return "item." + registryName.toString() + "_rich";
-            case DAMAGE_STABLE:
-                return "item." + registryName.toString() + "_stable";
-        }
-
-        return super.getUnlocalizedName(itemStack);
+        FertilizerType fertilizerType = FertilizerType.values[MathHelper.clamp(itemStack.getItemDamage(), 0, FertilizerType.values.length)];
+        return "item." + registryName.toString() + "_" + fertilizerType.name().toLowerCase(Locale.ENGLISH);
     }
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
         if (isInCreativeTab(tab)) {
-            items.add(new ItemStack(this, 1, 0));
-            items.add(new ItemStack(this, 1, 1));
-            items.add(new ItemStack(this, 1, DAMAGE_STABLE));
+            for (FertilizerType fertilizerType : FertilizerType.values) {
+                items.add(new ItemStack(this, 1, fertilizerType.ordinal()));
+            }
         }
     }
 
@@ -59,17 +59,18 @@ public class ItemFertilizer extends Item {
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         IBlockState state = world.getBlockState(pos);
         ItemStack heldItem = player.getHeldItem(hand);
+        FertilizerType fertilizerType = FertilizerType.values[MathHelper.clamp(heldItem.getItemDamage(), 0, FertilizerType.values.length)];
         if (state.getBlock() == Blocks.FARMLAND) {
             int moisture = state.getValue(BlockFarmland.MOISTURE);
             IBlockState newState = state;
-            switch (heldItem.getItemDamage()) {
-                case 0:
+            switch (fertilizerType) {
+                case HEALTHY:
                     newState = ModBlocks.fertilizedFarmlandHealthy.getDefaultState();
                     break;
-                case 1:
+                case RICH:
                     newState = ModBlocks.fertilizedFarmlandRich.getDefaultState();
                     break;
-                case DAMAGE_STABLE:
+                case STABLE:
                     newState = ModBlocks.fertilizedFarmlandStable.getDefaultState();
                     break;
             }
@@ -80,8 +81,8 @@ public class ItemFertilizer extends Item {
             }
 
             return EnumActionResult.SUCCESS;
-        } else if (state.getBlock() instanceof BlockFertilizedFarmland && heldItem.getItemDamage() == DAMAGE_STABLE) {
-            IBlockState newState = ((BlockFertilizedFarmland) state.getBlock()).getStableBlockState(state);
+        } else if (state.getBlock() instanceof BlockFertilizedFarmland) {
+            IBlockState newState = ((BlockFertilizedFarmland) state.getBlock()).applyFertilizer(state, fertilizerType);
             if (newState != state) {
                 int moisture = state.getValue(BlockFarmland.MOISTURE);
                 world.setBlockState(pos, newState.withProperty(BlockFarmland.MOISTURE, moisture));
@@ -98,16 +99,7 @@ public class ItemFertilizer extends Item {
 
     @Override
     public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-        switch (itemStack.getItemDamage()) {
-            case 0:
-                tooltip.add(I18n.format("tooltip.farmingforblockheads:fertilizer_healthy"));
-                break;
-            case 1:
-                tooltip.add(I18n.format("tooltip.farmingforblockheads:fertilizer_rich"));
-                break;
-            case 2:
-                tooltip.add(I18n.format("tooltip.farmingforblockheads:fertilizer_stable"));
-                break;
-        }
+        FertilizerType fertilizerType = FertilizerType.values[MathHelper.clamp(itemStack.getItemDamage(), 0, FertilizerType.values.length)];
+        tooltip.add(I18n.format("tooltip.farmingforblockheads:fertilizer_" + fertilizerType.name().toLowerCase(Locale.ENGLISH)));
     }
 }
