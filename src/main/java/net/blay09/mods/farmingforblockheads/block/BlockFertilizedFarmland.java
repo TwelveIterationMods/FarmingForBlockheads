@@ -13,6 +13,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 
+import java.util.Random;
+
 public abstract class BlockFertilizedFarmland extends BlockFarmland {
     protected final boolean isStable;
 
@@ -49,6 +51,21 @@ public abstract class BlockFertilizedFarmland extends BlockFarmland {
     public void onFallenUpon(World world, BlockPos pos, Entity entity, float fallDistance) {
         if (!isStable) {
             super.onFallenUpon(world, pos, entity, fallDistance);
+        }
+    }
+
+    @Override
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+        int moisture = state.getValue(MOISTURE);
+
+        if (!this.hasWater(world, pos) && !world.isRainingAt(pos.up())) {
+            if (moisture > 0) {
+                world.setBlockState(pos, state.withProperty(MOISTURE, moisture - 1), 2);
+            } else if (!this.hasCrops(world, pos) && !isStable) {
+                turnToDirt(world, pos);
+            }
+        } else if (moisture < 7) {
+            world.setBlockState(pos, state.withProperty(MOISTURE, 7), 2);
         }
     }
 
