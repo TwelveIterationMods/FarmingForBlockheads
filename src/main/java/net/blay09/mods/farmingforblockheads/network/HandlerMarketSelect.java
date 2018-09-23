@@ -9,18 +9,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import javax.annotation.Nullable;
 
 public class HandlerMarketSelect implements IMessageHandler<MessageMarketSelect, IMessage> {
-	@Override
-	@Nullable
-	public IMessage onMessage(final MessageMarketSelect message, final MessageContext ctx) {
-		NetworkHandler.getThreadListener(ctx).addScheduledTask(new Runnable() {
-			@Override
-			public void run() {
-				Container container = ctx.getServerHandler().player.openContainer;
-				if(container instanceof ContainerMarket) {
-					((ContainerMarket) container).selectMarketEntry(message.getOutputItem());
-				}
-			}
-		});
-		return null;
-	}
+    @Override
+    @Nullable
+    public IMessage onMessage(final MessageMarketSelect message, final MessageContext ctx) {
+        NetworkHandler.getThreadListener(ctx).addScheduledTask(() -> {
+            Container container = ctx.getServerHandler().player.openContainer;
+            if (container instanceof ContainerMarket) {
+                ((ContainerMarket) container).selectMarketEntry(message.getOutputItem());
+            }
+        });
+        return null;
+    }
 }

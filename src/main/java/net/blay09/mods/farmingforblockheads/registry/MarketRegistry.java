@@ -55,7 +55,7 @@ public class MarketRegistry extends AbstractRegistry {
     @Nullable
     public static IMarketEntry getEntryFor(ItemStack outputItem) {
         for (IMarketEntry entry : INSTANCE.entries.values()) {
-            if (entry.getOutputItem().isItemEqual(outputItem) && ItemStack.areItemStackTagsEqual(entry.getOutputItem(), outputItem)) {
+            if (entry.getOutputItem().isItemEqual(outputItem) && ItemStack.areItemStackTagsEqual(entry.getOutputItem(), outputItem) && outputItem.getCount() == entry.getOutputItem().getCount()) {
                 return entry;
             }
         }
@@ -227,7 +227,7 @@ public class MarketRegistry extends AbstractRegistry {
         Iterator<IMarketEntry> it = entries.values().iterator();
         while (it.hasNext()) {
             IMarketEntry entry = it.next();
-            if (entry.getOutputItem().isItemEqual(itemStack) && ItemStack.areItemStackTagsEqual(entry.getOutputItem(), itemStack)) {
+            if (entry.getOutputItem().isItemEqual(itemStack) && ItemStack.areItemStackTagsEqual(entry.getOutputItem(), itemStack) && itemStack.getCount() == entry.getOutputItem().getCount()) {
                 it.remove();
                 return true;
             }

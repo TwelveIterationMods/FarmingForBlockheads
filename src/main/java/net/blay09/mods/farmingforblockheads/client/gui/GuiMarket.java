@@ -26,6 +26,7 @@ import yalter.mousetweaks.api.MouseTweaksIgnore;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 @MouseTweaksIgnore
 public class GuiMarket extends GuiContainer {
@@ -89,7 +90,7 @@ public class GuiMarket extends GuiContainer {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         if (button instanceof GuiButtonMarketFilter) {
             if (container.getCurrentCategory() == ((GuiButtonMarketFilter) button).getCategory()) {
                 container.setFilterCategory(null);
@@ -259,9 +260,15 @@ public class GuiMarket extends GuiContainer {
 
     private String getFormattedCostStringShort(IMarketEntry entry) {
         String color = TextFormatting.GREEN.toString();
-        if (entry.getCostItem().getItem() == Items.DIAMOND) {
+        String unlocalizedName = entry.getCostItem().getUnlocalizedName().toLowerCase(Locale.ENGLISH);
+        if (unlocalizedName.contains("diamond")) {
             color = TextFormatting.AQUA.toString();
+        } else if (unlocalizedName.contains("gold")) {
+            color = TextFormatting.YELLOW.toString();
+        } else if (unlocalizedName.contains("iron")) {
+            color = TextFormatting.WHITE.toString();
         }
+
         return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
     }
 
