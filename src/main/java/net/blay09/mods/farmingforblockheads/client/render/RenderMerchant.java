@@ -2,11 +2,11 @@ package net.blay09.mods.farmingforblockheads.client.render;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.entity.EntityMerchant;
-import net.minecraft.client.model.ModelVillager;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
+import net.minecraft.client.renderer.entity.model.ModelVillager;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderMerchant extends RenderLiving<EntityMerchant> {
@@ -32,10 +32,10 @@ public class RenderMerchant extends RenderLiving<EntityMerchant> {
 	@Override
 	protected void preRenderCallback(EntityMerchant merchant, float partialTickTime) {
 		float scale = 0.9375f;
-		GlStateManager.scale(scale, scale, scale);
+		GlStateManager.scalef(scale, scale, scale);
 		int diggingAnimation = merchant.getDiggingAnimation();
 		if(diggingAnimation > 0) {
-			GlStateManager.translate(0,diggingAnimation * 0.05, 0);
+			GlStateManager.translated(0,diggingAnimation * 0.05, 0);
 		}
 	}
 

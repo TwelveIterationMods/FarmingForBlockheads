@@ -1,10 +1,11 @@
 package net.blay09.mods.farmingforblockheads.block;
 
-import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.ModConfig;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.item.ItemFertilizer;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
@@ -16,13 +17,25 @@ import net.minecraftforge.common.IPlantable;
 import java.util.Random;
 
 public abstract class BlockFertilizedFarmland extends BlockFarmland {
-    protected final boolean isStable;
+    public interface FarmlandTrait {
+        float getDoubleGrowthChance();
 
-    public BlockFertilizedFarmland(boolean isStable) {
-        this.isStable = isStable;
-        setSoundType(SoundType.GROUND);
-        setHardness(1f);
-        setCreativeTab(FarmingForBlockheads.creativeTab);
+        float getBonusCropChance();
+
+        float getRegressionChance();
+
+        boolean isStable();
+    }
+
+    public class FarmlandHealthyTrait implements FarmlandTrait {
+        @Override
+        public float getDoubleGrowthChance() {
+            return FarmingForBlockheadsConfig.general.fertilizerBonusGrowthChance;
+        }
+    }
+
+    public BlockFertilizedFarmland(FarmlandTrait... traits) {
+        super(Block.Properties.create(Material.GROUND).sound(SoundType.GROUND).hardnessAndResistance(1f));
     }
 
     @Override
@@ -44,7 +57,7 @@ public abstract class BlockFertilizedFarmland extends BlockFarmland {
     }
 
     public float getRegressionChance() {
-        return ModConfig.general.fertilizerRegressionChance;
+        return FarmingForBlockheadsConfig.general.fertilizerRegressionChance;
     }
 
     @Override
@@ -55,17 +68,17 @@ public abstract class BlockFertilizedFarmland extends BlockFarmland {
     }
 
     @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-        int moisture = state.getValue(MOISTURE);
+    public void tick(World world, BlockPos pos, IBlockState state, Random rand) {
+        int moisture = state.get(MOISTURE);
 
         if (!this.hasWater(world, pos) && !world.isRainingAt(pos.up())) {
             if (moisture > 0) {
-                world.setBlockState(pos, state.withProperty(MOISTURE, moisture - 1), 2);
+                world.setBlockState(pos, state.with(MOISTURE, moisture - 1), 2);
             } else if (!this.hasCrops(world, pos) && !isStable) {
                 turnToDirt(world, pos);
             }
         } else if (moisture < 7) {
-            world.setBlockState(pos, state.withProperty(MOISTURE, 7), 2);
+            world.setBlockState(pos, state.with(MOISTURE, 7), 2);
         }
     }
 

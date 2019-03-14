@@ -4,7 +4,7 @@
     "data": 1,
     "count": 4
   },
-  "type": "forge:ore_shaped",
+  "type": "crafting_shaped",
   "pattern": [
     "GGG",
     "NSN",
@@ -12,10 +12,10 @@
   ],
   "key": {
     "G": {
-      "item": "#DYE_GREEN"
+      "tag": "minecraft:green_dye"
     },
     "N": {
-      "item": "#GOLD_NUGGET"
+      "item": "minecraft:gold_nugget"
     },
     "S": {
       "item": "minecraft:wheat_seeds"

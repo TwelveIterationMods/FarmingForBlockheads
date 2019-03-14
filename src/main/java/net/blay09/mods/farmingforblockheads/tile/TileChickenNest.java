@@ -1,6 +1,6 @@
 package net.blay09.mods.farmingforblockheads.tile;
 
-import net.blay09.mods.farmingforblockheads.ModConfig;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.network.MessageChickenNestEffect;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.network.VanillaPacketHandler;
@@ -15,7 +15,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -25,121 +26,115 @@ import java.util.List;
 
 public class TileChickenNest extends TileEntity implements ITickable {
 
-	private static final int TICK_INTERVAL = 20;
+    private static final int TICK_INTERVAL = 20;
 
-	private final ItemStackHandler itemHandler = new ItemStackHandler(1) {
-		@Nonnull
-		@Override
-		public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-			if(stack.getItem() != Items.EGG) {
-				return stack;
-			}
-			return super.insertItem(slot, stack, simulate);
-		}
+    private final ItemStackHandler itemHandler = new ItemStackHandler(1) {
+        @Nonnull
+        @Override
+        public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+            if (stack.getItem() != Items.EGG) {
+                return stack;
+            }
+            return super.insertItem(slot, stack, simulate);
+        }
 
-		@Override
-		public int getSlotLimit(int slot) {
-			return 4;
-		}
+        @Override
+        public int getSlotLimit(int slot) {
+            return 4;
+        }
 
-		@Override
-		protected void onContentsChanged(int slot) {
-			isDirty = true;
-			markDirty();
-		}
-	};
+        @Override
+        protected void onContentsChanged(int slot) {
+            isDirty = true;
+            markDirty();
+        }
+    };
 
-	private int tickTimer;
-	private boolean isDirty;
+    private int tickTimer;
+    private boolean isDirty;
 
-	@Override
-	public void update() {
-		if(!world.isRemote) {
-			tickTimer++;
-			if (tickTimer >= TICK_INTERVAL) {
-				stealEgg();
-				tickTimer = 0;
-			}
+    public TileChickenNest() {
+        super(ModTiles.chickenNest);
+    }
 
-			if(isDirty) {
-				VanillaPacketHandler.sendTileEntityUpdate(this);
-				isDirty = false;
-			}
-		}
-	}
+    @Override
+    public void tick() {
+        if (!world.isRemote) {
+            tickTimer++;
+            if (tickTimer >= TICK_INTERVAL) {
+                stealEgg();
+                tickTimer = 0;
+            }
 
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ||
-				super.hasCapability(capability, facing);
-	}
+            if (isDirty) {
+                VanillaPacketHandler.sendTileEntityUpdate(this);
+                isDirty = false;
+            }
+        }
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return (T) itemHandler;
-		}
-		return super.getCapability(capability, facing);
-	}
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable EnumFacing side) {
+        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> itemHandler));
+    }
 
-	@Override
-	public void readFromNBT(NBTTagCompound tagCompound) {
-		super.readFromNBT(tagCompound);
-		itemHandler.deserializeNBT(tagCompound.getCompoundTag("ItemHandler"));
-	}
+    @Override
+    public void read(NBTTagCompound tagCompound) {
+        super.read(tagCompound);
+        itemHandler.deserializeNBT(tagCompound.getCompound("ItemHandler"));
+    }
 
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-		super.writeToNBT(tagCompound);
-		tagCompound.setTag("ItemHandler", itemHandler.serializeNBT());
-		return tagCompound;
-	}
+    @Override
+    public NBTTagCompound write(NBTTagCompound tagCompound) {
+        super.write(tagCompound);
+        tagCompound.put("ItemHandler", itemHandler.serializeNBT());
+        return tagCompound;
+    }
 
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		super.onDataPacket(net, pkt);
-		readFromNBT(pkt.getNbtCompound());
-	}
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        super.onDataPacket(net, pkt);
+        read(pkt.getNbtCompound());
+    }
 
-	@Override
-	public NBTTagCompound getUpdateTag() {
-		NBTTagCompound tagCompound = new NBTTagCompound();
-		writeToNBT(tagCompound);
-		return tagCompound;
-	}
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        NBTTagCompound tagCompound = new NBTTagCompound();
+        write(tagCompound);
+        return tagCompound;
+    }
 
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		return new SPacketUpdateTileEntity(pos, 0, getUpdateTag());
-	}
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(pos, 0, getUpdateTag());
+    }
 
-	private void stealEgg() {
-		final float range = ModConfig.general.chickenNestRange;
-		AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
-		//noinspection ConstantConditions
-		List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, aabb, p -> p != null && p.getItem().getItem() == Items.EGG && p.getItem().getCount() == 1 && p.getThrower() == null);
-		if(list.isEmpty()) {
-			return;
-		}
-		EntityItem entityItem = list.get(0);
-		ItemStack restStack = entityItem.getItem().copy();
-		for(int i = 0; i < itemHandler.getSlots(); i++) {
-			restStack = itemHandler.insertItem(i, restStack, false);
-			if(restStack.isEmpty()) {
-				break;
-			}
-		}
-		if(restStack.isEmpty()) {
-			entityItem.setDead();
-			NetworkHandler.instance.sendToAllAround(new MessageChickenNestEffect(pos), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 32));
-		} else {
-			entityItem.setItem(restStack);
-		}
-		markDirty();
-	}
+    private void stealEgg() {
+        final float range = FarmingForBlockheadsConfig.general.chickenNestRange;
+        AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
+        List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, aabb, p -> p != null && p.getItem().getItem() == Items.EGG && p.getItem().getCount() == 1 && p.getThrowerId() == null);
+        if (list.isEmpty()) {
+            return;
+        }
+        EntityItem entityItem = list.get(0);
+        ItemStack restStack = entityItem.getItem().copy();
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            restStack = itemHandler.insertItem(i, restStack, false);
+            if (restStack.isEmpty()) {
+                break;
+            }
+        }
+        if (restStack.isEmpty()) {
+            entityItem.remove();
+            NetworkHandler.channel.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunk(pos)), new MessageChickenNestEffect(pos));
+        } else {
+            entityItem.setItem(restStack);
+        }
+        markDirty();
+    }
 
-	public int getEggCount() {
-		return itemHandler.getStackInSlot(0).getCount();
-	}
+    public int getEggCount() {
+        return itemHandler.getStackInSlot(0).getCount();
+    }
 }

@@ -2,170 +2,148 @@ package net.blay09.mods.farmingforblockheads;
 
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
-import net.blay09.mods.farmingforblockheads.compat.Compat;
+import net.blay09.mods.farmingforblockheads.client.gui.GuiMarket;
+import net.blay09.mods.farmingforblockheads.client.render.ChickenNestRenderer;
+import net.blay09.mods.farmingforblockheads.client.render.FeedingTroughRenderer;
+import net.blay09.mods.farmingforblockheads.client.render.RenderMerchant;
 import net.blay09.mods.farmingforblockheads.compat.VanillaAddon;
+import net.blay09.mods.farmingforblockheads.container.ContainerMarketClient;
 import net.blay09.mods.farmingforblockheads.entity.EntityMerchant;
+import net.blay09.mods.farmingforblockheads.entity.ModEntities;
 import net.blay09.mods.farmingforblockheads.item.ModItems;
-import net.blay09.mods.farmingforblockheads.network.GuiHandler;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.registry.AbstractRegistry;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
+import net.blay09.mods.farmingforblockheads.tile.ModTiles;
+import net.blay09.mods.farmingforblockheads.tile.TileChickenNest;
+import net.blay09.mods.farmingforblockheads.tile.TileFeedingTrough;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.util.Optional;
 
-@Mod(modid = FarmingForBlockheads.MOD_ID, name = "Farming for Blockheads", dependencies = "after:mousetweaks[2.8,);after:forestry;after:agricraft", acceptedMinecraftVersions = "[1.12]")
-@Mod.EventBusSubscriber
+@Mod(FarmingForBlockheads.MOD_ID)
 public class FarmingForBlockheads {
 
-	public static final String MOD_ID = "farmingforblockheads";
+    public static final String MOD_ID = "farmingforblockheads";
 
-	@Mod.Instance(MOD_ID)
-	public static FarmingForBlockheads instance;
+    public static Logger logger = LogManager.getLogger();
 
-	@SidedProxy(clientSide = "net.blay09.mods.farmingforblockheads.client.ClientProxy", serverSide = "net.blay09.mods.farmingforblockheads.CommonProxy")
-	public static CommonProxy proxy;
+    public static final ItemGroup itemGroup = new ItemGroup(MOD_ID) {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(ModBlocks.market);
+        }
+    };
 
-	public static Logger logger;
+    public static File configDir;
 
-	public static final CreativeTabs creativeTab = new CreativeTabs(MOD_ID) {
-		@Override
-		public ItemStack getTabIconItem() {
-			return new ItemStack(ModBlocks.market);
-		}
-	};
+    public FarmingForBlockheads() {
+        FarmingForBlockheadsAPI.__setupAPI(new InternalMethodsImpl());
+        final ResourceLocation CATEGORY_ICONS = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
+        FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "seeds"), "gui.farmingforblockheads:market.tooltip_seeds", CATEGORY_ICONS, 196, 14, 10);
+        FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "saplings"), "gui.farmingforblockheads:market.tooltip_saplings", CATEGORY_ICONS, 196 + 20, 14, 20);
+        FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "flowers"), "gui.farmingforblockheads:market.tooltip_flowers", CATEGORY_ICONS, 176, 74, 30);
+        FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "other"), "gui.farmingforblockheads:market.tooltip_other", CATEGORY_ICONS, 196 + 40, 14, 40);
 
-	public static File configDir;
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> it -> {
+            EntityPlayer player = Minecraft.getInstance().player;
+            switch (it.getId().getPath()) {
+                case "market":
+                    BlockPos pos = it.getAdditionalData().readBlockPos();
+                    return new GuiMarket(new ContainerMarketClient(player, pos));
+            }
+
+            return null;
+        });
+    }
+
+    public void setup(FMLCommonSetupEvent event) {
+        NetworkHandler.init();
 
 
-	@Mod.EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		logger = event.getModLog();
-		configDir = new File(event.getModConfigurationDirectory(), "FarmingForBlockheads");
-		if (!configDir.exists() && !configDir.mkdirs()) {
-			throw new RuntimeException("Couldn't create Farming for Blockheads configuration directory");
-		}
+        new VanillaAddon();
+//        buildSoftDependProxy(Compat.HARVESTCRAFT, "net.blay09.mods.farmingforblockheads.compat.HarvestcraftAddon");
+//        buildSoftDependProxy(Compat.FORESTRY, "net.blay09.mods.farmingforblockheads.compat.ForestryAddon");
+//        buildSoftDependProxy(Compat.AGRICRAFT, "net.blay09.mods.farmingforblockheads.compat.AgriCraftAddon");
+//        buildSoftDependProxy(Compat.BIOMESOPLENTY, "net.blay09.mods.farmingforblockheads.compat.BiomesOPlentyAddon");
+//        buildSoftDependProxy(Compat.NATURA, "net.blay09.mods.farmingforblockheads.compat.NaturaAddon");
+//        buildSoftDependProxy(Compat.TERRAQUEOUS, "net.blay09.mods.farmingforblockheads.compat.TerraqueousAddon");
 
-		FarmingForBlockheadsAPI.__setupAPI(new InternalMethodsImpl());
-		final ResourceLocation CATEGORY_ICONS = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
-		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "seeds"), "gui.farmingforblockheads:market.tooltip_seeds", CATEGORY_ICONS, 196, 14, 10);
-		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "saplings"), "gui.farmingforblockheads:market.tooltip_saplings", CATEGORY_ICONS, 196 + 20, 14, 20);
-		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "flowers"), "gui.farmingforblockheads:market.tooltip_flowers", CATEGORY_ICONS, 176, 74, 30);
-		FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "other"), "gui.farmingforblockheads:market.tooltip_other", CATEGORY_ICONS, 196 + 40, 14, 40);
+        MarketRegistry.INSTANCE.load(configDir);
+    }
 
-		ModBlocks.registerTileEntities();
+    public void setupClient(FMLClientSetupEvent event) {
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+            RenderingRegistry.registerEntityRenderingHandler(EntityMerchant.class, RenderMerchant::new);
 
-		MinecraftForge.EVENT_BUS.register(new FarmlandHandler());
-	}
+            ClientRegistry.bindTileEntitySpecialRenderer(TileChickenNest.class, new ChickenNestRenderer());
+            ClientRegistry.bindTileEntitySpecialRenderer(TileFeedingTrough.class, new FeedingTroughRenderer());
+        });
+    }
 
-	@Mod.EventHandler
-	public void init(FMLInitializationEvent event) {
-		ModConfig.validate();
+    public void serverStarting(FMLServerStartingEvent event) {
+        CommandFarmingForBlockheads.register(event.getCommandDispatcher());
+    }
 
-		NetworkHandler.init();
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+    private void registerBlocks(RegistryEvent.Register<Block> event) {
+        ModBlocks.register(event.getRegistry());
+    }
 
-		new VanillaAddon();
-		buildSoftDependProxy(Compat.HARVESTCRAFT, "net.blay09.mods.farmingforblockheads.compat.HarvestcraftAddon");
-		buildSoftDependProxy(Compat.FORESTRY, "net.blay09.mods.farmingforblockheads.compat.ForestryAddon");
-		buildSoftDependProxy(Compat.AGRICRAFT, "net.blay09.mods.farmingforblockheads.compat.AgriCraftAddon");
-		buildSoftDependProxy(Compat.BIOMESOPLENTY, "net.blay09.mods.farmingforblockheads.compat.BiomesOPlentyAddon");
-		buildSoftDependProxy(Compat.NATURA, "net.blay09.mods.farmingforblockheads.compat.NaturaAddon");
-		buildSoftDependProxy(Compat.TERRAQUEOUS, "net.blay09.mods.farmingforblockheads.compat.TerraqueousAddon");
+    private void registerItems(RegistryEvent.Register<Item> event) {
+        ModBlocks.registerItemBlocks(event.getRegistry());
+        ModItems.register(event.getRegistry());
+    }
 
-		MarketRegistry.INSTANCE.load(configDir);
-	}
+    private void registerSounds(RegistryEvent.Register<SoundEvent> event) {
+        ModSounds.register(event.getRegistry());
+    }
 
-	@Mod.EventHandler
-	public void imc(FMLInterModComms.IMCEvent event) {
-		IMCHandler.handleIMCMessage(event);
-	}
+    private void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
+        ModTiles.register(event.getRegistry());
+    }
 
-	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
-	}
+    private void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
+        ModEntities.register(event.getRegistry());
+//        EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID + ":merchant"), EntityMerchant.class, "merchant", 0, instance, 64, 3, true);
+    }
 
-	@Mod.EventHandler
-	public void serverStarting(FMLServerStartingEvent event) {
-		event.registerServerCommand(new CommandFarmingForBlockheads());
-	}
-
-	@SubscribeEvent
-	public static void registerBlocks(RegistryEvent.Register<Block> event) {
-		ModBlocks.register(event.getRegistry());
-	}
-
-	@SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event) {
-		ModBlocks.registerItemBlocks(event.getRegistry());
-		ModItems.register(event.getRegistry());
-	}
-
-	@SubscribeEvent
-	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
-		ModSounds.register(event.getRegistry());
-	}
-
-	@SubscribeEvent
-	public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-		EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID + ":merchant"), EntityMerchant.class, "merchant", 0, instance, 64, 3, true);
-	}
-
-	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent event) {
-		ModBlocks.registerModels();
-		ModItems.registerModels();
-		proxy.registerModels();
-	}
-
-	@SubscribeEvent
-	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		if (AbstractRegistry.registryErrors.size() > 0) {
-			event.player.sendStatusMessage(new TextComponentString(TextFormatting.RED + "There were errors loading the Farming for Blockheads registries:"), false);
-			TextFormatting lastFormatting = TextFormatting.WHITE;
-			for (String error : AbstractRegistry.registryErrors) {
-				event.player.sendStatusMessage(new TextComponentString(lastFormatting + "* " + error), false);
-				lastFormatting = lastFormatting == TextFormatting.GRAY ? TextFormatting.WHITE : TextFormatting.GRAY;
-			}
-		}
-	}
-
-	private Optional<?> buildSoftDependProxy(String modId, String className) {
-		if (Loader.isModLoaded(modId)) {
-			try {
-				Class<?> clz = Class.forName(className, true, Loader.instance().getModClassLoader());
-				return Optional.ofNullable(clz.newInstance());
-			} catch (Exception e) {
-				return Optional.empty();
-			}
-		}
-		return Optional.empty();
-	}
+    //    @SubscribeEvent TODO
+    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (AbstractRegistry.registryErrors.size() > 0) {
+            event.getPlayer().sendStatusMessage(new TextComponentString(TextFormatting.RED + "There were errors loading the Farming for Blockheads registries:"), false);
+            TextFormatting lastFormatting = TextFormatting.WHITE;
+            for (String error : AbstractRegistry.registryErrors) {
+                event.getPlayer().sendStatusMessage(new TextComponentString(lastFormatting + "* " + error), false);
+                lastFormatting = lastFormatting == TextFormatting.GRAY ? TextFormatting.WHITE : TextFormatting.GRAY;
+            }
+        }
+    }
 
 }

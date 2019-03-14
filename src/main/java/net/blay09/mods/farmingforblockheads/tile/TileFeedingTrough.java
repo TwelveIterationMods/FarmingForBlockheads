@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.tile;
 
 import com.google.common.collect.ArrayListMultimap;
-import net.blay09.mods.farmingforblockheads.ModConfig;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.network.MessageChickenNestEffect;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.network.VanillaPacketHandler;
@@ -15,15 +15,16 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TileFeedingTrough extends TileEntity implements ITickable {
 
@@ -40,8 +41,12 @@ public class TileFeedingTrough extends TileEntity implements ITickable {
     private int tickTimer;
     private boolean isDirty;
 
+    public TileFeedingTrough() {
+        super(ModTiles.feedingTrough);
+    }
+
     @Override
-    public void update() {
+    public void tick() {
         if (!world.isRemote) {
             tickTimer++;
             if (tickTimer >= TICK_INTERVAL) {
@@ -57,28 +62,28 @@ public class TileFeedingTrough extends TileEntity implements ITickable {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
-        itemHandler.deserializeNBT(tagCompound.getCompoundTag("ItemHandler"));
+    public void read(NBTTagCompound tagCompound) {
+        super.read(tagCompound);
+        itemHandler.deserializeNBT(tagCompound.getCompound("ItemHandler"));
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
-        tagCompound.setTag("ItemHandler", itemHandler.serializeNBT());
+    public NBTTagCompound write(NBTTagCompound tagCompound) {
+        super.write(tagCompound);
+        tagCompound.put("ItemHandler", itemHandler.serializeNBT());
         return tagCompound;
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
         super.onDataPacket(net, pkt);
-        readFromNBT(pkt.getNbtCompound());
+        read(pkt.getNbtCompound());
     }
 
     @Override
     public NBTTagCompound getUpdateTag() {
         NBTTagCompound tagCompound = new NBTTagCompound();
-        writeToNBT(tagCompound);
+        write(tagCompound);
         return tagCompound;
     }
 
@@ -87,19 +92,10 @@ public class TileFeedingTrough extends TileEntity implements ITickable {
         return new SPacketUpdateTileEntity(pos, 0, getUpdateTag());
     }
 
+    @Nonnull
     @Override
-    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ||
-                super.hasCapability(capability, facing);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) itemHandler;
-        }
-        return super.getCapability(capability, facing);
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable EnumFacing side) {
+        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> itemHandler));
     }
 
     private void teehee() {
@@ -108,7 +104,7 @@ public class TileFeedingTrough extends TileEntity implements ITickable {
             return;
         }
 
-        final float range = ModConfig.general.feedingTroughRange;
+        final float range = FarmingForBlockheadsConfig.general.feedingTroughRange;
         AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
         List<EntityAnimal> entities = world.getEntitiesWithinAABB(EntityAnimal.class, aabb);
         if (entities.isEmpty()) {
@@ -125,14 +121,14 @@ public class TileFeedingTrough extends TileEntity implements ITickable {
 
         for (Class<? extends EntityAnimal> key : keys) {
             List<EntityAnimal> list = map.get(key);
-            if (list.size() < ModConfig.general.feedingTroughMaxAnimals) {
+            if (list.size() < FarmingForBlockheadsConfig.general.feedingTroughMaxAnimals) {
                 if (list.stream().filter(p -> p.getGrowingAge() == 0).count() >= 2) {
                     for (EntityAnimal entity : list) {
                         if (entity.getGrowingAge() == 0 && !entity.isInLove() && !entity.isChild() && entity.isBreedingItem(itemStack)) {
                             entity.setInLove(null);
                             itemHandler.extractItem(0, 1, false);
                             markDirty();
-                            NetworkHandler.instance.sendToAllAround(new MessageChickenNestEffect(pos), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 32));
+                            NetworkHandler.channel.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunk(pos)), new MessageChickenNestEffect(pos));
                             break;
                         }
                     }

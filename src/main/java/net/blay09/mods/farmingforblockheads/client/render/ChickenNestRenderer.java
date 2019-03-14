@@ -6,16 +6,14 @@ import net.blay09.mods.farmingforblockheads.tile.TileChickenNest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
-public class ChickenNestRenderer extends TileEntitySpecialRenderer<TileChickenNest> {
+public class ChickenNestRenderer extends TileEntityRenderer<TileChickenNest> {
 
     private final ItemStack EGG_STACK = new ItemStack(Items.EGG);
     private final float[] EGG_POSITIONS = new float[]{
@@ -45,24 +43,25 @@ public class ChickenNestRenderer extends TileEntitySpecialRenderer<TileChickenNe
         return angle;
     }
 
+
     @Override
-    public void render(TileChickenNest tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+    public void render(TileChickenNest tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
         GlStateManager.pushMatrix();
-        GlStateManager.translate(x + 0.5f, y, z + 0.5f);
+        GlStateManager.translated(x + 0.5, y, z + 0.5);
 
         IBlockState state = tileEntity.hasWorld() ? tileEntity.getWorld().getBlockState(tileEntity.getPos()) : null;
         float angle = 0f;
         if (state != null && state.getBlock() == ModBlocks.chickenNest) {
-            angle = getFacingAngle(state.getValue(BlockChickenNest.FACING));
+            angle = getFacingAngle(state.get(BlockChickenNest.FACING));
         }
 
-        GlStateManager.rotate(angle, 0f, 1f, 0f);
-        RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+        GlStateManager.rotatef(angle, 0f, 1f, 0f);
+        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         for (int i = 0; i < Math.min(EGG_POSITIONS.length / 3, tileEntity.getEggCount()); i++) {
             GlStateManager.pushMatrix();
-            GlStateManager.translate(EGG_POSITIONS[i * 3], 0.1f + EGG_POSITIONS[i * 3 + 1], -0.1f + EGG_POSITIONS[i * 3 + 2]);
-            GlStateManager.rotate(45f, 1, 0, 0);
-            renderItem.renderItem(EGG_STACK, ItemCameraTransforms.TransformType.GROUND);
+            GlStateManager.translatef(EGG_POSITIONS[i * 3], 0.1f + EGG_POSITIONS[i * 3 + 1], -0.1f + EGG_POSITIONS[i * 3 + 2]);
+            GlStateManager.rotatef(45f, 1, 0, 0);
+            itemRenderer.renderItem(EGG_STACK, ItemCameraTransforms.TransformType.GROUND);
             GlStateManager.popMatrix();
         }
 

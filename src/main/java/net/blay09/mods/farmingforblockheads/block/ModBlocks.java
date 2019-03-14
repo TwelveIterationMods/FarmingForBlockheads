@@ -1,45 +1,21 @@
 package net.blay09.mods.farmingforblockheads.block;
 
-import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.tile.TileChickenNest;
-import net.blay09.mods.farmingforblockheads.tile.TileFeedingTrough;
-import net.blay09.mods.farmingforblockheads.tile.TileMarket;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@GameRegistry.ObjectHolder(FarmingForBlockheads.MOD_ID)
 public class ModBlocks {
 
     private static final String STABLE_SUFFIX = "_stable";
-
-    @GameRegistry.ObjectHolder(BlockMarket.name)
     public static final Block market = Blocks.AIR;
-
-    @GameRegistry.ObjectHolder(BlockChickenNest.name)
     public static final Block chickenNest = Blocks.AIR;
-
-    @GameRegistry.ObjectHolder(BlockFeedingTrough.name)
     public static final Block feedingTrough = Blocks.AIR;
-
-    @GameRegistry.ObjectHolder(BlockFertilizedFarmlandRich.name)
     public static final Block fertilizedFarmlandRich = Blocks.AIR;
-
-    @GameRegistry.ObjectHolder(BlockFertilizedFarmlandRich.name + STABLE_SUFFIX)
     public static final Block fertilizedFarmlandRichStable = Blocks.AIR;
-
-    @GameRegistry.ObjectHolder(BlockFertilizedFarmlandHealthy.name)
     public static final Block fertilizedFarmlandHealthy = Blocks.AIR;
-
-    @GameRegistry.ObjectHolder(BlockFertilizedFarmlandHealthy.name + STABLE_SUFFIX)
     public static final Block fertilizedFarmlandHealthyStable = Blocks.AIR;
-
-    @GameRegistry.ObjectHolder(BlockFertilizedFarmlandStable.name)
     public static final Block fertilizedFarmlandStable = Blocks.AIR;
 
     public static void register(IForgeRegistry<Block> registry) {
@@ -68,20 +44,4 @@ public class ModBlocks {
         );
     }
 
-    public static void registerModels() {
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(market), 0, new ModelResourceLocation(BlockMarket.registryName, "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(chickenNest), 0, new ModelResourceLocation(BlockChickenNest.registryName, "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(feedingTrough), 0, new ModelResourceLocation(BlockFeedingTrough.registryName, "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandRich), 0, new ModelResourceLocation(BlockFertilizedFarmlandRich.registryName, "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandHealthy), 0, new ModelResourceLocation(BlockFertilizedFarmlandHealthy.registryName, "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandStable), 0, new ModelResourceLocation(BlockFertilizedFarmlandStable.registryName, "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandRichStable), 0, new ModelResourceLocation(BlockFertilizedFarmlandRich.registryName + STABLE_SUFFIX, "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fertilizedFarmlandHealthyStable), 0, new ModelResourceLocation(BlockFertilizedFarmlandHealthy.registryName + STABLE_SUFFIX, "inventory"));
-    }
-
-    public static void registerTileEntities() {
-        GameRegistry.registerTileEntity(TileMarket.class, BlockMarket.registryName.toString());
-        GameRegistry.registerTileEntity(TileChickenNest.class, BlockChickenNest.registryName.toString());
-        GameRegistry.registerTileEntity(TileFeedingTrough.class, BlockFeedingTrough.registryName.toString());
-    }
 }

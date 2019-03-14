@@ -2,7 +2,7 @@
   "result": {
     "item": "farmingforblockheads:chicken_nest"
   },
-  "type": "forge:ore_shaped",
+  "type": "crafting_shaped",
   "pattern": [
     "PHP"
   ],
@@ -11,7 +11,7 @@
       "item": "minecraft:hay_block"
     },
     "P": {
-      "item": "#PLANKS"
+      "tag": "minecraft:planks"
     }
   }
 }

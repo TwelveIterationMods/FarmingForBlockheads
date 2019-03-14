@@ -1,7 +1,6 @@
 package net.blay09.mods.farmingforblockheads.block;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.ModConfig;
 import net.blay09.mods.farmingforblockheads.item.ItemFertilizer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
@@ -16,12 +15,6 @@ public class BlockFertilizedFarmlandHealthy extends BlockFertilizedFarmland {
 
     public BlockFertilizedFarmlandHealthy(boolean isStable) {
         super(isStable);
-        setUnlocalizedName(registryName.toString());
-    }
-
-    @Override
-    public float getDoubleGrowthChance() {
-        return ModConfig.general.fertilizerBonusGrowthChance;
     }
 
     @Override

@@ -9,7 +9,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.ModConfig;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -198,7 +198,7 @@ public abstract class AbstractRegistry {
 	protected final void logWarning(String format, Object... args) {
 		String s = String.format(format, args);
 		FarmingForBlockheads.logger.error(s);
-		if(ModConfig.client.showRegistryWarnings) {
+		if(FarmingForBlockheadsConfig.CLIENT.showRegistryWarnings.get()) {
 			registryErrors.add(s);
 		}
 	}
@@ -216,7 +216,7 @@ public abstract class AbstractRegistry {
 	}
 
 	protected final void logUnknownOre(ResourceLocation location) {
-		FarmingForBlockheads.logger.warn("No ore dictionary entries found for {} in {}", location.getResourcePath(), registryName);
+		FarmingForBlockheads.logger.warn("No ore dictionary entries found for {} in {}", location.getPath(), registryName);
 	}
 
 }

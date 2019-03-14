@@ -1,33 +1,44 @@
 package net.blay09.mods.farmingforblockheads.network;
 
-import io.netty.buffer.ByteBuf;
+import net.blay09.mods.farmingforblockheads.container.ContainerMarket;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class MessageMarketSelect implements IMessage {
+import java.util.function.Supplier;
 
-	private ItemStack outputItem = ItemStack.EMPTY;
+public class MessageMarketSelect {
 
-	public MessageMarketSelect() {
-	}
+    private final ItemStack outputItem;
 
-	public MessageMarketSelect(ItemStack outputItem) {
-		this.outputItem = outputItem;
-	}
+    public MessageMarketSelect(ItemStack outputItem) {
+        this.outputItem = outputItem;
+    }
 
-	@Override
-	public void fromBytes(ByteBuf buf) {
-		outputItem = ByteBufUtils.readItemStack(buf);
-	}
+    public static void encode(MessageMarketSelect message, PacketBuffer buf) {
+        buf.writeItemStack(message.outputItem);
+    }
 
-	@Override
-	public void toBytes(ByteBuf buf) {
-		ByteBufUtils.writeItemStack(buf, outputItem);
-	}
+    public static MessageMarketSelect decode(PacketBuffer buf) {
+        ItemStack outputItem = buf.readItemStack();
+        return new MessageMarketSelect(outputItem);
+    }
 
-	public ItemStack getOutputItem() {
-		return outputItem;
-	}
+    public static void handle(MessageMarketSelect message, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+        context.enqueueWork(() -> {
+            EntityPlayer player = context.getSender();
+            if (player == null) {
+                return;
+            }
+
+            Container container = player.openContainer;
+            if (container instanceof ContainerMarket) {
+                ((ContainerMarket) container).selectMarketEntry(message.outputItem);
+            }
+        });
+    }
 
 }

@@ -19,11 +19,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.input.Mouse;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import yalter.mousetweaks.api.MouseTweaksIgnore;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -74,8 +72,20 @@ public class GuiMarket extends GuiContainer {
                 continue;
             }
 
-            GuiButtonMarketFilter filterButton = new GuiButtonMarketFilter(id++, width / 2 + 87, height / 2 + curY, container, category);
-            buttonList.add(filterButton);
+            GuiButtonMarketFilter filterButton = new GuiButtonMarketFilter(id++, width / 2 + 87, height / 2 + curY, container, category) {
+                @Override
+                public void onClick(double mouseX, double mouseY) {
+                    if (container.getCurrentCategory() == category) {
+                        container.setFilterCategory(null);
+                    } else {
+                        container.setFilterCategory(category);
+                    }
+                    container.populateMarketSlots();
+                    setCurrentOffset(currentOffset);
+                }
+            };
+
+            addButton(filterButton);
             filterButtons.add(filterButton);
 
             curY += 20;
@@ -90,70 +100,61 @@ public class GuiMarket extends GuiContainer {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) {
-        if (button instanceof GuiButtonMarketFilter) {
-            if (container.getCurrentCategory() == ((GuiButtonMarketFilter) button).getCategory()) {
-                container.setFilterCategory(null);
-            } else {
-                container.setFilterCategory(((GuiButtonMarketFilter) button).getCategory());
-            }
-            container.populateMarketSlots();
-            setCurrentOffset(currentOffset);
+    public boolean mouseScrolled(double delta) {
+        if (Math.abs(delta) > 0f) {
+            setCurrentOffset(delta > 0 ? currentOffset - 1 : currentOffset + 1);
+            return true;
         }
+
+        return false;
     }
 
     @Override
-    public void handleMouseInput() throws IOException {
-        super.handleMouseInput();
-        int delta = Mouse.getEventDWheel();
-        if (delta == 0) {
-            return;
-        }
-        setCurrentOffset(delta > 0 ? currentOffset - 1 : currentOffset + 1);
-    }
-
-    @Override
-    protected void mouseReleased(int mouseX, int mouseY, int state) {
-        super.mouseReleased(mouseX, mouseY, state);
-        if (state != -1 && mouseClickY != -1) {
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if (button != -1 && mouseClickY != -1) {
             mouseClickY = -1;
             indexWhenClicked = 0;
             lastNumberOfMoves = 0;
         }
+
+        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
-        super.mouseClicked(mouseX, mouseY, button);
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 1 && mouseX >= searchBar.x && mouseX < searchBar.x + searchBar.width && mouseY >= searchBar.y && mouseY < searchBar.y + searchBar.height) {
             searchBar.setText("");
             container.search(null);
             container.populateMarketSlots();
             setCurrentOffset(currentOffset);
-        } else {
-            searchBar.mouseClicked(mouseX, mouseY, button);
-        }
-        if (mouseX >= scrollBarXPos && mouseX <= scrollBarXPos + SCROLLBAR_WIDTH && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight) {
-            mouseClickY = mouseY;
+            return true;
+        } else if (searchBar.mouseClicked(mouseX, mouseY, button)) {
+            return true;
+        } else if (mouseX >= scrollBarXPos && mouseX <= scrollBarXPos + SCROLLBAR_WIDTH && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight) {
+            mouseClickY = (int) mouseY;
             indexWhenClicked = currentOffset;
+            return true;
         }
+
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
-    protected void keyTyped(char c, int keyCode) throws IOException {
-        if (searchBar.textboxKeyTyped(c, keyCode)) {
+    public boolean charTyped(char c, int keyCode) {
+        if (searchBar.charTyped(c, keyCode)) {
             container.search(searchBar.getText());
             container.populateMarketSlots();
             setCurrentOffset(currentOffset);
-        } else {
-            super.keyTyped(c, keyCode);
+            return true;
         }
+
+        return super.charTyped(c, keyCode);
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    public void render(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
 
         for (GuiButton sortButton : filterButtons) {
             if (sortButton.isMouseOver() && sortButton.enabled) {
@@ -165,13 +166,13 @@ public class GuiMarket extends GuiContainer {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         if (container.isDirty()) {
             recalculateScrollBar();
             container.setDirty(false);
         }
 
-        GlStateManager.color(1f, 1f, 1f, 1f);
+        GlStateManager.color4f(1f, 1f, 1f, 1f);
         mc.getTextureManager().bindTexture(TEXTURE);
         drawTexturedModalRect(guiLeft, guiTop - 10, 0, 0, xSize, ySize + 10);
         if (container.getSelectedEntry() != null && !container.isReadyToBuy()) {
@@ -189,7 +190,7 @@ public class GuiMarket extends GuiContainer {
             }
         }
 
-        fontRenderer.drawString(I18n.format("container.farmingforblockheads:market"), guiLeft + 10, guiTop + 10, 0xFFFFFF, true);
+        fontRenderer.drawStringWithShadow(I18n.format("container.farmingforblockheads:market"), guiLeft + 10, guiTop + 10, 0xFFFFFF);
 
         if (container.getSelectedEntry() == null) {
             drawCenteredString(fontRenderer, I18n.format("gui.farmingforblockheads:market.no_selection"), guiLeft + 49, guiTop + 65, 0xFFFFFF);
@@ -199,9 +200,9 @@ public class GuiMarket extends GuiContainer {
 
         GuiContainer.drawRect(scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
 
-        GlStateManager.color(1f, 1f, 1f, 1f);
+        GlStateManager.color4f(1f, 1f, 1f, 1f);
 
-        searchBar.drawTextBox();
+        searchBar.drawTextField(mouseX, mouseY, partialTicks);
     }
 
     public Collection<GuiButtonMarketFilter> getFilterButtons() {
@@ -260,7 +261,7 @@ public class GuiMarket extends GuiContainer {
 
     private String getFormattedCostStringShort(IMarketEntry entry) {
         String color = TextFormatting.GREEN.toString();
-        String unlocalizedName = entry.getCostItem().getUnlocalizedName().toLowerCase(Locale.ENGLISH);
+        String unlocalizedName = entry.getCostItem().getTranslationKey().toLowerCase(Locale.ENGLISH);
         if (unlocalizedName.contains("diamond")) {
             color = TextFormatting.AQUA.toString();
         } else if (unlocalizedName.contains("gold")) {

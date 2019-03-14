@@ -2,7 +2,7 @@
   "result": {
     "item": "farmingforblockheads:market"
   },
-  "type": "forge:ore_shaped",
+  "type": "crafting_shaped",
   "pattern": [
     "PCP",
     "W W",
@@ -14,10 +14,10 @@
       "data": 14
     },
     "P": {
-      "item": "#PLANKS"
+      "tag": "minecraft:planks"
     },
     "W": {
-      "item": "#WOOD"
+      "tag": "minecraft:logs"
     }
   }
 }

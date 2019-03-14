@@ -1,11 +1,9 @@
 package net.blay09.mods.farmingforblockheads.entity;
 
-import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.ModConfig;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.ModSounds;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
-import net.blay09.mods.farmingforblockheads.network.GuiHandler;
-import net.minecraft.block.Block;
+import net.blay09.mods.farmingforblockheads.tile.TileMarket;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityLivingData;
@@ -15,18 +13,20 @@ import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Particles;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.particles.BlockParticleData;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.Heightmap;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -52,7 +52,7 @@ public class EntityMerchant extends EntityCreature implements INpc {
     private IBlockState diggingBlockState;
 
     public EntityMerchant(World world) {
-        super(world);
+        super(ModEntities.merchant, world);
         setSize(0.6f, 1.95f);
     }
 
@@ -65,48 +65,51 @@ public class EntityMerchant extends EntityCreature implements INpc {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5);
     }
 
     @Override
     protected boolean processInteract(EntityPlayer player, EnumHand hand) {
-        if (isMarketValid()) {
-            player.openGui(FarmingForBlockheads.MOD_ID, GuiHandler.MARKET, world, marketPos.getX(), marketPos.getY(), marketPos.getZ());
+        TileMarket tileMarket = getMarketTileEntity();
+        if (tileMarket != null) {
+            NetworkHooks.openGui((EntityPlayerMP) player, tileMarket, tileMarket.getPos());
             return true;
         }
+
         return super.processInteract(player, hand);
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(NBTTagCompound compound) {
+        super.writeAdditional(compound);
         if (marketPos != null) {
-            compound.setLong("MarketPos", marketPos.toLong());
+            compound.putLong("MarketPos", marketPos.toLong());
         }
         if (facing != null) {
-            compound.setByte("Facing", (byte) facing.getIndex());
+            compound.putByte("Facing", (byte) facing.getIndex());
         }
-        compound.setBoolean("SpawnDone", spawnDone);
-        compound.setByte("SpawnAnimation", (byte) spawnAnimation.ordinal());
+        compound.putBoolean("SpawnDone", spawnDone);
+        compound.putByte("SpawnAnimation", (byte) spawnAnimation.ordinal());
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(NBTTagCompound compound) {
+        super.readAdditional(compound);
         if (!hasCustomName()) {
-            setCustomNameTag(ModConfig.general.merchantNames[rand.nextInt(ModConfig.general.merchantNames.length)]);
+            String merchantName = FarmingForBlockheadsConfig.getRandomMerchantName(rand);
+            setCustomName(new TextComponentString(merchantName));
         }
-        if (compound.hasKey("MarketPos")) {
-            setMarket(BlockPos.fromLong(compound.getLong("MarketPos")), EnumFacing.getFront(compound.getByte("Facing")));
+        if (compound.contains("MarketPos")) {
+            setMarket(BlockPos.fromLong(compound.getLong("MarketPos")), EnumFacing.byIndex(compound.getByte("Facing")));
         }
         spawnDone = compound.getBoolean("SpawnDone");
         spawnAnimation = SpawnAnimationType.values()[compound.getByte("SpawnAnimation")];
     }
 
     @Override
-    protected boolean canDespawn() {
+    public boolean canDespawn() {
         return false;
     }
 
@@ -127,13 +130,13 @@ public class EntityMerchant extends EntityCreature implements INpc {
     }
 
     @Override
-    public void onEntityUpdate() {
-        super.onEntityUpdate();
+    public void tick() {
+        super.tick();
         if (!world.isRemote) {
             if (ticksExisted % 20 == 0) {
                 if (!isMarketValid()) {
                     world.setEntityState(this, (byte) 12);
-                    setDead();
+                    remove();
                 }
             }
         }
@@ -156,10 +159,11 @@ public class EntityMerchant extends EntityCreature implements INpc {
         if (diggingAnimation > 0) {
             diggingAnimation--;
             for (int i = 0; i < 4; i++) {
-                int stateId = Block.getStateId(diggingBlockState != null ? diggingBlockState : Blocks.DIRT.getDefaultState());
-                world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX, posY, posZ, Math.random() * 2 - 1, Math.random() * 4, Math.random() * 2 - 1, stateId);
-                world.spawnParticle(EnumParticleTypes.BLOCK_DUST, posX, posY, posZ, (Math.random() - 0.5) * 0.5, Math.random() * 0.5f, (Math.random() - 0.5) * 0.5, stateId);
+                IBlockState diggingState = diggingBlockState != null ? diggingBlockState : Blocks.DIRT.getDefaultState();
+                world.addParticle(new BlockParticleData(Particles.BLOCK, diggingState), posX, posY, posZ, Math.random() * 2 - 1, Math.random() * 4, Math.random() * 2 - 1);
+                world.addParticle(new BlockParticleData(Particles.FALLING_DUST, diggingState), posX, posY, posZ, (Math.random() - 0.5) * 0.5, Math.random() * 0.5f, (Math.random() - 0.5) * 0.5);
             }
+
             if (diggingAnimation % 2 == 0) {
                 world.playSound(posX, posY, posZ, Blocks.DIRT.getSoundType().getHitSound(), SoundCategory.BLOCKS, 1f, (float) (Math.random() + 0.5), false);
             }
@@ -174,14 +178,14 @@ public class EntityMerchant extends EntityCreature implements INpc {
             diggingBlockState = world.getBlockState(getPosition().down());
             diggingAnimation = 60;
         } else if (id == 14) {
-            BlockPos pos = world.getTopSolidOrLiquidBlock(getPosition());
+            BlockPos pos = world.getHeight(Heightmap.Type.MOTION_BLOCKING, getPosition());
             world.playSound(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, ModSounds.falling, SoundCategory.NEUTRAL, 1f, 1f, false);
         } else if (id == 15) {
             world.playSound(posX + 0.5, posY + 1, posZ + 0.5, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.NEUTRAL, 1f, 1f, false);
             for (int i = 0; i < 50; i++) {
-                world.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, posX + 0.5, posY + 1, posZ + 0.5, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
+                world.addParticle(Particles.FIREWORK, posX + 0.5, posY + 1, posZ + 0.5, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
             }
-            world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, posX + 0.5, posY + 1, posZ + 0.5, 0, 0, 0);
+            world.addParticle(Particles.EXPLOSION, posX + 0.5, posY + 1, posZ + 0.5, 0, 0, 0);
         } else {
             super.handleStatusUpdate(id);
         }
@@ -203,15 +207,17 @@ public class EntityMerchant extends EntityCreature implements INpc {
     }
 
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingData) {
+    @Override
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingData, @Nullable NBTTagCompound tagCompound) {
         if (Math.random() < 0.001) {
-            setCustomNameTag(Math.random() <= 0.5 ? "Pam" : "Blay");
+            setCustomName(new TextComponentString(Math.random() <= 0.5 ? "Pam" : "Blay"));
         } else {
-            setCustomNameTag(ModConfig.general.merchantNames[rand.nextInt(ModConfig.general.merchantNames.length)]);
+            String merchantName = FarmingForBlockheadsConfig.getRandomMerchantName(rand);
+            setCustomName(new TextComponentString(merchantName));
         }
-        return super.onInitialSpawn(difficulty, livingData);
-    }
 
+        return super.onInitialSpawn(difficulty, livingData, tagCompound);
+    }
 
     @Override
     public boolean canBeLeashedTo(EntityPlayer player) {
@@ -233,6 +239,20 @@ public class EntityMerchant extends EntityCreature implements INpc {
         return marketEntityPos != null && getDistanceSq(marketEntityPos.offset(facing.getOpposite())) <= 1;
     }
 
+    @Nullable
+    public TileMarket getMarketTileEntity() {
+        if (marketPos == null) {
+            return null;
+        }
+
+        TileEntity tileEntity = world.getTileEntity(marketPos);
+        if (tileEntity instanceof TileMarket) {
+            return (TileMarket) tileEntity;
+        }
+
+        return null;
+    }
+
     private boolean isMarketValid() {
         return marketPos != null && world.getBlockState(marketPos).getBlock() == ModBlocks.market;
     }
@@ -247,10 +267,10 @@ public class EntityMerchant extends EntityCreature implements INpc {
     public void disappear() {
         world.playSound(posX, posY, posZ, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.NEUTRAL, 1f, 1f, false);
         for (int i = 0; i < 50; i++) {
-            world.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, posX, posY + 1, posZ, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
+            world.addParticle(Particles.FIREWORK, posX, posY + 1, posZ, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
         }
-        world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, posX, posY + 1, posZ, 0, 0, 0);
-        setDead();
+        world.addParticle(Particles.EXPLOSION, posX, posY + 1, posZ, 0, 0, 0);
+        remove();
     }
 
     public void setSpawnAnimation(SpawnAnimationType spawnAnimation) {

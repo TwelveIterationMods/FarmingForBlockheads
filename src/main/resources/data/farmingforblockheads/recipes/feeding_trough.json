@@ -2,7 +2,7 @@
   "result": {
     "item": "farmingforblockheads:feeding_trough"
   },
-  "type": "forge:ore_shaped",
+  "type": "crafting_shaped",
   "pattern": [
     "PCP",
     "PHP"
@@ -12,7 +12,7 @@
       "item": "minecraft:hay_block"
     },
     "P": {
-      "item": "#PLANKS"
+      "tag": "minecraft:planks"
     },
     "C": {
       "item": "minecraft:golden_carrot"

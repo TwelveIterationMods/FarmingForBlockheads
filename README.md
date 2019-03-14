@@ -1,7 +1,9 @@
-# FarmingForBlockheads
+# Farming for Blockheads
 Minecraft Mod. Adds farming utilities, such as a seed market, fertilizer and feeding troughs.
 
-##Development Builds
+[![Versions](http://cf.way2muchnoise.eu/versions/farming-for-blockheads.svg)](https://minecraft.curseforge.com/projects/farming-for-blockheads) [![Downloads](http://cf.way2muchnoise.eu/full_farming-for-blockheads_downloads.svg)](https://minecraft.curseforge.com/projects/farming-for-blockheads)
+
+## Development Builds
 Potentially unstable in-development releases built straight from the latest code in this repository are available [on my Jenkins](http://jenkins.blay09.net).
 They may contain unfinished and broken features and no support is provided for these builds.
 
@@ -26,17 +28,16 @@ If the IMC API is not enough for you, you can build against Farming for Blockhea
 The Java API allows everything the IMC API does, and certain tasks can only be achieved via the Java API.
 However, if you don't need that extra control, it is recommended to use the IMC API.
 
-
 ### Adding the dependency to your build.gradle
 ```
 repositories {
     maven {
-        url "http://blay09.net:8081/artifactory/jenkins-maven/"
+        url "https://minecraft.curseforge.com/api/maven/"
     }
 }
 
 dependencies {
-    compile "net.blay09.mods:FarmingForBlockheads:<version>"
+    compile "farming-for-blockheads:FarmingForBlockheads_1.12.2:3.1.26"
 }
 ```
-The latest version number can be found on [CurseForge](https://minecraft.curseforge.com/projects/farming-for-blockheads).
+The latest version number can be found on [CurseForge](https://minecraft.curseforge.com/projects/farming-for-blockheads/files).

@@ -61,9 +61,9 @@ public class VanillaAddon {
 
             @Override
             public void apply(ItemStack defaultPayment, int defaultAmount) {
-                FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Blocks.YELLOW_FLOWER, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategoryFlowers());
+                FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Blocks.DANDELION, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategoryFlowers());
                 for (int i = 0; i <= 8; i++) {
-                    FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Blocks.RED_FLOWER, defaultAmount, i), defaultPayment, FarmingForBlockheadsAPI.getMarketCategoryFlowers());
+                    FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Blocks.POPPY, defaultAmount, i), defaultPayment, FarmingForBlockheadsAPI.getMarketCategoryFlowers());
                 }
             }
 

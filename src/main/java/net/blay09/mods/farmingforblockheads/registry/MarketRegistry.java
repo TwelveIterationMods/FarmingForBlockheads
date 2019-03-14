@@ -13,7 +13,6 @@ import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
@@ -155,11 +154,11 @@ public class MarketRegistry extends AbstractRegistry {
         IMarketCategory category = FarmingForBlockheadsAPI.getMarketCategoryOther();
         ResourceLocation registryName = outputStack.getItem().getRegistryName();
         if (registryName != null) {
-            if (registryName.getResourcePath().contains("sapling")) {
+            if (registryName.getPath().contains("sapling")) {
                 category = FarmingForBlockheadsAPI.getMarketCategorySaplings();
-            } else if (registryName.getResourcePath().contains("seed")) {
+            } else if (registryName.getPath().contains("seed")) {
                 category = FarmingForBlockheadsAPI.getMarketCategorySeeds();
-            } else if (registryName.getResourcePath().contains("flower")) {
+            } else if (registryName.getPath().contains("flower")) {
                 category = FarmingForBlockheadsAPI.getMarketCategoryFlowers();
             }
         }

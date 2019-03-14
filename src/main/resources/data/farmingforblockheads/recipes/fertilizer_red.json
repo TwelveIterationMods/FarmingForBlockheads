@@ -4,7 +4,7 @@
     "data": 0,
     "count": 4
   },
-  "type": "forge:ore_shaped",
+  "type": "crafting_shaped",
   "pattern": [
     "RRR",
     "NSN",
@@ -12,17 +12,16 @@
   ],
   "key": {
     "R": {
-      "item": "#DYE_RED"
+      "tags": "minecraft:red_dye"
     },
     "N": {
-      "item": "#GOLD_NUGGET"
+      "item": "minecraft:gold_nugget"
     },
     "S": {
       "item": "minecraft:wheat_seeds"
     },
     "B": {
-      "item": "minecraft:dye",
-      "data": 15
+      "item": "minecraft:bone_meal"
     }
   }
 }

@@ -1,6 +1,6 @@
 package net.blay09.mods.farmingforblockheads.registry;
 
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.eventbus.api.Event;
 
 public class ReloadRegistryEvent extends Event {
 
