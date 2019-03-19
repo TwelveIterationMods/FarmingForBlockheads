@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads;
 
 import net.blay09.mods.farmingforblockheads.block.BlockFertilizedFarmland;
-import net.blay09.mods.farmingforblockheads.item.ModItems;
+import net.blay09.mods.farmingforblockheads.item.ItemFertilizer;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
@@ -60,11 +60,11 @@ public class FarmlandHandler {
 
     @SubscribeEvent
     public static void onFertilize(PlayerInteractEvent.RightClickBlock event) {
-        if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() == ModItems.fertilizer) {
+        if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemFertilizer) {
             IBlockState farmland = event.getWorld().getBlockState(event.getPos().down());
             if (farmland.getBlock() == Blocks.FARMLAND) {
                 ItemUseContext useContext = new ItemUseContext(event.getEntityPlayer(), event.getItemStack(), event.getPos().down(), EnumFacing.UP, (float) event.getHitVec().x, (float) event.getHitVec().y, (float) event.getHitVec().z);
-                if (ModItems.fertilizer.onItemUse(useContext) == EnumActionResult.SUCCESS) {
+                if (event.getItemStack().getItem().onItemUse(useContext) == EnumActionResult.SUCCESS) {
                     event.setCanceled(true);
                 }
             }

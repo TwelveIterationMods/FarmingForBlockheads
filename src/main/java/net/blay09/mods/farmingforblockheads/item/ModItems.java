@@ -1,16 +1,19 @@
 package net.blay09.mods.farmingforblockheads.item;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModItems {
 
-    public static final Item fertilizer = Items.AIR;
+    public static Item fertilizerGreen;
+    public static Item fertilizerRed;
+    public static Item fertilizerYellow;
 
     public static void register(IForgeRegistry<Item> registry) {
         registry.registerAll(
-                new ItemFertilizer().setRegistryName(ItemFertilizer.name)
+                fertilizerGreen = new ItemFertilizer(ItemFertilizer.FertilizerType.RICH).setRegistryName("fertilizer_green"),
+                fertilizerRed = new ItemFertilizer(ItemFertilizer.FertilizerType.HEALTHY).setRegistryName("fertilizer_red"),
+                fertilizerYellow = new ItemFertilizer(ItemFertilizer.FertilizerType.STABLE).setRegistryName("fertilizer_yellow")
         );
     }
 

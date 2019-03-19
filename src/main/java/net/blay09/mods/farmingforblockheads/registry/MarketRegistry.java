@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
@@ -15,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -27,7 +29,7 @@ public class MarketRegistry extends AbstractRegistry {
 
     public static final MarketRegistry INSTANCE = new MarketRegistry();
 
-    private static final Pattern ITEMSTACK_PATTERN = Pattern.compile("(?:([0-9]+)\\*)?(?:([\\w\\-]+):)([\\w\\-]+)(?::([0-9]+))?(?:@(.+))?");
+    private static final Pattern ITEMSTACK_PATTERN = Pattern.compile("(?:([0-9]+)\\*)?(?:([\\w\\-]+):)([\\w\\-]+)(?:@(.+))?");
 
     private final Map<ResourceLocation, IMarketCategory> indexedCategories = Maps.newHashMap();
     private final ArrayListMultimap<IMarketCategory, IMarketEntry> entries = ArrayListMultimap.create();
@@ -44,6 +46,7 @@ public class MarketRegistry extends AbstractRegistry {
         if (indexedCategories.containsKey(category.getRegistryName())) {
             throw new RuntimeException("Attempted to register duplicate market category " + category.getRegistryName());
         }
+
         indexedCategories.put(category.getRegistryName(), category);
     }
 
@@ -58,6 +61,7 @@ public class MarketRegistry extends AbstractRegistry {
                 return entry;
             }
         }
+
         return null;
     }
 
@@ -170,6 +174,7 @@ public class MarketRegistry extends AbstractRegistry {
         if (input.equals("examplemod:example_item")) {
             return;
         }
+
         ItemStack itemStack = parseItemStack(input);
         if (!itemStack.isEmpty()) {
             if (!tryRemoveEntry(itemStack)) {
@@ -183,12 +188,14 @@ public class MarketRegistry extends AbstractRegistry {
             String value = tryGetString(defaults, entry.getKey(), "");
             if (value.isEmpty()) {
                 ItemStack defaultPayment = entry.getValue().getDefaultPayment();
-                defaults.addProperty(entry.getKey(), String.format("%d*%s:%d", defaultPayment.getCount(), defaultPayment.getItem().getRegistryName(), defaultPayment.getItemDamage()));
+                defaults.addProperty(entry.getKey(), String.format("%d*%s", defaultPayment.getCount(), defaultPayment.getItem().getRegistryName()));
             }
+
             ItemStack itemStack = !value.isEmpty() ? parseItemStack(value) : null;
             if (itemStack == null) {
                 itemStack = entry.getValue().getDefaultPayment();
             }
+
             defaultPayments.put(entry.getKey(), itemStack);
         }
     }
@@ -231,6 +238,7 @@ public class MarketRegistry extends AbstractRegistry {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -242,25 +250,25 @@ public class MarketRegistry extends AbstractRegistry {
         }
 
         ResourceLocation resourceLocation = new ResourceLocation(matcher.group(2), matcher.group(3));
-        Item item = Item.REGISTRY.getObject(resourceLocation);
+        Item item = ForgeRegistries.ITEMS.getValue(resourceLocation);
         if (item == null) {
             logUnknownItem(resourceLocation);
             return ItemStack.EMPTY;
         }
+
         int count = matcher.group(1) != null ? tryParseInt(matcher.group(1)) : 1;
-        int meta = matcher.group(4) != null ? tryParseInt(matcher.group(4)) : 0;
-        String nbt = matcher.group(5);
+        String nbt = matcher.group(4);
         NBTTagCompound tagCompound = null;
         if (nbt != null) {
             try {
                 tagCompound = JsonToNBT.getTagFromJson(nbt);
-            } catch (NBTException e) {
+            } catch (CommandSyntaxException e) {
                 logError("Invalid nbt for item %s, %s", input, e.getMessage());
             }
         }
-        ItemStack itemStack = new ItemStack(item, count, meta);
+        ItemStack itemStack = new ItemStack(item, count);
         if (tagCompound != null) {
-            itemStack.setTagCompound(tagCompound);
+            itemStack.setTag(tagCompound);
         }
         return itemStack;
     }

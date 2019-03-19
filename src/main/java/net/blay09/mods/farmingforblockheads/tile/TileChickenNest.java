@@ -111,7 +111,7 @@ public class TileChickenNest extends TileEntity implements ITickable {
     }
 
     private void stealEgg() {
-        final float range = FarmingForBlockheadsConfig.general.chickenNestRange;
+        final float range = FarmingForBlockheadsConfig.COMMON.chickenNestRange.get();
         AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
         List<EntityItem> list = world.getEntitiesWithinAABB(EntityItem.class, aabb, p -> p != null && p.getItem().getItem() == Items.EGG && p.getItem().getCount() == 1 && p.getThrowerId() == null);
         if (list.isEmpty()) {

@@ -1,5 +1,6 @@
-package net.blay09.mods.farmingforblockheads;
+package net.blay09.mods.farmingforblockheads.sound;
 
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.registries.IForgeRegistry;

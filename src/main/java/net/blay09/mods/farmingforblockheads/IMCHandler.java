@@ -13,27 +13,29 @@ public class IMCHandler {
     public static void handleIMCMessage(InterModProcessEvent event) {
         event.getIMCStream().forEach(message -> {
             String sender = message.getModId(); // TODO sender
+            Object obj = message.getMessageSupplier().get();
             switch (message.getMethod()) {
                 case "RegisterMarketCategory":
-                    if (message.getMessageType() == NBTTagCompound.class) {
-                        NBTTagCompound tagCompound = message.getNBTValue();
+                    if (obj instanceof NBTTagCompound) {
+                        NBTTagCompound tagCompound = (NBTTagCompound) obj;
                         ResourceLocation registryName = new ResourceLocation(tagCompound.getString("RegistryName"));
                         if (registryName.getNamespace().equals(sender)) {
                             String tooltipLangKey = tagCompound.contains("Tooltip", Constants.NBT.TAG_STRING) ? tagCompound.getString("Tooltip") : "gui.farmingforblockheads:market.tooltip_none";
                             ResourceLocation texturePath = new ResourceLocation(tagCompound.getString("Texture"));
                             int textureX = tagCompound.getInt("TextureX");
                             int textureY = tagCompound.getInt("TextureY");
-                            FarmingForBlockheadsAPI.registerMarketCategory(registryName, tooltipLangKey, texturePath, textureX, textureY);
+                            int sortIndex = tagCompound.getInt("SortIndex");
+                            FarmingForBlockheadsAPI.registerMarketCategory(registryName, tooltipLangKey, texturePath, textureX, textureY, sortIndex);
                         } else {
                             FarmingForBlockheads.logger.error("IMC API Error: Market category must be prefixed by your mod id (from {})", sender);
                         }
                     } else {
-                        FarmingForBlockheads.logger.error("IMC API Error: RegisterMarketCategory expects NBT (from {})", sender);
+                        FarmingForBlockheads.logger.error("IMC API Error: RegisterMarketEntry expects NBT (from {})", sender);
                     }
                     break;
                 case "RegisterMarketEntry":
-                    if (message.getMessageType() == NBTTagCompound.class) {
-                        NBTTagCompound tagCompound = message.getNBTValue();
+                    if (obj instanceof NBTTagCompound) {
+                        NBTTagCompound tagCompound = (NBTTagCompound) obj;
                         if (!tagCompound.contains("OutputItem", Constants.NBT.TAG_COMPOUND)) {
                             FarmingForBlockheads.logger.error("IMC API Error: RegisterMarketEntry requires OutputItem tag (from {})", sender);
                         } else if (!tagCompound.contains("CostItem", Constants.NBT.TAG_COMPOUND)) {

@@ -104,7 +104,7 @@ public class TileFeedingTrough extends TileEntity implements ITickable {
             return;
         }
 
-        final float range = FarmingForBlockheadsConfig.general.feedingTroughRange;
+        final float range = FarmingForBlockheadsConfig.COMMON.feedingTroughRange.get();
         AxisAlignedBB aabb = new AxisAlignedBB(pos.getX() - range, pos.getY() - range, pos.getZ() - range, pos.getX() + range, pos.getY() + range, pos.getZ() + range);
         List<EntityAnimal> entities = world.getEntitiesWithinAABB(EntityAnimal.class, aabb);
         if (entities.isEmpty()) {
@@ -121,7 +121,7 @@ public class TileFeedingTrough extends TileEntity implements ITickable {
 
         for (Class<? extends EntityAnimal> key : keys) {
             List<EntityAnimal> list = map.get(key);
-            if (list.size() < FarmingForBlockheadsConfig.general.feedingTroughMaxAnimals) {
+            if (list.size() < FarmingForBlockheadsConfig.COMMON.feedingTroughMaxAnimals.get()) {
                 if (list.stream().filter(p -> p.getGrowingAge() == 0).count() >= 2) {
                     for (EntityAnimal entity : list) {
                         if (entity.getGrowingAge() == 0 && !entity.isInLove() && !entity.isChild() && entity.isBreedingItem(itemStack)) {

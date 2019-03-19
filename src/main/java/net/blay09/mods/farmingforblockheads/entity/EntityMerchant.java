@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.entity;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
-import net.blay09.mods.farmingforblockheads.ModSounds;
+import net.blay09.mods.farmingforblockheads.sound.ModSounds;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.tile.TileMarket;
 import net.minecraft.block.state.IBlockState;
