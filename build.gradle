@@ -86,6 +86,8 @@ dependencies {
     ])
 
     compileOnly "inventory-tweaks:InventoryTweaks:1.64+dev.146"
+    compileOnly "mouse-tweaks:MouseTweaks:2.10:mc1.12.2"
+    compile "jei:jei:1.13.2:5.0.0.8"
     compile "iron-chests:ironchest:1.13.2:8.0.2"
 }
 

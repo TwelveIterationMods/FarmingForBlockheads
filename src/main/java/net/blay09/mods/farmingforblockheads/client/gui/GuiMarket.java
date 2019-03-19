@@ -16,6 +16,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -251,12 +253,16 @@ public class GuiMarket extends GuiContainer {
         }
     }
 
-    private String getFormattedCostString(IMarketEntry entry) {
-        String color = TextFormatting.GREEN.toString();
+    private ITextComponent getFormattedCostString(IMarketEntry entry) {
+        TextFormatting color = TextFormatting.GREEN;
         if (entry.getCostItem().getItem() == Items.DIAMOND) {
-            color = TextFormatting.AQUA.toString();
+            color = TextFormatting.AQUA;
         }
-        return color + I18n.format("gui.farmingforblockheads:market.tooltip_cost", I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName()));
+
+        ITextComponent costComponent = new TextComponentTranslation("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
+        ITextComponent result = new TextComponentTranslation("gui.farmingforblockheads:market.tooltip_cost", costComponent);
+        result.getStyle().setColor(color);
+        return result;
     }
 
     private String getFormattedCostStringShort(IMarketEntry entry) {

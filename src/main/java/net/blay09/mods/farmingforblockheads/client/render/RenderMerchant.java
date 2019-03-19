@@ -15,7 +15,7 @@ public class RenderMerchant extends RenderLiving<EntityMerchant> {
 
 	public RenderMerchant(RenderManager renderManager) {
 		super(renderManager, new ModelVillager(0f), 0.5f);
-		addLayer(new LayerCustomHead(this.getMainModel().villagerHead));
+		addLayer(new LayerCustomHead(this.getMainModel().func_205072_a())); // getVillagerHead
 		shadowSize = 0.5f;
 	}
 

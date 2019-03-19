@@ -1,7 +1,6 @@
 {
   "result": {
-    "item": "farmingforblockheads:fertilizer",
-    "data": 1,
+    "item": "farmingforblockheads:fertilizer_green",
     "count": 4
   },
   "type": "crafting_shaped",
