@@ -85,7 +85,7 @@ public class BlockMarket extends BlockContainer {
             }
 
             world.spawnEntity(merchant);
-            merchant.onInitialSpawn(world.getDifficultyForLocation(pos), null);
+            merchant.onInitialSpawn(world.getDifficultyForLocation(pos), null, null);
         }
     }
 

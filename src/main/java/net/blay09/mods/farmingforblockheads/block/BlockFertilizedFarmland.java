@@ -14,10 +14,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 public class BlockFertilizedFarmland extends BlockFarmland {
+
     public interface FarmlandTrait {
         default float getDoubleGrowthChance() {
             return 0f;
@@ -106,5 +108,9 @@ public class BlockFertilizedFarmland extends BlockFarmland {
         } else if (moisture < 7) {
             world.setBlockState(pos, state.with(MOISTURE, 7), 2);
         }
+    }
+
+    public Collection<FarmlandTrait> getTraits() {
+        return traits;
     }
 }

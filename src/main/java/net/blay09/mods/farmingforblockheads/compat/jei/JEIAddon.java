@@ -8,7 +8,6 @@ import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.client.gui.GuiMarket;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
@@ -24,11 +23,7 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        List<MarketRecipe> marketRecipes = Lists.newArrayList();
-        for (IMarketEntry entry : MarketRegistry.getEntries()) {
-            marketRecipes.add(new MarketRecipe(entry));
-        }
-        registration.addRecipes(marketRecipes, MarketCategory.UID);
+        registration.addRecipes(MarketRegistry.getEntries(), MarketCategory.UID);
     }
 
     @Override
