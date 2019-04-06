@@ -82,6 +82,7 @@ public class FarmingForBlockheads {
 		ModBlocks.registerTileEntities();
 
 		MinecraftForge.EVENT_BUS.register(new FarmlandHandler());
+		MinecraftForge.EVENT_BUS.register(new ZombieKillMerchantHandler());
 	}
 
 	@Mod.EventHandler
