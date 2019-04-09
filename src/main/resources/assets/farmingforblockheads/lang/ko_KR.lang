@@ -1,0 +1,33 @@
+tile.farmingforblockheads:market.name=마켓
+tile.farmingforblockheads:chicken_nest.name=닭 둥지
+tile.farmingforblockheads:feeding_trough.name=먹이 통
+tile.farmingforblockheads:fertilized_farmland_rich.name=비옥한 농지
+tile.farmingforblockheads:fertilized_farmland_healthy.name=비옥한 농지
+tile.farmingforblockheads:fertilized_farmland_stable.name=비옥한 농지
+
+item.farmingforblockheads:fertilizer_healthy.name=빨간색 비료
+item.farmingforblockheads:fertilizer_rich.name=초록색 비료
+item.farmingforblockheads:fertilizer_stable.name=노란색 비료
+
+itemGroup.farmingforblockheads=Farming for Blockheads
+
+container.farmingforblockheads:market=마켓
+
+commands.farmingforblockheads:reload.success=Farming for Blockheads registries reloaded.
+
+gui.farmingforblockheads:market.no_selection=선택 안됨
+gui.farmingforblockheads:market.tooltip_cost=비용: %s
+gui.farmingforblockheads:market.tooltip_seeds=씨앗
+gui.farmingforblockheads:market.tooltip_saplings=묘목
+gui.farmingforblockheads:market.tooltip_flowers=꽃
+gui.farmingforblockheads:market.tooltip_other=기타
+gui.farmingforblockheads:market.tooltip_none=툴팁이 지정되지 않음
+gui.farmingforblockheads:market.cost=%dx %s
+
+jei.farmingforblockheads:market=마켓
+
+tooltip.farmingforblockheads:chicken_nest=닭이 낳은 알 수집
+tooltip.farmingforblockheads:feeding_trough=주위 동물들에게 자동으로 먹이 공급
+tooltip.farmingforblockheads:fertilizer_healthy=성장 속도 향상
+tooltip.farmingforblockheads:fertilizer_rich=농작물 생산량 증가
+tooltip.farmingforblockheads:fertilizer_stable=짓밟는것 방지
