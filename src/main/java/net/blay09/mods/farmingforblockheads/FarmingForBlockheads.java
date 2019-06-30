@@ -99,6 +99,7 @@ public class FarmingForBlockheads {
 		buildSoftDependProxy(Compat.BIOMESOPLENTY, "net.blay09.mods.farmingforblockheads.compat.BiomesOPlentyAddon");
 		buildSoftDependProxy(Compat.NATURA, "net.blay09.mods.farmingforblockheads.compat.NaturaAddon");
 		buildSoftDependProxy(Compat.TERRAQUEOUS, "net.blay09.mods.farmingforblockheads.compat.TerraqueousAddon");
+		buildSoftDependProxy(Compat.XLFOODMOD, "net.blay09.mods.farmingforblockheads.compat.XLFoodModAddon");
 
 		MarketRegistry.INSTANCE.load(configDir);
 	}
