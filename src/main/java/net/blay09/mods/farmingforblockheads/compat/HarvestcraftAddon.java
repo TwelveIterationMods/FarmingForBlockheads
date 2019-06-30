@@ -15,17 +15,19 @@ public class HarvestcraftAddon {
             "blackberry", "blueberry", "candleberry", "raspberry", "strawberry", "cactusfruit", "asparagus", "barley",
             "oats", "rye", "corn", "bambooshoot", "cantaloupe", "cucumber", "wintersquash", "zucchini", "beet", "onion",
             "parsnip", "peanut", "radish", "rutabaga", "sweetpotato", "turnip", "rhubarb", "celery", "garlic", "ginger",
-            "spiceleaf", "tea", "coffee", "broccoli", "cauliflower", "leek", "lettuce", "scallion", "artichoke",
+            "spiceleaf", "tea", "coffee", "mustard", "broccoli", "cauliflower", "leek", "lettuce", "scallion", "artichoke",
             "brusselsprout", "cabbage", "spinach", "whitemushroom", "bean", "soybean", "bellpepper", "chilipepper",
             "eggplant", "okra", "peas", "tomato", "cotton", "pineapple", "grape", "kiwi", "cranberry", "rice",
-            "seaweed", "curryleaf", "sesameseeds", "waterchestnut", "mustard"
+            "seaweed", "curryleaf", "sesameseeds", "waterchestnut", "gigapickle", "kale", "agave", "amaranth", "arrowroot",
+            "cassava", "chickpea", "elderberry","flax","greengrape","huckleberry","jicama","jute","kenaf","kohlrabi","lentil",
+            "millet","mulberry","quinoa","sisal","taro","sunflower"
     };
 
     private static final String[] SAPLINGS = new String[]{
-            "apple", "almond", "apricot", "avocado", "banana", "cashew", "cherry", "chestnut", "coconut", "date",
-            "dragonfruit", "durian", "fig", "gooseberry", "grapefruit", "lemon", "lime", "mango", "nutmeg", "olive",
-            "orange", "papaya", "peach", "pear", "pecan", "peppercorn", "persimmon", "pistachio", "plum", "pomegranate",
-            "starfruit", "vanillabean", "walnut", "cinnamon", "maple", "paperbark"
+            "apple", "almond", "apricot", "avocado", "banana", "breadfruit", "cashew", "cherry", "chestnut", "cinnamon", "coconut", "date",
+            "dragonfruit", "durian", "fig", "gooseberry", "grapefruit", "guava", "hazelnut", "jackfruit", "lemon", "lime", "lychee", "mango", "maple", "nutmeg", "olive",
+            "orange", "papaya", "passionfruit", "pawpaw", "peach", "pear", "pecan", "peppercorn", "persimmon", "pistachio", "plum", "pomegranate",
+            "rambutan", "soursop", "spiderweb", "starfruit", "tamarind", "vanillabean", "walnut", "cinnamon", "maple", "paperbark"
     };
 
     public HarvestcraftAddon() {
