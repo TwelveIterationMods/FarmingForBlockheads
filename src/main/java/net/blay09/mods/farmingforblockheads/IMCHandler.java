@@ -12,7 +12,7 @@ public class IMCHandler {
 
     public static void handleIMCMessage(InterModProcessEvent event) {
         event.getIMCStream().forEach(message -> {
-            String sender = message.getModId(); // TODO sender
+            String sender = message.getSenderModId();
             Object obj = message.getMessageSupplier().get();
             switch (message.getMethod()) {
                 case "RegisterMarketCategory":

@@ -38,6 +38,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -73,6 +74,7 @@ public class FarmingForBlockheads {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStarting);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processInterMod);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class, this::registerBlocks);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, this::registerItems);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(TileEntityType.class, this::registerTileEntities);
@@ -83,7 +85,7 @@ public class FarmingForBlockheads {
         DeferredWorkQueue.runLater(NetworkHandler::init);
     }
 
-    public void setup(FMLCommonSetupEvent event) {
+    private void setup(FMLCommonSetupEvent event) {
         DeferredWorkQueue.runLater(() -> {
             new VanillaAddon();
 
@@ -100,8 +102,12 @@ public class FarmingForBlockheads {
         ClientRegistry.bindTileEntitySpecialRenderer(FeedingTroughTileEntity.class, new FeedingTroughRenderer());
     }
 
-    public void serverStarting(FMLServerStartingEvent event) {
+    private void serverStarting(FMLServerStartingEvent event) {
         CommandFarmingForBlockheads.register(event.getCommandDispatcher());
+    }
+
+    private void processInterMod(InterModProcessEvent event) {
+        IMCHandler.handleIMCMessage(event);
     }
 
     private void registerBlocks(RegistryEvent.Register<Block> event) {

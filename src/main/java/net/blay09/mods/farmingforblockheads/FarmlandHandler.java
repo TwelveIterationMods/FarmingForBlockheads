@@ -55,20 +55,6 @@ public class FarmlandHandler {
         }
     }
 
-    @SubscribeEvent
-    public static void onFertilize(PlayerInteractEvent.RightClickBlock event) {
-        // TODO Why is this not done in ItemFertilizer?
-        if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof FertilizerItem) {
-            BlockState farmland = event.getWorld().getBlockState(event.getPos().down());
-            if (farmland.getBlock() == Blocks.FARMLAND) {
-                /* TODO ItemUseContext useContext = new ItemUseContext(event.getPlayer(), event.getHand(), event.getPos().down(), Direction.UP, new BlockRayTraceResult(new Vec3d(event.getPos()), event.getFace(), event.getPos(), true)))
-                if (event.getItemStack().getItem().onItemUse(useContext) == ActionResultType.SUCCESS) {
-                    event.setCanceled(true);
-                }*/
-            }
-        }
-    }
-
     private static void rollRegression(World world, BlockPos pos, BlockState farmland) {
         if (farmland.getBlock() instanceof FertilizedFarmlandBlock) {
             if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getRegressionChance()) {
