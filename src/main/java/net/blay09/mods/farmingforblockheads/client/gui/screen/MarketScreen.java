@@ -19,7 +19,6 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -27,6 +26,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Collection;
 import java.util.List;
@@ -71,6 +71,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
         FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 
         searchBar = new TextFieldWidget(fontRenderer, guiLeft + xSize - 78, guiTop - 5, 70, 10, searchBar, "");
+        setFocusedDefault(searchBar);
         addButton(searchBar);
 
         int curY = -80;
@@ -146,14 +147,26 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
     @Override
     public boolean charTyped(char c, int keyCode) {
-        if (searchBar.charTyped(c, keyCode)) {
-            clientContainer.search(searchBar.getText());
-            clientContainer.populateMarketSlots();
-            setCurrentOffset(currentOffset);
+        boolean result = super.charTyped(c, keyCode);
+
+        clientContainer.search(searchBar.getText());
+        clientContainer.populateMarketSlots();
+        setCurrentOffset(currentOffset);
+
+        return result;
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (searchBar.keyPressed(keyCode, scanCode, modifiers) || searchBar.isFocused()) {
+            if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+                getMinecraft().player.closeScreen();
+            }
+
             return true;
         }
 
-        return super.charTyped(c, keyCode);
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
@@ -202,7 +215,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
         if (container.getSelectedEntry() == null) {
             drawCenteredString(fontRenderer, I18n.format("gui.farmingforblockheads:market.no_selection"), guiLeft + 49, guiTop + 65, 0xFFFFFF);
         } else {
-            drawCenteredString(fontRenderer, getFormattedCostStringShort(container.getSelectedEntry()), guiLeft + 49, guiTop + 65, 0xFFFFFF);
+            drawCenteredString(fontRenderer, getPriceText(container.getSelectedEntry()).getFormattedText(), guiLeft + 49, guiTop + 65, 0xFFFFFF);
         }
 
         fill(scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
@@ -250,35 +263,34 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
             }
 
             if (hoverEntry != null) {
-                event.getToolTip().add(getFormattedCostString(hoverEntry));
+                event.getToolTip().add(getPriceTooltipText(hoverEntry));
             }
         }
     }
 
-    private ITextComponent getFormattedCostString(IMarketEntry entry) {
-        TextFormatting color = TextFormatting.GREEN;
-        if (entry.getCostItem().getItem() == Items.DIAMOND) {
-            color = TextFormatting.AQUA;
-        }
-
-        ITextComponent costComponent = new TranslationTextComponent("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
-        ITextComponent result = new TranslationTextComponent("gui.farmingforblockheads:market.tooltip_cost", costComponent);
-        result.getStyle().setColor(color);
+    private ITextComponent getPriceTooltipText(IMarketEntry entry) {
+        ITextComponent result = new TranslationTextComponent("gui.farmingforblockheads:market.tooltip_cost", getPriceText(entry));
+        result.getStyle().setColor(getPriceColor(entry));
         return result;
     }
 
-    private String getFormattedCostStringShort(IMarketEntry entry) {
-        String color = TextFormatting.GREEN.toString();
+    private ITextComponent getPriceText(IMarketEntry entry) {
+        ITextComponent textComponent = new TranslationTextComponent("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
+        textComponent.getStyle().setColor(getPriceColor(entry));
+        return textComponent;
+    }
+
+    private TextFormatting getPriceColor(IMarketEntry entry) {
+        TextFormatting color = TextFormatting.GREEN;
         String unlocalizedName = entry.getCostItem().getTranslationKey().toLowerCase(Locale.ENGLISH);
         if (unlocalizedName.contains("diamond")) {
-            color = TextFormatting.AQUA.toString();
+            color = TextFormatting.AQUA;
         } else if (unlocalizedName.contains("gold")) {
-            color = TextFormatting.YELLOW.toString();
+            color = TextFormatting.YELLOW;
         } else if (unlocalizedName.contains("iron")) {
-            color = TextFormatting.WHITE.toString();
+            color = TextFormatting.WHITE;
         }
-
-        return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
+        return color;
     }
 
 }
