@@ -11,9 +11,9 @@ public class ModItems {
 
     public static void register(IForgeRegistry<Item> registry) {
         registry.registerAll(
-                fertilizerGreen = new ItemFertilizer(ItemFertilizer.FertilizerType.RICH).setRegistryName("fertilizer_green"),
-                fertilizerRed = new ItemFertilizer(ItemFertilizer.FertilizerType.HEALTHY).setRegistryName("fertilizer_red"),
-                fertilizerYellow = new ItemFertilizer(ItemFertilizer.FertilizerType.STABLE).setRegistryName("fertilizer_yellow")
+                fertilizerGreen = new FertilizerItem(FertilizerItem.FertilizerType.RICH).setRegistryName("green_fertilizer"),
+                fertilizerRed = new FertilizerItem(FertilizerItem.FertilizerType.HEALTHY).setRegistryName("red_fertilizer"),
+                fertilizerYellow = new FertilizerItem(FertilizerItem.FertilizerType.STABLE).setRegistryName("yellow_fertilizer")
         );
     }
 

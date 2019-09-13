@@ -1,5 +1,11 @@
 {
 	"__comment": "Designed by Blay09 with Cubik Studio - https://cubik.studio",
+	"parent": "block/block",
+	"textures": {
+		"particle": "minecraft:block/spruce_planks",
+		"texture": "minecraft:block/spruce_planks",
+		"content": "minecraft:block/hay_block_top"
+	},
 	"elements": [
 		{
 			"__comment": "Box1",

@@ -1,29 +1,8 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "farmingforblockheads:chicken_nest",
-    "transform": "forge:default-block",
-    "textures": {
-      "particle": "minecraft:blocks/planks_spruce",
-      "texture": "minecraft:blocks/planks_spruce",
-      "content": "minecraft:blocks/hay_block_top"
-    }
-  },
   "variants": {
-    "normal": [{}],
-    "inventory": [{}],
-    "facing": {
-      "west": {
-        "y": -90
-      },
-      "east": {
-        "y": 90
-      },
-      "north": {
-      },
-      "south": {
-        "y": 180
-      }
-    }
+    "facing=north": { "model": "farmingforblockheads:block/chicken_nest" },
+    "facing=east":  { "model": "farmingforblockheads:block/chicken_nest", "y": 90 },
+    "facing=south": { "model": "farmingforblockheads:block/chicken_nest", "y": 180 },
+    "facing=west":  { "model": "farmingforblockheads:block/chicken_nest", "y": 270 }
   }
 }

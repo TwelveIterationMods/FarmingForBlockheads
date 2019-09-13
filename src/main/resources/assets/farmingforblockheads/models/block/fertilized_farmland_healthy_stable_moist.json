@@ -1,0 +1,8 @@
+{
+  "parent": "block/template_farmland",
+  "textures": {
+    "particle": "block/dirt",
+    "dirt": "block/dirt",
+    "top": "farmingforblockheads:block/fertilized_farmland_healthy_stable_moist"
+  }
+}

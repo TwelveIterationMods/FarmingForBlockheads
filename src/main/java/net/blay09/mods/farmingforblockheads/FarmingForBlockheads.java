@@ -2,46 +2,40 @@ package net.blay09.mods.farmingforblockheads;
 
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
-import net.blay09.mods.farmingforblockheads.client.gui.GuiMarket;
+import net.blay09.mods.farmingforblockheads.client.ModScreens;
 import net.blay09.mods.farmingforblockheads.client.render.ChickenNestRenderer;
 import net.blay09.mods.farmingforblockheads.client.render.FeedingTroughRenderer;
 import net.blay09.mods.farmingforblockheads.client.render.RenderMerchant;
 import net.blay09.mods.farmingforblockheads.compat.VanillaAddon;
-import net.blay09.mods.farmingforblockheads.container.ContainerMarketClient;
-import net.blay09.mods.farmingforblockheads.entity.EntityMerchant;
+import net.blay09.mods.farmingforblockheads.container.ModContainers;
+import net.blay09.mods.farmingforblockheads.entity.MerchantEntity;
 import net.blay09.mods.farmingforblockheads.entity.ModEntities;
 import net.blay09.mods.farmingforblockheads.item.ModItems;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.registry.AbstractRegistry;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.blay09.mods.farmingforblockheads.sound.ModSounds;
-import net.blay09.mods.farmingforblockheads.tile.ModTiles;
-import net.blay09.mods.farmingforblockheads.tile.TileChickenNest;
-import net.blay09.mods.farmingforblockheads.tile.TileFeedingTrough;
+import net.blay09.mods.farmingforblockheads.tile.ChickenNestTileEntity;
+import net.blay09.mods.farmingforblockheads.tile.FeedingTroughTileEntity;
+import net.blay09.mods.farmingforblockheads.tile.ModTileEntities;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ExtensionPoint;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -83,37 +77,27 @@ public class FarmingForBlockheads {
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, this::registerItems);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(TileEntityType.class, this::registerTileEntities);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, this::registerEntities);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ContainerType.class, this::registerContainers);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(SoundEvent.class, this::registerSounds);
 
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> it -> {
-            EntityPlayer player = Minecraft.getInstance().player;
-            switch (it.getId().getPath()) {
-                case "market":
-                    BlockPos pos = it.getAdditionalData().readBlockPos();
-                    return new GuiMarket(new ContainerMarketClient(player, pos));
-            }
-
-            return null;
-        });
+        DeferredWorkQueue.runLater(NetworkHandler::init);
     }
 
     public void setup(FMLCommonSetupEvent event) {
         DeferredWorkQueue.runLater(() -> {
-            NetworkHandler.init();
-
             new VanillaAddon();
 
             MarketRegistry.INSTANCE.load(configDir);
         });
     }
 
-    public void setupClient(FMLClientSetupEvent event) {
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-            RenderingRegistry.registerEntityRenderingHandler(EntityMerchant.class, RenderMerchant::new);
+    private void setupClient(FMLClientSetupEvent event) {
+        ModScreens.register();
 
-            ClientRegistry.bindTileEntitySpecialRenderer(TileChickenNest.class, new ChickenNestRenderer());
-            ClientRegistry.bindTileEntitySpecialRenderer(TileFeedingTrough.class, new FeedingTroughRenderer());
-        });
+        RenderingRegistry.registerEntityRenderingHandler(MerchantEntity.class, RenderMerchant::new);
+
+        ClientRegistry.bindTileEntitySpecialRenderer(ChickenNestTileEntity.class, new ChickenNestRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(FeedingTroughTileEntity.class, new FeedingTroughRenderer());
     }
 
     public void serverStarting(FMLServerStartingEvent event) {
@@ -134,21 +118,24 @@ public class FarmingForBlockheads {
     }
 
     private void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
-        ModTiles.register(event.getRegistry());
+        ModTileEntities.register(event.getRegistry());
+    }
+
+    private void registerContainers(RegistryEvent.Register<ContainerType<?>> event) {
+        ModContainers.register(event.getRegistry());
     }
 
     private void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
         ModEntities.register(event.getRegistry());
-//        EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID + ":merchant"), EntityMerchant.class, "merchant", 0, instance, 64, 3, true);
     }
 
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (AbstractRegistry.registryErrors.size() > 0) {
-            event.getPlayer().sendStatusMessage(new TextComponentString(TextFormatting.RED + "There were errors loading the Farming for Blockheads registries:"), false);
+            event.getPlayer().sendStatusMessage(new StringTextComponent(TextFormatting.RED + "There were errors loading the Farming for Blockheads registries:"), false);
             TextFormatting lastFormatting = TextFormatting.WHITE;
             for (String error : AbstractRegistry.registryErrors) {
-                event.getPlayer().sendStatusMessage(new TextComponentString(lastFormatting + "* " + error), false);
+                event.getPlayer().sendStatusMessage(new StringTextComponent(lastFormatting + "* " + error), false);
                 lastFormatting = lastFormatting == TextFormatting.GRAY ? TextFormatting.WHITE : TextFormatting.GRAY;
             }
         }

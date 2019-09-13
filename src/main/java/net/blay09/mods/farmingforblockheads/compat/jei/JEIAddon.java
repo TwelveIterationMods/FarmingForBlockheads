@@ -9,9 +9,9 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
-import net.blay09.mods.farmingforblockheads.client.gui.GuiMarket;
+import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.Rectangle2d;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -33,12 +33,12 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addGuiContainerHandler(GuiMarket.class, new IGuiContainerHandler<GuiMarket>() {
+        registration.addGuiContainerHandler(MarketScreen.class, new IGuiContainerHandler<MarketScreen>() {
             @Override
-            public List<Rectangle2d> getGuiExtraAreas(GuiMarket guiContainer) {
+            public List<Rectangle2d> getGuiExtraAreas(MarketScreen guiContainer) {
                 List<Rectangle2d> list = Lists.newArrayList();
-                for (GuiButton button : guiContainer.getFilterButtons()) {
-                    list.add(new Rectangle2d(button.x, button.y, button.width, button.height));
+                for (Button button : guiContainer.getFilterButtons()) {
+                    list.add(new Rectangle2d(button.x, button.y, button.getWidth(), button.getHeight()));
                 }
                 return list;
             }

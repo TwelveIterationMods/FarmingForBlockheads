@@ -3,7 +3,7 @@ package net.blay09.mods.farmingforblockheads;
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -16,8 +16,8 @@ public class IMCHandler {
             Object obj = message.getMessageSupplier().get();
             switch (message.getMethod()) {
                 case "RegisterMarketCategory":
-                    if (obj instanceof NBTTagCompound) {
-                        NBTTagCompound tagCompound = (NBTTagCompound) obj;
+                    if (obj instanceof CompoundNBT) {
+                        CompoundNBT tagCompound = (CompoundNBT) obj;
                         ResourceLocation registryName = new ResourceLocation(tagCompound.getString("RegistryName"));
                         if (registryName.getNamespace().equals(sender)) {
                             String tooltipLangKey = tagCompound.contains("Tooltip", Constants.NBT.TAG_STRING) ? tagCompound.getString("Tooltip") : "gui.farmingforblockheads:market.tooltip_none";
@@ -34,8 +34,8 @@ public class IMCHandler {
                     }
                     break;
                 case "RegisterMarketEntry":
-                    if (obj instanceof NBTTagCompound) {
-                        NBTTagCompound tagCompound = (NBTTagCompound) obj;
+                    if (obj instanceof CompoundNBT) {
+                        CompoundNBT tagCompound = (CompoundNBT) obj;
                         if (!tagCompound.contains("OutputItem", Constants.NBT.TAG_COMPOUND)) {
                             FarmingForBlockheads.logger.error("IMC API Error: RegisterMarketEntry requires OutputItem tag (from {})", sender);
                         } else if (!tagCompound.contains("CostItem", Constants.NBT.TAG_COMPOUND)) {

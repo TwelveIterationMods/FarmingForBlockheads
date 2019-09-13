@@ -1,19 +1,19 @@
 package net.blay09.mods.farmingforblockheads.client.render;
 
-import net.blay09.mods.farmingforblockheads.block.BlockChickenNest;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.blay09.mods.farmingforblockheads.block.ChickenNestBlock;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
-import net.blay09.mods.farmingforblockheads.tile.TileChickenNest;
-import net.minecraft.block.state.IBlockState;
+import net.blay09.mods.farmingforblockheads.tile.ChickenNestTileEntity;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.item.Items;
+import net.minecraft.util.Direction;
 
-public class ChickenNestRenderer extends TileEntityRenderer<TileChickenNest> {
+public class ChickenNestRenderer extends TileEntityRenderer<ChickenNestTileEntity> {
 
     private final ItemStack EGG_STACK = new ItemStack(Items.EGG);
     private final float[] EGG_POSITIONS = new float[]{
@@ -23,7 +23,7 @@ public class ChickenNestRenderer extends TileEntityRenderer<TileChickenNest> {
             0, 0, 0.1f,
     };
 
-    private static float getFacingAngle(EnumFacing facing) {
+    private static float getFacingAngle(Direction facing) {
         float angle;
         switch (facing) {
             case NORTH:
@@ -45,14 +45,14 @@ public class ChickenNestRenderer extends TileEntityRenderer<TileChickenNest> {
 
 
     @Override
-    public void render(TileChickenNest tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(ChickenNestTileEntity tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
         GlStateManager.pushMatrix();
         GlStateManager.translated(x + 0.5, y, z + 0.5);
 
-        IBlockState state = tileEntity.hasWorld() ? tileEntity.getWorld().getBlockState(tileEntity.getPos()) : null;
+        BlockState state = tileEntity.hasWorld() ? tileEntity.getWorld().getBlockState(tileEntity.getPos()) : null;
         float angle = 0f;
         if (state != null && state.getBlock() == ModBlocks.chickenNest) {
-            angle = getFacingAngle(state.get(BlockChickenNest.FACING));
+            angle = getFacingAngle(state.get(ChickenNestBlock.FACING));
         }
 
         GlStateManager.rotatef(angle, 0f, 1f, 0f);

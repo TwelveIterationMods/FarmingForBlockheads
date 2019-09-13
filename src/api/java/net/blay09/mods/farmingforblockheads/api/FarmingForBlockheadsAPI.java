@@ -48,18 +48,22 @@ public class FarmingForBlockheadsAPI {
 		return internalMethods.getMarketEntries();
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public static IMarketCategory getMarketCategorySeeds() {
 		return getMarketCategory(MARKET_CATEGORY_SEEDS);
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public static IMarketCategory getMarketCategoryFlowers() {
 		return getMarketCategory(MARKET_CATEGORY_FLOWERS);
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public static IMarketCategory getMarketCategorySaplings() {
 		return getMarketCategory(MARKET_CATEGORY_SAPLINGS);
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public static IMarketCategory getMarketCategoryOther() {
 		return getMarketCategory(MARKET_CATEGORY_OTHER);
 	}

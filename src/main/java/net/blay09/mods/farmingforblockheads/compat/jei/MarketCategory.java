@@ -13,8 +13,8 @@ import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
@@ -81,7 +81,7 @@ public class MarketCategory implements IRecipeCategory<IMarketEntry> {
 
     private String getFormattedCostString(IMarketEntry entry) {
         String color = TextFormatting.GREEN.toString();
-        if(entry.getCostItem().getItem() == Items.DIAMOND) {
+        if (entry.getCostItem().getItem() == Items.DIAMOND) {
             color = TextFormatting.AQUA.toString();
         }
         return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());

@@ -13,8 +13,8 @@ import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -258,7 +258,7 @@ public class MarketRegistry extends AbstractRegistry {
 
         int count = matcher.group(1) != null ? tryParseInt(matcher.group(1)) : 1;
         String nbt = matcher.group(4);
-        NBTTagCompound tagCompound = null;
+        CompoundNBT tagCompound = null;
         if (nbt != null) {
             try {
                 tagCompound = JsonToNBT.getTagFromJson(nbt);

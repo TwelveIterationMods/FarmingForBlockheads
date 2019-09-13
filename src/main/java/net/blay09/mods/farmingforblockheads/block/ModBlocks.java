@@ -2,8 +2,8 @@ package net.blay09.mods.farmingforblockheads.block;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.minecraft.block.Block;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModBlocks {
@@ -19,33 +19,33 @@ public class ModBlocks {
 
     public static void register(IForgeRegistry<Block> registry) {
         registry.registerAll(
-                market = new BlockMarket().setRegistryName(BlockMarket.name),
-                chickenNest = new BlockChickenNest().setRegistryName(BlockChickenNest.name),
-                feedingTrough = new BlockFeedingTrough().setRegistryName(BlockFeedingTrough.name),
-                fertilizedFarmlandRich = new BlockFertilizedFarmland(new BlockFertilizedFarmland.FarmlandRichTrait()).setRegistryName("fertilized_farmland_rich"),
-                fertilizedFarmlandHealthy = new BlockFertilizedFarmland(new BlockFertilizedFarmland.FarmlandHealthyTrait()).setRegistryName("fertilized_farmland_healthy"),
-                fertilizedFarmlandRichStable = new BlockFertilizedFarmland(
-                        new BlockFertilizedFarmland.FarmlandRichTrait(),
-                        new BlockFertilizedFarmland.FarmlandStableTrait()
+                market = new MarketBlock().setRegistryName(MarketBlock.name),
+                chickenNest = new ChickenNestBlock().setRegistryName(ChickenNestBlock.name),
+                feedingTrough = new FeedingTroughBlock().setRegistryName(FeedingTroughBlock.name),
+                fertilizedFarmlandRich = new FertilizedFarmlandBlock(new FertilizedFarmlandBlock.FarmlandRichTrait()).setRegistryName("fertilized_farmland_rich"),
+                fertilizedFarmlandHealthy = new FertilizedFarmlandBlock(new FertilizedFarmlandBlock.FarmlandHealthyTrait()).setRegistryName("fertilized_farmland_healthy"),
+                fertilizedFarmlandRichStable = new FertilizedFarmlandBlock(
+                        new FertilizedFarmlandBlock.FarmlandRichTrait(),
+                        new FertilizedFarmlandBlock.FarmlandStableTrait()
                 ).setRegistryName("fertilized_farmland_rich_stable"),
-                fertilizedFarmlandHealthyStable = new BlockFertilizedFarmland(
-                        new BlockFertilizedFarmland.FarmlandHealthyTrait(),
-                        new BlockFertilizedFarmland.FarmlandStableTrait()
+                fertilizedFarmlandHealthyStable = new FertilizedFarmlandBlock(
+                        new FertilizedFarmlandBlock.FarmlandHealthyTrait(),
+                        new FertilizedFarmlandBlock.FarmlandStableTrait()
                 ).setRegistryName("fertilized_farmland_healthy_stable"),
-                fertilizedFarmlandStable = new BlockFertilizedFarmland(new BlockFertilizedFarmland.FarmlandStableTrait()).setRegistryName("fertilized_farmland_stable")
+                fertilizedFarmlandStable = new FertilizedFarmlandBlock(new FertilizedFarmlandBlock.FarmlandStableTrait()).setRegistryName("fertilized_farmland_stable")
         );
     }
 
     public static void registerItemBlocks(IForgeRegistry<Item> registry) {
         registry.registerAll(
-                new ItemBlock(market, itemProperties()).setRegistryName(BlockMarket.name),
-                new ItemBlock(chickenNest, itemProperties()).setRegistryName(BlockChickenNest.name),
-                new ItemBlock(feedingTrough, itemProperties()).setRegistryName(BlockFeedingTrough.name),
-                new ItemBlock(fertilizedFarmlandRich, itemProperties()).setRegistryName("fertilized_farmland_rich"),
-                new ItemBlock(fertilizedFarmlandHealthy, itemProperties()).setRegistryName("fertilized_farmland_healthy"),
-                new ItemBlock(fertilizedFarmlandRichStable, itemProperties()).setRegistryName("fertilized_farmland_rich_stable"),
-                new ItemBlock(fertilizedFarmlandHealthyStable, itemProperties()).setRegistryName("fertilized_farmland_healthy_stable"),
-                new ItemBlock(fertilizedFarmlandStable, itemProperties()).setRegistryName("fertilized_farmland_stable")
+                new BlockItem(market, itemProperties()).setRegistryName(MarketBlock.name),
+                new BlockItem(chickenNest, itemProperties()).setRegistryName(ChickenNestBlock.name),
+                new BlockItem(feedingTrough, itemProperties()).setRegistryName(FeedingTroughBlock.name),
+                new BlockItem(fertilizedFarmlandRich, itemProperties()).setRegistryName("fertilized_farmland_rich"),
+                new BlockItem(fertilizedFarmlandHealthy, itemProperties()).setRegistryName("fertilized_farmland_healthy"),
+                new BlockItem(fertilizedFarmlandRichStable, itemProperties()).setRegistryName("fertilized_farmland_rich_stable"),
+                new BlockItem(fertilizedFarmlandHealthyStable, itemProperties()).setRegistryName("fertilized_farmland_healthy_stable"),
+                new BlockItem(fertilizedFarmlandStable, itemProperties()).setRegistryName("fertilized_farmland_stable")
         );
     }
 

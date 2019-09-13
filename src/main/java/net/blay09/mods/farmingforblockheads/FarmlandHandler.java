@@ -1,15 +1,12 @@
 package net.blay09.mods.farmingforblockheads;
 
-import net.blay09.mods.farmingforblockheads.block.BlockFertilizedFarmland;
-import net.blay09.mods.farmingforblockheads.item.ItemFertilizer;
-import net.minecraft.block.BlockFarmland;
+import net.blay09.mods.farmingforblockheads.block.FertilizedFarmlandBlock;
+import net.blay09.mods.farmingforblockheads.item.FertilizerItem;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FarmlandBlock;
 import net.minecraft.block.IGrowable;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,12 +22,12 @@ public class FarmlandHandler {
     public static void onGrowEvent(BlockEvent.CropGrowEvent.Post event) {
         World world = (World) event.getWorld();
         BlockPos pos = event.getPos();
-        IBlockState plant = world.getBlockState(event.getPos());
+        BlockState plant = world.getBlockState(event.getPos());
         if (plant.getBlock() instanceof IGrowable) {
             IGrowable growable = (IGrowable) plant.getBlock();
-            IBlockState farmland = world.getBlockState(event.getPos().down());
-            if (farmland.getBlock() instanceof BlockFertilizedFarmland) {
-                if (Math.random() <= ((BlockFertilizedFarmland) farmland.getBlock()).getDoubleGrowthChance()) {
+            BlockState farmland = world.getBlockState(event.getPos().down());
+            if (farmland.getBlock() instanceof FertilizedFarmlandBlock) {
+                if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getDoubleGrowthChance()) {
                     if (growable.canGrow(world, pos, plant, world.isRemote())) {
                         growable.grow(world, world.getRandom(), event.getPos(), plant);
                         world.playEvent(2005, pos, 0);
@@ -45,10 +42,10 @@ public class FarmlandHandler {
     public static void onHarvest(BlockEvent.HarvestDropsEvent event) {
         World world = (World) event.getWorld();
         BlockPos pos = event.getPos();
-        IBlockState plant = event.getState();
-        IBlockState farmland = event.getWorld().getBlockState(event.getPos().down());
-        if (farmland.getBlock() instanceof BlockFertilizedFarmland && plant.getBlock() instanceof IGrowable) {
-            if (Math.random() <= ((BlockFertilizedFarmland) farmland.getBlock()).getBonusCropChance()) {
+        BlockState plant = event.getState();
+        BlockState farmland = event.getWorld().getBlockState(event.getPos().down());
+        if (farmland.getBlock() instanceof FertilizedFarmlandBlock && plant.getBlock() instanceof IGrowable) {
+            if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getBonusCropChance()) {
                 event.getDrops().stream().filter(p -> !isProbablySeed(p)).findAny().ifPresent(c -> {
                     event.getDrops().add(c.copy());
                     world.playEvent(2005, pos, 0);
@@ -60,21 +57,22 @@ public class FarmlandHandler {
 
     @SubscribeEvent
     public static void onFertilize(PlayerInteractEvent.RightClickBlock event) {
-        if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemFertilizer) {
-            IBlockState farmland = event.getWorld().getBlockState(event.getPos().down());
+        // TODO Why is this not done in ItemFertilizer?
+        if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof FertilizerItem) {
+            BlockState farmland = event.getWorld().getBlockState(event.getPos().down());
             if (farmland.getBlock() == Blocks.FARMLAND) {
-                ItemUseContext useContext = new ItemUseContext(event.getEntityPlayer(), event.getItemStack(), event.getPos().down(), EnumFacing.UP, (float) event.getHitVec().x, (float) event.getHitVec().y, (float) event.getHitVec().z);
-                if (event.getItemStack().getItem().onItemUse(useContext) == EnumActionResult.SUCCESS) {
+                /* TODO ItemUseContext useContext = new ItemUseContext(event.getPlayer(), event.getHand(), event.getPos().down(), Direction.UP, new BlockRayTraceResult(new Vec3d(event.getPos()), event.getFace(), event.getPos(), true)))
+                if (event.getItemStack().getItem().onItemUse(useContext) == ActionResultType.SUCCESS) {
                     event.setCanceled(true);
-                }
+                }*/
             }
         }
     }
 
-    private static void rollRegression(World world, BlockPos pos, IBlockState farmland) {
-        if (farmland.getBlock() instanceof BlockFertilizedFarmland) {
-            if (Math.random() <= ((BlockFertilizedFarmland) farmland.getBlock()).getRegressionChance()) {
-                world.setBlockState(pos, Blocks.FARMLAND.getDefaultState().with(BlockFarmland.MOISTURE, farmland.get(BlockFarmland.MOISTURE)));
+    private static void rollRegression(World world, BlockPos pos, BlockState farmland) {
+        if (farmland.getBlock() instanceof FertilizedFarmlandBlock) {
+            if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getRegressionChance()) {
+                world.setBlockState(pos, Blocks.FARMLAND.getDefaultState().with(FarmlandBlock.MOISTURE, farmland.get(FarmlandBlock.MOISTURE)));
             }
         }
     }

@@ -2,8 +2,8 @@ package net.blay09.mods.farmingforblockheads.compat;
 
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 
 public class AgriCraftAddon {
 

@@ -1,0 +1,47 @@
+{
+	"__comment": "Designed by Blay09 with Cubik Studio - https://cubik.studio",
+	"parent": "block/block",
+	"textures": {
+		"particle": "minecraft:block/spruce_log",
+		"texture": "minecraft:block/spruce_log",
+		"board": "farmingforblockheads:block/market_top",
+		"planks": "minecraft:block/spruce_planks",
+		"roof": "farmingforblockheads:block/market_roof"
+	},
+	"elements": [
+		{
+			"__comment": "BoardTop",
+			"from": [ 0, 14, 0 ],
+			"to": [ 16, 16, 16 ],
+			"faces": {
+				"down": { "uv": [ 0, 0, 16, 16 ], "texture": "#board" },
+				"up": { "uv": [ 0, 0, 16, 16 ], "texture": "#board", "cullface": "up" },
+				"north": { "uv": [ 0, 0, 16, 2 ], "texture": "#board", "cullface": "north" },
+				"south": { "uv": [ 0, 0, 16, 2 ], "texture": "#planks", "cullface": "south" },
+				"west": { "uv": [ 0, 0, 16, 2 ], "texture": "#planks", "cullface": "west" },
+				"east": { "uv": [ 0, 0, 16, 2 ], "texture": "#planks", "cullface": "east" }
+			}
+		},
+		{
+			"__comment": "WallRight",
+			"from": [ 1, 0, 1 ],
+			"to": [ 15, 14, 15 ],
+			"faces": {
+				"down": { "uv": [ 1, 1, 15, 15 ], "texture": "#texture", "cullface": "down" },
+				"north": { "uv": [ 1, 2, 15, 16 ], "texture": "#texture" },
+				"south": { "uv": [ 1, 2, 15, 16 ], "texture": "#texture" },
+				"west": { "uv": [ 1, 2, 15, 16 ], "texture": "#texture" },
+				"east": { "uv": [ 1, 2, 15, 16 ], "texture": "#texture" }
+			}
+		},
+		{
+			"__comment": "Cube13",
+			"from": [ 4, 11.5, 0 ],
+			"to": [ 12, 14, 0.001 ],
+			"faces": {
+				"north": { "uv": [ 4, 2, 12, 4.5 ], "texture": "#board" },
+				"south": { "uv": [ 4, 2, 12, 4.5 ], "texture": "#board" }
+			}
+		}
+	]
+}

@@ -1,29 +1,12 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "farmingforblockheads:fertilized_farmland",
-    "textures": {
-      "top": "farmingforblockheads:blocks/fertilized_farmland_healthy_stable_dry",
-      "dirt": "minecraft:blocks/dirt",
-      "particle": "minecraft:blocks/dirt"
-    }
-  },
   "variants": {
-    "normal": [{}],
-    "inventory": [{}],
-    "moisture": {
-      "0": {},
-      "1": {},
-      "2": {},
-      "3": {},
-      "4": {},
-      "5": {},
-      "6": {},
-      "7": {
-        "textures": {
-          "top": "farmingforblockheads:blocks/fertilized_farmland_healthy_stable_wet"
-        }
-      }
-    }
+    "moisture=0": { "model": "farmingforblockheads:block/fertilized_farmland_healthy_stable" },
+    "moisture=1": { "model": "farmingforblockheads:block/fertilized_farmland_healthy_stable" },
+    "moisture=2": { "model": "farmingforblockheads:block/fertilized_farmland_healthy_stable" },
+    "moisture=3": { "model": "farmingforblockheads:block/fertilized_farmland_healthy_stable" },
+    "moisture=4": { "model": "farmingforblockheads:block/fertilized_farmland_healthy_stable" },
+    "moisture=5": { "model": "farmingforblockheads:block/fertilized_farmland_healthy_stable" },
+    "moisture=6": { "model": "farmingforblockheads:block/fertilized_farmland_healthy_stable" },
+    "moisture=7": { "model": "farmingforblockheads:block/fertilized_farmland_healthy_stable_moist" }
   }
 }
