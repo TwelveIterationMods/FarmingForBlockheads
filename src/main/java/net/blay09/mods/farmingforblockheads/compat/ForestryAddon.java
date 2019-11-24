@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
-import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.IMarketRegistryDefaultHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
@@ -10,9 +10,9 @@ public class ForestryAddon {
     private static final String KEY_SAPLINGS = "Forestry Saplings";
 
     public ForestryAddon() {
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 // TODO Re-implement once Forestry gets ported
 //                for (ITree tree : TreeManager.treeRoot.getIndividualTemplates()) {
 //                    ItemStack saplingStack = TreeManager.treeRoot.getMemberStack(tree, EnumGermlingType.SAPLING);

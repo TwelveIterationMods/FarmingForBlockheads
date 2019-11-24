@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
-import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.IMarketRegistryDefaultHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,9 +17,9 @@ public class NaturaAddon {
     private static final String KEY_SEEDS = "Natura Seeds";
 
     public NaturaAddon() {
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 final String[] SEEDS = new String[]{"overworld_seeds"};
 
                 for (String SEED : SEEDS) {
@@ -45,9 +45,9 @@ public class NaturaAddon {
             }
         });
 
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 final String[] SAPLINGS = new String[]{"overworld_sapling", "overworld_sapling2", "redwood_sapling"};
 
                 for (int i = 0; i < SAPLINGS.length; i++) {
@@ -73,9 +73,9 @@ public class NaturaAddon {
             }
         });
 
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_BUSHES, new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_BUSHES, new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 final String[] BUSHES = new String[]{"overworld_berrybush_raspberry", "overworld_berrybush_blueberry", "overworld_berrybush_blackberry", "overworld_berrybush_maloberry"};
 
                 for (String BUSH : BUSHES) {
@@ -99,9 +99,9 @@ public class NaturaAddon {
             }
         });
 
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_NETHER_BUSHES, new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_NETHER_BUSHES, new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 final String[] BUSHES = new String[]{"nether_berrybush_blightberry", "nether_berrybush_duskberry", "nether_berrybush_skyberry", "nether_berrybush_stingberry"};
 
                 for (String BUSH : BUSHES) {

@@ -30,7 +30,7 @@ public class FarmingForBlockheadsAPI {
 		internalMethods.registerMarketEntry(outputItem, costItem, category);
 	}
 
-	public static void registerMarketDefaultHandler(String key, MarketRegistryDefaultHandler defaultHandler) {
+	public static void registerMarketDefaultHandler(String key, IMarketRegistryDefaultHandler defaultHandler) {
 		internalMethods.registerMarketDefaultHandler(key, defaultHandler);
 	}
 

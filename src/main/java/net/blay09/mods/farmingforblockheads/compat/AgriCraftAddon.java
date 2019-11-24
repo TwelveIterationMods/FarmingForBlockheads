@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
-import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.IMarketRegistryDefaultHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
@@ -10,9 +10,9 @@ public class AgriCraftAddon {
     private static final String KEY_SEEDS = "AgriCraft Seeds";
 
     public AgriCraftAddon() {
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 // TODO Re-implement once AgriCraft gets ported
 //				Item seedItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(Compat.AGRICRAFT, "agri_seed"));
 //				if(seedItem != null) {

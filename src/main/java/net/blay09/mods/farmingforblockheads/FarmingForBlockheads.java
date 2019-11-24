@@ -13,6 +13,7 @@ import net.blay09.mods.farmingforblockheads.entity.ModEntities;
 import net.blay09.mods.farmingforblockheads.item.ModItems;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.registry.AbstractRegistry;
+import net.blay09.mods.farmingforblockheads.registry.market.MarketRegistryLoader;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.blay09.mods.farmingforblockheads.sound.ModSounds;
 import net.blay09.mods.farmingforblockheads.tile.ChickenNestTileEntity;
@@ -24,6 +25,7 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -39,6 +41,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -60,8 +63,6 @@ public class FarmingForBlockheads {
         }
     };
 
-    public static File configDir;
-
     public FarmingForBlockheads() {
         FarmingForBlockheadsAPI.__setupAPI(new InternalMethodsImpl());
 
@@ -73,7 +74,7 @@ public class FarmingForBlockheads {
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStarting);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupServer);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processInterMod);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class, this::registerBlocks);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, this::registerItems);
@@ -86,11 +87,7 @@ public class FarmingForBlockheads {
     }
 
     private void setup(FMLCommonSetupEvent event) {
-        DeferredWorkQueue.runLater(() -> {
-            new VanillaAddon();
-
-            MarketRegistry.INSTANCE.load(configDir);
-        });
+        DeferredWorkQueue.runLater(VanillaAddon::new);
     }
 
     private void setupClient(FMLClientSetupEvent event) {
@@ -102,8 +99,9 @@ public class FarmingForBlockheads {
         ClientRegistry.bindTileEntitySpecialRenderer(FeedingTroughTileEntity.class, new FeedingTroughRenderer());
     }
 
-    private void serverStarting(FMLServerStartingEvent event) {
-        CommandFarmingForBlockheads.register(event.getCommandDispatcher());
+    private void setupServer(FMLServerAboutToStartEvent event) {
+        IReloadableResourceManager resourceManager = event.getServer().getResourceManager();
+        resourceManager.addReloadListener(new MarketRegistryLoader());
     }
 
     private void processInterMod(InterModProcessEvent event) {

@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
-import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.IMarketRegistryDefaultHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -13,9 +13,9 @@ public class TerraqueousAddon {
     private static final String KEY_SAPLINGS = "Terraqueous Saplings";
 
     public TerraqueousAddon() {
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 final String[] SAPLINGS = new String[]{"sapling"};
 
                 for (String SAPLING : SAPLINGS) {

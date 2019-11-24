@@ -3,7 +3,7 @@ package net.blay09.mods.farmingforblockheads;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.blay09.mods.farmingforblockheads.api.InternalMethods;
-import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.IMarketRegistryDefaultHandler;
 import net.blay09.mods.farmingforblockheads.registry.MarketCategory;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.minecraft.item.ItemStack;
@@ -24,7 +24,7 @@ public class InternalMethodsImpl implements InternalMethods {
 	}
 
 	@Override
-	public void registerMarketDefaultHandler(String key, MarketRegistryDefaultHandler defaultHandler) {
+	public void registerMarketDefaultHandler(String key, IMarketRegistryDefaultHandler defaultHandler) {
 		MarketRegistry.registerDefaultHandler(key, defaultHandler);
 	}
 

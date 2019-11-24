@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
-import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.IMarketRegistryDefaultHandler;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -30,9 +30,9 @@ public class HarvestcraftAddon {
     };
 
     public HarvestcraftAddon() {
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 for (String cropName : SEEDS) {
                     String seedName = cropName + "seeditem";
                     Item seedItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(Compat.HARVESTCRAFT, seedName));
@@ -53,9 +53,9 @@ public class HarvestcraftAddon {
             }
         });
 
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 for (String treeName : SAPLINGS) {
                     String saplingName = treeName + "_sapling";
                     Item saplingItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(Compat.HARVESTCRAFT, saplingName));

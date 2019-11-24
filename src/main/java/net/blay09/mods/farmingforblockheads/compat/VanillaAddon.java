@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.compat;
 
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
-import net.blay09.mods.farmingforblockheads.api.MarketRegistryDefaultHandler;
+import net.blay09.mods.farmingforblockheads.api.IMarketRegistryDefaultHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
@@ -11,9 +11,9 @@ import net.minecraft.item.Items;
 public class VanillaAddon {
 
     public VanillaAddon() {
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Seeds", new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Seeds", new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.WHEAT_SEEDS, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
                 FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.MELON_SEEDS, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
                 FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.PUMPKIN_SEEDS, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
@@ -31,9 +31,9 @@ public class VanillaAddon {
             }
         });
 
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Flowers", new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Flowers", new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 final Block[] FLOWERS = new Block[]{
                         Blocks.DANDELION,
                         Blocks.POPPY,
@@ -63,9 +63,9 @@ public class VanillaAddon {
             }
         });
 
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Mushrooms", new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Mushrooms", new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Blocks.BROWN_MUSHROOM, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategoryOther());
                 FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Blocks.RED_MUSHROOM, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategoryOther());
             }
@@ -81,9 +81,9 @@ public class VanillaAddon {
             }
         });
 
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Saplings", new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Vanilla Saplings", new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 final Block[] SAPLINGS = new Block[]{
                         Blocks.OAK_SAPLING,
                         Blocks.SPRUCE_SAPLING,
@@ -109,9 +109,9 @@ public class VanillaAddon {
             }
         });
 
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Bone Meal", new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Bone Meal", new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 FarmingForBlockheadsAPI.registerMarketEntry(new ItemStack(Items.BONE_MEAL, defaultAmount), defaultPayment, FarmingForBlockheadsAPI.getMarketCategoryOther());
             }
 
@@ -126,9 +126,9 @@ public class VanillaAddon {
             }
         });
 
-        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Animal Eggs", new MarketRegistryDefaultHandler() {
+        FarmingForBlockheadsAPI.registerMarketDefaultHandler("Animal Eggs", new IMarketRegistryDefaultHandler() {
             @Override
-            public void apply(ItemStack defaultPayment, int defaultAmount) {
+            public void register(ItemStack defaultPayment, int defaultAmount) {
                 final Item[] SPAWN_EGGS = new Item[]{
                         Items.CHICKEN_SPAWN_EGG,
                         Items.COD_SPAWN_EGG,
