@@ -39,7 +39,7 @@ public class ChickenNestBlock extends ContainerBlock {
     private static final VoxelShape SHAPE = Block.makeCuboidShape(1, 0, 1, 15, 3, 15);
 
     protected ChickenNestBlock() {
-        super(Block.Properties.create(Material.ORGANIC).sound(SoundType.WET_GRASS).hardnessAndResistance(1f));
+        super(Block.Properties.create(Material.WOOD).sound(SoundType.WET_GRASS).hardnessAndResistance(1f));
     }
 
     @Override

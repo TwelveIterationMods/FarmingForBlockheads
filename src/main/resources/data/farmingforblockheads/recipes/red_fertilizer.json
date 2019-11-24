@@ -1,17 +1,17 @@
 {
   "result": {
-    "item": "farmingforblockheads:fertilizer_green",
+    "item": "farmingforblockheads:red_fertilizer",
     "count": 4
   },
   "type": "crafting_shaped",
   "pattern": [
-    "GGG",
+    "RRR",
     "NSN",
-    "WWW"
+    "BBB"
   ],
   "key": {
-    "G": {
-      "tag": "minecraft:green_dye"
+    "R": {
+      "tag": "forge:dyes/red"
     },
     "N": {
       "item": "minecraft:gold_nugget"
@@ -19,8 +19,8 @@
     "S": {
       "item": "minecraft:wheat_seeds"
     },
-    "W": {
-      "item": "minecraft:wheat"
+    "B": {
+      "item": "minecraft:bone_meal"
     }
   }
 }
