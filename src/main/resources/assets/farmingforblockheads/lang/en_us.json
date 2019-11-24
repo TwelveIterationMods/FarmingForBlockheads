@@ -26,5 +26,8 @@
   "tooltip.farmingforblockheads:feeding_trough": "Auto-feeds nearby animals",
   "tooltip.farmingforblockheads:fertilizer_healthy": "Speeds up growth",
   "tooltip.farmingforblockheads:fertilizer_rich": "Increases crop output",
-  "tooltip.farmingforblockheads:fertilizer_stable": "Prevents trampling"
+  "tooltip.farmingforblockheads:fertilizer_stable": "Prevents trampling",
+  "tooltip.farmingforblockheads:trait_stable": "Prevents trampling",
+  "tooltip.farmingforblockheads:trait_healthy": "Speeds up growth",
+  "tooltip.farmingforblockheads:trait_rich": "Increases crop output"
 }

@@ -7,13 +7,19 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.FarmlandBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -32,12 +38,26 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
         default boolean isStable() {
             return false;
         }
+
+        String getTraitName();
+
+        TextFormatting getTraitColor();
     }
 
     public static class FarmlandHealthyTrait implements FarmlandTrait {
         @Override
         public float getDoubleGrowthChance() {
             return FarmingForBlockheadsConfig.COMMON.fertilizerBonusGrowthChance.get();
+        }
+
+        @Override
+        public String getTraitName() {
+            return "healthy";
+        }
+
+        @Override
+        public TextFormatting getTraitColor() {
+            return TextFormatting.DARK_RED;
         }
     }
 
@@ -46,12 +66,32 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
         public float getBonusCropChance() {
             return FarmingForBlockheadsConfig.COMMON.fertilizerBonusCropChance.get();
         }
+
+        @Override
+        public String getTraitName() {
+            return "rich";
+        }
+
+        @Override
+        public TextFormatting getTraitColor() {
+            return TextFormatting.GREEN;
+        }
     }
 
     public static class FarmlandStableTrait implements FarmlandTrait {
         @Override
         public boolean isStable() {
             return true;
+        }
+
+        @Override
+        public String getTraitName() {
+            return "stable";
+        }
+
+        @Override
+        public TextFormatting getTraitColor() {
+            return TextFormatting.YELLOW;
         }
     }
 
@@ -117,5 +157,14 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
     private boolean hasCrops(IBlockReader worldIn, BlockPos pos) {
         BlockState state = worldIn.getBlockState(pos.up());
         return state.getBlock() instanceof IPlantable && canSustainPlant(state, worldIn, pos, Direction.UP, (IPlantable) state.getBlock());
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, @Nullable IBlockReader world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+        for (FarmlandTrait trait : traits) {
+            TranslationTextComponent traitComponent = new TranslationTextComponent("tooltip.farmingforblockheads:trait_" + trait.getTraitName());
+            traitComponent.getStyle().setColor(trait.getTraitColor());
+            tooltip.add(traitComponent);
+        }
     }
 }
