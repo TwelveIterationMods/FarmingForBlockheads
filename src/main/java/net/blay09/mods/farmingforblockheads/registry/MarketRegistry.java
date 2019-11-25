@@ -6,10 +6,12 @@ import com.google.gson.JsonObject;
 import net.blay09.mods.farmingforblockheads.api.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
 public class MarketRegistry {
 
@@ -30,10 +32,39 @@ public class MarketRegistry {
         indexedCategories.put(category.getRegistryName(), category);
     }
 
-    public void registerEntry(ItemStack outputItem, ItemStack costItem, IMarketCategory category) {
-        // TODO apply entry overrides
+    public void registerGroupOverride(String key, IMarketOverrideData override) {
+        groupOverrides.put(key, override);
+    }
 
-        entries.put(category, new MarketEntry(outputItem, costItem, category));
+    public void registerEntryOverride(String key, IMarketOverrideData override) {
+        entryOverrides.put(key, override);
+    }
+
+    public void registerEntry(ItemStack outputItem, ItemStack costItem, @Nullable IMarketCategory category) {
+        String registryName = Objects.toString(outputItem.getItem().getRegistryName());
+        IMarketOverrideData override = entryOverrides.get(registryName);
+        if (category == null) {
+            category = determineCategory(outputItem);
+        }
+
+        if (override == null || override.isEnabled()) {
+            ItemStack payment = override != null ? override.getPayment() : costItem;
+            ItemStack alteredOutputItem = override != null ? ItemHandlerHelper.copyStackWithSize(outputItem, override.getAmount()) : outputItem;
+            entries.put(category, new MarketEntry(alteredOutputItem, payment, category));
+        }
+    }
+
+    public void registerDefaults() {
+        for (Map.Entry<String, IMarketRegistryDefaultHandler> entry : defaultHandlers.entrySet()) {
+            IMarketOverrideData override = groupOverrides.get(entry.getKey());
+            IMarketRegistryDefaultHandler defaultHandler = entry.getValue();
+            boolean enabled = defaultHandler.isEnabledByDefault() && (override == null || override.isEnabled());
+            if (enabled) {
+                ItemStack payment = override != null ? override.getPayment() : defaultHandler.getDefaultPayment();
+                int amount = override != null ? override.getAmount() : defaultHandler.getDefaultAmount();
+                defaultHandler.register(payment, amount);
+            }
+        }
     }
 
     @Nullable
@@ -55,7 +86,7 @@ public class MarketRegistry {
         return INSTANCE.entries.values();
     }
 
-    private IMarketCategory determineCategory(ItemStack outputStack) {
+    private static IMarketCategory determineCategory(ItemStack outputStack) {
         IMarketCategory category = FarmingForBlockheadsAPI.getMarketCategoryOther();
         ResourceLocation registryName = outputStack.getItem().getRegistryName();
         if (registryName != null) {
@@ -67,20 +98,8 @@ public class MarketRegistry {
                 category = FarmingForBlockheadsAPI.getMarketCategoryFlowers();
             }
         }
-        return category;
-    }
 
-    protected void registerDefaults(JsonObject json) {
-        for (Map.Entry<String, IMarketRegistryDefaultHandler> entry : defaultHandlers.entrySet()) {
-            IMarketOverrideData override = groupOverrides.get(entry.getKey());
-            IMarketRegistryDefaultHandler defaultHandler = entry.getValue();
-            boolean enabled = defaultHandler.isEnabledByDefault() && (override == null || override.isEnabled());
-            if (enabled) {
-                ItemStack payment = override != null ? override.getPayment() : defaultHandler.getDefaultPayment();
-                int amount = override != null ? override.getAmount() : defaultHandler.getDefaultAmount();
-                defaultHandler.register(payment, amount);
-            }
-        }
+        return category;
     }
 
     public static void registerDefaultHandler(String defaultKey, IMarketRegistryDefaultHandler handler) {
@@ -100,4 +119,11 @@ public class MarketRegistry {
         return INSTANCE.indexedCategories.get(id);
     }
 
+    public void reset() {
+        entryOverrides.clear();
+        groupOverrides.clear();
+        defaultHandlers.clear();
+        indexedCategories.clear();
+        entries.clear();
+    }
 }

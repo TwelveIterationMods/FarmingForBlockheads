@@ -1,11 +1,12 @@
 package net.blay09.mods.farmingforblockheads.registry.market;
 
+import java.util.List;
 import java.util.Map;
 
 public class MarketRegistryData {
     private Map<String, MarketOverrideData> groupOverrides;
     private Map<String, MarketOverrideData> entryOverrides;
-    private Map<String, MarketEntryData> customEntries;
+    private List<MarketEntryData> customEntries;
 
     public Map<String, MarketOverrideData> getGroupOverrides() {
         return groupOverrides;
@@ -23,11 +24,11 @@ public class MarketRegistryData {
         this.entryOverrides = entryOverrides;
     }
 
-    public Map<String, MarketEntryData> getCustomEntries() {
+    public List<MarketEntryData> getCustomEntries() {
         return customEntries;
     }
 
-    public void setCustomEntries(Map<String, MarketEntryData> customEntries) {
+    public void setCustomEntries(List<MarketEntryData> customEntries) {
         this.customEntries = customEntries;
     }
 }

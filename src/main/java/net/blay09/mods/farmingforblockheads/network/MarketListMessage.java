@@ -66,6 +66,7 @@ public class MarketListMessage {
                 }
             });
         });
+        context.setPacketHandled(true);
     }
 
     private static MarketEntry readEntry(PacketBuffer buf, IMarketCategory category) {

@@ -39,6 +39,7 @@ public class MarketSelectMessage {
                 ((MarketContainer) container).selectMarketEntry(message.outputItem);
             }
         });
+        context.setPacketHandled(true);
     }
 
 }

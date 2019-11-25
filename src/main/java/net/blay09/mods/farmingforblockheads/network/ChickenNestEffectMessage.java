@@ -35,5 +35,6 @@ public class ChickenNestEffectMessage {
                 world.addParticle(ParticleTypes.EXPLOSION, message.pos.getX() + 0.5f, message.pos.getY() + 0.5f, message.pos.getZ() + 0.5f, 0, 0, 0);
             });
         });
+        context.setPacketHandled(true);
     }
 }
