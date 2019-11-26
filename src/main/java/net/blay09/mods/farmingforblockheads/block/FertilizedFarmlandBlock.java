@@ -154,11 +154,6 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
         return traits;
     }
 
-    private boolean hasCrops(IBlockReader worldIn, BlockPos pos) {
-        BlockState state = worldIn.getBlockState(pos.up());
-        return state.getBlock() instanceof IPlantable && canSustainPlant(state, worldIn, pos, Direction.UP, (IPlantable) state.getBlock());
-    }
-
     @Override
     public void addInformation(ItemStack itemStack, @Nullable IBlockReader world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         for (FarmlandTrait trait : traits) {
