@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.blay09.mods.farmingforblockheads.api.MarketRegistryReloadEvent;
+import net.blay09.mods.farmingforblockheads.registry.MarketCategory;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.blay09.mods.farmingforblockheads.registry.json.ItemStackSerializer;
 import net.minecraft.item.ItemStack;
@@ -45,6 +46,13 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
     }
 
     private void load(MarketRegistryData data) {
+        if (data.getCustomCategories() != null) {
+            data.getCustomCategories().forEach((key, categoryData) -> {
+                ResourceLocation resourceLocation = new ResourceLocation(key);
+                MarketRegistry.INSTANCE.registerCategory(new MarketCategory(resourceLocation, categoryData.getName(), categoryData.getIcon(), categoryData.getSortIndex()));
+            });
+        }
+
         if (data.getEntryOverrides() != null) {
             data.getEntryOverrides().forEach(MarketRegistry.INSTANCE::registerEntryOverride);
         }

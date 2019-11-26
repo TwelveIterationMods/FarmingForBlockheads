@@ -7,6 +7,7 @@ import java.util.Map;
 public class MarketRegistryData {
     private Map<String, MarketOverrideData> groupOverrides;
     private Map<String, MarketOverrideData> entryOverrides;
+    private Map<String, MarketCategoryData> customCategories;
     private List<MarketEntryData> customEntries;
 
     @Nullable
@@ -34,5 +35,14 @@ public class MarketRegistryData {
 
     public void setCustomEntries(List<MarketEntryData> customEntries) {
         this.customEntries = customEntries;
+    }
+
+    @Nullable
+    public Map<String, MarketCategoryData> getCustomCategories() {
+        return customCategories;
+    }
+
+    public void setCustomCategories(Map<String, MarketCategoryData> customCategories) {
+        this.customCategories = customCategories;
     }
 }

@@ -48,7 +48,7 @@ public class MarketRegistry {
         }
 
         if (override == null || override.isEnabled()) {
-            ItemStack payment = override != null ? override.getPayment() : costItem;
+            ItemStack payment = override != null && override.getPayment() != null ? override.getPayment() : costItem;
             ItemStack alteredOutputItem = override != null ? ItemHandlerHelper.copyStackWithSize(outputItem, override.getAmount()) : outputItem;
             entries.put(category, new MarketEntry(alteredOutputItem, payment, category));
         }
@@ -60,7 +60,7 @@ public class MarketRegistry {
             IMarketRegistryDefaultHandler defaultHandler = entry.getValue();
             boolean enabled = defaultHandler.isEnabledByDefault() && (override == null || override.isEnabled());
             if (enabled) {
-                ItemStack payment = override != null ? override.getPayment() : defaultHandler.getDefaultPayment();
+                ItemStack payment = override != null && override.getPayment() != null ? override.getPayment() : defaultHandler.getDefaultPayment();
                 int amount = override != null ? override.getAmount() : defaultHandler.getDefaultAmount();
                 defaultHandler.register(payment, amount);
             }

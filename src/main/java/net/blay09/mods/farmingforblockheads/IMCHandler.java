@@ -21,11 +21,9 @@ public class IMCHandler {
                         ResourceLocation registryName = new ResourceLocation(tagCompound.getString("RegistryName"));
                         if (registryName.getNamespace().equals(sender)) {
                             String tooltipLangKey = tagCompound.contains("Tooltip", Constants.NBT.TAG_STRING) ? tagCompound.getString("Tooltip") : "gui.farmingforblockheads:market.tooltip_none";
-                            ResourceLocation texturePath = new ResourceLocation(tagCompound.getString("Texture"));
-                            int textureX = tagCompound.getInt("TextureX");
-                            int textureY = tagCompound.getInt("TextureY");
+                            ItemStack icon = ItemStack.read(tagCompound.getCompound("Icon"));
                             int sortIndex = tagCompound.getInt("SortIndex");
-                            FarmingForBlockheadsAPI.registerMarketCategory(registryName, tooltipLangKey, texturePath, textureX, textureY, sortIndex);
+                            FarmingForBlockheadsAPI.registerMarketCategory(registryName, tooltipLangKey, icon, sortIndex);
                         } else {
                             FarmingForBlockheads.logger.error("IMC API Error: Market category must be prefixed by your mod id (from {})", sender);
                         }

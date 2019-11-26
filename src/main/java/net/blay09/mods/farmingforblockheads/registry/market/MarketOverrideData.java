@@ -4,9 +4,9 @@ import net.blay09.mods.farmingforblockheads.api.IMarketOverrideData;
 import net.minecraft.item.ItemStack;
 
 public class MarketOverrideData implements IMarketOverrideData {
-    private boolean enabled;
+    private boolean enabled = true;
     private ItemStack payment;
-    private int amount;
+    private int amount = 1;
 
     @Override
     public boolean isEnabled() {

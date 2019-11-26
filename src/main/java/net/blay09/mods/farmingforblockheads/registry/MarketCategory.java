@@ -1,22 +1,19 @@
 package net.blay09.mods.farmingforblockheads.registry;
 
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class MarketCategory implements IMarketCategory {
 	private final ResourceLocation registryName;
 	private final String tooltipLangKey;
-	private final ResourceLocation texturePath;
-	private final int textureX;
-	private final int textureY;
+	private final ItemStack iconStack;
 	private int sortIndex;
 
-	public MarketCategory(ResourceLocation registryName, String tooltipLangKey, ResourceLocation texturePath, int textureX, int textureY, int sortIndex) {
+	public MarketCategory(ResourceLocation registryName, String tooltipLangKey, ItemStack iconStack, int sortIndex) {
 		this.registryName = registryName;
 		this.tooltipLangKey = tooltipLangKey;
-		this.texturePath = texturePath;
-		this.textureX = textureX;
-		this.textureY = textureY;
+		this.iconStack = iconStack;
 		this.sortIndex = sortIndex;
 	}
 
@@ -31,18 +28,8 @@ public class MarketCategory implements IMarketCategory {
 	}
 
 	@Override
-	public ResourceLocation getIconTexture() {
-		return texturePath;
-	}
-
-	@Override
-	public int getIconTextureX() {
-		return textureX;
-	}
-
-	@Override
-	public int getIconTextureY() {
-		return textureY;
+	public ItemStack getIconStack() {
+		return iconStack;
 	}
 
 	@Override

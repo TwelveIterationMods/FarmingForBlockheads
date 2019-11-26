@@ -1,5 +1,6 @@
 package net.blay09.mods.farmingforblockheads.api;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -13,19 +14,9 @@ public interface IMarketCategory extends Comparable<IMarketCategory> {
 	String getTooltipLangKey();
 
 	/**
-	 * @return the texture sheet to use for the category button - icon must be 20x20
+	 * @return the item to use for the category icon
 	 */
-	ResourceLocation getIconTexture();
-
-	/**
-	 * @return the texture x coordinate to use for the category button - width is always 20
-	 */
-	int getIconTextureX();
-
-	/**
-	 * @return the texture y coordinate to use for the category button - height is always 20
-	 */
-	int getIconTextureY();
+	ItemStack getIconStack();
 
 	int getSortIndex();
 
