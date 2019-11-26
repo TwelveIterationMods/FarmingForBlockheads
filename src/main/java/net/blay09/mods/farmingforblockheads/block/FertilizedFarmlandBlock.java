@@ -142,7 +142,7 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
         if (!hasWater(world, pos) && !world.isRainingAt(pos.up())) {
             if (moisture > 0) {
                 world.setBlockState(pos, state.with(MOISTURE, moisture - 1), 2);
-            } else if (!hasCrops(world, pos) && traits.stream().noneMatch(FarmlandTrait::isStable)) {
+            } else if (!hasCropsFFB(world, pos) && traits.stream().noneMatch(FarmlandTrait::isStable)) {
                 turnToDirt(state, world, pos);
             }
         } else if (moisture < 7) {
@@ -152,6 +152,14 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
 
     public Collection<FarmlandTrait> getTraits() {
         return traits;
+    }
+
+    /**
+     * AT doesn't work on super impl because it's patched?
+     */
+    private boolean hasCropsFFB(IBlockReader worldIn, BlockPos pos) {
+        BlockState state = worldIn.getBlockState(pos.up());
+        return state.getBlock() instanceof IPlantable && canSustainPlant(state, worldIn, pos, Direction.UP, (IPlantable) state.getBlock());
     }
 
     @Override
