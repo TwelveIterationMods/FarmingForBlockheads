@@ -3,21 +3,17 @@ package net.blay09.mods.farmingforblockheads;
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.api.MarketRegistryReloadEvent;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
+import net.blay09.mods.farmingforblockheads.client.ClientProxy;
+import net.blay09.mods.farmingforblockheads.client.ModRenderers;
 import net.blay09.mods.farmingforblockheads.client.ModScreens;
-import net.blay09.mods.farmingforblockheads.client.render.ChickenNestRenderer;
-import net.blay09.mods.farmingforblockheads.client.render.FeedingTroughRenderer;
-import net.blay09.mods.farmingforblockheads.client.render.RenderMerchant;
 import net.blay09.mods.farmingforblockheads.compat.Compat;
 import net.blay09.mods.farmingforblockheads.compat.VanillaAddon;
 import net.blay09.mods.farmingforblockheads.container.ModContainers;
-import net.blay09.mods.farmingforblockheads.entity.MerchantEntity;
 import net.blay09.mods.farmingforblockheads.entity.ModEntities;
 import net.blay09.mods.farmingforblockheads.item.ModItems;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.registry.market.MarketRegistryLoader;
 import net.blay09.mods.farmingforblockheads.sound.ModSounds;
-import net.blay09.mods.farmingforblockheads.tile.ChickenNestTileEntity;
-import net.blay09.mods.farmingforblockheads.tile.FeedingTroughTileEntity;
 import net.blay09.mods.farmingforblockheads.tile.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -33,9 +29,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -58,6 +53,8 @@ public class FarmingForBlockheads {
         }
     };
 
+    public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+
     public FarmingForBlockheads() {
         FarmingForBlockheadsAPI.__setupAPI(new InternalMethodsImpl());
 
@@ -77,11 +74,7 @@ public class FarmingForBlockheads {
 
     private void setupClient(FMLClientSetupEvent event) {
         ModScreens.register();
-
-        RenderingRegistry.registerEntityRenderingHandler(MerchantEntity.class, RenderMerchant::new);
-
-        ClientRegistry.bindTileEntitySpecialRenderer(ChickenNestTileEntity.class, new ChickenNestRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(FeedingTroughTileEntity.class, new FeedingTroughRenderer());
+        ModRenderers.register();
     }
 
     private void setupServer(FMLServerAboutToStartEvent event) {

@@ -1,5 +1,6 @@
 package net.blay09.mods.farmingforblockheads.network;
 
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.ParticleTypes;
@@ -29,12 +30,8 @@ public class ChickenNestEffectMessage {
 
     public static void handle(ChickenNestEffectMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-                World world = Minecraft.getInstance().world;
-                world.addParticle(ParticleTypes.EXPLOSION, message.pos.getX() + 0.5f, message.pos.getY() + 0.5f, message.pos.getZ() + 0.5f, 0, 0, 0);
-            });
-        });
+        context.enqueueWork(() -> FarmingForBlockheads.proxy.playChickenNestEffect(message.pos));
         context.setPacketHandled(true);
     }
+
 }
