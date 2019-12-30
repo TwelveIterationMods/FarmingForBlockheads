@@ -3,9 +3,29 @@ Minecraft Mod. Adds farming utilities, such as a seed market, fertilizer and fee
 
 [![Versions](http://cf.way2muchnoise.eu/versions/farming-for-blockheads.svg)](https://minecraft.curseforge.com/projects/farming-for-blockheads) [![Downloads](http://cf.way2muchnoise.eu/full_farming-for-blockheads_downloads.svg)](https://minecraft.curseforge.com/projects/farming-for-blockheads)
 
-## Development Builds
-Potentially unstable in-development releases built straight from the latest code in this repository are available [on my Jenkins](http://jenkins.blay09.net).
-They may contain unfinished and broken features and no support is provided for these builds.
+## Custom Market Entries
+
+Data packs are now used to configure the market. You can place JSON files inside a `farmingforblockheads_compat` folder (so the resulting path would be `data/<domain>/farmingforblockheads_compat/{files}.json`) within a datapack which will be loaded. For simple scenarios, you can also use the `MarketRegistry.json` file under `config/farmingforblockheads/MarketRegistry.json`.
+
+See here for an example: https://gist.github.com/blay09/93a48d092d6dc570a64c81e1912dc4d0
+
+Group overrides can be used to enable or disable inbuilt extensions.
+
+Current inbuilt group names are (bold: enabled by default):
+
+* Vanilla
+  * **Vanilla Seeds**
+  * **Vanilla Saplings**
+  * **Bone Meal**
+  * Vanilla Flowers
+  * Vanilla Mushrooms
+  * Animal Eggs
+* Biomes O' Plenty
+  * **BiomesOPlenty Saplings**
+  * BiomesOPlenty Flowers
+* Simple Farming
+  * **SimpleFarming Saplings**
+  * **SimpleFarming Seeds**
 
 ## IMC API
 
