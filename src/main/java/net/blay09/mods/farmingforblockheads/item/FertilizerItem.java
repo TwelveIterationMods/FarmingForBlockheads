@@ -5,6 +5,7 @@ import net.blay09.mods.farmingforblockheads.block.FertilizedFarmlandBlock;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -30,8 +31,12 @@ public class FertilizerItem extends Item {
         STABLE;
 
         public BlockState applyFertilizer(BlockState state) {
-            int moisture = state.get(BlockStateProperties.MOISTURE_0_7);
             Block sourceBlock = state.getBlock();
+            if (sourceBlock != Blocks.FARMLAND && !(sourceBlock instanceof FertilizedFarmlandBlock)) {
+                return state;
+            }
+
+            int moisture = state.get(BlockStateProperties.MOISTURE_0_7);
             List<FertilizedFarmlandBlock.FarmlandTrait> traits = new ArrayList<>();
             traits.add(getFarmlandTrait());
             if (sourceBlock instanceof FertilizedFarmlandBlock) {
