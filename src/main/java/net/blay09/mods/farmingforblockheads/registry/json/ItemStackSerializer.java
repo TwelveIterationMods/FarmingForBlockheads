@@ -14,7 +14,7 @@ import java.lang.reflect.Type;
 public class ItemStackSerializer implements JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> {
     @Override
     public ItemStack deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-        JsonObject jsonObject = (JsonObject) json;
+        JsonObject jsonObject = json.getAsJsonObject();
         Item item = JSONUtils.getItem(jsonObject, "item");
         int count = JSONUtils.getInt(jsonObject, "count", 1);
         ItemStack itemStack = new ItemStack(item, count);
