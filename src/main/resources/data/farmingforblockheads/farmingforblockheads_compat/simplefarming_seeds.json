@@ -1,0 +1,297 @@
+{
+  "modId": "simplefarming",
+  "group": {
+    "name": "SimpleFarming Seeds",
+    "enabledByDefault": true
+  },
+  "customEntries": [
+    {
+      "output": {
+        "item": "simplefarming:barley_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:broccoli_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:cantaloupe_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:carrot_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:cassava_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:corn_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:cotton_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:cucumber_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:eggplant_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:honeydew_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:ginger_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:grape_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:kenaf_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:lettuce_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:oat_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:onion_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:pea_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:peanut_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:pepper_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:potato_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:radish_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:rice_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:rye_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:sorghum_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:soybean_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:spinach_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:squash_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:sweet_potato_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:tomato_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:turnip_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:yam_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    },
+    {
+      "output": {
+        "item": "simplefarming:zucchini_seeds"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:seeds"
+    }
+  ]
+}

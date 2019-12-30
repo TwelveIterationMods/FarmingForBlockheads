@@ -1,0 +1,90 @@
+{
+  "modId": "simplefarming",
+  "group": {
+    "name": "SimpleFarming Saplings",
+    "enabledByDefault": true
+  },
+  "customEntries": [
+    {
+      "output": {
+        "item": "simplefarming:apple_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "simplefarming:apricot_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "simplefarming:banana_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "simplefarming:cherry_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "simplefarming:mango_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "simplefarming:olive_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "simplefarming:orange_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "simplefarming:plum_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "simplefarming:pear_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    }
+  ]
+}

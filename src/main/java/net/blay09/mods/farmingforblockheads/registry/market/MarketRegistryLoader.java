@@ -3,12 +3,16 @@ package net.blay09.mods.farmingforblockheads.registry.market;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
+import net.blay09.mods.farmingforblockheads.api.IMarketRegistryDefaultHandler;
 import net.blay09.mods.farmingforblockheads.api.MarketRegistryReloadEvent;
 import net.blay09.mods.farmingforblockheads.registry.MarketCategory;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.blay09.mods.farmingforblockheads.registry.json.ItemStackSerializer;
+import net.blay09.mods.farmingforblockheads.registry.json.MarketRegistryDataSerializer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.resources.IResource;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
@@ -18,6 +22,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -31,6 +36,7 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
     private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
             .registerTypeAdapter(ItemStack.class, new ItemStackSerializer())
+            .registerTypeAdapter(MarketRegistryData.class, new MarketRegistryDataSerializer())
             .create();
 
     private static final List<Exception> registryErrors = new ArrayList<>();
@@ -73,6 +79,33 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
     }
 
     private void load(MarketRegistryData data) {
+        if (data.getModId() != null && !ModList.get().isLoaded(data.getModId())) {
+            return;
+        }
+
+        if (data.getGroup() != null) {
+            FarmingForBlockheadsAPI.registerMarketDefaultHandler(data.getGroup().getName(), new IMarketRegistryDefaultHandler() {
+                @Override
+                public void register(ItemStack defaultPayment, int defaultAmount) {
+                    loadMarketData(data);
+                }
+
+                @Override
+                public boolean isEnabledByDefault() {
+                    return data.getGroup().isEnabledByDefault();
+                }
+
+                @Override
+                public ItemStack getDefaultPayment() {
+                    return new ItemStack(Items.EMERALD);
+                }
+            });
+        } else {
+            loadMarketData(data);
+        }
+    }
+
+    private void loadMarketData(MarketRegistryData data) {
         if (data.getCustomCategories() != null) {
             data.getCustomCategories().forEach((key, categoryData) -> {
                 ResourceLocation resourceLocation = new ResourceLocation(key);

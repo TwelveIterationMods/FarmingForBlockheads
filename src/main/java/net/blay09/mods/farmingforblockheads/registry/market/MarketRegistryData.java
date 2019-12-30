@@ -5,10 +5,30 @@ import java.util.List;
 import java.util.Map;
 
 public class MarketRegistryData {
+    private String modId;
+    private MarketGroupData group;
     private Map<String, MarketOverrideData> groupOverrides;
     private Map<String, MarketOverrideData> entryOverrides;
     private Map<String, MarketCategoryData> customCategories;
     private List<MarketEntryData> customEntries;
+
+    @Nullable
+    public String getModId() {
+        return modId;
+    }
+
+    public void setModId(String modId) {
+        this.modId = modId;
+    }
+
+    @Nullable
+    public MarketGroupData getGroup() {
+        return group;
+    }
+
+    public void setGroup(MarketGroupData group) {
+        this.group = group;
+    }
 
     @Nullable
     public Map<String, MarketOverrideData> getGroupOverrides() {

@@ -1,0 +1,162 @@
+{
+  "modId": "biomesoplenty",
+  "group": {
+    "name": "BiomesOPlenty Saplings",
+    "enabledByDefault": true
+  },
+  "customEntries": [
+    {
+      "output": {
+        "item": "biomesoplenty:origin_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:flowering_oak_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:yellow_autumn_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:orange_autumn_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:maple_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:fir_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:redwood_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:white_cherry_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:pink_cherry_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:mahogany_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:jacaranda_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:palm_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:willow_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:dead_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:magic_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:umbran_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:hellbark_sapling"
+      },
+      "payment": {
+        "item": "minecraft:emerald"
+      },
+      "category": "farmingforblockheads:saplings"
+    }
+  ]
+}
