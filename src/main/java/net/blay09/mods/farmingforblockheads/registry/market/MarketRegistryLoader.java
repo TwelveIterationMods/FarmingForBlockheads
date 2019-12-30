@@ -58,18 +58,21 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
             }
         }
 
-        File configFile = new File(FMLPaths.CONFIGDIR.get().toFile(), "MarketRegistry.json");
-        if (configFile.exists()) {
-            try (FileReader reader = new FileReader(configFile)) {
-                load(gson.fromJson(reader, MarketRegistryData.class));
-            } catch (Exception e) {
-                FarmingForBlockheads.logger.error("Parsing error loading Farming for Blockheads data from MarketRegistry.json", e);
-                registryErrors.add(e);
-            }
-        } else {
-            try (FileWriter reader = new FileWriter(configFile)) {
-                gson.toJson(new MarketRegistryData(), reader);
-            } catch (IOException ignored) {
+        File configDir = new File(FMLPaths.CONFIGDIR.get().toFile(), "farmingforblockheads");
+        if (configDir.exists() || configDir.mkdirs()) {
+            File configFile = new File(configDir, "MarketRegistry.json");
+            if (configFile.exists()) {
+                try (FileReader reader = new FileReader(configFile)) {
+                    load(gson.fromJson(reader, MarketRegistryData.class));
+                } catch (Exception e) {
+                    FarmingForBlockheads.logger.error("Parsing error loading Farming for Blockheads data from MarketRegistry.json", e);
+                    registryErrors.add(e);
+                }
+            } else {
+                try (FileWriter reader = new FileWriter(configFile)) {
+                    gson.toJson(new MarketRegistryData(), reader);
+                } catch (IOException ignored) {
+                }
             }
         }
 
