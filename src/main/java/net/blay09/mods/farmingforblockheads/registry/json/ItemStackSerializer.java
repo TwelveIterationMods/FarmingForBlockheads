@@ -14,21 +14,25 @@ import java.lang.reflect.Type;
 public class ItemStackSerializer implements JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> {
     @Override
     public ItemStack deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-        JsonObject jsonObject = json.getAsJsonObject();
-        Item item = JSONUtils.getItem(jsonObject, "item");
-        int count = JSONUtils.getInt(jsonObject, "count", 1);
-        ItemStack itemStack = new ItemStack(item, count);
-        JsonObject nbtJson = JSONUtils.getJsonObject(jsonObject, "nbt", new JsonObject());
-        if (nbtJson.size() > 0) {
-            try {
-                CompoundNBT tagFromJson = JsonToNBT.getTagFromJson(jsonObject.toString());
-                itemStack.setTag(tagFromJson);
-            } catch (CommandSyntaxException e) {
-                FarmingForBlockheads.logger.error("Failed to parse nbt data for itemstack {}x {}: ", item, count, e);
+        if (json.isJsonPrimitive()) {
+            Item item = JSONUtils.getItem(json, "item");
+            return new ItemStack(item);
+        } else {
+            JsonObject jsonObject = json.getAsJsonObject();
+            Item item = JSONUtils.getItem(jsonObject, "item");
+            int count = JSONUtils.getInt(jsonObject, "count", 1);
+            ItemStack itemStack = new ItemStack(item, count);
+            JsonObject nbtJson = JSONUtils.getJsonObject(jsonObject, "nbt", new JsonObject());
+            if (nbtJson.size() > 0) {
+                try {
+                    CompoundNBT tagFromJson = JsonToNBT.getTagFromJson(jsonObject.toString());
+                    itemStack.setTag(tagFromJson);
+                } catch (CommandSyntaxException e) {
+                    FarmingForBlockheads.logger.error("Failed to parse nbt data for itemstack {}x {}: ", item, count, e);
+                }
             }
+            return itemStack;
         }
-
-        return itemStack;
     }
 
     @Override

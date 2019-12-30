@@ -7,7 +7,6 @@ import net.blay09.mods.farmingforblockheads.client.ClientProxy;
 import net.blay09.mods.farmingforblockheads.client.ModRenderers;
 import net.blay09.mods.farmingforblockheads.client.ModScreens;
 import net.blay09.mods.farmingforblockheads.compat.Compat;
-import net.blay09.mods.farmingforblockheads.compat.VanillaAddon;
 import net.blay09.mods.farmingforblockheads.container.ModContainers;
 import net.blay09.mods.farmingforblockheads.entity.ModEntities;
 import net.blay09.mods.farmingforblockheads.item.ModItems;
@@ -88,7 +87,6 @@ public class FarmingForBlockheads {
         FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "flowers"), "gui.farmingforblockheads:market.tooltip_flowers", new ItemStack(Items.DANDELION), 30);
         FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "other"), "gui.farmingforblockheads:market.tooltip_other", new ItemStack(Items.BONE_MEAL), 40);
 
-        new VanillaAddon();
         buildSoftDependProxy(Compat.HARVESTCRAFT, "net.blay09.mods.farmingforblockheads.compat.HarvestcraftAddon");
         buildSoftDependProxy(Compat.AGRICRAFT, "net.blay09.mods.farmingforblockheads.compat.AgriCraftAddon");
         buildSoftDependProxy(Compat.FORESTRY, "net.blay09.mods.farmingforblockheads.compat.ForestryAddon");

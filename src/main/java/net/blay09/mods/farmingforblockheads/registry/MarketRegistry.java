@@ -104,7 +104,7 @@ public class MarketRegistry {
 
     public static void registerDefaultHandler(String defaultKey, IMarketRegistryDefaultHandler handler) {
         if (INSTANCE.defaultHandlers.containsKey(defaultKey)) {
-            throw new RuntimeException("Attempted to register duplicate default handler");
+            throw new RuntimeException("Attempted to register duplicate default handler " + defaultKey);
         }
 
         INSTANCE.defaultHandlers.put(defaultKey, handler);

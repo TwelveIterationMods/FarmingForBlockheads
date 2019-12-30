@@ -20,7 +20,7 @@ public class MarketRegistryDataSerializer implements JsonDeserializer<MarketRegi
         JsonObject jsonObject = json.getAsJsonObject();
         if (jsonObject.has("modId")) {
             String modId = jsonObject.get("modId").getAsString();
-            if (!ModList.get().isLoaded(modId)) {
+            if (!modId.equals("minecraft") && !ModList.get().isLoaded(modId)) {
                 MarketRegistryData result = new MarketRegistryData();
                 result.setModId(modId);
                 return result;

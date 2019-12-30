@@ -79,7 +79,7 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
     }
 
     private void load(MarketRegistryData data) {
-        if (data.getModId() != null && !ModList.get().isLoaded(data.getModId())) {
+        if (data.getModId() != null && !data.getModId().equals("minecraft") && !ModList.get().isLoaded(data.getModId())) {
             return;
         }
 
