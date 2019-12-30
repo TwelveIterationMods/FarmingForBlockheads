@@ -3,6 +3,8 @@ package net.blay09.mods.farmingforblockheads.registry.market;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nullable;
+
 public class MarketEntryData {
     private ItemStack output;
     private ItemStack payment;
@@ -16,6 +18,7 @@ public class MarketEntryData {
         this.output = output;
     }
 
+    @Nullable
     public ItemStack getPayment() {
         return payment;
     }
@@ -24,6 +27,7 @@ public class MarketEntryData {
         this.payment = payment;
     }
 
+    @Nullable
     public ResourceLocation getCategory() {
         return category;
     }

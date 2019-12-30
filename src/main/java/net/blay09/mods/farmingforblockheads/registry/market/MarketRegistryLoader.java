@@ -123,8 +123,26 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
 
         if (data.getCustomEntries() != null) {
             data.getCustomEntries().forEach(it -> {
-                IMarketCategory category = MarketRegistry.getCategory(it.getCategory());
-                MarketRegistry.INSTANCE.registerEntry(it.getOutput(), it.getPayment(), category);
+                ResourceLocation categoryKey = it.getCategory();
+                if (categoryKey == null) {
+                    if (data.getGroup() != null) {
+                        categoryKey = data.getGroup().getDefaultCategory();
+                    } else {
+                        categoryKey = new ResourceLocation("farmingforblockheads:other");
+                    }
+                }
+                IMarketCategory category = MarketRegistry.getCategory(categoryKey);
+
+                ItemStack payment = it.getPayment();
+                if (payment == null) {
+                    if (data.getGroup() != null) {
+                        payment = data.getGroup().getDefaultPayment();
+                    } else {
+                        payment = new ItemStack(Items.EMERALD);
+                    }
+                }
+
+                MarketRegistry.INSTANCE.registerEntry(it.getOutput(), payment, category);
             });
         }
     }

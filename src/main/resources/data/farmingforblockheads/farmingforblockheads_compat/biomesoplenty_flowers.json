@@ -2,116 +2,72 @@
   "modId": "biomesoplenty",
   "group": {
     "name": "BiomesOPlenty Flowers",
-    "enabledByDefault": false
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:flowers"
   },
   "customEntries": [
     {
       "output": {
         "item": "biomesoplenty:rose"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:violet"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:lavender"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:wildflower"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:orange_cosmos"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:pink_daffodil"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:pink_hibiscus"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:glowflower"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:wilted_lily"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:burning_blossom"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:blue_hydrangea"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     },
     {
       "output": {
         "item": "biomesoplenty:goldenrod"
-      },
-      "payment": {
-        "item": "minecraft:emerald"
-      },
-      "category": "farmingforblockheads:flowers"
+      }
     }
   ]
 }
