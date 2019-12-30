@@ -26,6 +26,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,45 +44,54 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
 
     @Override
     public void onResourceManagerReload(IResourceManager resourceManager) {
-        MarketRegistry.INSTANCE.reset();
-        registryErrors.clear();
+        try {
+            MarketRegistry.INSTANCE.reset();
+            registryErrors.clear();
 
-        MinecraftForge.EVENT_BUS.post(new MarketRegistryReloadEvent.Pre());
+            MinecraftForge.EVENT_BUS.post(new MarketRegistryReloadEvent.Pre());
 
-        for (ResourceLocation resourceLocation : resourceManager.getAllResourceLocations("farmingforblockheads_compat", it -> it.endsWith(".json"))) {
-            try (IResource resource = resourceManager.getResource(resourceLocation)) {
-                InputStreamReader reader = new InputStreamReader(resource.getInputStream());
-                load(gson.fromJson(reader, MarketRegistryData.class));
-            } catch (Exception e) {
-                FarmingForBlockheads.logger.error("Parsing error loading Farming for Blockheads data file at {}", resourceLocation, e);
-                registryErrors.add(e);
-            }
-        }
-
-        File configDir = new File(FMLPaths.CONFIGDIR.get().toFile(), "farmingforblockheads");
-        if (configDir.exists() || configDir.mkdirs()) {
-            File configFile = new File(configDir, "MarketRegistry.json");
-            if (configFile.exists()) {
-                try (FileReader reader = new FileReader(configFile)) {
+            for (ResourceLocation resourceLocation : resourceManager.getAllResourceLocations("farmingforblockheads_compat", it -> it.endsWith(".json"))) {
+                try (IResource resource = resourceManager.getResource(resourceLocation)) {
+                    InputStreamReader reader = new InputStreamReader(resource.getInputStream());
                     load(gson.fromJson(reader, MarketRegistryData.class));
                 } catch (Exception e) {
-                    FarmingForBlockheads.logger.error("Parsing error loading Farming for Blockheads data from MarketRegistry.json", e);
+                    FarmingForBlockheads.logger.error("Parsing error loading Farming for Blockheads data file at {}", resourceLocation, e);
                     registryErrors.add(e);
                 }
-            } else {
-                try (FileWriter reader = new FileWriter(configFile)) {
-                    gson.toJson(new MarketRegistryData(), reader);
-                } catch (IOException ignored) {
+            }
+
+            File configDir = new File(FMLPaths.CONFIGDIR.get().toFile(), "farmingforblockheads");
+            if (configDir.exists() || configDir.mkdirs()) {
+                File configFile = new File(configDir, "MarketRegistry.json");
+                if (configFile.exists()) {
+                    try (FileReader reader = new FileReader(configFile)) {
+                        load(gson.fromJson(reader, MarketRegistryData.class));
+                    } catch (Exception e) {
+                        FarmingForBlockheads.logger.error("Parsing error loading Farming for Blockheads data from MarketRegistry.json", e);
+                        registryErrors.add(e);
+                    }
+                } else {
+                    try (FileWriter writer = new FileWriter(configFile)) {
+                        gson.toJson(new MarketRegistryData(), writer);
+                    } catch (IOException ignored) {
+                    }
                 }
             }
+
+            MarketRegistry.INSTANCE.registerDefaults();
+
+            MinecraftForge.EVENT_BUS.post(new MarketRegistryReloadEvent.Post());
+        } catch (Exception e) {
+            FarmingForBlockheads.logger.error("Exception loading Farming for Blockheads data", e);
+            registryErrors.add(e);
         }
-
-        MarketRegistry.INSTANCE.registerDefaults();
-
-        MinecraftForge.EVENT_BUS.post(new MarketRegistryReloadEvent.Post());
     }
 
-    private void load(MarketRegistryData data) {
+    private void load(@Nullable MarketRegistryData data) {
+        if (data == null) {
+            return;
+        }
+
         if (data.getModId() != null && !data.getModId().equals("minecraft") && !ModList.get().isLoaded(data.getModId())) {
             return;
         }

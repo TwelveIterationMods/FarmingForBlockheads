@@ -32,6 +32,6 @@ public class MarketRegistryDataSerializer implements JsonDeserializer<MarketRegi
 
     @Override
     public JsonElement serialize(MarketRegistryData itemStack, Type type, JsonSerializationContext context) {
-        throw new UnsupportedOperationException("Serialization of MarketRegistryData to JSON is not implemented");
+        return new JsonObject();
     }
 }
