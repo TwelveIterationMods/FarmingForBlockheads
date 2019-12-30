@@ -5,7 +5,7 @@ Minecraft Mod. Adds farming utilities, such as a seed market, fertilizer and fee
 
 ## Custom Market Entries
 
-Data packs are now used to configure the market. You can place JSON files inside a `farmingforblockheads_compat` folder (so the resulting path would be `data/<domain>/farmingforblockheads_data/{files}.json`) within a datapack which will be loaded. For simple scenarios, you can also use the `MarketRegistry.json` file under `config/farmingforblockheads/MarketRegistry.json`.
+Data packs are now used to configure the market. You can place JSON files inside a `farmingforblockheads_compat` folder (so the resulting path would be `data/<domain>/farmingforblockheads_compat/{files}.json`) within a datapack which will be loaded. For simple scenarios, you can also use the `MarketRegistry.json` file under `config/farmingforblockheads/MarketRegistry.json`.
 
 See here for an example: https://gist.github.com/blay09/93a48d092d6dc570a64c81e1912dc4d0
 
