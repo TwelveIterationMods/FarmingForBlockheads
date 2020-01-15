@@ -18,6 +18,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -98,7 +99,7 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
     private final List<FarmlandTrait> traits;
 
     public FertilizedFarmlandBlock(FarmlandTrait... traits) {
-        super(Block.Properties.create(Material.EARTH).sound(SoundType.GROUND).hardnessAndResistance(1f));
+        super(Block.Properties.create(Material.EARTH).sound(SoundType.GROUND).hardnessAndResistance(0.6f).tickRandomly().harvestTool(ToolType.SHOVEL));
         this.traits = Lists.newArrayList(traits);
     }
 
