@@ -9,7 +9,6 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -112,5 +111,6 @@ public class FeedingTroughBlock extends ContainerBlock {
     public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return RENDER_SHAPE;
     }
+
 
 }

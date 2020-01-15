@@ -84,6 +84,8 @@ public class MarketCategory implements IRecipeCategory<IMarketEntry> {
         if (entry.getCostItem().getItem() == Items.DIAMOND) {
             color = TextFormatting.AQUA.toString();
         }
-        return color + I18n.format("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
+        return color + I18n.format("gui.farmingforblockheads:market.cost",
+                entry.getCostItem().getCount(),
+                entry.getCostItem().getDisplayName().getFormattedText());
     }
 }

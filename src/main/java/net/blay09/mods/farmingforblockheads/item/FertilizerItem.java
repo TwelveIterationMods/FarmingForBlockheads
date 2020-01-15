@@ -30,15 +30,20 @@ public class FertilizerItem extends Item {
         RICH,
         STABLE;
 
-        public BlockState applyFertilizer(BlockState state) {
+        public boolean canFertilize(BlockState state) {
             Block sourceBlock = state.getBlock();
-            if (sourceBlock != Blocks.FARMLAND && !(sourceBlock instanceof FertilizedFarmlandBlock)) {
+            return sourceBlock == Blocks.FARMLAND || sourceBlock instanceof FertilizedFarmlandBlock;
+        }
+
+        public BlockState applyFertilizer(BlockState state) {
+            if (!canFertilize(state)) {
                 return state;
             }
 
             int moisture = state.get(BlockStateProperties.MOISTURE_0_7);
             List<FertilizedFarmlandBlock.FarmlandTrait> traits = new ArrayList<>();
             traits.add(getFarmlandTrait());
+            Block sourceBlock = state.getBlock();
             if (sourceBlock instanceof FertilizedFarmlandBlock) {
                 traits.addAll(((FertilizedFarmlandBlock) sourceBlock).getTraits());
             }
@@ -86,6 +91,7 @@ public class FertilizerItem extends Item {
                 return ModBlocks.fertilizedFarmlandRichStable;
             }
 
+            //noinspection ConstantConditions
             if (hasStableTrait && !hasRichTrait && hasHealthyTrait) {
                 return ModBlocks.fertilizedFarmlandHealthyStable;
             }
@@ -111,10 +117,7 @@ public class FertilizerItem extends Item {
         World world = useContext.getWorld();
         BlockPos pos = useContext.getPos();
         ItemStack heldItem = useContext.getItem();
-        BlockState state = world.getBlockState(pos);
-        BlockState newState = fertilizerType.applyFertilizer(state);
-        if (newState != state) {
-            world.setBlockState(pos, newState);
+        if (tryApplyFertilizerAt(world, pos) || tryApplyFertilizerAt(world, pos.down())) {
             if (!player.abilities.isCreativeMode) {
                 heldItem.shrink(1);
             }
@@ -123,6 +126,17 @@ public class FertilizerItem extends Item {
         }
 
         return super.onItemUse(useContext);
+    }
+
+    private boolean tryApplyFertilizerAt(World world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+        BlockState newState = fertilizerType.applyFertilizer(state);
+        if (newState != state) {
+            world.setBlockState(pos, newState);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
