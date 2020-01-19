@@ -160,6 +160,11 @@ public class MerchantEntity extends CreatureEntity {
 
         if (diggingAnimation > 0) {
             diggingAnimation--;
+
+            double posX = func_226277_ct_();
+            double posY = func_226278_cu_();
+            double posZ = func_226281_cx_();
+
             for (int i = 0; i < 4; i++) {
                 BlockState diggingState = diggingBlockState != null ? diggingBlockState : Blocks.DIRT.getDefaultState();
                 world.addParticle(new BlockParticleData(ParticleTypes.BLOCK, diggingState), posX, posY, posZ, Math.random() * 2 - 1, Math.random() * 4, Math.random() * 2 - 1);
@@ -183,6 +188,10 @@ public class MerchantEntity extends CreatureEntity {
             BlockPos pos = world.getHeight(Heightmap.Type.MOTION_BLOCKING, getPosition());
             world.playSound(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, ModSounds.falling, SoundCategory.NEUTRAL, 1f, 1f, false);
         } else if (id == 15) {
+            double posX = func_226277_ct_();
+            double posY = func_226278_cu_();
+            double posZ = func_226281_cx_();
+
             world.playSound(posX + 0.5, posY + 1, posZ + 0.5, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.NEUTRAL, 1f, 1f, false);
             for (int i = 0; i < 50; i++) {
                 world.addParticle(ParticleTypes.FIREWORK, posX + 0.5, posY + 1, posZ + 0.5, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
@@ -196,6 +205,9 @@ public class MerchantEntity extends CreatureEntity {
     @Override
     protected void damageEntity(DamageSource damageSource, float damageAmount) {
         if (!spawnDone && damageSource == DamageSource.FALL) {
+            double posX = func_226277_ct_();
+            double posY = func_226278_cu_();
+            double posZ = func_226281_cx_();
             world.playSound(posX, posY, posZ, getHurtSound(damageSource), SoundCategory.NEUTRAL, 1f, 2f, false);
             spawnDone = true;
             return;
@@ -267,6 +279,10 @@ public class MerchantEntity extends CreatureEntity {
     }
 
     private void disappear() {
+        double posX = func_226277_ct_();
+        double posY = func_226278_cu_();
+        double posZ = func_226281_cx_();
+
         world.playSound(posX, posY, posZ, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.NEUTRAL, 1f, 1f, false);
         for (int i = 0; i < 50; i++) {
             world.addParticle(ParticleTypes.FIREWORK, posX, posY + 1, posZ, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);

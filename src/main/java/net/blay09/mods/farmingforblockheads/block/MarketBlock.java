@@ -88,14 +88,15 @@ public class MarketBlock extends ContainerBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType func_225533_a_(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof MarketTileEntity) {
                 NetworkHooks.openGui((ServerPlayerEntity) player, (MarketTileEntity) tileEntity, pos);
             }
         }
-        return true;
+
+        return ActionResultType.SUCCESS;
     }
 
     @Override

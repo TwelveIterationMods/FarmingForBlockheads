@@ -2,6 +2,7 @@ package net.blay09.mods.farmingforblockheads.client.gui.widget;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.blay09.mods.farmingforblockheads.container.MarketClientContainer;
@@ -37,7 +38,7 @@ public class MarketFilterButton extends Button {
         } else if (isHovered) {
             texY += 20;
         }
-        GlStateManager.color4f(1f, 1f, 1f, 1f);
+        RenderSystem.color4f(1f, 1f, 1f, 1f);
         Minecraft.getInstance().getTextureManager().bindTexture(ICONS);
         blit(x, y, 176, texY, width, height);
 

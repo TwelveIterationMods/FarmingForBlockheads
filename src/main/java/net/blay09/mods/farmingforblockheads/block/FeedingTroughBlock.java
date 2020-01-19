@@ -9,6 +9,7 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -46,14 +47,14 @@ public class FeedingTroughBlock extends ContainerBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType func_225533_a_(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if (!world.isRemote) {
             ItemStack heldItem = player.getHeldItem(hand);
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity != null) {
                 LazyOptional<IItemHandler> itemHandlerCap = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
                 itemHandlerCap.ifPresent(itemHandler -> {
-                    if (player.isSneaking()) {
+                    if (player.func_225608_bj_()) {
                         if (heldItem.isEmpty()) {
                             player.setHeldItem(hand, itemHandler.extractItem(0, 64, false));
                         } else {
@@ -69,7 +70,8 @@ public class FeedingTroughBlock extends ContainerBlock {
                 });
             }
         }
-        return true;
+
+        return ActionResultType.SUCCESS;
     }
 
     @Override

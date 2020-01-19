@@ -2,6 +2,7 @@ package net.blay09.mods.farmingforblockheads.client.gui.screen;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
@@ -192,7 +193,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
         FontRenderer fontRenderer = getMinecraft().fontRenderer;
 
-        GlStateManager.color4f(1f, 1f, 1f, 1f);
+        RenderSystem.color4f(1f, 1f, 1f, 1f);
         getMinecraft().getTextureManager().bindTexture(TEXTURE);
         blit(guiLeft, guiTop - 10, 0, 0, xSize, ySize + 10);
         if (container.getSelectedEntry() != null && !container.isReadyToBuy()) {
@@ -220,7 +221,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
         fill(scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
 
-        GlStateManager.color4f(1f, 1f, 1f, 1f);
+        RenderSystem.color4f(1f, 1f, 1f, 1f);
     }
 
     public Collection<MarketFilterButton> getFilterButtons() {

@@ -1,8 +1,9 @@
 package net.blay09.mods.farmingforblockheads.client.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.entity.MerchantEntity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.HeadLayer;
@@ -19,18 +20,17 @@ public class RenderMerchant extends LivingRenderer<MerchantEntity, VillagerModel
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(MerchantEntity entity) {
+    public ResourceLocation getEntityTexture(MerchantEntity entity) {
         return MERCHANT_TEXTURE;
     }
 
     @Override
-    protected void preRenderCallback(MerchantEntity merchant, float partialTickTime) {
-        float scale = 0.9375f;
-        GlStateManager.scalef(scale, scale, scale);
-        int diggingAnimation = merchant.getDiggingAnimation();
+    public void func_225623_a_(MerchantEntity entity, float p_225623_2_, float p_225623_3_, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int p_225623_6_) {
+        int diggingAnimation = entity.getDiggingAnimation();
         if (diggingAnimation > 0) {
-            GlStateManager.translated(0, diggingAnimation * 0.05, 0);
+            matrixStack.func_227861_a_(0.0, -diggingAnimation * 0.05, 0.0);
         }
+        super.func_225623_a_(entity, p_225623_2_, p_225623_3_, matrixStack, renderTypeBuffer, p_225623_6_);
     }
 
     @Override

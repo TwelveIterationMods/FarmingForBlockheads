@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,7 +30,7 @@ public class FarmlandHandler {
             if (farmland.getBlock() instanceof FertilizedFarmlandBlock) {
                 if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getDoubleGrowthChance()) {
                     if (growable.canGrow(world, pos, plant, world.isRemote())) {
-                        growable.grow(world, world.getRandom(), event.getPos(), plant);
+                        growable.func_225535_a_(((ServerWorld) world), world.getRandom(), event.getPos(), plant);
                         world.playEvent(2005, pos, 0);
                         rollRegression(world, pos, farmland);
                     }

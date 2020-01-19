@@ -17,6 +17,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.ToolType;
 
@@ -137,7 +138,7 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void func_225534_a_(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int moisture = state.get(MOISTURE);
 
         if (!hasWater(world, pos) && !world.isRainingAt(pos.up())) {
