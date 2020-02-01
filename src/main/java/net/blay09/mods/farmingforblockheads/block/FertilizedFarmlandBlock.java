@@ -138,7 +138,7 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
     }
 
     @Override
-    public void func_225534_a_(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int moisture = state.get(MOISTURE);
 
         if (!hasWater(world, pos) && !world.isRainingAt(pos.up())) {

@@ -1,7 +1,6 @@
 package net.blay09.mods.farmingforblockheads.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.blay09.mods.farmingforblockheads.tile.FeedingTroughTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -27,7 +26,7 @@ public class FeedingTroughRenderer extends TileEntityRenderer<FeedingTroughTileE
     }
 
     @Override
-    public void func_225616_a_(FeedingTroughTileEntity tileEntity, float p_225616_2_, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int p_225616_5_, int p_225616_6_) {
+    public void render(FeedingTroughTileEntity tileEntity, float p_225616_2_, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int p_225616_5_, int p_225616_6_) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 
         float x = 0;
@@ -36,11 +35,11 @@ public class FeedingTroughRenderer extends TileEntityRenderer<FeedingTroughTileE
         ItemStack content = tileEntity.getContentStack();
         if (!content.isEmpty()) {
             for (int i = 0; i < Math.max(1, Math.min(CONTENT_POSITIONS.length / 3, content.getCount() / 12)); i++) {
-                matrixStack.func_227860_a_();
-                matrixStack.func_227861_a_(x + 0.5f + CONTENT_POSITIONS[i * 3], y + 0.5f + CONTENT_POSITIONS[i * 3 + 1], z + 0.4f + CONTENT_POSITIONS[i * 3 + 2]);
-                matrixStack.func_227863_a_(new Quaternion(90f, 0, 0, true));
-                itemRenderer.func_229110_a_(content, ItemCameraTransforms.TransformType.GROUND, p_225616_5_,  OverlayTexture.field_229196_a_, matrixStack, renderTypeBuffer);
-                matrixStack.func_227865_b_();
+                matrixStack.push();
+                matrixStack.translate(x + 0.5f + CONTENT_POSITIONS[i * 3], y + 0.5f + CONTENT_POSITIONS[i * 3 + 1], z + 0.4f + CONTENT_POSITIONS[i * 3 + 2]);
+                matrixStack.rotate(new Quaternion(90f, 0, 0, true));
+                itemRenderer.renderItem(content, ItemCameraTransforms.TransformType.GROUND, p_225616_5_,  OverlayTexture.DEFAULT_LIGHT, matrixStack, renderTypeBuffer);
+                matrixStack.pop();
             }
         }
     }

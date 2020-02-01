@@ -30,7 +30,7 @@ public class FarmlandHandler {
             if (farmland.getBlock() instanceof FertilizedFarmlandBlock) {
                 if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getDoubleGrowthChance()) {
                     if (growable.canGrow(world, pos, plant, world.isRemote())) {
-                        growable.func_225535_a_(((ServerWorld) world), world.getRandom(), event.getPos(), plant);
+                        growable.grow(((ServerWorld) world), world.getRandom(), event.getPos(), plant);
                         world.playEvent(2005, pos, 0);
                         rollRegression(world, pos, farmland);
                     }

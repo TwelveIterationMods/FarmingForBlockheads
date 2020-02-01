@@ -25,12 +25,12 @@ public class RenderMerchant extends LivingRenderer<MerchantEntity, VillagerModel
     }
 
     @Override
-    public void func_225623_a_(MerchantEntity entity, float p_225623_2_, float p_225623_3_, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int p_225623_6_) {
+    public void render(MerchantEntity entity, float p_225623_2_, float p_225623_3_, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int p_225623_6_) {
         int diggingAnimation = entity.getDiggingAnimation();
         if (diggingAnimation > 0) {
-            matrixStack.func_227861_a_(0.0, -diggingAnimation * 0.05, 0.0);
+            matrixStack.translate(0.0, -diggingAnimation * 0.05, 0.0);
         }
-        super.func_225623_a_(entity, p_225623_2_, p_225623_3_, matrixStack, renderTypeBuffer, p_225623_6_);
+        super.render(entity, p_225623_2_, p_225623_3_, matrixStack, renderTypeBuffer, p_225623_6_);
     }
 
     @Override

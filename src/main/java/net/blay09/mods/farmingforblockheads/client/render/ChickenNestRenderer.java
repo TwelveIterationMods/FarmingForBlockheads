@@ -1,7 +1,6 @@
 package net.blay09.mods.farmingforblockheads.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.blay09.mods.farmingforblockheads.block.ChickenNestBlock;
 import net.blay09.mods.farmingforblockheads.tile.ChickenNestTileEntity;
 import net.minecraft.block.BlockState;
@@ -52,8 +51,8 @@ public class ChickenNestRenderer extends TileEntityRenderer<ChickenNestTileEntit
     }
 
     @Override
-    public void func_225616_a_(ChickenNestTileEntity tileEntity, float p_225616_2_, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int p_225616_5_, int p_225616_6_) {
-        matrixStack.func_227861_a_(0.5, 0, 0.5);
+    public void render(ChickenNestTileEntity tileEntity, float p_225616_2_, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int p_225616_5_, int p_225616_6_) {
+        matrixStack.translate(0.5, 0, 0.5);
 
         BlockState state = tileEntity.getBlockState();
         float angle = 0f;
@@ -61,14 +60,14 @@ public class ChickenNestRenderer extends TileEntityRenderer<ChickenNestTileEntit
             angle = getFacingAngle(state.get(ChickenNestBlock.FACING));
         }
 
-        matrixStack.func_227863_a_(new Quaternion(0f, angle, 0f, true));
+        matrixStack.rotate(new Quaternion(0f, angle, 0f, true));
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         for (int i = 0; i < Math.min(EGG_POSITIONS.length / 3, tileEntity.getEggCount()); i++) {
-            matrixStack.func_227860_a_();
-            matrixStack.func_227861_a_(EGG_POSITIONS[i * 3], 0.1f + EGG_POSITIONS[i * 3 + 1], -0.1f + EGG_POSITIONS[i * 3 + 2]);
-            matrixStack.func_227863_a_(new Quaternion(45f, 0, 0, true));
-            itemRenderer.func_229110_a_(EGG_STACK, ItemCameraTransforms.TransformType.GROUND, p_225616_5_, OverlayTexture.field_229196_a_, matrixStack, renderTypeBuffer);
-            matrixStack.func_227865_b_();
+            matrixStack.push();
+            matrixStack.translate(EGG_POSITIONS[i * 3], 0.1f + EGG_POSITIONS[i * 3 + 1], -0.1f + EGG_POSITIONS[i * 3 + 2]);
+            matrixStack.rotate(new Quaternion(45f, 0, 0, true));
+            itemRenderer.renderItem(EGG_STACK, ItemCameraTransforms.TransformType.GROUND, p_225616_5_, OverlayTexture.DEFAULT_LIGHT, matrixStack, renderTypeBuffer);
+            matrixStack.pop();
         }
     }
 }

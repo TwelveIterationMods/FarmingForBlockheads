@@ -47,14 +47,14 @@ public class FeedingTroughBlock extends ContainerBlock {
     }
 
     @Override
-    public ActionResultType func_225533_a_(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if (!world.isRemote) {
             ItemStack heldItem = player.getHeldItem(hand);
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity != null) {
                 LazyOptional<IItemHandler> itemHandlerCap = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
                 itemHandlerCap.ifPresent(itemHandler -> {
-                    if (player.func_225608_bj_()) {
+                    if (player.isShiftKeyDown()) {
                         if (heldItem.isEmpty()) {
                             player.setHeldItem(hand, itemHandler.extractItem(0, 64, false));
                         } else {
