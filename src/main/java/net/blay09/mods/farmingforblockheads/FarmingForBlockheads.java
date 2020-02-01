@@ -82,10 +82,10 @@ public class FarmingForBlockheads {
     }
 
     private void setupMarketRegistry(MarketRegistryReloadEvent.Pre event) {
-        FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "seeds"), "gui.farmingforblockheads:market.tooltip_seeds", new ItemStack(Items.WHEAT_SEEDS), 10);
-        FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "saplings"), "gui.farmingforblockheads:market.tooltip_saplings", new ItemStack(Items.OAK_SAPLING), 20);
-        FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "flowers"), "gui.farmingforblockheads:market.tooltip_flowers", new ItemStack(Items.DANDELION), 30);
-        FarmingForBlockheadsAPI.registerMarketCategory(new ResourceLocation(MOD_ID, "other"), "gui.farmingforblockheads:market.tooltip_other", new ItemStack(Items.BONE_MEAL), 40);
+        FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_SEEDS, "gui.farmingforblockheads:market.tooltip_seeds", new ItemStack(Items.WHEAT_SEEDS), 10);
+        FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_SAPLINGS, "gui.farmingforblockheads:market.tooltip_saplings", new ItemStack(Items.OAK_SAPLING), 20);
+        FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_FLOWERS, "gui.farmingforblockheads:market.tooltip_flowers", new ItemStack(Items.DANDELION), 30);
+        FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_OTHER, "gui.farmingforblockheads:market.tooltip_other", new ItemStack(Items.BONE_MEAL), 40);
 
         buildSoftDependProxy(Compat.HARVESTCRAFT, "net.blay09.mods.farmingforblockheads.compat.HarvestcraftAddon");
         buildSoftDependProxy(Compat.FORESTRY, "net.blay09.mods.farmingforblockheads.compat.ForestryAddon");

@@ -24,6 +24,10 @@ public class MarketRegistry {
     private final Map<String, IMarketOverrideData> entryOverrides = Maps.newHashMap();
     private final Map<String, IMarketRegistryDefaultHandler> defaultHandlers = Maps.newHashMap();
 
+    public static void resetCategories() {
+        INSTANCE.indexedCategories.clear();
+    }
+
     public void registerCategory(IMarketCategory category) {
         if (indexedCategories.containsKey(category.getRegistryName())) {
             throw new RuntimeException("Attempted to register duplicate market category " + category.getRegistryName());

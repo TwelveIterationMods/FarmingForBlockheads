@@ -14,8 +14,10 @@ import java.util.Collection;
 
 public class InternalMethodsImpl implements InternalMethods {
 	@Override
-	public void registerMarketCategory(ResourceLocation registryName, String tooltipLangKey, ItemStack icon, int sortIndex) {
-		MarketRegistry.INSTANCE.registerCategory(new MarketCategory(registryName, tooltipLangKey, icon, sortIndex));
+	public IMarketCategory registerMarketCategory(ResourceLocation registryName, String tooltipLangKey, ItemStack icon, int sortIndex) {
+		MarketCategory category = new MarketCategory(registryName, tooltipLangKey, icon, sortIndex);
+		MarketRegistry.INSTANCE.registerCategory(category);
+		return category;
 	}
 
 	@Override

@@ -26,6 +26,10 @@ public class FarmingForBlockheadsAPI {
 		internalMethods.registerMarketCategory(registryName, tooltipLangKey, icon, sortIndex);
 	}
 
+	public static IMarketCategory registerMarketCategoryAndReturn(ResourceLocation registryName, String tooltipLangKey, ItemStack icon, int sortIndex) {
+		return internalMethods.registerMarketCategory(registryName, tooltipLangKey, icon, sortIndex);
+	}
+
 	public static void registerMarketEntry(ItemStack outputItem, ItemStack costItem, IMarketCategory category) {
 		internalMethods.registerMarketEntry(outputItem, costItem, category);
 	}
