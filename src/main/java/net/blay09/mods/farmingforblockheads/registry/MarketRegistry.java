@@ -2,7 +2,6 @@ package net.blay09.mods.farmingforblockheads.registry;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
-import com.google.gson.JsonObject;
 import net.blay09.mods.farmingforblockheads.api.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -62,7 +61,11 @@ public class MarketRegistry {
         for (Map.Entry<String, IMarketRegistryDefaultHandler> entry : defaultHandlers.entrySet()) {
             IMarketOverrideData override = groupOverrides.get(entry.getKey());
             IMarketRegistryDefaultHandler defaultHandler = entry.getValue();
-            boolean enabled = defaultHandler.isEnabledByDefault() && (override == null || override.isEnabled());
+            boolean enabled = defaultHandler.isEnabledByDefault();
+            if (override != null) {
+                enabled = override.isEnabled();
+            }
+
             if (enabled) {
                 ItemStack payment = override != null && override.getPayment() != null ? override.getPayment() : defaultHandler.getDefaultPayment();
                 int amount = override != null ? override.getAmount() : defaultHandler.getDefaultAmount();
