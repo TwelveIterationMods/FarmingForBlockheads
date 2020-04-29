@@ -30,8 +30,8 @@ public class MarketListMessage {
     public static MarketListMessage decode(PacketBuffer buf) {
         ArrayListMultimap<IMarketCategory, IMarketEntry> entryMap = ArrayListMultimap.create();
         int categoryCount = buf.readByte();
+        MarketRegistry.resetCategories();
         for (int i = 0; i < categoryCount; i++) {
-            MarketRegistry.resetCategories();
             ResourceLocation categoryId = buf.readResourceLocation();
             String tooltipLangKey = buf.readString();
             ItemStack icon = buf.readItemStack();
@@ -67,6 +67,7 @@ public class MarketListMessage {
             DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
                 Container container = Minecraft.getInstance().player.openContainer;
                 if (container instanceof MarketClientContainer) {
+                    ((MarketClientContainer) container).setCategoryList(message.entryMap.keySet());
                     ((MarketClientContainer) container).setEntryList(message.entryMap.values());
                 }
             });

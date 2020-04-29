@@ -13,13 +13,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class MarketClientContainer extends MarketContainer {
 
+    private final List<IMarketCategory> categoryList = Lists.newArrayList();
     private final List<IMarketEntry> itemList = Lists.newArrayList();
     private final List<IMarketEntry> filteredItems = Lists.newArrayList();
 
@@ -115,6 +113,13 @@ public class MarketClientContainer extends MarketContainer {
         isDirty = dirty;
     }
 
+    public void setCategoryList(Collection<IMarketCategory> categoryList) {
+        this.categoryList.clear();
+        this.categoryList.addAll(categoryList);
+
+        setDirty(true);
+    }
+
     public void setEntryList(Collection<IMarketEntry> entryList) {
         this.itemList.clear();
         this.itemList.addAll(entryList);
@@ -131,5 +136,9 @@ public class MarketClientContainer extends MarketContainer {
     @Nullable
     public IMarketCategory getCurrentCategory() {
         return currentCategory;
+    }
+
+    public Collection<IMarketCategory> getCategories() {
+        return categoryList;
     }
 }

@@ -75,14 +75,27 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
         setFocusedDefault(searchBar);
         addButton(searchBar);
 
-        int curY = -80;
-        IMarketCategory[] categories = MarketRegistry.getCategories().stream().sorted().toArray(IMarketCategory[]::new);
-        for (IMarketCategory category : categories) {
-            if (MarketRegistry.getGroupedEntries().get(category).isEmpty()) {
-                continue;
-            }
+        updateCategoryFilters();
 
-            MarketFilterButton filterButton = new MarketFilterButton(width / 2 + 87, height / 2 + curY, clientContainer, category, button -> {
+        if (!isEventHandler) {
+            MinecraftForge.EVENT_BUS.register(this);
+            isEventHandler = true;
+        }
+
+        recalculateScrollBar();
+    }
+
+    private void updateCategoryFilters() {
+        for( MarketFilterButton filterButton : filterButtons ) {
+            buttons.remove( filterButton );
+            children.remove( filterButton );
+        }
+        filterButtons.clear();
+
+        int curY = -80;
+        IMarketCategory[] categories = clientContainer.getCategories().stream().sorted().toArray( IMarketCategory[]::new );
+        for (IMarketCategory category : categories) {
+            MarketFilterButton filterButton = new MarketFilterButton( width / 2 + 87, height / 2 + curY, clientContainer, category, button -> {
                 if (clientContainer.getCurrentCategory() == category) {
                     clientContainer.setFilterCategory(null);
                 } else {
@@ -97,13 +110,6 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
             curY += 20;
         }
-
-        if (!isEventHandler) {
-            MinecraftForge.EVENT_BUS.register(this);
-            isEventHandler = true;
-        }
-
-        recalculateScrollBar();
     }
 
     @Override
@@ -187,6 +193,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         if (clientContainer.isDirty()) {
+            updateCategoryFilters();
             recalculateScrollBar();
             clientContainer.setDirty(false);
         }
