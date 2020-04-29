@@ -10,6 +10,7 @@ import net.blay09.mods.farmingforblockheads.compat.Compat;
 import net.blay09.mods.farmingforblockheads.container.ModContainers;
 import net.blay09.mods.farmingforblockheads.entity.ModEntities;
 import net.blay09.mods.farmingforblockheads.item.ModItems;
+import net.blay09.mods.farmingforblockheads.loot.ModLootModifiers;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.registry.market.MarketRegistryLoader;
 import net.blay09.mods.farmingforblockheads.sound.ModSounds;
@@ -23,9 +24,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.DistExecutor;
@@ -67,6 +68,7 @@ public class FarmingForBlockheads {
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, this::registerItems);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(TileEntityType.class, this::registerTileEntities);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, this::registerEntities);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(GlobalLootModifierSerializer.class, this::registerLootModifiers);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ContainerType.class, this::registerContainers);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(SoundEvent.class, this::registerSounds);
 
@@ -134,6 +136,10 @@ public class FarmingForBlockheads {
 
     private void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
         ModEntities.register(event.getRegistry());
+    }
+
+    private void registerLootModifiers(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
+        ModLootModifiers.register(event.getRegistry());
     }
 
 }

@@ -39,33 +39,11 @@ public class FarmlandHandler {
         }
     }
 
-    @SubscribeEvent
-    public static void onHarvest(BlockEvent.HarvestDropsEvent event) {
-        World world = (World) event.getWorld();
-        BlockPos pos = event.getPos();
-        BlockState plant = event.getState();
-        BlockState farmland = event.getWorld().getBlockState(event.getPos().down());
-        if (farmland.getBlock() instanceof FertilizedFarmlandBlock && plant.getBlock() instanceof IGrowable) {
-            if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getBonusCropChance()) {
-                event.getDrops().stream().filter(p -> !isProbablySeed(p)).findAny().ifPresent(c -> {
-                    event.getDrops().add(c.copy());
-                    world.playEvent(2005, pos, 0);
-                    rollRegression(world, pos, farmland);
-                });
-            }
-        }
-    }
-
-    private static void rollRegression(World world, BlockPos pos, BlockState farmland) {
+    public static void rollRegression(World world, BlockPos pos, BlockState farmland) {
         if (farmland.getBlock() instanceof FertilizedFarmlandBlock) {
             if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getRegressionChance()) {
                 world.setBlockState(pos, Blocks.FARMLAND.getDefaultState().with(FarmlandBlock.MOISTURE, farmland.get(FarmlandBlock.MOISTURE)));
             }
         }
-    }
-
-    private static boolean isProbablySeed(ItemStack itemStack) {
-        ResourceLocation registryName = itemStack.getItem().getRegistryName();
-        return registryName != null && registryName.getPath().contains("seed");
     }
 }
