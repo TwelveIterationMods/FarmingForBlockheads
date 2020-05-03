@@ -49,7 +49,7 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
     public static class FarmlandHealthyTrait implements FarmlandTrait {
         @Override
         public float getDoubleGrowthChance() {
-            return FarmingForBlockheadsConfig.COMMON.fertilizerBonusGrowthChance.get();
+            return FarmingForBlockheadsConfig.COMMON.fertilizerBonusGrowthChance.get().floatValue();
         }
 
         @Override
@@ -66,7 +66,7 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
     public static class FarmlandRichTrait implements FarmlandTrait {
         @Override
         public float getBonusCropChance() {
-            return FarmingForBlockheadsConfig.COMMON.fertilizerBonusCropChance.get();
+            return FarmingForBlockheadsConfig.COMMON.fertilizerBonusCropChance.get().floatValue();
         }
 
         @Override
@@ -123,7 +123,7 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
     }
 
     public float getRegressionChance() {
-        return FarmingForBlockheadsConfig.COMMON.fertilizerRegressionChance.get();
+        return FarmingForBlockheadsConfig.COMMON.fertilizerRegressionChance.get().floatValue();
     }
 
     private boolean isStable() {

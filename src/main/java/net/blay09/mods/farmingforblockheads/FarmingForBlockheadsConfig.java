@@ -16,37 +16,37 @@ public class FarmingForBlockheadsConfig {
     );
 
     public static class Common {
-        public final ForgeConfigSpec.ConfigValue<List<String>> merchantNames;
-        public final ForgeConfigSpec.ConfigValue<Integer> feedingTroughRange;
-        public final ForgeConfigSpec.ConfigValue<Integer> feedingTroughMaxAnimals;
-        public final ForgeConfigSpec.ConfigValue<Integer> chickenNestRange;
-        public final ForgeConfigSpec.ConfigValue<Float> fertilizerBonusCropChance;
-        public final ForgeConfigSpec.ConfigValue<Float> fertilizerBonusGrowthChance;
-        public final ForgeConfigSpec.ConfigValue<Float> fertilizerRegressionChance;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> merchantNames;
+        public final ForgeConfigSpec.IntValue feedingTroughRange;
+        public final ForgeConfigSpec.IntValue feedingTroughMaxAnimals;
+        public final ForgeConfigSpec.IntValue chickenNestRange;
+        public final ForgeConfigSpec.DoubleValue fertilizerBonusCropChance;
+        public final ForgeConfigSpec.DoubleValue fertilizerBonusGrowthChance;
+        public final ForgeConfigSpec.DoubleValue fertilizerRegressionChance;
 
         Common(ForgeConfigSpec.Builder builder) {
             builder.comment("Common config for Farming for Blockheads").push("common");
 
             merchantNames = builder.comment("List of names the merchant can have.")
-                    .define("merchantNames", DEFAULT_MERCHANT_NAMES);
+                    .defineList("merchantNames", DEFAULT_MERCHANT_NAMES, it -> it instanceof String);
 
             feedingTroughRange = builder.comment("The range within animals can be fed by the feeding trough.")
-                    .define("feedingTroughRange", 8);
+                    .defineInRange("feedingTroughRange", 8, 1, 16);
 
             feedingTroughMaxAnimals = builder.comment("The maximum amount of animals (per type) until the feeding trough stops feeding.")
-                    .define("feedingTroughMaxAnimals", 8);
+                    .defineInRange("feedingTroughMaxAnimals", 8, 1, Integer.MAX_VALUE);
 
             chickenNestRange = builder.comment("The range at which the chicken nest picks up laid eggs.")
-                    .define("chickenNestRange", 8);
+                    .defineInRange("chickenNestRange", 8, 1, 16);
 
             fertilizerBonusCropChance = builder.comment("The chance to get a bonus crop when using Green Fertilizer.")
-                    .define("fertilizerBonusCropChance", 1f);
+                    .defineInRange("fertilizerBonusCropChance", 1f, 0f, 1f);
 
             fertilizerBonusGrowthChance = builder.comment("The chance to get a bonus growth when using Red Fertilizer.")
-                    .define("fertilizerBonusGrowthChance", 1f);
+                    .defineInRange("fertilizerBonusGrowthChance", 1f, 0f, 1f);
 
             fertilizerRegressionChance = builder.comment("The chance for Fertilized Farmland to turn back into regular Farmland (per provided bonus).")
-                    .define("fertilizerRegressionChance", 0f);
+                    .defineInRange("fertilizerRegressionChance", 0f, 0f, 1f);
         }
     }
 
@@ -79,7 +79,7 @@ public class FarmingForBlockheadsConfig {
 
 
     public static String getRandomMerchantName(Random rand) {
-        List<String> candidates = COMMON.merchantNames.get();
+        List<? extends String> candidates = COMMON.merchantNames.get();
         if (candidates.isEmpty()) {
             candidates = DEFAULT_MERCHANT_NAMES;
         }
