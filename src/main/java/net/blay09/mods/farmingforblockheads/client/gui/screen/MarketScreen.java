@@ -141,8 +141,6 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
             clientContainer.populateMarketSlots();
             setCurrentOffset(currentOffset);
             return true;
-        } else if (searchBar.mouseClicked(mouseX, mouseY, button)) {
-            return true;
         } else if (mouseX >= scrollBarXPos && mouseX <= scrollBarXPos + SCROLLBAR_WIDTH && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight) {
             mouseClickY = (int) mouseY;
             indexWhenClicked = currentOffset;
