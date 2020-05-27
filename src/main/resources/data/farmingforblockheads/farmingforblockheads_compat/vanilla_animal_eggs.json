@@ -71,6 +71,12 @@
     },
     {
       "output": "minecraft:wolf_spawn_egg"
+    },
+    {
+      "output": "minecraft:panda_spawn_egg"
+    },
+    {
+      "output": "minecraft:bee_spawn_egg"
     }
   ]
 }

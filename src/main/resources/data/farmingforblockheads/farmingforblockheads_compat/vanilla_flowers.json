@@ -38,6 +38,12 @@
     },
     {
       "output": "minecraft:oxeye_daisy"
+    },
+    {
+      "output": "minecraft:cornflower"
+    },
+    {
+      "output": "minecraft:lily_of_the_valley"
     }
   ]
 }
