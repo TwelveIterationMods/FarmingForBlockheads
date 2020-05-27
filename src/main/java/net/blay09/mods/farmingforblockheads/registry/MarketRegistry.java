@@ -68,8 +68,7 @@ public class MarketRegistry {
 
             if (enabled) {
                 ItemStack payment = override != null && override.getPayment() != null ? override.getPayment() : defaultHandler.getDefaultPayment();
-                int amount = override != null ? override.getAmount() : defaultHandler.getDefaultAmount();
-                defaultHandler.register(payment, amount);
+                defaultHandler.register(payment);
             }
         }
     }

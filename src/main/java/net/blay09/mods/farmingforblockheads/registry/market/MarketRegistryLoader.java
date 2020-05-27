@@ -99,8 +99,8 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
         if (data.getGroup() != null) {
             FarmingForBlockheadsAPI.registerMarketDefaultHandler(data.getGroup().getName(), new IMarketRegistryDefaultHandler() {
                 @Override
-                public void register(ItemStack defaultPayment, int defaultAmount) {
-                    loadMarketData(data);
+                public void register(ItemStack defaultPayment) {
+                    loadMarketData(data, defaultPayment);
                 }
 
                 @Override
@@ -114,11 +114,11 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
                 }
             });
         } else {
-            loadMarketData(data);
+            loadMarketData(data, new ItemStack(Items.EMERALD));
         }
     }
 
-    private void loadMarketData(MarketRegistryData data) {
+    private void loadMarketData(MarketRegistryData data, ItemStack defaultPayment) {
         if (data.getCustomCategories() != null) {
             data.getCustomCategories().forEach((key, categoryData) -> {
                 ResourceLocation resourceLocation = new ResourceLocation(key);
@@ -146,16 +146,12 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
                 }
                 IMarketCategory category = MarketRegistry.getCategory(categoryKey);
 
-                ItemStack payment = it.getPayment();
-                if (payment == null) {
-                    if (data.getGroup() != null) {
-                        payment = data.getGroup().getDefaultPayment();
-                    } else {
-                        payment = new ItemStack(Items.EMERALD);
-                    }
+                ItemStack effectivePayment = it.getPayment();
+                if (effectivePayment == null) {
+                    effectivePayment = defaultPayment;
                 }
 
-                MarketRegistry.INSTANCE.registerEntry(it.getOutput(), payment, category);
+                MarketRegistry.INSTANCE.registerEntry(it.getOutput(), effectivePayment, category);
             });
         }
     }

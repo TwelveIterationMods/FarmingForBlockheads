@@ -3,13 +3,15 @@ package net.blay09.mods.farmingforblockheads.api;
 import net.minecraft.item.ItemStack;
 
 public interface IMarketRegistryDefaultHandler {
-    void register(ItemStack defaultPayment, int defaultAmount);
+    default void register(ItemStack defaultPayment) {
+    }
+
+    @Deprecated
+    default void register(ItemStack defaultPayment, int unused) {
+        register(defaultPayment);
+    }
 
     boolean isEnabledByDefault();
 
     ItemStack getDefaultPayment();
-
-    default int getDefaultAmount() {
-        return 1;
-    }
 }
