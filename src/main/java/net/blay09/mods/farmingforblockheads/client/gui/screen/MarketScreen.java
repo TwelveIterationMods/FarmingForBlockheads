@@ -168,6 +168,10 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
         if (searchBar.keyPressed(keyCode, scanCode, modifiers) || searchBar.isFocused()) {
             if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
                 getMinecraft().player.closeScreen();
+            } else {
+                clientContainer.search(searchBar.getText());
+                clientContainer.populateMarketSlots();
+                setCurrentOffset(currentOffset);
             }
 
             return true;
