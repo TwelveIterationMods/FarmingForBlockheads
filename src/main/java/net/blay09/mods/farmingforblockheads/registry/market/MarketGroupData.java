@@ -3,6 +3,8 @@ package net.blay09.mods.farmingforblockheads.registry.market;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nullable;
+
 public class MarketGroupData {
     private String name;
     private boolean enabledByDefault;
@@ -25,6 +27,7 @@ public class MarketGroupData {
         this.enabledByDefault = enabledByDefault;
     }
 
+    @Nullable
     public ItemStack getDefaultPayment() {
         return defaultPayment;
     }
