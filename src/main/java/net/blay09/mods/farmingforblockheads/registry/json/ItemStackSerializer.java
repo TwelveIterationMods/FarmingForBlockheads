@@ -25,7 +25,7 @@ public class ItemStackSerializer implements JsonDeserializer<ItemStack>, JsonSer
             JsonObject nbtJson = JSONUtils.getJsonObject(jsonObject, "nbt", new JsonObject());
             if (nbtJson.size() > 0) {
                 try {
-                    CompoundNBT tagFromJson = JsonToNBT.getTagFromJson(jsonObject.toString());
+                    CompoundNBT tagFromJson = JsonToNBT.getTagFromJson(nbtJson.toString());
                     itemStack.setTag(tagFromJson);
                 } catch (CommandSyntaxException e) {
                     FarmingForBlockheads.logger.error("Failed to parse nbt data for itemstack {}x {}: ", item, count, e);
