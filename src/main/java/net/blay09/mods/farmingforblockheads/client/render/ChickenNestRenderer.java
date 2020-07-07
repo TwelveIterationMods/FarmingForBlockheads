@@ -7,7 +7,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -15,6 +14,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.vector.Quaternion;
 
 public class ChickenNestRenderer extends TileEntityRenderer<ChickenNestTileEntity> {
 
@@ -56,7 +56,7 @@ public class ChickenNestRenderer extends TileEntityRenderer<ChickenNestTileEntit
 
         BlockState state = tileEntity.getBlockState();
         float angle = 0f;
-        if (state.has(ChickenNestBlock.FACING)) {
+        if (state.func_235901_b_(ChickenNestBlock.FACING)) { // has
             angle = getFacingAngle(state.get(ChickenNestBlock.FACING));
         }
 
@@ -66,7 +66,7 @@ public class ChickenNestRenderer extends TileEntityRenderer<ChickenNestTileEntit
             matrixStack.push();
             matrixStack.translate(EGG_POSITIONS[i * 3], 0.1f + EGG_POSITIONS[i * 3 + 1], -0.1f + EGG_POSITIONS[i * 3 + 2]);
             matrixStack.rotate(new Quaternion(45f, 0, 0, true));
-            itemRenderer.renderItem(EGG_STACK, ItemCameraTransforms.TransformType.GROUND, p_225616_5_, OverlayTexture.DEFAULT_LIGHT, matrixStack, renderTypeBuffer);
+            itemRenderer.renderItem(EGG_STACK, ItemCameraTransforms.TransformType.GROUND, p_225616_5_, OverlayTexture.NO_OVERLAY, matrixStack, renderTypeBuffer);
             matrixStack.pop();
         }
     }

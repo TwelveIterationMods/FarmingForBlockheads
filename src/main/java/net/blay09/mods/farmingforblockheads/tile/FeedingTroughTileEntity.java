@@ -5,6 +5,7 @@ import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.network.ChickenNestEffectMessage;
 import net.blay09.mods.farmingforblockheads.network.NetworkHandler;
 import net.blay09.mods.farmingforblockheads.network.VanillaPacketHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -62,8 +63,8 @@ public class FeedingTroughTileEntity extends TileEntity implements ITickableTile
     }
 
     @Override
-    public void read(CompoundNBT tagCompound) {
-        super.read(tagCompound);
+    public void read(BlockState state, CompoundNBT tagCompound) {
+        super.read(state, tagCompound);
         itemHandler.deserializeNBT(tagCompound.getCompound("ItemHandler"));
     }
 
@@ -77,7 +78,7 @@ public class FeedingTroughTileEntity extends TileEntity implements ITickableTile
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         super.onDataPacket(net, pkt);
-        read(pkt.getNbtCompound());
+        read(getBlockState(), pkt.getNbtCompound());
     }
 
     @Override

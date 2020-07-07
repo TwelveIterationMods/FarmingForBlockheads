@@ -168,7 +168,7 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
     public void addInformation(ItemStack itemStack, @Nullable IBlockReader world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         for (FarmlandTrait trait : traits) {
             TranslationTextComponent traitComponent = new TranslationTextComponent("tooltip.farmingforblockheads:trait_" + trait.getTraitName());
-            traitComponent.getStyle().setColor(trait.getTraitColor());
+            traitComponent.func_240699_a_(trait.getTraitColor());
             tooltip.add(traitComponent);
         }
     }

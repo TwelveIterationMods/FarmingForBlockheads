@@ -22,11 +22,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.DistExecutor;
@@ -36,7 +36,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,14 +54,14 @@ public class FarmingForBlockheads {
         }
     };
 
-    public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+    public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     public FarmingForBlockheads() {
         FarmingForBlockheadsAPI.__setupAPI(new InternalMethodsImpl());
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processInterMod);
-        MinecraftForge.EVENT_BUS.addListener(this::setupServer);
+        MinecraftForge.EVENT_BUS.addListener(this::addReloadListeners);
         MinecraftForge.EVENT_BUS.addListener(this::setupMarketRegistry);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class, this::registerBlocks);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, this::registerItems);
@@ -83,9 +82,8 @@ public class FarmingForBlockheads {
         ModRenderers.register();
     }
 
-    private void setupServer(FMLServerAboutToStartEvent event) {
-        IReloadableResourceManager resourceManager = event.getServer().getResourceManager();
-        resourceManager.addReloadListener(new MarketRegistryLoader());
+    private void addReloadListeners(AddReloadListenerEvent event) {
+        event.addListener(new MarketRegistryLoader());
     }
 
     private void setupMarketRegistry(MarketRegistryReloadEvent.Pre event) {

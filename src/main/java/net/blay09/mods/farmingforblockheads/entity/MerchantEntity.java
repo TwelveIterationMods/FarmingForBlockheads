@@ -8,8 +8,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -19,7 +22,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
@@ -61,21 +64,19 @@ public class MerchantEntity extends CreatureEntity {
         goalSelector.addGoal(5, new MerchantGoal(this, 0.6));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5);
+    public static AttributeModifierMap.MutableAttribute createEntityAttributes() {
+        return ZombieEntity.func_234342_eQ_().func_233815_a_(Attributes.MOVEMENT_SPEED, 0.5);
     }
 
-    @Override
-    protected boolean processInteract(PlayerEntity player, Hand hand) {
+    @Override // processInteract
+    protected ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
         MarketTileEntity tileMarket = getMarketTileEntity();
         if (tileMarket != null) {
             NetworkHooks.openGui((ServerPlayerEntity) player, tileMarket, tileMarket.getPos());
-            return true;
+            return ActionResultType.func_233537_a_(this.world.isRemote);
         }
 
-        return super.processInteract(player, hand);
+        return super.func_230254_b_(player, hand);
     }
 
     @Override
@@ -182,10 +183,10 @@ public class MerchantEntity extends CreatureEntity {
         if (id == 12) {
             disappear();
         } else if (id == 13) {
-            diggingBlockState = world.getBlockState(getPosition().down());
+            diggingBlockState = world.getBlockState(func_233580_cy_().down());
             diggingAnimation = 60;
         } else if (id == 14) {
-            BlockPos pos = world.getHeight(Heightmap.Type.MOTION_BLOCKING, getPosition());
+            BlockPos pos = world.getHeight(Heightmap.Type.MOTION_BLOCKING, func_233580_cy_());
             world.playSound(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, ModSounds.falling, SoundCategory.NEUTRAL, 1f, 1f, false);
         } else if (id == 15) {
             double posX = getPosX();
@@ -250,7 +251,7 @@ public class MerchantEntity extends CreatureEntity {
     }
 
     public boolean isAtMarket() {
-        return marketEntityPos != null && getDistanceSq(new Vec3d(marketEntityPos.offset(facing.getOpposite()))) <= 1;
+        return marketEntityPos != null && getDistanceSq(Vector3d.func_237489_a_(marketEntityPos.offset(facing.getOpposite()))) <= 1;
     }
 
     @Nullable

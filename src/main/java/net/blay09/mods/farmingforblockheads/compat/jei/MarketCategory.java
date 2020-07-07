@@ -1,5 +1,6 @@
 package net.blay09.mods.farmingforblockheads.compat.jei;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -16,7 +17,9 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class MarketCategory implements IRecipeCategory<IMarketEntry> {
 
@@ -72,20 +75,20 @@ public class MarketCategory implements IRecipeCategory<IMarketEntry> {
     }
 
     @Override
-    public void draw(IMarketEntry recipe, double mouseX, double mouseY) {
-        String costText = getFormattedCostString(recipe);
+    public void draw(IMarketEntry recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
+        ITextComponent costText = getFormattedCostString(recipe);
         FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-        int stringWidth = fontRenderer.getStringWidth(costText);
-        fontRenderer.drawStringWithShadow(costText, 42 - stringWidth / 2f, 35, 0xFFFFFF);
+        int stringWidth = fontRenderer.func_238414_a_(costText);
+        fontRenderer.func_238407_a_(matrixStack, costText, 42 - stringWidth / 2f, 35, 0xFFFFFF); // drawStringWithShadow
     }
 
-    private String getFormattedCostString(IMarketEntry entry) {
-        String color = TextFormatting.GREEN.toString();
+    private ITextComponent getFormattedCostString(IMarketEntry entry) {
+        final TranslationTextComponent result = new TranslationTextComponent("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
+        TextFormatting color = TextFormatting.GREEN;
         if (entry.getCostItem().getItem() == Items.DIAMOND) {
-            color = TextFormatting.AQUA.toString();
+            color = TextFormatting.AQUA;
         }
-        return color + I18n.format("gui.farmingforblockheads:market.cost",
-                entry.getCostItem().getCount(),
-                entry.getCostItem().getDisplayName().getFormattedText());
+        result.func_240699_a_(color);
+        return result;
     }
 }

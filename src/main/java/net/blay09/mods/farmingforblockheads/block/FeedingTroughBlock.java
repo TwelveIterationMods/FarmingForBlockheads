@@ -54,7 +54,7 @@ public class FeedingTroughBlock extends ContainerBlock {
             if (tileEntity != null) {
                 LazyOptional<IItemHandler> itemHandlerCap = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
                 itemHandlerCap.ifPresent(itemHandler -> {
-                    if (player.isShiftKeyDown()) {
+                    if (player.isSneaking()) {
                         if (heldItem.isEmpty()) {
                             player.setHeldItem(hand, itemHandler.extractItem(0, 64, false));
                         } else {

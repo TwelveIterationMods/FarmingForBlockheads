@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.client.gui.screen;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
@@ -11,7 +11,6 @@ import net.blay09.mods.farmingforblockheads.container.MarketBuySlot;
 import net.blay09.mods.farmingforblockheads.container.MarketClientContainer;
 import net.blay09.mods.farmingforblockheads.container.MarketContainer;
 import net.blay09.mods.farmingforblockheads.container.MarketFakeSlot;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -21,9 +20,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -71,7 +68,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
         FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 
-        searchBar = new TextFieldWidget(fontRenderer, guiLeft + xSize - 78, guiTop - 5, 70, 10, searchBar, "");
+        searchBar = new TextFieldWidget(fontRenderer, guiLeft + xSize - 78, guiTop - 5, 70, 10, searchBar, new StringTextComponent(""));
         setFocusedDefault(searchBar);
         addButton(searchBar);
 
@@ -86,16 +83,16 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
     }
 
     private void updateCategoryFilters() {
-        for( MarketFilterButton filterButton : filterButtons ) {
-            buttons.remove( filterButton );
-            children.remove( filterButton );
+        for (MarketFilterButton filterButton : filterButtons) {
+            buttons.remove(filterButton);
+            children.remove(filterButton);
         }
         filterButtons.clear();
 
         int curY = -80;
-        IMarketCategory[] categories = clientContainer.getCategories().stream().sorted().toArray( IMarketCategory[]::new );
+        IMarketCategory[] categories = clientContainer.getCategories().stream().sorted().toArray(IMarketCategory[]::new);
         for (IMarketCategory category : categories) {
-            MarketFilterButton filterButton = new MarketFilterButton( width / 2 + 87, height / 2 + curY, clientContainer, category, button -> {
+            MarketFilterButton filterButton = new MarketFilterButton(width / 2 + 87, height / 2 + curY, clientContainer, category, button -> {
                 if (clientContainer.getCurrentCategory() == category) {
                     clientContainer.setFilterCategory(null);
                 } else {
@@ -179,21 +176,21 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        renderBackground(matrixStack);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
 
         for (Button sortButton : filterButtons) {
             if (sortButton.isMouseOver(mouseX, mouseY) && sortButton.active) {
-                renderTooltip(((MarketFilterButton) sortButton).getTooltipLines(), mouseX, mouseY);
+                renderTooltip(matrixStack, ((MarketFilterButton) sortButton).getTooltipLines(), mouseX, mouseY);
             }
         }
 
-        renderHoveredToolTip(mouseX, mouseY);
+        func_230459_a_(matrixStack, mouseX, mouseY);
     }
 
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+    @Override // drawGuiContainerBackgroundLayer
+    protected void func_230450_a_(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         if (clientContainer.isDirty()) {
             updateCategoryFilters();
             recalculateScrollBar();
@@ -204,9 +201,9 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
         RenderSystem.color4f(1f, 1f, 1f, 1f);
         getMinecraft().getTextureManager().bindTexture(TEXTURE);
-        blit(guiLeft, guiTop - 10, 0, 0, xSize, ySize + 10);
+        blit(matrixStack, guiLeft, guiTop - 10, 0, 0, xSize, ySize + 10);
         if (container.getSelectedEntry() != null && !container.isReadyToBuy()) {
-            blit(guiLeft + 43, guiTop + 40, 176, 0, 14, 14);
+            blit(matrixStack, guiLeft + 43, guiTop + 40, 176, 0, 14, 14);
         }
 
         if (mouseClickY != -1) {
@@ -220,15 +217,15 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
             }
         }
 
-        fontRenderer.drawStringWithShadow(I18n.format("container.farmingforblockheads:market"), guiLeft + 10, guiTop + 10, 0xFFFFFF);
+        fontRenderer.drawStringWithShadow(matrixStack, I18n.format("container.farmingforblockheads:market"), guiLeft + 10, guiTop + 10, 0xFFFFFF);
 
         if (container.getSelectedEntry() == null) {
-            drawCenteredString(fontRenderer, I18n.format("gui.farmingforblockheads:market.no_selection"), guiLeft + 49, guiTop + 65, 0xFFFFFF);
+            drawCenteredString(matrixStack, fontRenderer, I18n.format("gui.farmingforblockheads:market.no_selection"), guiLeft + 49, guiTop + 65, 0xFFFFFF);
         } else {
-            drawCenteredString(fontRenderer, getPriceText(container.getSelectedEntry()).getFormattedText(), guiLeft + 49, guiTop + 65, 0xFFFFFF);
+            drawCenteredString(matrixStack, fontRenderer, getPriceText(container.getSelectedEntry()), guiLeft + 49, guiTop + 65, 0xFFFFFF);
         }
 
-        fill(scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
+        fill(matrixStack, scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
 
         RenderSystem.color4f(1f, 1f, 1f, 1f);
     }
@@ -279,14 +276,14 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
     }
 
     private ITextComponent getPriceTooltipText(IMarketEntry entry) {
-        ITextComponent result = new TranslationTextComponent("gui.farmingforblockheads:market.tooltip_cost", getPriceText(entry));
-        result.getStyle().setColor(getPriceColor(entry));
+        TextComponent result = new TranslationTextComponent("gui.farmingforblockheads:market.tooltip_cost", getPriceText(entry));
+        result.func_240699_a_(getPriceColor(entry));
         return result;
     }
 
     private ITextComponent getPriceText(IMarketEntry entry) {
-        ITextComponent textComponent = new TranslationTextComponent("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
-        textComponent.getStyle().setColor(getPriceColor(entry));
+        TextComponent textComponent = new TranslationTextComponent("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
+        textComponent.func_240699_a_(getPriceColor(entry));
         return textComponent;
     }
 
