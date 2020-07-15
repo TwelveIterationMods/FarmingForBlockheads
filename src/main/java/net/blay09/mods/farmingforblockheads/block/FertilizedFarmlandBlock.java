@@ -111,7 +111,7 @@ public class FertilizedFarmlandBlock extends FarmlandBlock {
 
     @Override
     public boolean isFertile(BlockState state, IBlockReader world, BlockPos pos) {
-        return world.getBlockState(pos).get(MOISTURE) > 0;
+        return state.get(MOISTURE) > 0;
     }
 
     public float getDoubleGrowthChance() {
