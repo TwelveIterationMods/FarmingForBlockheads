@@ -40,7 +40,7 @@ public class RichFarmlandLootModifier extends LootModifier {
                 generatedLoot.stream().filter(p -> !isProbablySeed(p)).findAny().ifPresent(c -> {
                     generatedLoot.add(c.copy());
                     world.playEvent(2005, pos, 0);
-                    FarmlandHandler.rollRegression(world, pos, farmland);
+                    FarmlandHandler.rollRegression(world, pos.down(), farmland);
                 });
             }
         }
