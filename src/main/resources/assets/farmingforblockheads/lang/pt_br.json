@@ -13,7 +13,7 @@
   "itemGroup.farmingforblockheads": "Farming for Blockheads",
   "container.farmingforblockheads.market": "Mercado",
   "commands.farmingforblockheads:reload.success": "§rRegistros do mod §aFarming for Blockheads§r recarregados.",
-  "gui.farmingforblockheads:market.no_selection": "Nenhuma Seleção",
+  "gui.farmingforblockheads:market.no_selection": "Nada Selecionado",
   "gui.farmingforblockheads:market.tooltip_cost": "Custo: %s",
   "gui.farmingforblockheads:market.tooltip_seeds": "Sementes",
   "gui.farmingforblockheads:market.tooltip_saplings": "Mudas",
