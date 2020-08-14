@@ -3,6 +3,7 @@ loaderVersion="[24,)"
 issueTrackerURL="https://github.com/blay09/FarmingForBlockheads/issues"
 displayURL="https://minecraft.curseforge.com/projects/farming-for-blockheads"
 authors="BlayTheNinth"
+license="MIT"
 
 [[mods]]
 modId="farmingforblockheads"

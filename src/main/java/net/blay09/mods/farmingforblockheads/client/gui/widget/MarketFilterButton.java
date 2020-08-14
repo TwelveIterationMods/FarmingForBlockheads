@@ -9,6 +9,7 @@ import net.blay09.mods.farmingforblockheads.container.MarketClientContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -21,7 +22,7 @@ public class MarketFilterButton extends Button {
 
     private final MarketClientContainer container;
     private final IMarketCategory category;
-    private final List<ITextProperties> tooltipLines = Lists.newArrayList();
+    private final List<ITextComponent> tooltipLines = Lists.newArrayList();
 
     public MarketFilterButton(int x, int y, MarketClientContainer container, IMarketCategory category, IPressable pressable) {
         super(x, y, 20, 20, new StringTextComponent(""), pressable);
@@ -47,7 +48,7 @@ public class MarketFilterButton extends Button {
         Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(category.getIconStack(), x + 2, y + 2);
     }
 
-    public List<ITextProperties> getTooltipLines() {
+    public List<ITextComponent> getTooltipLines() {
         return tooltipLines;
     }
 

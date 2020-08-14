@@ -23,6 +23,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -83,7 +84,7 @@ public class MarketBlock extends ContainerBlock {
             }
 
             world.addEntity(merchant);
-            merchant.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.STRUCTURE, null, null);
+            merchant.onInitialSpawn(((ServerWorld) world), world.getDifficultyForLocation(pos), SpawnReason.STRUCTURE, null, null);
         }
     }
 

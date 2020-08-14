@@ -68,7 +68,7 @@ public class MarketClientContainer extends MarketContainer {
             filteredItems.addAll(itemList);
         } else {
             for (IMarketEntry entry : itemList) {
-                String itemName = entry.getOutputItem().getDisplayName().getUnformattedComponentText();
+                String itemName = entry.getOutputItem().getDisplayName().getString();
                 if (hasSearchFilter && !itemName.toLowerCase(Locale.ENGLISH).contains(currentSearch.toLowerCase())) {
                     continue;
                 }

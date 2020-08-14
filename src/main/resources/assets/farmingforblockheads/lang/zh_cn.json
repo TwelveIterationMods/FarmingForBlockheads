@@ -11,7 +11,7 @@
   "item.farmingforblockheads.green_fertilizer": "绿色肥料",
   "item.farmingforblockheads.yellow_fertilizer": "黄色肥料",
   "itemGroup.farmingforblockheads": "农场贸易",
-  "container.farmingforblockheads:market": "贸易站",
+  "container.farmingforblockheads.market": "贸易站",
   "commands.farmingforblockheads:reload.success": "懒人种田注册项重载完成。",
   "gui.farmingforblockheads:market.no_selection": "未选择",
   "gui.farmingforblockheads:market.tooltip_cost": "需求：%s",

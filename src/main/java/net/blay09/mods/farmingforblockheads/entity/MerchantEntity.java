@@ -12,7 +12,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -25,7 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -65,7 +64,7 @@ public class MerchantEntity extends CreatureEntity {
     }
 
     public static AttributeModifierMap.MutableAttribute createEntityAttributes() {
-        return ZombieEntity.func_234342_eQ_().func_233815_a_(Attributes.MOVEMENT_SPEED, 0.5);
+        return ZombieEntity.func_234342_eQ_().createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.5);
     }
 
     @Override // processInteract
@@ -183,10 +182,10 @@ public class MerchantEntity extends CreatureEntity {
         if (id == 12) {
             disappear();
         } else if (id == 13) {
-            diggingBlockState = world.getBlockState(func_233580_cy_().down());
+            diggingBlockState = world.getBlockState(getPosition().down());
             diggingAnimation = 60;
         } else if (id == 14) {
-            BlockPos pos = world.getHeight(Heightmap.Type.MOTION_BLOCKING, func_233580_cy_());
+            BlockPos pos = world.getHeight(Heightmap.Type.MOTION_BLOCKING, getPosition());
             world.playSound(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, ModSounds.falling, SoundCategory.NEUTRAL, 1f, 1f, false);
         } else if (id == 15) {
             double posX = getPosX();
@@ -223,7 +222,7 @@ public class MerchantEntity extends CreatureEntity {
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT dataTag) {
+    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT dataTag) {
         if (Math.random() < 0.001) {
             setCustomName(new StringTextComponent(Math.random() <= 0.5 ? "Pam" : "Blay"));
         } else {
@@ -251,7 +250,7 @@ public class MerchantEntity extends CreatureEntity {
     }
 
     public boolean isAtMarket() {
-        return marketEntityPos != null && getDistanceSq(Vector3d.func_237489_a_(marketEntityPos.offset(facing.getOpposite()))) <= 1;
+        return marketEntityPos != null && getDistanceSq(Vector3d.copyCentered(marketEntityPos.offset(facing.getOpposite()))) <= 1;
     }
 
     @Nullable

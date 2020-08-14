@@ -11,6 +11,7 @@ import net.minecraft.loot.LootParameters;
 import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
@@ -28,12 +29,13 @@ public class RichFarmlandLootModifier extends LootModifier {
     @Override
     protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
         World world = context.getWorld();
-        BlockPos pos = context.get(LootParameters.POSITION);
+        Vector3d origin = context.get(LootParameters.field_237457_g_);
         BlockState plant = context.get(LootParameters.BLOCK_STATE);
-        if (pos == null || plant == null) {
+        if (origin == null || plant == null) {
             return generatedLoot;
         }
 
+        BlockPos pos = new BlockPos(origin);
         BlockState farmland = world.getBlockState(pos.down());
         if (farmland.getBlock() instanceof FertilizedFarmlandBlock && plant.getBlock() instanceof IGrowable) {
             if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getBonusCropChance()) {

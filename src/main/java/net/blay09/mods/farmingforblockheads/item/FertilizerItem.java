@@ -142,7 +142,7 @@ public class FertilizerItem extends Item {
     @Override
     public void addInformation(ItemStack itemStack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         TranslationTextComponent chatComponent = new TranslationTextComponent("tooltip.farmingforblockheads:fertilizer_" + fertilizerType.name().toLowerCase(Locale.ENGLISH));
-        chatComponent.func_240699_a_(fertilizerType.getFarmlandTrait().getTraitColor());
+        chatComponent.mergeStyle(fertilizerType.getFarmlandTrait().getTraitColor());
         tooltip.add(chatComponent);
     }
 

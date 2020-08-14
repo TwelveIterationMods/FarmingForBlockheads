@@ -182,15 +182,15 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
         for (Button sortButton : filterButtons) {
             if (sortButton.isMouseOver(mouseX, mouseY) && sortButton.active) {
-                renderTooltip(matrixStack, ((MarketFilterButton) sortButton).getTooltipLines(), mouseX, mouseY);
+                func_243308_b(matrixStack, ((MarketFilterButton) sortButton).getTooltipLines(), mouseX, mouseY);
             }
         }
 
         func_230459_a_(matrixStack, mouseX, mouseY);
     }
 
-    @Override // drawGuiContainerBackgroundLayer
-    protected void func_230450_a_(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    @Override
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         if (clientContainer.isDirty()) {
             updateCategoryFilters();
             recalculateScrollBar();
@@ -217,7 +217,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
             }
         }
 
-        fontRenderer.drawStringWithShadow(matrixStack, I18n.format("container.farmingforblockheads:market"), guiLeft + 10, guiTop + 10, 0xFFFFFF);
+        fontRenderer.drawStringWithShadow(matrixStack, I18n.format("container.farmingforblockheads.market"), guiLeft + 10, guiTop + 10, 0xFFFFFF);
 
         if (container.getSelectedEntry() == null) {
             drawCenteredString(matrixStack, fontRenderer, I18n.format("gui.farmingforblockheads:market.no_selection"), guiLeft + 49, guiTop + 65, 0xFFFFFF);
@@ -230,12 +230,16 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
         RenderSystem.color4f(1f, 1f, 1f, 1f);
     }
 
+    @Override
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+    }
+
     public Collection<MarketFilterButton> getFilterButtons() {
         return filterButtons;
     }
 
     @Override
-    public void removed() {
+    public void onClose() {
         if (isEventHandler) {
             MinecraftForge.EVENT_BUS.unregister(this);
             isEventHandler = false;
@@ -277,13 +281,13 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
     private ITextComponent getPriceTooltipText(IMarketEntry entry) {
         TextComponent result = new TranslationTextComponent("gui.farmingforblockheads:market.tooltip_cost", getPriceText(entry));
-        result.func_240699_a_(getPriceColor(entry));
+        result.mergeStyle(getPriceColor(entry));
         return result;
     }
 
     private ITextComponent getPriceText(IMarketEntry entry) {
         TextComponent textComponent = new TranslationTextComponent("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
-        textComponent.func_240699_a_(getPriceColor(entry));
+        textComponent.mergeStyle(getPriceColor(entry));
         return textComponent;
     }
 

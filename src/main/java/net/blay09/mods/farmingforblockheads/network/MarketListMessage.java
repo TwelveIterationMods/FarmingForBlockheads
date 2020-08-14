@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads.network;
 
 import com.google.common.collect.ArrayListMultimap;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
@@ -64,13 +65,7 @@ public class MarketListMessage {
     public static void handle(MarketListMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
-            DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-                Container container = Minecraft.getInstance().player.openContainer;
-                if (container instanceof MarketClientContainer) {
-                    ((MarketClientContainer) container).setCategoryList(message.entryMap.keySet());
-                    ((MarketClientContainer) container).setEntryList(message.entryMap.values());
-                }
-            });
+            FarmingForBlockheads.proxy.receivedMarketList(message.entryMap);
         });
         context.setPacketHandled(true);
     }

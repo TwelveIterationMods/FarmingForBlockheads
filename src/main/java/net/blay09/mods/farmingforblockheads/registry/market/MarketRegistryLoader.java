@@ -172,7 +172,7 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
 
     private static StringTextComponent getErrorTextComponent(String message) {
         StringTextComponent result = new StringTextComponent(message);
-        result.func_240699_a_(TextFormatting.RED);
+        result.mergeStyle(TextFormatting.RED);
         return result;
     }
 }

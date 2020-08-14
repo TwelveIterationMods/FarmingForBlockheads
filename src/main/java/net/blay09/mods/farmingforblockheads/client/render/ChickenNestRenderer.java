@@ -56,7 +56,7 @@ public class ChickenNestRenderer extends TileEntityRenderer<ChickenNestTileEntit
 
         BlockState state = tileEntity.getBlockState();
         float angle = 0f;
-        if (state.func_235901_b_(ChickenNestBlock.FACING)) { // has
+        if (state.hasProperty(ChickenNestBlock.FACING)) {
             angle = getFacingAngle(state.get(ChickenNestBlock.FACING));
         }
 

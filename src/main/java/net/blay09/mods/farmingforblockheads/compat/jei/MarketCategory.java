@@ -79,7 +79,7 @@ public class MarketCategory implements IRecipeCategory<IMarketEntry> {
         ITextComponent costText = getFormattedCostString(recipe);
         FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
         int stringWidth = fontRenderer.func_238414_a_(costText);
-        fontRenderer.func_238407_a_(matrixStack, costText, 42 - stringWidth / 2f, 35, 0xFFFFFF); // drawStringWithShadow
+        fontRenderer.func_238407_a_(matrixStack, costText.func_241878_f(), 42 - stringWidth / 2f, 35, 0xFFFFFF); // drawStringWithShadow
     }
 
     private ITextComponent getFormattedCostString(IMarketEntry entry) {
@@ -88,7 +88,7 @@ public class MarketCategory implements IRecipeCategory<IMarketEntry> {
         if (entry.getCostItem().getItem() == Items.DIAMOND) {
             color = TextFormatting.AQUA;
         }
-        result.func_240699_a_(color);
+        result.mergeStyle(color);
         return result;
     }
 }
