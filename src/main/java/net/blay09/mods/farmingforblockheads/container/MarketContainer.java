@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 
 public class MarketContainer extends Container {
 
@@ -145,8 +146,8 @@ public class MarketContainer extends Container {
         }
     }
 
-    public void selectMarketEntry(ItemStack outputItem) {
-        selectedEntry = MarketRegistry.getEntryFor(outputItem);
+    public void selectMarketEntry(UUID entryId) {
+        selectedEntry = MarketRegistry.getEntryById(entryId);
         onCraftMatrixChanged(marketInputBuffer);
     }
 

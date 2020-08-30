@@ -8,9 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class MarketRegistry {
 
@@ -18,6 +16,7 @@ public class MarketRegistry {
 
     private final Map<ResourceLocation, IMarketCategory> indexedCategories = Maps.newHashMap();
     private final ArrayListMultimap<IMarketCategory, IMarketEntry> entries = ArrayListMultimap.create();
+    private final Map<UUID, IMarketEntry> entriesById = new HashMap<>();
 
     private final Map<String, IMarketOverrideData> groupOverrides = Maps.newHashMap();
     private final Map<String, IMarketOverrideData> entryOverrides = Maps.newHashMap();
@@ -53,7 +52,9 @@ public class MarketRegistry {
         if (override == null || override.isEnabled()) {
             ItemStack payment = override != null && override.getPayment() != null ? override.getPayment() : costItem;
             ItemStack alteredOutputItem = override != null ? ItemHandlerHelper.copyStackWithSize(outputItem, override.getAmount()) : outputItem;
-            entries.put(category, new MarketEntry(alteredOutputItem, payment, category));
+            final MarketEntry entry = new MarketEntry(UUID.randomUUID(), alteredOutputItem, payment, category);
+            entries.put(category, entry);
+            entriesById.put(entry.getEntryId(), entry);
         }
     }
 
@@ -71,6 +72,11 @@ public class MarketRegistry {
                 defaultHandler.register(payment);
             }
         }
+    }
+
+    @Nullable
+    public static IMarketEntry getEntryById(UUID entryId) {
+        return INSTANCE.entriesById.get(entryId);
     }
 
     @Nullable
@@ -131,5 +137,6 @@ public class MarketRegistry {
         defaultHandlers.clear();
         indexedCategories.clear();
         entries.clear();
+        entriesById.clear();
     }
 }

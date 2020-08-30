@@ -18,6 +18,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 public class MarketListMessage {
@@ -71,12 +72,14 @@ public class MarketListMessage {
     }
 
     private static MarketEntry readEntry(PacketBuffer buf, IMarketCategory category) {
+        UUID entryId = buf.readUniqueId();
         ItemStack outputItem = buf.readItemStack();
         ItemStack costItem = buf.readItemStack();
-        return new MarketEntry(outputItem, costItem, category);
+        return new MarketEntry(entryId, outputItem, costItem, category);
     }
 
     private static void writeEntry(IMarketEntry entry, PacketBuffer buf) {
+        buf.writeUniqueId(entry.getEntryId());
         buf.writeItemStack(entry.getOutputItem());
         buf.writeItemStack(entry.getCostItem());
     }

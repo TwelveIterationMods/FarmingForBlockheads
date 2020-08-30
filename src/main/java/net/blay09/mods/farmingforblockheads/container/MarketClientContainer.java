@@ -42,7 +42,7 @@ public class MarketClientContainer extends MarketContainer {
                     IMarketEntry entry = slotMarket.getEntry();
                     if (entry != null) {
                         selectedEntry = entry;
-                        NetworkHandler.channel.sendToServer(new MarketSelectMessage(entry.getOutputItem()));
+                        NetworkHandler.channel.sendToServer(new MarketSelectMessage(entry.getEntryId()));
                     }
                 }
             }
