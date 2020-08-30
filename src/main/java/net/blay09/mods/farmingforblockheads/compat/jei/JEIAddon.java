@@ -38,7 +38,7 @@ public class JEIAddon implements IModPlugin {
             public List<Rectangle2d> getGuiExtraAreas(MarketScreen guiContainer) {
                 List<Rectangle2d> list = Lists.newArrayList();
                 for (Button button : guiContainer.getFilterButtons()) {
-                    list.add(new Rectangle2d(button.x, button.y, button.getWidth(), button.getHeight()));
+                    list.add(new Rectangle2d(button.x, button.y, button.getWidth(), button.getWidth_CLASH()));
                 }
                 return list;
             }
