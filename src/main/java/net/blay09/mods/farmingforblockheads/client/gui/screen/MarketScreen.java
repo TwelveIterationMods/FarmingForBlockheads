@@ -132,7 +132,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == 1 && mouseX >= searchBar.x && mouseX < searchBar.x + searchBar.getWidth() && mouseY >= searchBar.y && mouseY < searchBar.y + searchBar.getWidth_CLASH()) {
+        if (button == 1 && mouseX >= searchBar.x && mouseX < searchBar.x + searchBar.getWidth() && mouseY >= searchBar.y && mouseY < searchBar.y + searchBar.getHeightRealms()) {
             searchBar.setText("");
             clientContainer.search(null);
             clientContainer.populateMarketSlots();
@@ -186,7 +186,7 @@ public class MarketScreen extends ContainerScreen<MarketContainer> {
             }
         }
 
-        func_230459_a_(matrixStack, mouseX, mouseY);
+        renderHoveredTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override

@@ -78,7 +78,7 @@ public class MarketCategory implements IRecipeCategory<IMarketEntry> {
     public void draw(IMarketEntry recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
         ITextComponent costText = getFormattedCostString(recipe);
         FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-        int stringWidth = fontRenderer.func_238414_a_(costText);
+        int stringWidth = fontRenderer.getStringPropertyWidth(costText);
         fontRenderer.func_238407_a_(matrixStack, costText.func_241878_f(), 42 - stringWidth / 2f, 35, 0xFFFFFF); // drawStringWithShadow
     }
 

@@ -61,5 +61,10 @@ public class RichFarmlandLootModifier extends LootModifier {
         public RichFarmlandLootModifier read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn) {
             return new RichFarmlandLootModifier(conditionsIn);
         }
+
+        @Override
+        public JsonObject write(RichFarmlandLootModifier instance) {
+            return new JsonObject();
+        }
     }
 }
