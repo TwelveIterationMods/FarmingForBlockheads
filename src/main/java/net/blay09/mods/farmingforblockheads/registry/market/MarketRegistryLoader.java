@@ -99,11 +99,16 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
         if (data.getGroup() != null) {
             FarmingForBlockheadsAPI.registerMarketDefaultHandler(data.getGroup().getName(), new IMarketRegistryDefaultHandler() {
                 @Override
-                public void register(ItemStack defaultPayment) {
+                public void register(@Nullable ItemStack overridePayment) {
                     ItemStack effectiveDefaultPayment = data.getGroup().getDefaultPayment();
-                    if (effectiveDefaultPayment == null) {
-                        effectiveDefaultPayment = defaultPayment;
+                    if(effectiveDefaultPayment == null) {
+                        effectiveDefaultPayment = getDefaultPayment();
                     }
+
+                    if (overridePayment != null) {
+                        effectiveDefaultPayment = overridePayment;
+                    }
+
                     loadMarketData(data, effectiveDefaultPayment);
                 }
 

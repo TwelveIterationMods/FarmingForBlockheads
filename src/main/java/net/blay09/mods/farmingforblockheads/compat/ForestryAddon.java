@@ -5,6 +5,8 @@ import net.blay09.mods.farmingforblockheads.api.IMarketRegistryDefaultHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
+import javax.annotation.Nullable;
+
 public class ForestryAddon {
 
     private static final String KEY_SAPLINGS = "Forestry Saplings";
@@ -12,7 +14,7 @@ public class ForestryAddon {
     public ForestryAddon() {
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(ItemStack defaultPayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, int unused) {
                 // TODO Re-implement once Forestry gets ported
 //                for (ITree tree : TreeManager.treeRoot.getIndividualTemplates()) {
 //                    ItemStack saplingStack = TreeManager.treeRoot.getMemberStack(tree, EnumGermlingType.SAPLING);

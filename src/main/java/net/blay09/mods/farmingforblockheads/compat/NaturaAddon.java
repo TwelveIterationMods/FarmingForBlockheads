@@ -9,6 +9,8 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
+
 public class NaturaAddon {
 
     private static final String KEY_SAPLINGS = "Natura Saplings";
@@ -19,8 +21,13 @@ public class NaturaAddon {
     public NaturaAddon() {
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(ItemStack defaultPayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, int unused) {
                 final String[] SEEDS = new String[]{"overworld_seeds"};
+
+                ItemStack effectivePayment = overridePayment;
+                if(effectivePayment == null) {
+                    effectivePayment = getDefaultPayment();
+                }
 
                 for (String SEED : SEEDS) {
                     ResourceLocation location = new ResourceLocation(Compat.NATURA, SEED);
@@ -28,7 +35,7 @@ public class NaturaAddon {
                         Item itemSeed = ForgeRegistries.ITEMS.getValue(location);
                         for (int j = 0; j <= 1; j++) {
                             ItemStack seedStack = new ItemStack(itemSeed, unused);
-                            FarmingForBlockheadsAPI.registerMarketEntry(seedStack, defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
+                            FarmingForBlockheadsAPI.registerMarketEntry(seedStack, effectivePayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
                         }
                     }
                 }
@@ -47,8 +54,13 @@ public class NaturaAddon {
 
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(ItemStack defaultPayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, int unused) {
                 final String[] SAPLINGS = new String[]{"overworld_sapling", "overworld_sapling2", "redwood_sapling"};
+
+                ItemStack effectivePayment = overridePayment;
+                if(effectivePayment == null) {
+                    effectivePayment = getDefaultPayment();
+                }
 
                 for (int i = 0; i < SAPLINGS.length; i++) {
                     ResourceLocation location = new ResourceLocation(Compat.NATURA, SAPLINGS[i]);
@@ -56,7 +68,7 @@ public class NaturaAddon {
                         Block blockSapling = ForgeRegistries.BLOCKS.getValue(location);
                         for (int j = 0; j < (i == 2 ? 1 : 4); j++) {
                             ItemStack saplingStack = new ItemStack(blockSapling, unused);
-                            FarmingForBlockheadsAPI.registerMarketEntry(saplingStack, defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
+                            FarmingForBlockheadsAPI.registerMarketEntry(saplingStack, effectivePayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
                         }
                     }
                 }
@@ -75,15 +87,20 @@ public class NaturaAddon {
 
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_BUSHES, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(ItemStack defaultPayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, int unused) {
                 final String[] BUSHES = new String[]{"overworld_berrybush_raspberry", "overworld_berrybush_blueberry", "overworld_berrybush_blackberry", "overworld_berrybush_maloberry"};
+
+                ItemStack effectivePayment = overridePayment;
+                if(effectivePayment == null) {
+                    effectivePayment = getDefaultPayment();
+                }
 
                 for (String BUSH : BUSHES) {
                     ResourceLocation location = new ResourceLocation(Compat.NATURA, BUSH);
                     if (ForgeRegistries.BLOCKS.containsKey(location)) {
                         Block blockBush = ForgeRegistries.BLOCKS.getValue(location);
                         ItemStack bushStack = new ItemStack(blockBush, unused);
-                        FarmingForBlockheadsAPI.registerMarketEntry(bushStack, defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
+                        FarmingForBlockheadsAPI.registerMarketEntry(bushStack, effectivePayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
                     }
                 }
             }
@@ -101,15 +118,20 @@ public class NaturaAddon {
 
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_NETHER_BUSHES, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(ItemStack defaultPayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, int unused) {
                 final String[] BUSHES = new String[]{"nether_berrybush_blightberry", "nether_berrybush_duskberry", "nether_berrybush_skyberry", "nether_berrybush_stingberry"};
+
+                ItemStack effectivePayment = overridePayment;
+                if(effectivePayment == null) {
+                    effectivePayment = getDefaultPayment();
+                }
 
                 for (String BUSH : BUSHES) {
                     ResourceLocation location = new ResourceLocation(Compat.NATURA, BUSH);
                     if (ForgeRegistries.BLOCKS.containsKey(location)) {
                         Block blockBush = ForgeRegistries.BLOCKS.getValue(location);
                         ItemStack bushStack = new ItemStack(blockBush, unused);
-                        FarmingForBlockheadsAPI.registerMarketEntry(bushStack, defaultPayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
+                        FarmingForBlockheadsAPI.registerMarketEntry(bushStack, effectivePayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
                     }
                 }
             }
