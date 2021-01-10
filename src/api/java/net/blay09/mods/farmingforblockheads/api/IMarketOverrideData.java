@@ -11,5 +11,5 @@ public interface IMarketOverrideData {
     @Nullable
     ItemStack getPayment();
 
-    int getAmount();
+    int getCount();
 }

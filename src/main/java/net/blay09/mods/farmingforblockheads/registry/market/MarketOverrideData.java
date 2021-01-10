@@ -6,7 +6,10 @@ import net.minecraft.item.ItemStack;
 public class MarketOverrideData implements IMarketOverrideData {
     private boolean enabled = true;
     private ItemStack payment;
-    private int amount = 1;
+    private Integer count = null;
+
+    @Deprecated
+    private Integer amount = 1;
 
     @Override
     public boolean isEnabled() {
@@ -27,11 +30,19 @@ public class MarketOverrideData implements IMarketOverrideData {
     }
 
     @Override
-    public int getAmount() {
-        return amount;
+    public int getCount() {
+        return count != null ? count : amount;
     }
 
-    public void setAmount(int amount) {
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public Integer getAmount() {
+        return amount;
     }
 }
