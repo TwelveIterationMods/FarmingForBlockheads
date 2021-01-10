@@ -22,15 +22,26 @@ public class ItemStackSerializer implements JsonDeserializer<ItemStack>, JsonSer
             Item item = JSONUtils.getItem(jsonObject, "item");
             int count = JSONUtils.getInt(jsonObject, "count", 1);
             ItemStack itemStack = new ItemStack(item, count);
-            JsonObject nbtJson = JSONUtils.getJsonObject(jsonObject, "nbt", new JsonObject());
-            if (nbtJson.size() > 0) {
-                try {
-                    CompoundNBT tagFromJson = JsonToNBT.getTagFromJson(nbtJson.toString());
-                    itemStack.setTag(tagFromJson);
-                } catch (CommandSyntaxException e) {
-                    FarmingForBlockheads.logger.error("Failed to parse nbt data for itemstack {}x {}: ", item, count, e);
+
+            // Allow JSON to be specified as either String or Object. String JSON can be used to support Mojang's special JSON format with type identifiers.
+            String jsonString = null;
+            if (JSONUtils.isString(jsonObject, "nbt")) {
+                jsonString = JSONUtils.getString(jsonObject, "nbt");
+            } else {
+                JsonObject nbtJson = JSONUtils.getJsonObject(jsonObject, "nbt", new JsonObject());
+                if (nbtJson.size() > 0) {
+                    jsonString = nbtJson.toString();
                 }
             }
+            if (jsonString != null) {
+                try {
+                    CompoundNBT tagFromJson = JsonToNBT.getTagFromJson(jsonString);
+                    itemStack.setTag(tagFromJson);
+                } catch (CommandSyntaxException e) {
+                    FarmingForBlockheads.logger.error("Failed to parse nbt data for item stack {}x {}: ", item, count, e);
+                }
+            }
+
             return itemStack;
         }
     }
