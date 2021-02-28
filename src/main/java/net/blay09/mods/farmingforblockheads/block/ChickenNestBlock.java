@@ -80,7 +80,7 @@ public class ChickenNestBlock extends ContainerBlock {
 
     @Override
     public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!world.isRemote) {
+        if (!world.isRemote && !state.isIn(newState.getBlock())) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity != null) {
                 LazyOptional<IItemHandler> itemHandlerCap = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
