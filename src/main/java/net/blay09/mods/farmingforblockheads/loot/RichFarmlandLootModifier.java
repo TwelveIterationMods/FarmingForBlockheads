@@ -37,11 +37,13 @@ public class RichFarmlandLootModifier extends LootModifier {
         }
 
         BlockPos pos = new BlockPos(origin);
-        BlockPos posBelow = pos.down();
+        // Other mods might trigger loot tables during world gen, which results in a deadlock when reading the
+        // block state below as the world in the context is the server world, not the world gen region
         if (!world.getChunkProvider().isChunkLoaded(new ChunkPos(pos))) {
             return generatedLoot;
         }
 
+        BlockPos posBelow = pos.down();
         BlockState farmland = world.getBlockState(posBelow);
         if (farmland.getBlock() instanceof FertilizedFarmlandBlock) {
             if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getBonusCropChance()) {
