@@ -68,7 +68,7 @@ public class MarketRegistry {
             }
 
             if (enabled) {
-                defaultHandler.register(override != null ? override.getPayment() : null);
+                defaultHandler.register(override != null ? override.getPayment() : null, override != null ? override.getCount() : null);
             }
         }
     }

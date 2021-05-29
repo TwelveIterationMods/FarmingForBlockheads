@@ -5,12 +5,12 @@ import net.minecraft.item.ItemStack;
 import javax.annotation.Nullable;
 
 public interface IMarketRegistryDefaultHandler {
+    @Deprecated
     default void register(@Nullable ItemStack overridePayment) {
+        register(overridePayment, null);
     }
 
-    @Deprecated
-    default void register(@Nullable ItemStack overridePayment, int unused) {
-        register(overridePayment);
+    default void register(@Nullable ItemStack overridePayment, @Nullable Integer overrideCount) {
     }
 
     boolean isEnabledByDefault();

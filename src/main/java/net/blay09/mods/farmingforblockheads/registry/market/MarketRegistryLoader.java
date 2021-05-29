@@ -11,6 +11,7 @@ import net.blay09.mods.farmingforblockheads.registry.MarketCategory;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.blay09.mods.farmingforblockheads.registry.json.ItemStackSerializer;
 import net.blay09.mods.farmingforblockheads.registry.json.MarketRegistryDataSerializer;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.resources.IResource;
@@ -25,6 +26,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
 import java.io.*;
@@ -99,9 +101,9 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
         if (data.getGroup() != null) {
             FarmingForBlockheadsAPI.registerMarketDefaultHandler(data.getGroup().getName(), new IMarketRegistryDefaultHandler() {
                 @Override
-                public void register(@Nullable ItemStack overridePayment) {
+                public void register(@Nullable ItemStack overridePayment, @Nullable Integer overrideCount) {
                     ItemStack effectiveDefaultPayment = data.getGroup().getDefaultPayment();
-                    if(effectiveDefaultPayment == null) {
+                    if (effectiveDefaultPayment == null) {
                         effectiveDefaultPayment = getDefaultPayment();
                     }
 
@@ -109,7 +111,7 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
                         effectiveDefaultPayment = overridePayment;
                     }
 
-                    loadMarketData(data, effectiveDefaultPayment);
+                    loadMarketData(data, effectiveDefaultPayment, overrideCount);
                 }
 
                 @Override
@@ -123,11 +125,11 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
                 }
             });
         } else {
-            loadMarketData(data, new ItemStack(Items.EMERALD));
+            loadMarketData(data, new ItemStack(Items.EMERALD), null);
         }
     }
 
-    private void loadMarketData(MarketRegistryData data, ItemStack defaultPayment) {
+    private void loadMarketData(MarketRegistryData data, ItemStack defaultPayment, @Nullable Integer overrideCount) {
         if (data.getCustomCategories() != null) {
             data.getCustomCategories().forEach((key, categoryData) -> {
                 ResourceLocation resourceLocation = new ResourceLocation(key);
@@ -160,7 +162,11 @@ public class MarketRegistryLoader implements IResourceManagerReloadListener {
                     effectivePayment = defaultPayment;
                 }
 
-                MarketRegistry.INSTANCE.registerEntry(it.getOutput(), effectivePayment, category);
+                ItemStack effectiveOutput = it.getOutput();
+                if (overrideCount != null) {
+                    effectiveOutput = ItemHandlerHelper.copyStackWithSize(effectiveOutput, overrideCount);
+                }
+                MarketRegistry.INSTANCE.registerEntry(effectiveOutput, effectivePayment, category);
             });
         }
     }

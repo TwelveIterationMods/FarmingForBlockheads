@@ -21,7 +21,7 @@ public class NaturaAddon {
     public NaturaAddon() {
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SEEDS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(@Nullable ItemStack overridePayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, @Nullable Integer overrideCount) {
                 final String[] SEEDS = new String[]{"overworld_seeds"};
 
                 ItemStack effectivePayment = overridePayment;
@@ -34,7 +34,7 @@ public class NaturaAddon {
                     if (ForgeRegistries.ITEMS.containsKey(location)) {
                         Item itemSeed = ForgeRegistries.ITEMS.getValue(location);
                         for (int j = 0; j <= 1; j++) {
-                            ItemStack seedStack = new ItemStack(itemSeed, unused);
+                            ItemStack seedStack = new ItemStack(itemSeed, overrideCount != null ? overrideCount : 1);
                             FarmingForBlockheadsAPI.registerMarketEntry(seedStack, effectivePayment, FarmingForBlockheadsAPI.getMarketCategorySeeds());
                         }
                     }
@@ -54,7 +54,7 @@ public class NaturaAddon {
 
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(@Nullable ItemStack overridePayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, @Nullable Integer overrideCount) {
                 final String[] SAPLINGS = new String[]{"overworld_sapling", "overworld_sapling2", "redwood_sapling"};
 
                 ItemStack effectivePayment = overridePayment;
@@ -67,7 +67,7 @@ public class NaturaAddon {
                     if (ForgeRegistries.BLOCKS.containsKey(location)) {
                         Block blockSapling = ForgeRegistries.BLOCKS.getValue(location);
                         for (int j = 0; j < (i == 2 ? 1 : 4); j++) {
-                            ItemStack saplingStack = new ItemStack(blockSapling, unused);
+                            ItemStack saplingStack = new ItemStack(blockSapling, overrideCount != null ? overrideCount : 1);
                             FarmingForBlockheadsAPI.registerMarketEntry(saplingStack, effectivePayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
                         }
                     }
@@ -87,7 +87,7 @@ public class NaturaAddon {
 
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_BUSHES, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(@Nullable ItemStack overridePayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, @Nullable Integer overrideCount) {
                 final String[] BUSHES = new String[]{"overworld_berrybush_raspberry", "overworld_berrybush_blueberry", "overworld_berrybush_blackberry", "overworld_berrybush_maloberry"};
 
                 ItemStack effectivePayment = overridePayment;
@@ -99,7 +99,7 @@ public class NaturaAddon {
                     ResourceLocation location = new ResourceLocation(Compat.NATURA, BUSH);
                     if (ForgeRegistries.BLOCKS.containsKey(location)) {
                         Block blockBush = ForgeRegistries.BLOCKS.getValue(location);
-                        ItemStack bushStack = new ItemStack(blockBush, unused);
+                        ItemStack bushStack = new ItemStack(blockBush, overrideCount != null ? overrideCount : 1);
                         FarmingForBlockheadsAPI.registerMarketEntry(bushStack, effectivePayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
                     }
                 }
@@ -118,7 +118,7 @@ public class NaturaAddon {
 
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_NETHER_BUSHES, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(@Nullable ItemStack overridePayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, @Nullable Integer overrideCount) {
                 final String[] BUSHES = new String[]{"nether_berrybush_blightberry", "nether_berrybush_duskberry", "nether_berrybush_skyberry", "nether_berrybush_stingberry"};
 
                 ItemStack effectivePayment = overridePayment;
@@ -130,7 +130,7 @@ public class NaturaAddon {
                     ResourceLocation location = new ResourceLocation(Compat.NATURA, BUSH);
                     if (ForgeRegistries.BLOCKS.containsKey(location)) {
                         Block blockBush = ForgeRegistries.BLOCKS.getValue(location);
-                        ItemStack bushStack = new ItemStack(blockBush, unused);
+                        ItemStack bushStack = new ItemStack(blockBush, overrideCount != null ? overrideCount : 1);
                         FarmingForBlockheadsAPI.registerMarketEntry(bushStack, effectivePayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
                     }
                 }

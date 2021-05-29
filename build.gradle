@@ -50,6 +50,8 @@ minecraft {
 //            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
 
+            property 'mixin.env.disableRefMap', 'true'
+
             mods {
                 farmingforblockheads {
                     source sourceSets.main
@@ -61,6 +63,8 @@ minecraft {
             workingDirectory project.file('run')
 //            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+
+            property 'mixin.env.disableRefMap', 'true'
 
             mods {
                 farmingforblockheads {
@@ -74,6 +78,8 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/')
+
+            property 'mixin.env.disableRefMap', 'true'
 
             mods {
                 farmingforblockheads {
@@ -89,12 +95,11 @@ repositories {
         url "https://minecraft.curseforge.com/api/maven/"
     }
     maven {
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
+        url "https://www.cursemaven.com"
     }
     maven {
-        name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
     }
     flatDir {
         dirs "run/obfmods"
@@ -111,6 +116,9 @@ dependencies {
     compileOnly "inventory-tweaks:InventoryTweaks:1.64+dev.146"
     compileOnly fg.deobf("mezz.jei:jei-1.16.2:7.3.0.22:api")
     runtimeOnly fg.deobf("mezz.jei:jei-1.16.2:7.3.0.22")
+    runtime fg.deobf("curse.maven:atmospheric-362393:3249309")
+    runtime fg.deobf("curse.maven:abnormals-core-382216:3233486")
+    runtime fg.deobf("curse.maven:open-loader-354339:3198395")
 
     def obfModsDir = new File("run/obfmods")
     obfModsDir.eachFile { file ->

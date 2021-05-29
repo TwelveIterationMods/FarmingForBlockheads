@@ -14,7 +14,7 @@ public class ForestryAddon {
     public ForestryAddon() {
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(@Nullable ItemStack overridePayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, @Nullable Integer overrideCount) {
                 // TODO Re-implement once Forestry gets ported
 //                for (ITree tree : TreeManager.treeRoot.getIndividualTemplates()) {
 //                    ItemStack saplingStack = TreeManager.treeRoot.getMemberStack(tree, EnumGermlingType.SAPLING);

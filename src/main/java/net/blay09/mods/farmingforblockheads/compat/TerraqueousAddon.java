@@ -17,7 +17,7 @@ public class TerraqueousAddon {
     public TerraqueousAddon() {
         FarmingForBlockheadsAPI.registerMarketDefaultHandler(KEY_SAPLINGS, new IMarketRegistryDefaultHandler() {
             @Override
-            public void register(@Nullable ItemStack overridePayment, int unused) {
+            public void register(@Nullable ItemStack overridePayment, @Nullable Integer overrideCount) {
                 final String[] SAPLINGS = new String[]{"sapling"};
 
                 ItemStack effectivePayment = overridePayment;
@@ -30,7 +30,7 @@ public class TerraqueousAddon {
                     if (ForgeRegistries.BLOCKS.containsKey(location)) {
                         Block blockSapling = ForgeRegistries.BLOCKS.getValue(location);
                         for (int j = 0; j <= 9; j++) {
-                            ItemStack saplingStack = new ItemStack(blockSapling, unused);
+                            ItemStack saplingStack = new ItemStack(blockSapling, overrideCount != null ? overrideCount : 1);
                             FarmingForBlockheadsAPI.registerMarketEntry(saplingStack, effectivePayment, FarmingForBlockheadsAPI.getMarketCategorySaplings());
                         }
                     }
