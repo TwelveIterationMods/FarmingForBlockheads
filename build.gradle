@@ -116,9 +116,10 @@ dependencies {
     compileOnly "inventory-tweaks:InventoryTweaks:1.64+dev.146"
     compileOnly fg.deobf("mezz.jei:jei-1.16.2:7.3.0.22:api")
     runtimeOnly fg.deobf("mezz.jei:jei-1.16.2:7.3.0.22")
-    runtime fg.deobf("curse.maven:atmospheric-362393:3249309")
-    runtime fg.deobf("curse.maven:abnormals-core-382216:3233486")
-    runtime fg.deobf("curse.maven:open-loader-354339:3198395")
+    runtimeOnly fg.deobf("curse.maven:atmospheric-362393:3249309")
+    runtimeOnly fg.deobf("curse.maven:abnormals-core-382216:3233486")
+    runtimeOnly fg.deobf("curse.maven:open-loader-354339:3198395")
+    runtimeOnly fg.deobf("curse.maven:the-lord-of-the-rings-mod-renewed-406893:3314320")
 
     def obfModsDir = new File("run/obfmods")
     obfModsDir.eachFile { file ->

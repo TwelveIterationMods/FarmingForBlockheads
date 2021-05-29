@@ -11,6 +11,7 @@ import net.minecraft.loot.LootParameters;
 import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
@@ -31,18 +32,23 @@ public class RichFarmlandLootModifier extends LootModifier {
         World world = context.getWorld();
         Vector3d origin = context.get(LootParameters.field_237457_g_);
         BlockState plant = context.get(LootParameters.BLOCK_STATE);
-        if (origin == null || plant == null) {
+        if (origin == null || plant == null || !(plant.getBlock() instanceof IGrowable)) {
             return generatedLoot;
         }
 
         BlockPos pos = new BlockPos(origin);
-        BlockState farmland = world.getBlockState(pos.down());
-        if (farmland.getBlock() instanceof FertilizedFarmlandBlock && plant.getBlock() instanceof IGrowable) {
+        BlockPos posBelow = pos.down();
+        if (!world.getChunkProvider().isChunkLoaded(new ChunkPos(pos))) {
+            return generatedLoot;
+        }
+
+        BlockState farmland = world.getBlockState(posBelow);
+        if (farmland.getBlock() instanceof FertilizedFarmlandBlock) {
             if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getBonusCropChance()) {
                 generatedLoot.stream().filter(p -> !isProbablySeed(p)).findAny().ifPresent(c -> {
                     generatedLoot.add(c.copy());
                     world.playEvent(2005, pos, 0);
-                    FarmlandHandler.rollRegression(world, pos.down(), farmland);
+                    FarmlandHandler.rollRegression(world, posBelow, farmland);
                 });
             }
         }
