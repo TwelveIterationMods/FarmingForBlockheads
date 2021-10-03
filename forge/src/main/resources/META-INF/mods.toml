@@ -1,0 +1,33 @@
+modLoader="javafml"
+loaderVersion="[37,)"
+license="All rights reserved"
+issueTrackerURL="https://github.com/ModdingForBlockheads/CookingForBlockheads/issues"
+[[mods]]
+modId="cookingforblockheads"
+version="${file.jarVersion}"
+displayName="CookingForBlockheads"
+displayURL="https://blay09.net/mods/cookingforblockheads"
+logoFile="cookingforblockheads-icon.png"
+credits="BlayTheNinth"
+authors="BlayTheNinth"
+description='''
+
+'''
+[[dependencies.cookingforblockheads]]
+    modId="forge"
+    mandatory=true
+    versionRange="[37,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.cookingforblockheads]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.17.1,1.18)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.cookingforblockheads]]
+modId="balm"
+mandatory=true
+versionRange="[1.5.2,)"
+ordering="NONE"
+side="BOTH"
