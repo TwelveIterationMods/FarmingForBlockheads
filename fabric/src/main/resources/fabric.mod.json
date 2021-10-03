@@ -34,7 +34,7 @@
     ]
   },
   "mixins": [
-    "cookingforblockheads.mixins.json"
+    "farmingforblockheads.mixins.json"
   ],
   "depends": {
     "cloth-config2": ">=5.0.34",

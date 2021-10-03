@@ -1,4 +1,4 @@
-package net.blay09.mods.cookingforblockheads.compat;
+package net.blay09.mods.farmingforblockheads.compat;
 
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import net.fabricmc.api.EnvType;
