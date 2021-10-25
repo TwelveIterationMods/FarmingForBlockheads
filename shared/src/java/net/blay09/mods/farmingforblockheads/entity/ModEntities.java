@@ -11,7 +11,7 @@ public class ModEntities {
     public static DeferredObject<EntityType<MerchantEntity>> merchant;
 
     public static void initialize(BalmEntities entities) {
-        merchant = entities.registerEntity(id("merchant"), EntityType.Builder.of(MerchantEntity::new, MobCategory.MISC).sized(0.6f, 1.95f), MerchantEntity.createAttributes());
+        merchant = entities.registerEntity(id("merchant"), EntityType.Builder.of(MerchantEntity::new, MobCategory.MISC).sized(0.6f, 1.95f), MerchantEntity::createAttributes);
     }
 
     private static ResourceLocation id(String path) {

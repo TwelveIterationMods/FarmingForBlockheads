@@ -13,17 +13,7 @@ import net.minecraft.world.level.Level;
 
 public class ClientProxy extends CommonProxy {
     @Override
-    public void playChickenNestEffect(BlockPos pos) {
-        Level level = Minecraft.getInstance().level;
-        level.addParticle(ParticleTypes.EXPLOSION, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, 0, 0, 0);
-    }
-
-    @Override
     public void receivedMarketList(ArrayListMultimap<IMarketCategory, IMarketEntry> entryMap) {
-        AbstractContainerMenu menu = Minecraft.getInstance().player.containerMenu;
-        if (menu instanceof MarketClientMenu marketClientMenu) {
-            marketClientMenu.setCategoryList(entryMap.keySet());
-            marketClientMenu.setEntryList(entryMap.values());
-        }
+
     }
 }

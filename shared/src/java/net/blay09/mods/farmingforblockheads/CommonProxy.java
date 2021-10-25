@@ -6,10 +6,6 @@ import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.minecraft.core.BlockPos;
 
 public class CommonProxy {
-    public void playChickenNestEffect(BlockPos pos) {
-
-    }
-
     public void receivedMarketList(ArrayListMultimap<IMarketCategory, IMarketEntry> entryMap) {
 
     }

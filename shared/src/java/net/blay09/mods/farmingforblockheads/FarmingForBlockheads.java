@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads;
 
 import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.balm.api.event.CropGrowEvent;
 import net.blay09.mods.balm.api.event.PlayerLoginEvent;
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.api.MarketRegistryReloadEvent;
@@ -15,6 +16,7 @@ import net.blay09.mods.farmingforblockheads.loot.ModLootModifiers;
 import net.blay09.mods.farmingforblockheads.network.ModNetworking;
 import net.blay09.mods.farmingforblockheads.registry.market.MarketRegistryLoader;
 import net.blay09.mods.farmingforblockheads.sound.ModSounds;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.apache.logging.log4j.LogManager;
@@ -25,8 +27,6 @@ public class FarmingForBlockheads {
     public static final String MOD_ID = "farmingforblockheads";
 
     public static Logger logger = LogManager.getLogger();
-
-    public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     public static void initialize() {
         FarmingForBlockheadsAPI.__setupAPI(new InternalMethodsImpl());
@@ -39,6 +39,9 @@ public class FarmingForBlockheads {
         ModItems.initialize(Balm.getItems());
         ModSounds.initialize(Balm.getSounds());
         ModMenus.initialize(Balm.getMenus());
+        ModLootModifiers.initialize(Balm.getLootTables());
+
+        Balm.addServerReloadListener(new ResourceLocation(MOD_ID, "market_registry"), new MarketRegistryLoader());
 
         Balm.initializeIfLoaded(Compat.FORESTRY, "net.blay09.mods.farmingforblockheads.compat.ForestryAddon");
         Balm.initializeIfLoaded(Compat.NATURA, "net.blay09.mods.farmingforblockheads.compat.NaturaAddon");
@@ -52,19 +55,8 @@ public class FarmingForBlockheads {
         });
 
         Balm.getEvents().onEvent(PlayerLoginEvent.class, MarketRegistryLoader::onLogin);
-    }
 
-    public FarmingForBlockheads() {
-        MinecraftForge.EVENT_BUS.addListener(this::addReloadListeners);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(GlobalLootModifierSerializer.class, this::registerLootModifiers);
-    }
-
-    private void addReloadListeners(AddReloadListenerEvent event) {
-        event.addListener(new MarketRegistryLoader());
-    }
-
-    private void registerLootModifiers(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
-        ModLootModifiers.register(event.getRegistry());
+        Balm.getEvents().onEvent(CropGrowEvent.Post.class, FarmlandHandler::onGrowEvent);
     }
 
 }

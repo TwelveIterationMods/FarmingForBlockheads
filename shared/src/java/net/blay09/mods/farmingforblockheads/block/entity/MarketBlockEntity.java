@@ -30,8 +30,4 @@ public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvid
         return new MarketMenu(windowId, playerInventory, worldPosition);
     }
 
-    @Override
-    public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
-        buf.writeBlockPos(worldPosition);
-    }
 }

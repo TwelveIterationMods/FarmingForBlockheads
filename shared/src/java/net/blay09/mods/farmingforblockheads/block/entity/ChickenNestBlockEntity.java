@@ -15,6 +15,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
@@ -50,25 +51,22 @@ public class ChickenNestBlockEntity extends BalmBlockEntity implements BalmConta
         super(ModBlockEntities.chickenNest.get(), pos, state);
     }
 
-    public void tick() { // TODO
-        if (!level.isClientSide) {
-            tickTimer++;
-            if (tickTimer >= TICK_INTERVAL) {
-                stealEgg();
-                tickTimer = 0;
-            }
-
-            if (isDirty) {
-                balmSync();
-                isDirty = false;
-            }
-        }
+    public static void serverTick(Level level, BlockPos pos, BlockState state, ChickenNestBlockEntity blockEntity) {
+        blockEntity.serverTick(level, pos, state);
     }
 
-    /*@Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> itemHandler));
-    }*/
+    public void serverTick(Level level, BlockPos pos, BlockState state) {
+        tickTimer++;
+        if (tickTimer >= TICK_INTERVAL) {
+            stealEgg();
+            tickTimer = 0;
+        }
+
+        if (isDirty) {
+            balmSync();
+            isDirty = false;
+        }
+    }
 
     @Override
     public void load(CompoundTag tagCompound) {
@@ -81,6 +79,16 @@ public class ChickenNestBlockEntity extends BalmBlockEntity implements BalmConta
         super.save(tagCompound);
         tagCompound.put("ItemHandler", container.serialize());
         return tagCompound;
+    }
+
+    @Override
+    public void balmFromClientTag(CompoundTag tag) {
+        load(tag);
+    }
+
+    @Override
+    public CompoundTag balmToClientTag(CompoundTag tag) {
+        return save(tag);
     }
 
     private void stealEgg() {

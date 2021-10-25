@@ -8,7 +8,7 @@
   "item.farmingforblockheads.fertilizer_healthy": "紅色肥料",
   "item.farmingforblockheads.fertilizer_rich": "綠色肥料",
   "item.farmingforblockheads.fertilizer_stable": "黃色肥料",
-  "itemGroup.farmingforblockheads": "農牧市集",
+  "itemGroup.farmingforblockheads.farmingforblockheads": "農牧市集",
   "container.farmingforblockheads.market": "農牧市集",
   "commands.farmingforblockheads:reload.success": "農牧市集的註冊表已重新載入。",
   "gui.farmingforblockheads:market.no_selection": "沒有選擇",

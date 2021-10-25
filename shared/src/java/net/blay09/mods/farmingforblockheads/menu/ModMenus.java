@@ -11,7 +11,7 @@ public class ModMenus {
     public static DeferredObject<MenuType<MarketMenu>> market;
 
     public static void initialize(BalmMenus menus) {
-        menus.registerMenu(id("market"), (windowId, playerInventory, data) -> {
+        market = menus.registerMenu(id("market"), (windowId, playerInventory, data) -> {
             BlockPos pos = data.readBlockPos();
             return new MarketClientMenu(windowId, playerInventory, pos);
         });

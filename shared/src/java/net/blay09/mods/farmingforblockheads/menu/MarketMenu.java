@@ -39,9 +39,11 @@ public class MarketMenu extends AbstractContainerMenu {
         addSlot(new Slot(marketInputBuffer, 0, 23, 39));
         addSlot(new MarketBuySlot(this, marketOutputBuffer, 0, 61, 39));
 
+        Container fakeInventory = new DefaultContainer(4*3);
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
-                MarketFakeSlot slot = new MarketFakeSlot(j + i * 3, 102 + j * 18, 11 + i * 18);
+                MarketFakeSlot slot = new MarketFakeSlot(fakeInventory, j + i * 3, 102 + j * 18, 11 + i * 18);
                 marketSlots.add(slot);
                 addSlot(slot);
             }

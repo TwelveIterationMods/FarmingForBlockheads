@@ -10,7 +10,7 @@
   "item.farmingforblockheads.red_fertilizer": "Красное удобрение",
   "item.farmingforblockheads.green_fertilizer": "Зелёное удобрение",
   "item.farmingforblockheads.yellow_fertilizer": "Жёлтое удобрение",
-  "itemGroup.farmingforblockheads": "Farming for Blockheads",
+  "itemGroup.farmingforblockheads.farmingforblockheads": "Farming for Blockheads",
   "container.farmingforblockheads.market": "Рынок",
   "commands.farmingforblockheads:reload.success": "Реестры Farming for Blockheads перезагружены.",
   "gui.farmingforblockheads:market.no_selection": "Нет выбора",

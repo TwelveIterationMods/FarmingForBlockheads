@@ -1,6 +1,6 @@
 {
   "block.farmingforblockheads.market": "Markt",
-  "itemGroup.farmingforblockheads": "Farming for Blockheads",
+  "itemGroup.farmingforblockheads.farmingforblockheads": "Farming for Blockheads",
   "container.farmingforblockheads.market": "Markt",
   "gui.farmingforblockheads:market.no_selection": "Keine Auswahl",
   "gui.farmingforblockheads:market.tooltip_cost": "Kosten: %s",

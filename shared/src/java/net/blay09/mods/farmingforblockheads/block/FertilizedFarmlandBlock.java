@@ -2,6 +2,7 @@ package net.blay09.mods.farmingforblockheads.block;
 
 import com.google.common.collect.Lists;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
+import net.blay09.mods.farmingforblockheads.mixin.FarmBlockAccessor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.common.IPlantable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -98,7 +100,7 @@ public class FertilizedFarmlandBlock extends FarmBlock {
     private final List<FarmlandTrait> traits;
 
     public FertilizedFarmlandBlock(FarmlandTrait... traits) {
-        super(BlockBehaviour.Properties.of(Material.DIRT).sound(SoundType.GRAVEL).strength(0.6f).randomTicks().harvestTool(ToolType.SHOVEL));
+        super(BlockBehaviour.Properties.of(Material.DIRT).sound(SoundType.GRAVEL).strength(0.6f).randomTicks());
         this.traits = Lists.newArrayList(traits);
     }
 
@@ -139,7 +141,7 @@ public class FertilizedFarmlandBlock extends FarmBlock {
     public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
         int moisture = state.getValue(MOISTURE);
 
-        if (!isNearWater(level, pos) && !level.isRainingAt(pos.above())) {
+        if (!FarmBlockAccessor.callIsNearWater(level, pos) && !level.isRainingAt(pos.above())) {
             if (moisture > 0) {
                 level.setBlock(pos, state.setValue(MOISTURE, moisture - 1), 2);
             } else if (!hasCropsFFB(level, pos) && traits.stream().noneMatch(FarmlandTrait::isStable)) {

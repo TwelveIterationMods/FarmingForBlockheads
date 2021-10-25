@@ -71,7 +71,7 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
 
         searchBar = new EditBox(font, leftPos + imageWidth - 78, topPos - 5, 70, 10, searchBar, new TextComponent(""));
         setInitialFocus(searchBar);
-        addWidget(searchBar);
+        addRenderableWidget(searchBar);
 
         updateCategoryFilters();
 
@@ -99,7 +99,7 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
                 setCurrentOffset(currentOffset);
             });
 
-            addWidget(filterButton);
+            addRenderableWidget(filterButton);
             filterButtons.add(filterButton);
 
             curY += 20;

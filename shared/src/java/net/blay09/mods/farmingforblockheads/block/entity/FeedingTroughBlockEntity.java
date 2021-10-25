@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
@@ -41,18 +42,20 @@ public class FeedingTroughBlockEntity extends BalmBlockEntity implements BalmCon
         super(ModBlockEntities.feedingTrough.get(), pos, state);
     }
 
-    public void tick() {// TODO
-        if (!level.isClientSide) {
-            tickTimer++;
-            if (tickTimer >= TICK_INTERVAL) {
-                teehee();
-                tickTimer = 0;
-            }
+    public static void serverTick(Level level, BlockPos pos, BlockState state, FeedingTroughBlockEntity blockEntity) {
+        blockEntity.serverTick(level, pos, state);
+    }
 
-            if (isDirty) {
-                balmSync();
-                isDirty = false;
-            }
+    public void serverTick(Level level, BlockPos pos, BlockState state) {
+        tickTimer++;
+        if (tickTimer >= TICK_INTERVAL) {
+            teehee();
+            tickTimer = 0;
+        }
+
+        if (isDirty) {
+            balmSync();
+            isDirty = false;
         }
     }
 
@@ -69,10 +72,15 @@ public class FeedingTroughBlockEntity extends BalmBlockEntity implements BalmCon
         return tagCompound;
     }
 
-    /*@Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> container));
-    }*/
+    @Override
+    public void balmFromClientTag(CompoundTag tag) {
+        load(tag);
+    }
+
+    @Override
+    public CompoundTag balmToClientTag(CompoundTag tag) {
+        return save(tag);
+    }
 
     private void teehee() {
         ItemStack itemStack = container.getItem(0);

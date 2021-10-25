@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads.menu;
 
 import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,8 +9,8 @@ public class MarketFakeSlot extends FakeSlot {
 
 	private IMarketEntry entry;
 
-	public MarketFakeSlot(int slotId, int x, int y) {
-		super(slotId, x, y);
+	public MarketFakeSlot(Container container, int slotId, int x, int y) {
+		super(container, slotId, x, y);
 	}
 
 	@Override

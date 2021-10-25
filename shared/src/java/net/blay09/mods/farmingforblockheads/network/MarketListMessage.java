@@ -1,10 +1,10 @@
 package net.blay09.mods.farmingforblockheads.network;
 
 import com.google.common.collect.ArrayListMultimap;
-import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
+import net.blay09.mods.farmingforblockheads.menu.MarketClientMenu;
 import net.blay09.mods.farmingforblockheads.registry.MarketEntry;
 import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -58,7 +58,10 @@ public class MarketListMessage {
     }
 
     public static void handle(Player player, MarketListMessage message) {
-        FarmingForBlockheads.proxy.receivedMarketList(message.entryMap);
+        if (player.containerMenu instanceof MarketClientMenu marketClientMenu) {
+            marketClientMenu.setCategoryList(message.entryMap.keySet());
+            marketClientMenu.setEntryList(message.entryMap.values());
+        }
     }
 
     private static MarketEntry readEntry(FriendlyByteBuf buf, IMarketCategory category) {

@@ -1,33 +1,35 @@
 modLoader="javafml"
 loaderVersion="[37,)"
 license="All rights reserved"
-issueTrackerURL="https://github.com/ModdingForBlockheads/CookingForBlockheads/issues"
+issueTrackerURL="https://github.com/ModdingForBlockheads/FarmingForBlockheads/issues"
+
 [[mods]]
-modId="cookingforblockheads"
+modId="farmingforblockheads"
 version="${file.jarVersion}"
-displayName="CookingForBlockheads"
-displayURL="https://blay09.net/mods/cookingforblockheads"
-logoFile="cookingforblockheads-icon.png"
+displayName="Farming for Blockheads"
+displayURL="https://blay09.net/mods/farmingforblockheads"
+logoFile="farmingforblockheads-icon.png"
 credits="BlayTheNinth"
 authors="BlayTheNinth"
 description='''
-
+Adds a seed market with a search bar and a scrolling grid and more farming utilities.
 '''
-[[dependencies.cookingforblockheads]]
+
+[[dependencies.farmingforblockheads]]
     modId="forge"
     mandatory=true
     versionRange="[37,)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.cookingforblockheads]]
+[[dependencies.farmingforblockheads]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.17.1,1.18)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.cookingforblockheads]]
-modId="balm"
-mandatory=true
-versionRange="[1.5.2,)"
-ordering="NONE"
-side="BOTH"
+[[dependencies.farmingforblockheads]]
+    modId="balm"
+    mandatory=true
+    versionRange="[1.7.0,)"
+    ordering="NONE"
+    side="BOTH"

@@ -10,7 +10,7 @@
   "item.farmingforblockheads.red_fertilizer": "Fertilizante Vermelho",
   "item.farmingforblockheads.green_fertilizer": "Fertilizante Verde",
   "item.farmingforblockheads.yellow_fertilizer": "Fertilizante Amarelo",
-  "itemGroup.farmingforblockheads": "Farming for Blockheads",
+  "itemGroup.farmingforblockheads.farmingforblockheads": "Farming for Blockheads",
   "container.farmingforblockheads.market": "Mercado",
   "commands.farmingforblockheads:reload.success": "§rRegistros do mod §aFarming for Blockheads§r recarregados.",
   "gui.farmingforblockheads:market.no_selection": "Nada Selecionado",

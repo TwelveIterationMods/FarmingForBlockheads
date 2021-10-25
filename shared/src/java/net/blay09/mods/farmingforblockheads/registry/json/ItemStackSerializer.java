@@ -15,7 +15,7 @@ public class ItemStackSerializer implements JsonDeserializer<ItemStack>, JsonSer
     @Override
     public ItemStack deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         if (json.isJsonPrimitive()) {
-            Item item = GsonHelper.getAsItem(json.getAsJsonObject(), "item");
+            Item item = GsonHelper.convertToItem(json, "item");
             return new ItemStack(item);
         } else {
             JsonObject jsonObject = json.getAsJsonObject();

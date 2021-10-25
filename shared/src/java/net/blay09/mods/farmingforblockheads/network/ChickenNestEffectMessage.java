@@ -2,6 +2,7 @@ package net.blay09.mods.farmingforblockheads.network;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 
@@ -22,7 +23,7 @@ public class ChickenNestEffectMessage {
     }
 
     public static void handle(Player player, ChickenNestEffectMessage message) {
-        FarmingForBlockheads.proxy.playChickenNestEffect(message.pos);
+        player.level.addParticle(ParticleTypes.EXPLOSION, message.pos.getX() + 0.5f, message.pos.getY() + 0.5f, message.pos.getZ() + 0.5f, 0, 0, 0);
     }
 
 }
