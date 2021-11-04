@@ -144,7 +144,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 
-    implementation fg.deobf("net.blay09.mods:balm:1.7.0+108")
+    implementation fg.deobf("net.blay09.mods:balm:1.8.0+125")
 
     implementation fg.deobf("curse.maven:the-one-probe-245211:3430022")
 
