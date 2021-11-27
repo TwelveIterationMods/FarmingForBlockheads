@@ -1,0 +1,16 @@
+{
+  "modId": "cinderscapes",
+  "group": {
+    "name": "Cinderscapes Soil",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:other"
+  },
+  "customEntries": [
+    {
+      "output": "cinderscapes:umbral_nylium"
+    }
+  ]
+}

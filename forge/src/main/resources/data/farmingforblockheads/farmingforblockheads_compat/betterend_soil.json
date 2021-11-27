@@ -1,0 +1,46 @@
+{
+  "modId": "betterendforge",
+  "group": {
+    "name": "BetterEnd Soil",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:other"
+  },
+  "customEntries": [
+    {
+      "output": "betterendforge:end_mycelium"
+    },
+	{
+      "output": "betterendforge:chorus_nylium"
+    },
+    {
+      "output": "betterendforge:crystal_moss"
+    },
+    {
+      "output": "betterendforge:end_moss"
+    },
+    {
+      "output": "betterendforge:cave_moss"
+    },
+    {
+      "output": "betterendforge:pink_moss"
+    },
+    {
+      "output": "betterendforge:amber_moss"
+    },
+    {
+      "output": "betterendforge:jungle_moss"
+    },
+    {
+      "output": "betterendforge:mossy_obsidian"
+    },
+    {
+      "output": "betterendforge:mossy_dragon_bone"
+    },
+    {
+      "output": "betterendforge:shadow_grass"
+    }
+  ]
+}

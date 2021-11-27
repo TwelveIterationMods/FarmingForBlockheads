@@ -1,0 +1,19 @@
+{
+  "modId": "endergetic",
+  "group": {
+    "name": "Endergetic Expansion Soil",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:other"
+  },
+  "customEntries": [
+    {
+      "output": "endergetic:eumus_poismoss"
+    },
+    {
+      "output": "endergetic:poismoss"
+    }
+  ]
+}

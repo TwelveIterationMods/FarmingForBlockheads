@@ -1,7 +1,7 @@
 {
-  "modId": "minecraft",
+  "modId": "theabyss",
   "group": {
-    "name": "Vanilla Mushrooms",
+    "name": "The Abyss Soil",
     "enabledByDefault": false,
     "defaultPayment": {
       "item": "minecraft:emerald"
@@ -10,16 +10,16 @@
   },
   "customEntries": [
     {
-      "output": "minecraft:brown_mushroom"
+      "output": "theabyss:tantra_grass"
     },
     {
-      "output": "minecraft:red_mushroom"
+      "output": "theabyss:infected_grass"
     },
     {
-      "output": "minecraft:crimson_fungus"
+      "output": "theabyss:roma_mud"
     },
     {
-      "output": "minecraft:warped_fungus"
+      "output": "theabyss:roma_mud_2"
     }
   ]
 }

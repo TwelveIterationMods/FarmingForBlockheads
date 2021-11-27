@@ -1,0 +1,16 @@
+{
+  "modId": "twilightforest",
+  "group": {
+    "name": "Twilight Forest Berries",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:other"
+  },
+  "customEntries": [
+    {
+      "output": "twilightforest:torchberries"
+    }
+  ]
+}

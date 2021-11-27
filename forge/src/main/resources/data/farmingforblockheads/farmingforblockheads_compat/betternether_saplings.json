@@ -1,0 +1,37 @@
+{
+  "modId": "betternether",
+  "group": {
+    "name": "BetterNether Saplings",
+    "enabledByDefault": true,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:saplings"
+  },
+  "customEntries": [
+    {
+      "output": "betternether:willow_sapling"
+    },
+    {
+      "output": "betternether:rubeus_sapling"
+    },
+    {
+      "output": "betternether:soul_lily_sapling"
+    },
+    {
+      "output": "betternether:giant_mold_sapling"
+    },
+    {
+      "output": "betternether:jellyfish_mushroom_sapling"
+    },
+    {
+      "output": "betternether:mushroom_fir_sapling"
+    },
+    {
+      "output": "betternether:anchor_tree_sapling"
+    },
+    {
+      "output": "betternether:nether_sakura_sapling"
+    }
+  ]
+}

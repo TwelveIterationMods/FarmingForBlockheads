@@ -1,0 +1,22 @@
+{
+  "modId": "tropicraft",
+  "group": {
+    "name": "Tropicraft Crops",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:other"
+  },
+  "customEntries": [
+    {
+      "output": "tropicraft:coffee_berry"
+    },
+    {
+      "output": "tropicraft:pineapple"
+    },
+    {
+      "output": "tropicraft:coconut"
+    }
+  ]
+}

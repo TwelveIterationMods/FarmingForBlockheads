@@ -1,0 +1,19 @@
+{
+  "modId": "minecraft_earth_mod",
+  "group": {
+    "name": "Minecraft Earth Flowers",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:flowers"
+  },
+  "customEntries": [
+    {
+      "output": "minecraft_earth_mod:buttercup"
+    },
+    {
+      "output": "minecraft_earth_mod:pink_daisy"
+    }
+  ]
+}

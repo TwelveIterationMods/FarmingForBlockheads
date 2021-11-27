@@ -1,0 +1,31 @@
+{
+  "modId": "theabyss",
+  "group": {
+    "name": "The Abyss Saplings",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:saplings"
+  },
+  "customEntries": [
+    {
+      "output": "theabyss:opia_shroom"
+    },
+    {
+      "output": "theabyss:srala_shroom"
+    },
+    {
+      "output": "theabyss:tall_glow_shroom"
+    },
+    {
+      "output": "theabyss:glow_shroom"
+    },
+    {
+      "output": "theabyss:tall_rub_shroom"
+    },
+    {
+      "output": "theabyss:rub_shroom"
+    }
+  ]
+}

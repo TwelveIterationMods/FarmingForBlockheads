@@ -20,6 +20,12 @@
     },
     {
       "output": "minecraft:beetroot_seeds"
+    },
+    {
+      "output": "minecraft:potato"
+    },
+    {
+      "output": "minecraft:carrot"
     }
   ]
 }

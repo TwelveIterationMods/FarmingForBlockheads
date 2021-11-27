@@ -1,0 +1,22 @@
+{
+  "modId": "betternether",
+  "group": {
+    "name": "BetterNether Mushrooms",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:other"
+  },
+  "customEntries": [
+    {
+      "output": "betternether:orange_mushroom"
+    },
+    {
+      "output": "betternether:wall_mushroom_brown"
+    },
+    {
+      "output": "betternether:wall_mushroom_red"
+    }
+  ]
+}
