@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads.block;
 
 import com.google.common.collect.Lists;
+import net.blay09.mods.balm.api.block.CustomFarmBlock;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.mixin.FarmBlockAccessor;
 import net.minecraft.ChatFormatting;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -25,7 +27,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-public class FertilizedFarmlandBlock extends FarmBlock {
+public class FertilizedFarmlandBlock extends FarmBlock implements CustomFarmBlock {
 
     public interface FarmlandTrait {
         default float getDoubleGrowthChance() {
@@ -104,7 +106,7 @@ public class FertilizedFarmlandBlock extends FarmBlock {
     }
 
     @Override
-    public boolean canSustainPlant(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction facing, IPlantable plantable) {
+    public boolean canSustainPlant(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, Direction direction, Block block) {
         return true;
     }
 
@@ -143,7 +145,7 @@ public class FertilizedFarmlandBlock extends FarmBlock {
         if (!FarmBlockAccessor.callIsNearWater(level, pos) && !level.isRainingAt(pos.above())) {
             if (moisture > 0) {
                 level.setBlock(pos, state.setValue(MOISTURE, moisture - 1), 2);
-            } else if (!hasCropsFFB(level, pos) && traits.stream().noneMatch(FarmlandTrait::isStable)) {
+            } else if (!FarmBlockAccessor.callIsUnderCrops(level, pos) && traits.stream().noneMatch(FarmlandTrait::isStable)) {
                 turnToDirt(state, level, pos);
             }
         } else if (moisture < 7) {
@@ -153,14 +155,6 @@ public class FertilizedFarmlandBlock extends FarmBlock {
 
     public Collection<FarmlandTrait> getTraits() {
         return traits;
-    }
-
-    /**
-     * AT doesn't work on super impl because it's patched?
-     */
-    private boolean hasCropsFFB(BlockGetter blockGetter, BlockPos pos) {
-        BlockState state = blockGetter.getBlockState(pos.above());
-        return state.getBlock() instanceof IPlantable && canSustainPlant(state, blockGetter, pos, Direction.UP, (IPlantable) state.getBlock());
     }
 
     @Override
