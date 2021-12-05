@@ -171,7 +171,7 @@ public class MerchantEntity extends PathfinderMob {
             }
 
             if (diggingAnimation % 2 == 0) {
-                level.playLocalSound(posX, posY, posZ, SoundType.GRAVEL.getHitSound(), SoundSource.BLOCKS, 1f, (float) (Math.random() + 0.5), false);
+                level.playLocalSound(posX, posY, posZ, SoundType.GRAVEL.getHitSound(), SoundSource.BLOCKS, 0.2f, (float) (Math.random() + 0.5), false);
             }
         }
     }
@@ -185,13 +185,13 @@ public class MerchantEntity extends PathfinderMob {
             diggingAnimation = 60;
         } else if (id == 14) {
             BlockPos pos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, blockPosition());
-            level.playLocalSound(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, ModSounds.falling.get(), SoundSource.NEUTRAL, 1f, 1f, false);
+            level.playLocalSound(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, ModSounds.falling.get(), SoundSource.NEUTRAL, 0.2f, 1f, false);
         } else if (id == 15) {
             double posX = getX();
             double posY = getY();
             double posZ = getZ();
 
-            level.playLocalSound(posX + 0.5, posY + 1, posZ + 0.5, SoundEvents.FIRECHARGE_USE, SoundSource.NEUTRAL, 1f, 1f, false);
+            level.playLocalSound(posX + 0.5, posY + 1, posZ + 0.5, SoundEvents.FIRECHARGE_USE, SoundSource.NEUTRAL, 0.2f, 1f, false);
             for (int i = 0; i < 50; i++) {
                 level.addParticle(ParticleTypes.FIREWORK, posX + 0.5, posY + 1, posZ + 0.5, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
             }
