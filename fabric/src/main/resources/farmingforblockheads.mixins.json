@@ -2,8 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.blay09.mods.farmingforblockheads.mixin",
-  "compatibilityLevel": "JAVA_16",
-  "refmap": "refmap.farmingforblockheads.json",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "FarmBlockAccessor"
   ],
