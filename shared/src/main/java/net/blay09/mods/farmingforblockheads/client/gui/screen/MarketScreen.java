@@ -80,9 +80,9 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
 
     private void updateCategoryFilters() {
         for (MarketFilterButton filterButton : filterButtons) {
-            ((ScreenAccessor) this).getChildren().remove(filterButton);
-            ((ScreenAccessor) this).getRenderables().remove(filterButton);
-            ((ScreenAccessor) this).getNarratables().remove(filterButton);
+            ((ScreenAccessor) this).balm_getChildren().remove(filterButton);
+            ((ScreenAccessor) this).balm_getRenderables().remove(filterButton);
+            ((ScreenAccessor) this).balm_getNarratables().remove(filterButton);
         }
         filterButtons.clear();
 

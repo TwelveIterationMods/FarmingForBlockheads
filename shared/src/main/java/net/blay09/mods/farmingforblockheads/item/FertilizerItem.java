@@ -1,6 +1,5 @@
 package net.blay09.mods.farmingforblockheads.item;
 
-import net.blay09.mods.balm.api.item.BalmItem;
 import net.blay09.mods.farmingforblockheads.block.FertilizedFarmlandBlock;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class FertilizerItem extends BalmItem {
+public class FertilizerItem extends Item {
 
     public enum FertilizerType {
         HEALTHY,
