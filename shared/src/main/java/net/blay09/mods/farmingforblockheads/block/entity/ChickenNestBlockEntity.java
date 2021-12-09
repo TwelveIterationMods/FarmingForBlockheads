@@ -10,6 +10,7 @@ import net.blay09.mods.farmingforblockheads.network.ChickenNestEffectMessage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -29,7 +30,7 @@ public class ChickenNestBlockEntity extends BalmBlockEntity implements BalmConta
 
         @Override
         public boolean canPlaceItem(int i, ItemStack itemStack) {
-            return itemStack.getItem() == Items.EGG;
+            return isEggItem(itemStack);
         }
 
         @Override
@@ -90,7 +91,7 @@ public class ChickenNestBlockEntity extends BalmBlockEntity implements BalmConta
     private void stealEgg() {
         final float range = FarmingForBlockheadsConfig.getActive().chickenNestRange;
         AABB aabb = new AABB(worldPosition.getX() - range, worldPosition.getY() - range, worldPosition.getZ() - range, worldPosition.getX() + range, worldPosition.getY() + range, worldPosition.getZ() + range);
-        List<ItemEntity> list = level.getEntitiesOfClass(ItemEntity.class, aabb, p -> p != null && p.getItem().getItem() == Items.EGG && p.getItem().getCount() == 1 && p.getThrower() == null);
+        List<ItemEntity> list = level.getEntitiesOfClass(ItemEntity.class, aabb, p -> p != null && isEggItem(p.getItem()) && p.getItem().getCount() == 1 && p.getThrower() == null);
         if (list.isEmpty()) {
             return;
         }
@@ -109,6 +110,11 @@ public class ChickenNestBlockEntity extends BalmBlockEntity implements BalmConta
             entityItem.setItem(restStack);
         }
         setChanged();
+    }
+
+    private boolean isEggItem(ItemStack item) {
+        // TODO Support balm:eggs tag too
+        return item.getItem() == Items.EGG;
     }
 
     public int getEggCount() {
