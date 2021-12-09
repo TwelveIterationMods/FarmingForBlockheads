@@ -30,6 +30,6 @@ Adds a seed market with a search bar and a scrolling grid and more farming utili
 [[dependencies.farmingforblockheads]]
     modId="balm"
     mandatory=true
-    versionRange="[2.1.0,)"
+    versionRange="[2.2.0,)"
     ordering="NONE"
     side="BOTH"
