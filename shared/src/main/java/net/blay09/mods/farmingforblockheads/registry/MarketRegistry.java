@@ -51,7 +51,7 @@ public class MarketRegistry {
 
         if (override == null || override.isEnabled()) {
             ItemStack payment = override != null && override.getPayment() != null ? override.getPayment() : costItem;
-            ItemStack alteredOutputItem = override != null ? ContainerUtils.copyStackWithSize(outputItem, override.getCount()) : outputItem;
+            ItemStack alteredOutputItem = ContainerUtils.copyStackWithSize(outputItem, override != null ? override.getCount() : Math.min(outputItem.getCount(), outputItem.getMaxStackSize()));
             final MarketEntry entry = new MarketEntry(UUID.randomUUID(), alteredOutputItem, payment, category);
             entries.put(category, entry);
             entriesById.put(entry.getEntryId(), entry);
