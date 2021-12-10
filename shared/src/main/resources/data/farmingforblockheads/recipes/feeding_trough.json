@@ -2,7 +2,7 @@
   "result": {
     "item": "farmingforblockheads:feeding_trough"
   },
-  "type": "crafting_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "PCP",
     "PHP"

@@ -2,7 +2,7 @@
   "result": {
     "item": "farmingforblockheads:market"
   },
-  "type": "crafting_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "PCP",
     "W W",

@@ -3,7 +3,7 @@
     "item": "farmingforblockheads:red_fertilizer",
     "count": 4
   },
-  "type": "crafting_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "RRR",
     "NSN",
@@ -11,7 +11,7 @@
   ],
   "key": {
     "R": {
-      "tag": "forge:dyes/red"
+      "tag": "balm:red_dyes"
     },
     "N": {
       "item": "minecraft:gold_nugget"

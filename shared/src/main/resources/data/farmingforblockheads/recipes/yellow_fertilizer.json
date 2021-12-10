@@ -3,7 +3,7 @@
     "item": "farmingforblockheads:yellow_fertilizer",
     "count": 4
   },
-  "type": "crafting_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "GGG",
     "NSN",
@@ -11,7 +11,7 @@
   ],
   "key": {
     "G": {
-      "tag": "forge:dyes/yellow"
+      "tag": "balm:yellow_dyes"
     },
     "N": {
       "item": "minecraft:gold_nugget"

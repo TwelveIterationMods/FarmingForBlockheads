@@ -2,7 +2,7 @@
   "result": {
     "item": "farmingforblockheads:chicken_nest"
   },
-  "type": "crafting_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "PHP"
   ],
