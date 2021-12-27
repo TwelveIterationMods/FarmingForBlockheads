@@ -29,5 +29,7 @@
   "tooltip.farmingforblockheads:fertilizer_stable": "Prevents trampling",
   "tooltip.farmingforblockheads:trait_stable": "Prevents trampling",
   "tooltip.farmingforblockheads:trait_healthy": "Speeds up growth",
-  "tooltip.farmingforblockheads:trait_rich": "Increases crop output"
+  "tooltip.farmingforblockheads:trait_rich": "Increases crop output",
+  "farmingforblockheads.subtitle.falling": "Something falling from a great height",
+  "entity.farmingforblockheads.merchant": "Merchant"
 }
