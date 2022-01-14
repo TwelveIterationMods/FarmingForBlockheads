@@ -1,3 +1,7 @@
+### Version 9.0.3 for Minecraft 1.18.x
+
+- Fixed blocks not having correct effective tools set
+
 ### Version 9.0.2 for Minecraft 1.18.x
 
 - Fixed crash after changing configs on Forge
