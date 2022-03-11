@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[38,)"
+loaderVersion="[40,)"
 license="All rights reserved"
 issueTrackerURL="https://github.com/ModdingForBlockheads/FarmingForBlockheads/issues"
 
@@ -18,7 +18,7 @@ Adds a seed market with a search bar and a scrolling grid and more farming utili
 [[dependencies.farmingforblockheads]]
     modId="forge"
     mandatory=true
-    versionRange="[38,)"
+    versionRange="[40,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.farmingforblockheads]]
@@ -30,6 +30,6 @@ Adds a seed market with a search bar and a scrolling grid and more farming utili
 [[dependencies.farmingforblockheads]]
     modId="balm"
     mandatory=true
-    versionRange="[2.3.0,)"
+    versionRange="[3.0.0,)"
     ordering="NONE"
     side="BOTH"
