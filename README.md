@@ -7,8 +7,8 @@ This mod is available for both Forge and Fabric (starting Minecraft 1.17).
 
 #### Forge
 
-[![Versions](http://cf.way2muchnoise.eu/versions/231484_latest.svg)](https://www.curseforge.com/minecraft/mc-mods/farming-for-blockheads)
-[![Downloads](http://cf.way2muchnoise.eu/full_231484_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/farming-for-blockheads)
+[![Versions](http://cf.way2muchnoise.eu/versions/261924_latest.svg)](https://www.curseforge.com/minecraft/mc-mods/farming-for-blockheads)
+[![Downloads](http://cf.way2muchnoise.eu/full_261924_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/farming-for-blockheads)
 
 #### Fabric
 
