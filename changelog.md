@@ -1,3 +1,7 @@
+### Version 10.0.1 for Minecraft 1.18.2
+
+- Fixed crash on startup on Forge (update Balm too)
+
 ### Version 10.0.0 for Minecraft 1.18.2
 
 - Updated to Minecraft 1.18.2
