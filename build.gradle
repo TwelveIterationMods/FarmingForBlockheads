@@ -122,10 +122,12 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:the-lord-of-the-rings-mod-renewed-406893:3314320")
 
     def obfModsDir = new File("run/obfmods")
-    obfModsDir.eachFile { file ->
-        def parts = file.name.split('-', 2)
-        def dep = "ignored:" + parts[0] + ":" + parts[1].replace(".jar", "");
-        runtimeOnly fg.deobf(dep)
+    if (obfModsDir.exists()) {
+        obfModsDir.eachFile { file ->
+            def parts = file.name.split('-', 2)
+            def dep = "ignored:" + parts[0] + ":" + parts[1].replace(".jar", "");
+            runtimeOnly fg.deobf(dep)
+        }
     }
 }
 
