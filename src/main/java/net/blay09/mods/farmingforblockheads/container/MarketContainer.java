@@ -163,7 +163,7 @@ public class MarketContainer extends Container {
 
     public boolean isReadyToBuy() {
         ItemStack payment = marketInputBuffer.getStackInSlot(0);
-        return !payment.isEmpty() && isPaymentItem(payment) && payment.getCount() >= selectedEntry.getCostItem().getCount();
+        return selectedEntry != null && !payment.isEmpty() && isPaymentItem(payment) && payment.getCount() >= selectedEntry.getCostItem().getCount();
     }
 
     public void onItemBought() {
