@@ -1,3 +1,8 @@
+### Version 10.0.2 for Minecraft 1.18.2
+
+- Fixed Twilight Forest compat for Rainbow Oak
+- Added Korean translation (by gjeodnd12165)
+
 ### Version 10.0.1 for Minecraft 1.18.2
 
 - Fixed crash on startup on Forge (update Balm too)
