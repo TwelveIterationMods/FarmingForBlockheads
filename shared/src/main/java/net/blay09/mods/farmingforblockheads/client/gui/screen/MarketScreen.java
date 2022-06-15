@@ -3,29 +3,23 @@ package net.blay09.mods.farmingforblockheads.client.gui.screen;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.blay09.mods.balm.mixin.AbstractContainerScreenAccessor;
 import net.blay09.mods.balm.mixin.ScreenAccessor;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.blay09.mods.farmingforblockheads.client.gui.widget.MarketFilterButton;
-import net.blay09.mods.farmingforblockheads.menu.MarketBuySlot;
 import net.blay09.mods.farmingforblockheads.menu.MarketClientMenu;
-import net.blay09.mods.farmingforblockheads.menu.MarketFakeSlot;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Collection;
@@ -69,7 +63,7 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
 
         Font font = Minecraft.getInstance().font;
 
-        searchBar = new EditBox(font, leftPos + imageWidth - 78, topPos - 5, 70, 10, searchBar, new TextComponent(""));
+        searchBar = new EditBox(font, leftPos + imageWidth - 78, topPos - 5, 70, 10, searchBar, Component.empty());
         setInitialFocus(searchBar);
         addRenderableWidget(searchBar);
 
@@ -251,7 +245,7 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     }
 
     public static Component getPriceText(IMarketEntry entry) {
-        TranslatableComponent textComponent = new TranslatableComponent("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
+        MutableComponent textComponent = Component.translatable("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
         textComponent.withStyle(getPriceColor(entry));
         return textComponent;
     }

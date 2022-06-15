@@ -10,7 +10,7 @@ import net.blay09.mods.farmingforblockheads.menu.MarketBuySlot;
 import net.blay09.mods.farmingforblockheads.menu.MarketFakeSlot;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.inventory.Slot;
 
 public class FarmingForBlockheadsClient {
@@ -40,7 +40,7 @@ public class FarmingForBlockheadsClient {
     }
 
     private static Component getPriceTooltipText(IMarketEntry entry) {
-        TranslatableComponent result = new TranslatableComponent("gui.farmingforblockheads:market.tooltip_cost", MarketScreen.getPriceText(entry));
+        MutableComponent result = Component.translatable("gui.farmingforblockheads:market.tooltip_cost", MarketScreen.getPriceText(entry));
         result.withStyle(MarketScreen.getPriceColor(entry));
         return result;
     }

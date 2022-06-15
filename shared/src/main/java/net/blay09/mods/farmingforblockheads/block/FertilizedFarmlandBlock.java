@@ -8,8 +8,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -139,7 +140,7 @@ public class FertilizedFarmlandBlock extends FarmBlock implements CustomFarmBloc
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         int moisture = state.getValue(MOISTURE);
 
         if (!FarmBlockAccessor.callIsNearWater(level, pos) && !level.isRainingAt(pos.above())) {
@@ -160,7 +161,7 @@ public class FertilizedFarmlandBlock extends FarmBlock implements CustomFarmBloc
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable BlockGetter blockGetter, List<Component> tooltip, TooltipFlag flag) {
         for (FarmlandTrait trait : traits) {
-            TranslatableComponent traitComponent = new TranslatableComponent("tooltip.farmingforblockheads:trait_" + trait.getTraitName());
+            MutableComponent traitComponent = Component.translatable("tooltip.farmingforblockheads:trait_" + trait.getTraitName());
             traitComponent.withStyle(trait.getTraitColor());
             tooltip.add(traitComponent);
         }

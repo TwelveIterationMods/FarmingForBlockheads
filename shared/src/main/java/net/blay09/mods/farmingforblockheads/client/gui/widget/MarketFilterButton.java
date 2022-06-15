@@ -9,8 +9,6 @@ import net.blay09.mods.farmingforblockheads.menu.MarketClientMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
@@ -24,10 +22,10 @@ public class MarketFilterButton extends Button {
     private final List<Component> tooltipLines = Lists.newArrayList();
 
     public MarketFilterButton(int x, int y, MarketClientMenu container, IMarketCategory category, OnPress pressable) {
-        super(x, y, 20, 20, new TextComponent(""), pressable);
+        super(x, y, 20, 20, Component.empty(), pressable);
         this.container = container;
         this.category = category;
-        this.tooltipLines.add(new TranslatableComponent(this.category.getTooltipLangKey()));
+        this.tooltipLines.add(Component.translatable(this.category.getTooltipLangKey()));
     }
 
     @Override

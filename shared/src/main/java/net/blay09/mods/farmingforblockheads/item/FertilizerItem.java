@@ -4,7 +4,7 @@ import net.blay09.mods.farmingforblockheads.block.FertilizedFarmlandBlock;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -136,7 +136,7 @@ public class FertilizerItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        TranslatableComponent chatComponent = new TranslatableComponent("tooltip.farmingforblockheads:fertilizer_" + fertilizerType.name().toLowerCase(Locale.ENGLISH));
+        MutableComponent chatComponent = Component.translatable("tooltip.farmingforblockheads:fertilizer_" + fertilizerType.name().toLowerCase(Locale.ENGLISH));
         chatComponent.withStyle(fertilizerType.getFarmlandTrait().getTraitColor());
         tooltip.add(chatComponent);
     }

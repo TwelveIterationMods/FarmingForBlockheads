@@ -10,7 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -101,7 +101,7 @@ public class MerchantEntity extends PathfinderMob {
         super.readAdditionalSaveData(compound);
         if (!hasCustomName()) {
             String merchantName = FarmingForBlockheadsConfig.getActive().getRandomMerchantName(rand);
-            setCustomName(new TextComponent(merchantName));
+            setCustomName(Component.literal(merchantName));
         }
         if (compound.contains("MarketPos")) {
             setMarket(BlockPos.of(compound.getLong("MarketPos")), Direction.from3DDataValue(compound.getByte("Facing")));
@@ -223,10 +223,10 @@ public class MerchantEntity extends PathfinderMob {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag) {
         if (Math.random() < 0.001) {
-            setCustomName(new TextComponent(Math.random() <= 0.5 ? "Pam" : "Blay"));
+            setCustomName(Component.literal(Math.random() <= 0.5 ? "Pam" : "Blay"));
         } else {
             String merchantName = FarmingForBlockheadsConfig.getActive().getRandomMerchantName(rand);
-            setCustomName(new TextComponent(merchantName));
+            setCustomName(Component.literal(merchantName));
         }
 
         return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData, compoundTag);

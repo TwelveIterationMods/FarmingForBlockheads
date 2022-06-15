@@ -15,7 +15,8 @@ import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
 import net.blay09.mods.farmingforblockheads.registry.json.ItemStackSerializer;
 import net.blay09.mods.farmingforblockheads.registry.json.MarketRegistryDataSerializer;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -27,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MarketRegistryLoader implements ResourceManagerReloadListener {
 
@@ -46,12 +48,11 @@ public class MarketRegistryLoader implements ResourceManagerReloadListener {
 
             Balm.getEvents().fireEvent(new MarketRegistryReloadEvent.Pre());
 
-            for (ResourceLocation resourceLocation : resourceManager.listResources("farmingforblockheads_compat", it -> it.endsWith(".json"))) {
-                try (Resource resource = resourceManager.getResource(resourceLocation)) {
-                    InputStreamReader reader = new InputStreamReader(resource.getInputStream());
+            for (Map.Entry<ResourceLocation, Resource> entry : resourceManager.listResources("farmingforblockheads_compat", it -> it.getPath().endsWith(".json")).entrySet()) {
+                try (BufferedReader reader = entry.getValue().openAsReader()) {
                     load(gson.fromJson(reader, MarketRegistryData.class));
                 } catch (Exception e) {
-                    FarmingForBlockheads.logger.error("Parsing error loading Farming for Blockheads data file at {}", resourceLocation, e);
+                    FarmingForBlockheads.logger.error("Parsing error loading Farming for Blockheads data file at {}", entry.getKey(), e);
                     registryErrors.add(e);
                 }
             }
@@ -174,8 +175,8 @@ public class MarketRegistryLoader implements ResourceManagerReloadListener {
         }
     }
 
-    private static TextComponent getErrorTextComponent(String message) {
-        TextComponent result = new TextComponent(message);
+    private static Component getErrorTextComponent(String message) {
+        MutableComponent result = Component.literal(message);
         result.withStyle(ChatFormatting.RED);
         return result;
     }

@@ -4,10 +4,7 @@ import net.blay09.mods.balm.api.block.entity.BalmBlockEntity;
 import net.blay09.mods.balm.api.menu.BalmMenuProvider;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -21,7 +18,7 @@ public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvid
 
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent("container.farmingforblockheads.market");
+        return Component.translatable("container.farmingforblockheads.market");
     }
 
     @Nullable

@@ -1,32 +1,3 @@
-### Version 10.0.2 for Minecraft 1.18.2
+### Version 11.0.0 for Minecraft 1.19.x
 
-- Fixed Twilight Forest compat for Rainbow Oak
-- Added Korean translation (by gjeodnd12165)
-
-### Version 10.0.1 for Minecraft 1.18.2
-
-- Fixed crash on startup on Forge (update Balm too)
-
-### Version 10.0.0 for Minecraft 1.18.2
-
-- Updated to Minecraft 1.18.2
-
-### Version 9.0.3 for Minecraft 1.18.x
-
-- Fixed blocks not having correct effective tools set
-
-### Version 9.0.2 for Minecraft 1.18.x
-
-- Fixed crash after changing configs on Forge
-- Fixed outdated Quark support resulting in errors on world join
-- Fixed missing language keys for merchant entity and subtitles
-
-### Version 9.0.1 for Minecraft 1.18.x
-
-- Fixed recipes for Green, Red and Yellow Fertilizer
-- Fixed market trades displaying counts over 64 even though only 64 are supported
-- Fixed market crashing when placing emeralds while no trade is selected
-
-### Version 9.0.0 for Minecraft 1.18.x
-
-- Updated to Minecraft 1.18
+- Updated to Minecraft 1.19

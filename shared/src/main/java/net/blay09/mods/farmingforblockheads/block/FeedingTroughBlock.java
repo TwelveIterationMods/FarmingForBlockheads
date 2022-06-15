@@ -6,7 +6,6 @@ import net.blay09.mods.farmingforblockheads.block.entity.FeedingTroughBlockEntit
 import net.blay09.mods.farmingforblockheads.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
@@ -95,7 +94,7 @@ public class FeedingTroughBlock extends BaseEntityBlock {
 
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable BlockGetter blockGetter, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(new TranslatableComponent("tooltip.farmingforblockheads:feeding_trough"));
+        tooltip.add(Component.translatable("tooltip.farmingforblockheads:feeding_trough"));
     }
 
     @Override

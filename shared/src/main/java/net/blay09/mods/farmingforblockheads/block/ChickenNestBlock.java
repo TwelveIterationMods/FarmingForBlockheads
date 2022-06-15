@@ -6,7 +6,6 @@ import net.blay09.mods.farmingforblockheads.block.entity.ChickenNestBlockEntity;
 import net.blay09.mods.farmingforblockheads.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
@@ -103,7 +102,7 @@ public class ChickenNestBlock extends BaseEntityBlock {
 
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable BlockGetter blockGetter, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(new TranslatableComponent("tooltip.farmingforblockheads:chicken_nest"));
+        tooltip.add(Component.translatable("tooltip.farmingforblockheads:chicken_nest"));
     }
 
     @Override
