@@ -11,9 +11,6 @@
   "customEntries": [
     {
       "output": "biomesoplenty:origin_grass_block"
-    },
-    {
-      "output": "biomesoplenty:mud"
     }
   ]
 }
