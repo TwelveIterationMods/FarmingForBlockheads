@@ -39,7 +39,7 @@ public class MarketMenu extends AbstractContainerMenu {
         addSlot(new Slot(marketInputBuffer, 0, 23, 39));
         addSlot(new MarketBuySlot(this, marketOutputBuffer, 0, 61, 39));
 
-        Container fakeInventory = new DefaultContainer(4*3);
+        Container fakeInventory = new DefaultContainer(4 * 3);
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
@@ -128,7 +128,7 @@ public class MarketMenu extends AbstractContainerMenu {
         super.removed(player);
         if (!player.level.isClientSide) {
             ItemStack itemStack = this.marketInputBuffer.removeItemNoUpdate(0);
-            if (!itemStack.isEmpty()) {
+            if (!itemStack.isEmpty() && !player.addItem(itemStack)) {
                 player.drop(itemStack, false);
             }
         }
