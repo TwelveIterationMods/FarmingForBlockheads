@@ -1,5 +1,6 @@
 {
   "modId": "quark",
+  "silent": true,
   "group": {
     "name": "Quark Saplings",
     "enabledByDefault": true,

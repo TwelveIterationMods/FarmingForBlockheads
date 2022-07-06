@@ -1,5 +1,6 @@
 {
   "modId": "minecraft_earth_mod",
+  "silent": true,
   "group": {
     "name": "Minecraft Earth Flowers",
     "enabledByDefault": false,

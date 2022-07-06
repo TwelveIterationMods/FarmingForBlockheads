@@ -1,5 +1,6 @@
 {
   "modId": "cinderscapes",
+  "silent": true,
   "group": {
     "name": "Cinderscapes Soil",
     "enabledByDefault": false,

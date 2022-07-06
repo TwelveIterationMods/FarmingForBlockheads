@@ -1,5 +1,6 @@
 {
   "modId": "buzzier_bees",
+  "silent": true,
   "group": {
     "name": "Buzzier Bees Flowers",
     "enabledByDefault": false,

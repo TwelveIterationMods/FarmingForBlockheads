@@ -1,5 +1,6 @@
 {
   "modId": "endergetic",
+  "silent": true,
   "group": {
     "name": "Endergetic Expansion Soil",
     "enabledByDefault": false,

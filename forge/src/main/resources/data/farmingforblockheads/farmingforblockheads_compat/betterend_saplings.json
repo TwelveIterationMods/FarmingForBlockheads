@@ -1,5 +1,6 @@
 {
   "modId": "betterendforge",
+  "silent": true,
   "group": {
     "name": "BetterEnd Saplings",
     "enabledByDefault": false,

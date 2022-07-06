@@ -1,5 +1,6 @@
 {
   "modId": "betternether",
+  "silent": true,
   "group": {
     "name": "BetterNether Soil",
     "enabledByDefault": false,

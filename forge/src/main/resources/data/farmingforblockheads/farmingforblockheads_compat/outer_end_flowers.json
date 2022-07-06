@@ -1,5 +1,6 @@
 {
   "modId": "outer_end",
+  "silent": true,
   "group": {
     "name": "Outer End Flowers",
     "enabledByDefault": false,

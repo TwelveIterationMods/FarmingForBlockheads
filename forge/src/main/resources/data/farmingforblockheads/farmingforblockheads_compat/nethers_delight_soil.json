@@ -1,5 +1,6 @@
 {
   "modId": "nethers_delight",
+  "silent": true,
   "group": {
     "name": "Nethers Delight Compost",
     "enabledByDefault": false,

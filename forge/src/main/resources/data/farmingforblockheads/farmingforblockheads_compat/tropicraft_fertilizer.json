@@ -1,5 +1,6 @@
 {
   "modId": "tropicraft",
+  "silent": true,
   "group": {
     "name": "Tropicraft Fertilizer",
     "enabledByDefault": true,

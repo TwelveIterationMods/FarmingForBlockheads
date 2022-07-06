@@ -38,13 +38,13 @@ public class MarketRegistryLoader implements ResourceManagerReloadListener {
             .registerTypeAdapter(MarketRegistryData.class, new MarketRegistryDataSerializer())
             .create();
 
-    private static final List<Exception> registryErrors = new ArrayList<>();
+    private static final List<Exception> registryErrorsToAnnounce = new ArrayList<>();
 
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
         try {
             MarketRegistry.INSTANCE.reset();
-            registryErrors.clear();
+            registryErrorsToAnnounce.clear();
 
             Balm.getEvents().fireEvent(new MarketRegistryReloadEvent.Pre());
 
@@ -53,7 +53,9 @@ public class MarketRegistryLoader implements ResourceManagerReloadListener {
                     load(gson.fromJson(reader, MarketRegistryData.class));
                 } catch (Exception e) {
                     FarmingForBlockheads.logger.error("Parsing error loading Farming for Blockheads data file at {}", entry.getKey(), e);
-                    registryErrors.add(e);
+                    if (shouldAnnounceRegistryErrors(entry.getValue())) {
+                        registryErrorsToAnnounce.add(e);
+                    }
                 }
             }
 
@@ -65,7 +67,7 @@ public class MarketRegistryLoader implements ResourceManagerReloadListener {
                         load(gson.fromJson(reader, MarketRegistryData.class));
                     } catch (Exception e) {
                         FarmingForBlockheads.logger.error("Parsing error loading Farming for Blockheads data from MarketRegistry.json", e);
-                        registryErrors.add(e);
+                        registryErrorsToAnnounce.add(e);
                     }
                 } else {
                     try (FileWriter writer = new FileWriter(configFile)) {
@@ -80,7 +82,15 @@ public class MarketRegistryLoader implements ResourceManagerReloadListener {
             Balm.getEvents().fireEvent(new MarketRegistryReloadEvent.Post());
         } catch (Exception e) {
             FarmingForBlockheads.logger.error("Exception loading Farming for Blockheads data", e);
-            registryErrors.add(e);
+            registryErrorsToAnnounce.add(e);
+        }
+    }
+
+    private boolean shouldAnnounceRegistryErrors(Resource resource) {
+        try (BufferedReader reader = resource.openAsReader()) {
+            return !gson.fromJson(reader, MarketRegistrySilentData.class).isSilent();
+        } catch (Exception ignored) {
+            return true;
         }
     }
 
@@ -167,9 +177,9 @@ public class MarketRegistryLoader implements ResourceManagerReloadListener {
     }
 
     public static void onLogin(PlayerLoginEvent event) {
-        if (!registryErrors.isEmpty()) {
+        if (!registryErrorsToAnnounce.isEmpty()) {
             event.getPlayer().displayClientMessage(getErrorTextComponent("There were registry errors in the FarmingForBlockheads market data. See the log for full details."), false);
-            for (Exception registryError : registryErrors) {
+            for (Exception registryError : registryErrorsToAnnounce) {
                 event.getPlayer().displayClientMessage(getErrorTextComponent("- " + registryError.getMessage()), false);
             }
         }

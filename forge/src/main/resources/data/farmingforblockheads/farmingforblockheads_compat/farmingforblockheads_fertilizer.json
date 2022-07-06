@@ -1,5 +1,6 @@
 {
   "modId": "farmingforblockheads",
+  "silent": true,
   "group": {
     "name": "Farming for Blockheads Fertilizer",
     "enabledByDefault": false,

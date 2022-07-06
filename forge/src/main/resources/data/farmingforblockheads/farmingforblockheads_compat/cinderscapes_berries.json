@@ -1,5 +1,6 @@
 {
   "modId": "cinderscapes",
+  "silent": true,
   "group": {
     "name": "Cinderscapes Berries",
     "enabledByDefault": false,

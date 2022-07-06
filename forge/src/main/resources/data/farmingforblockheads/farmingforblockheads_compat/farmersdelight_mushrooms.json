@@ -1,5 +1,6 @@
 {
   "modId": "farmersdelight",
+  "silent": true,
   "group": {
     "name": "Farmers Delight Mushroom Colonies",
     "enabledByDefault": false,

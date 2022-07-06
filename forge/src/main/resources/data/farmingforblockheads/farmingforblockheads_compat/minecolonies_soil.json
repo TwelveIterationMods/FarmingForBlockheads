@@ -1,5 +1,6 @@
 {
   "modId": "minecolonies",
+  "silent": true,
   "group": {
     "name": "Minecolonies Compost",
     "enabledByDefault": false,

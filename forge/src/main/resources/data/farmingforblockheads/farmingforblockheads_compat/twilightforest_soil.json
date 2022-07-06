@@ -1,5 +1,6 @@
 {
   "modId": "twilightforest",
+  "silent": true,
   "group": {
     "name": "Twilight Forest Soil",
     "enabledByDefault": false,

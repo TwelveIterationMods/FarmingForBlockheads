@@ -1,5 +1,6 @@
 {
   "modId": "simplefarming",
+  "silent": true,
   "group": {
     "name": "SimpleFarming Seeds",
     "enabledByDefault": true,

@@ -1,5 +1,6 @@
 {
   "modId": "theabyss",
+  "silent": true,
   "group": {
     "name": "The Abyss Saplings",
     "enabledByDefault": false,

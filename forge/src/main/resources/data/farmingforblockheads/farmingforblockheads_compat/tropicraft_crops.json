@@ -1,5 +1,6 @@
 {
   "modId": "tropicraft",
+  "silent": true,
   "group": {
     "name": "Tropicraft Crops",
     "enabledByDefault": false,

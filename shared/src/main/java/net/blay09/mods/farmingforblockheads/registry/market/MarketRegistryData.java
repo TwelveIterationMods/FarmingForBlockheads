@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class MarketRegistryData {
     private String modId;
+
+    private boolean silent;
     private MarketGroupData group;
     private Map<String, MarketOverrideData> groupOverrides;
     private Map<String, MarketOverrideData> entryOverrides;
@@ -20,6 +22,14 @@ public class MarketRegistryData {
 
     public void setModId(String modId) {
         this.modId = modId;
+    }
+
+    public boolean isSilent() {
+        return silent;
+    }
+
+    public void setSilent(boolean silent) {
+        this.silent = silent;
     }
 
     @Nullable

@@ -1,5 +1,6 @@
 {
   "modId": "supplementaries",
+  "silent": true,
   "group": {
     "name": "Supplementaries Seeds",
     "enabledByDefault": true,

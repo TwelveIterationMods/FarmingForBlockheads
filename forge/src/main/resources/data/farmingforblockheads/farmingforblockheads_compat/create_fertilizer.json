@@ -1,5 +1,6 @@
 {
   "modId": "create",
+  "silent": true,
   "group": {
     "name": "Create Fertilizer",
     "enabledByDefault": true,

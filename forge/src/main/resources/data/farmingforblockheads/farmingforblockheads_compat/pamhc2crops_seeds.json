@@ -1,5 +1,6 @@
 {
   "modId": "pamhc2crops",
+  "silent": true,
   "group": {
     "name": "Pam's HarvestCraft 2 Crops Seeds",
     "enabledByDefault": true,

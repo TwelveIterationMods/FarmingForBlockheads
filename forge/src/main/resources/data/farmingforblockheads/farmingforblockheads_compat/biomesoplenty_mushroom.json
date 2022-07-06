@@ -1,5 +1,6 @@
 {
   "modId": "biomesoplenty",
+  "silent": true,
   "group": {
     "name": "BiomesOPlenty Mushroom",
     "enabledByDefault": false,
