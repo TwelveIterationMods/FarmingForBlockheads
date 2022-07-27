@@ -85,6 +85,7 @@ Optional Groups (many of these [provided by seanimusprime](https://github.com/Mo
 * Farmer's Delight
   * Farmers Delight Mushroom Colonies
   * Farmers Delight Soil
+  * Farmers Delight Wild Crops
 * Farming for Blockheads
   * Farming for Blockheads Fertilizer
 * Minecolonies
