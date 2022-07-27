@@ -90,11 +90,12 @@ public class ChickenNestBlockEntity extends BalmBlockEntity implements BalmConta
     private void stealEgg() {
         final float range = FarmingForBlockheadsConfig.getActive().chickenNestRange;
         AABB aabb = new AABB(worldPosition.getX() - range, worldPosition.getY() - range, worldPosition.getZ() - range, worldPosition.getX() + range, worldPosition.getY() + range, worldPosition.getZ() + range);
-        List<ItemEntity> list = level.getEntitiesOfClass(ItemEntity.class, aabb, p -> p != null && isEggItem(p.getItem()) && p.getItem().getCount() == 1 && p.getThrower() == null);
+        List<ItemEntity> list = level.getEntitiesOfClass(ItemEntity.class, aabb, p -> p != null && isEggItem(p.getItem()));
         if (list.isEmpty()) {
             return;
         }
         ItemEntity entityItem = list.get(0);
+        ItemStack originalStack = entityItem.getItem();
         ItemStack restStack = entityItem.getItem().copy();
         for (int i = 0; i < container.getContainerSize(); i++) {
             restStack = ContainerUtils.insertItem(container, i, restStack, false);
@@ -104,10 +105,14 @@ public class ChickenNestBlockEntity extends BalmBlockEntity implements BalmConta
         }
         if (restStack.isEmpty()) {
             entityItem.remove(Entity.RemovalReason.DISCARDED);
-            Balm.getNetworking().sendToTracking(((ServerLevel) level), worldPosition, new ChickenNestEffectMessage(worldPosition));
         } else {
             entityItem.setItem(restStack);
         }
+
+        if (restStack.isEmpty() || restStack.getCount() != originalStack.getCount()) {
+            Balm.getNetworking().sendToTracking(((ServerLevel) level), worldPosition, new ChickenNestEffectMessage(worldPosition));
+        }
+
         setChanged();
     }
 
