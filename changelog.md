@@ -1,6 +1,7 @@
 ### Version 11.1.0 for Minecraft 1.19.x
 
-- Make Chicken Nest pick up all items tagged forge:eggs or c:eggs
+- Changed Chicken Nest to pick up all items tagged forge:eggs or c:eggs
+- Fixed melons and pumpkins not growing on fertilized farmland
 
 ### Version 11.0.1 for Minecraft 1.19.x
 
