@@ -6,16 +6,15 @@ import net.blay09.mods.balm.api.container.BalmContainerProvider;
 import net.blay09.mods.balm.api.container.ContainerUtils;
 import net.blay09.mods.balm.api.container.DefaultContainer;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
+import net.blay09.mods.farmingforblockheads.item.ModItems;
 import net.blay09.mods.farmingforblockheads.network.ChickenNestEffectMessage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -113,8 +112,7 @@ public class ChickenNestBlockEntity extends BalmBlockEntity implements BalmConta
     }
 
     private boolean isEggItem(ItemStack item) {
-        // TODO Support balm:eggs tag too
-        return item.getItem() == Items.EGG;
+        return item.is(ModItems.EGGS_TAG);
     }
 
     public int getEggCount() {
