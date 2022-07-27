@@ -6,6 +6,8 @@
 - Fixed Chicken Nest not picking up eggs that have been stacked
 - Fixed Chicken Nest not picking up eggs that are thrown by the player
 - Fixed melons and pumpkins not growing on fertilized farmland
+- Fixed closing market dropping payment item on the ground instead of returning it to inventory
+- Made registry errors of inbuilt data less intrusive (only logs to console instead of posting to chat)
 
 ### Version 11.0.1 for Minecraft 1.19.x
 
