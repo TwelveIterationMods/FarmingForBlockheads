@@ -31,7 +31,7 @@ folder (so the resulting path would be `data/<namespace>/farmingforblockheads_co
 will be loaded. For simple scenarios, you can also use the `MarketRegistry.json` file
 under `config/farmingforblockheads/MarketRegistry.json`.
 
-See here for an example: https://gist.github.com/blay09/93a48d092d6dc570a64c81e1912dc4d0
+See here for an example: https://gist.github.com/BlayTheNinth/93a48d092d6dc570a64c81e1912dc4d0
 
 Group overrides can be used to enable or disable inbuilt extensions.
 
