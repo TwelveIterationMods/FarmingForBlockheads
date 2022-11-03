@@ -22,12 +22,14 @@
   "gui.farmingforblockheads:market.tooltip_none": "Nenhuma dica de ferramenta especificada",
   "gui.farmingforblockheads:market.cost": "%dx %s",
   "jei.farmingforblockheads:market": "Mercado",
-  "tooltip.farmingforblockheads:chicken_nest": "Coleta ovos postos por galinha",
-  "tooltip.farmingforblockheads:feeding_trough": "Alimenta animais próximos automaticamente",
+  "tooltip.farmingforblockheads:chicken_nest": "Colete os ovos postos pela galinha",
+  "tooltip.farmingforblockheads:feeding_trough": "Alimenta automaticamente os animais próximos",
   "tooltip.farmingforblockheads:fertilizer_healthy": "Acelera o crescimento",
   "tooltip.farmingforblockheads:fertilizer_rich": "Aumenta a produção da colheita",
-  "tooltip.farmingforblockheads:fertilizer_stable": "Evita Pisoteio",
-  "tooltip.farmingforblockheads:trait_stable": "Evita Pisoteio ",
+  "tooltip.farmingforblockheads:fertilizer_stable": "Impede o pisoteio",
+  "tooltip.farmingforblockheads:trait_stable": "Impede o pisoteio",
   "tooltip.farmingforblockheads:trait_healthy": "Acelera o crescimento",
-  "tooltip.farmingforblockheads:trait_rich": "Aumenta a produção da colheita"
+  "tooltip.farmingforblockheads:trait_rich": "Aumenta a produção da colheita",
+  "farmingforblockheads.subtitle.falling": "Algo caindo de uma grande altura",
+  "entity.farmingforblockheads.merchant": "Comerciante"
 }
