@@ -26,6 +26,7 @@ import net.minecraft.world.item.Items;
 public class MarketCategory implements IRecipeCategory<IMarketEntry> {
 
     public static final ResourceLocation UID = new ResourceLocation("farmingforblockheads:market");
+    public static final RecipeType<IMarketEntry> TYPE = new RecipeType<>(UID, IMarketEntry.class);
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/jei_market.png");
 
@@ -33,23 +34,13 @@ public class MarketCategory implements IRecipeCategory<IMarketEntry> {
     private final IDrawableStatic background;
 
     public MarketCategory(IGuiHelper guiHelper) {
-        icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(ModBlocks.market));
+        icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.market));
         background = guiHelper.createDrawable(TEXTURE, 0, 0, 86, 48);
     }
 
     @Override
     public RecipeType<IMarketEntry> getRecipeType() {
-        return new RecipeType<>(UID, IMarketEntry.class);
-    }
-
-    @Override
-    public ResourceLocation getUid() {
-        return UID;
-    }
-
-    @Override
-    public Class<? extends IMarketEntry> getRecipeClass() {
-        return IMarketEntry.class;
+        return TYPE;
     }
 
     @Override
@@ -70,9 +61,9 @@ public class MarketCategory implements IRecipeCategory<IMarketEntry> {
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, IMarketEntry recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 16, 13)
-                .addIngredient(VanillaTypes.ITEM, recipe.getCostItem());
+                .addIngredient(VanillaTypes.ITEM_STACK, recipe.getCostItem());
         builder.addSlot(RecipeIngredientRole.OUTPUT, 54, 13)
-                .addIngredient(VanillaTypes.ITEM, recipe.getOutputItem());
+                .addIngredient(VanillaTypes.ITEM_STACK, recipe.getOutputItem());
     }
 
     @Override

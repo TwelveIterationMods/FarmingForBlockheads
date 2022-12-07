@@ -23,12 +23,12 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(MarketRegistry.getEntries(), MarketCategory.UID);
+        registration.addRecipes(MarketCategory.TYPE, MarketRegistry.getEntries().stream().toList());
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.market), MarketCategory.UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.market), MarketCategory.TYPE);
     }
 
     @Override
