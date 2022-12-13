@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "farmingforblockheads:items/red_fertilizer"
+    "layer0": "farmingforblockheads:item/red_fertilizer"
   }
 }

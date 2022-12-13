@@ -98,7 +98,7 @@ public class FertilizerItem extends Item {
     private final FertilizerType fertilizerType;
 
     public FertilizerItem(FertilizerType fertilizerType) {
-        super(new Item.Properties().tab(ModItems.creativeModeTab));
+        super(new Item.Properties());
         this.fertilizerType = fertilizerType;
     }
 

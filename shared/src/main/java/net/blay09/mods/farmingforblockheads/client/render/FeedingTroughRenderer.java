@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
+import com.mojang.math.Axis;
 import net.blay09.mods.farmingforblockheads.block.entity.FeedingTroughBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -36,7 +36,7 @@ public class FeedingTroughRenderer implements BlockEntityRenderer<FeedingTroughB
             for (int i = 0; i < Math.max(1, Math.min(CONTENT_POSITIONS.length / 3, content.getCount() / 12)); i++) {
                 poseStack.pushPose();
                 poseStack.translate(x + 0.5f + CONTENT_POSITIONS[i * 3], y + 0.5f + CONTENT_POSITIONS[i * 3 + 1], z + 0.4f + CONTENT_POSITIONS[i * 3 + 2]);
-                poseStack.mulPose(new Quaternion(90f, 0, 0, true));
+                poseStack.mulPose(Axis.XP.rotationDegrees(90f));
                 itemRenderer.renderStatic(content, ItemTransforms.TransformType.GROUND, combinedLight, OverlayTexture.NO_OVERLAY, poseStack, buffers, 0);
                 poseStack.popPose();
             }
