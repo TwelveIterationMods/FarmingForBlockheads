@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
+import com.mojang.math.Axis;
 import net.blay09.mods.farmingforblockheads.block.ChickenNestBlock;
 import net.blay09.mods.farmingforblockheads.block.entity.ChickenNestBlockEntity;
 import net.minecraft.client.Minecraft;
@@ -48,12 +48,12 @@ public class ChickenNestRenderer implements BlockEntityRenderer<ChickenNestBlock
             angle = getFacingAngle(state.getValue(ChickenNestBlock.FACING));
         }
 
-        poseStack.mulPose(new Quaternion(0f, angle, 0f, true));
+        poseStack.mulPose(Axis.YP.rotationDegrees(angle));
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         for (int i = 0; i < Math.min(EGG_POSITIONS.length / 3, blockEntity.getEggCount()); i++) {
             poseStack.pushPose();
             poseStack.translate(EGG_POSITIONS[i * 3], 0.1f + EGG_POSITIONS[i * 3 + 1], -0.1f + EGG_POSITIONS[i * 3 + 2]);
-            poseStack.mulPose(new Quaternion(45f, 0, 0, true));
+            poseStack.mulPose(Axis.XP.rotationDegrees(45f));
             itemRenderer.renderStatic(EGG_STACK, ItemTransforms.TransformType.GROUND, combinedLight, OverlayTexture.NO_OVERLAY, poseStack, buffers, 0);
             poseStack.popPose();
         }

@@ -22,7 +22,7 @@ public class MarketFilterButton extends Button {
     private final List<Component> tooltipLines = Lists.newArrayList();
 
     public MarketFilterButton(int x, int y, MarketClientMenu container, IMarketCategory category, OnPress pressable) {
-        super(x, y, 20, 20, Component.empty(), pressable);
+        super(x, y, 20, 20, Component.empty(), pressable, Button.DEFAULT_NARRATION);
         this.container = container;
         this.category = category;
         this.tooltipLines.add(Component.translatable(this.category.getTooltipLangKey()));
@@ -30,7 +30,7 @@ public class MarketFilterButton extends Button {
 
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+        this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
 
         int texY = 14;
         if (container.getCurrentCategory() != null && container.getCurrentCategory() != category) {
@@ -40,9 +40,9 @@ public class MarketFilterButton extends Button {
         }
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         RenderSystem.setShaderTexture(0, ICONS);
-        blit(poseStack, x, y, 176, texY, width, height);
+        blit(poseStack, getX(), getY(), 176, texY, width, height);
 
-        Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(category.getIconStack(), x + 2, y + 2);
+        Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(category.getIconStack(), getX() + 2, getY() + 2);
     }
 
     public List<Component> getTooltipLines() {

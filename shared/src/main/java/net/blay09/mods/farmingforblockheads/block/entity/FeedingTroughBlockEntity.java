@@ -2,10 +2,10 @@ package net.blay09.mods.farmingforblockheads.block.entity;
 
 import com.google.common.collect.ArrayListMultimap;
 import net.blay09.mods.balm.api.Balm;
-import net.blay09.mods.balm.api.block.entity.BalmBlockEntity;
 import net.blay09.mods.balm.api.container.BalmContainerProvider;
 import net.blay09.mods.balm.api.container.ContainerUtils;
 import net.blay09.mods.balm.api.container.DefaultContainer;
+import net.blay09.mods.balm.common.BalmBlockEntity;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.network.ChickenNestEffectMessage;
 import net.minecraft.client.multiplayer.ClientLevel;

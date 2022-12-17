@@ -12,8 +12,6 @@ import net.minecraft.world.item.ItemStack;
 
 public class ModItems {
 
-    public static final CreativeModeTab creativeModeTab = Balm.getItems().createCreativeModeTab(id("farmingforblockheads"), () -> new ItemStack(ModBlocks.market));
-
     public static Item fertilizerGreen;
     public static Item fertilizerRed;
     public static Item fertilizerYellow;
@@ -24,6 +22,8 @@ public class ModItems {
         items.registerItem(() -> fertilizerGreen = new FertilizerItem(FertilizerItem.FertilizerType.RICH), id("green_fertilizer"));
         items.registerItem(() -> fertilizerRed = new FertilizerItem(FertilizerItem.FertilizerType.HEALTHY), id("red_fertilizer"));
         items.registerItem(() -> fertilizerYellow = new FertilizerItem(FertilizerItem.FertilizerType.STABLE), id("yellow_fertilizer"));
+
+        items.registerCreativeModeTab(id("farmingforblockheads"), () -> new ItemStack(ModBlocks.market));
 
         EGGS_TAG = Balm.getRegistries().getItemTag(new ResourceLocation("balm", "eggs"));
     }

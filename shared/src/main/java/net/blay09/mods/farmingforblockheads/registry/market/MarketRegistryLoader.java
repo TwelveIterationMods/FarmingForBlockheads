@@ -17,6 +17,7 @@ import net.blay09.mods.farmingforblockheads.registry.json.MarketRegistryDataSeri
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -32,6 +33,7 @@ import java.util.Map;
 
 public class MarketRegistryLoader implements ResourceManagerReloadListener {
 
+    private static final FileToIdConverter COMPAT_JSONS = FileToIdConverter.json("farmingforblockheads_compat");
     private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
             .registerTypeAdapter(ItemStack.class, new ItemStackSerializer())
@@ -48,7 +50,7 @@ public class MarketRegistryLoader implements ResourceManagerReloadListener {
 
             Balm.getEvents().fireEvent(new MarketRegistryReloadEvent.Pre());
 
-            for (Map.Entry<ResourceLocation, Resource> entry : resourceManager.listResources("farmingforblockheads_compat", it -> it.getPath().endsWith(".json")).entrySet()) {
+            for (Map.Entry<ResourceLocation, Resource> entry : COMPAT_JSONS.listMatchingResources(resourceManager).entrySet()) {
                 try (BufferedReader reader = entry.getValue().openAsReader()) {
                     load(gson.fromJson(reader, MarketRegistryData.class));
                 } catch (Exception e) {

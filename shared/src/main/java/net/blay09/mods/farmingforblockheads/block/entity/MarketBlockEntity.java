@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.block.entity;
 
-import net.blay09.mods.balm.api.block.entity.BalmBlockEntity;
 import net.blay09.mods.balm.api.menu.BalmMenuProvider;
+import net.blay09.mods.balm.common.BalmBlockEntity;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

@@ -2,7 +2,6 @@ package net.blay09.mods.farmingforblockheads.block;
 
 import net.blay09.mods.balm.api.block.BalmBlocks;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.item.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -31,7 +30,7 @@ public class ModBlocks {
     }
 
     public static Item.Properties itemProperties() {
-        return new Item.Properties().tab(ModItems.creativeModeTab);
+        return new Item.Properties();
     }
 
     private static ResourceLocation id(String path) {
