@@ -33,7 +33,7 @@
     "farmingforblockheads.mixins.json"
   ],
   "depends": {
-    "cloth-config2": ">=5.0.34",
+    "cloth-config2": ">=9.0.0",
     "balm-fabric": ">=5.0.0",
     "fabricloader": ">=0.14.7",
     "fabric-api": "*",
