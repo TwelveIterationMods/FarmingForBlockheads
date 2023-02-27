@@ -4,21 +4,14 @@ import me.shedaniel.autoconfig.annotation.Config;
 import net.blay09.mods.balm.api.config.BalmConfigData;
 import net.blay09.mods.balm.api.config.Comment;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 @Config(name = FarmingForBlockheads.MOD_ID)
 public class FarmingForBlockheadsConfigData implements BalmConfigData {
 
-    private static final List<String> DEFAULT_MERCHANT_NAMES = Arrays.asList(
-            "Swap-O-Matic",
-            "Emerald Muncher",
-            "Weathered Salesperson"
-    );
-
     @Comment("List of names the merchant can have.")
-    public List<String> merchantNames = DEFAULT_MERCHANT_NAMES;
+    public List<String> merchantNames = FarmingForBlockheadsConfig.DEFAULT_MERCHANT_NAMES;
 
     @Comment("The range within animals can be fed by the feeding trough.")
     public int feedingTroughRange = 8; // 1-16
@@ -44,7 +37,7 @@ public class FarmingForBlockheadsConfigData implements BalmConfigData {
     public String getRandomMerchantName(Random rand) {
         List<? extends String> candidates = merchantNames;
         if (candidates.isEmpty()) {
-            candidates = DEFAULT_MERCHANT_NAMES;
+            candidates = FarmingForBlockheadsConfig.DEFAULT_MERCHANT_NAMES;
         }
 
         return candidates.get(rand.nextInt(candidates.size()));
