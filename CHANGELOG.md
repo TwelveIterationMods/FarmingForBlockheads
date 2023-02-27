@@ -1,1 +1,4 @@
-- Updated to Minecraft 1.19.3
+- Added FeedingTroughEvent, which allows other mods to customize the feeding of their animals for special handling
+- Increased the default feedingTroughMaxAnimals from 8 to 24
+- Clarified in Feeding Trough tooltip that it will only feed animals that are ready to mate
+- Optimized the feeding trough's ability to detect whether animals are ready to mate
