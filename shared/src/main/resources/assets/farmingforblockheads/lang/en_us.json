@@ -23,7 +23,7 @@
   "gui.farmingforblockheads:market.cost": "%dx %s",
   "jei.farmingforblockheads:market": "Market",
   "tooltip.farmingforblockheads:chicken_nest": "Collects eggs laid by chicken",
-  "tooltip.farmingforblockheads:feeding_trough": "Auto-feeds nearby animals",
+  "tooltip.farmingforblockheads:feeding_trough": "Auto-feeds nearby animals ready to mate",
   "tooltip.farmingforblockheads:fertilizer_healthy": "Speeds up growth",
   "tooltip.farmingforblockheads:fertilizer_rich": "Increases crop output",
   "tooltip.farmingforblockheads:fertilizer_stable": "Prevents trampling",
