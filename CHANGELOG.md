@@ -2,3 +2,5 @@
 - Increased the default feedingTroughMaxAnimals from 8 to 24
 - Clarified in Feeding Trough tooltip that it will only feed animals that are ready to mate
 - Optimized the feeding trough's ability to detect whether animals are ready to mate
+- Fixed missing language keys in Fabric config screen
+- Fixed DEFAULT_MERCHANT_NAMES falsely showing up on Fabric config screen
