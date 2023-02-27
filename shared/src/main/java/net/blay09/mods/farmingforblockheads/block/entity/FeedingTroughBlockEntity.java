@@ -101,9 +101,9 @@ public class FeedingTroughBlockEntity extends BalmBlockEntity implements BalmCon
         for (Class<? extends Animal> key : keys) {
             List<Animal> list = map.get(key);
             if (list.size() < FarmingForBlockheadsConfig.getActive().feedingTroughMaxAnimals) {
-                if (list.stream().filter(p -> p.getAge() == 0).count() >= 2) {
+                if (list.stream().filter(p -> !p.isBaby()).count() >= 2) {
                     for (Animal entity : list) {
-                        if (entity.getAge() == 0 && !entity.isInLove() && !entity.isBaby() && entity.isFood(itemStack)) {
+                        if (!entity.isInLove() && !entity.isBaby() && entity.isFood(itemStack)) {
                             entity.setInLove(null);
                             ContainerUtils.extractItem(container, 0, 1, false);
                             setChanged();

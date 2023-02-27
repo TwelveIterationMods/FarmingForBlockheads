@@ -24,7 +24,7 @@ public class FarmingForBlockheadsConfigData implements BalmConfigData {
     public int feedingTroughRange = 8; // 1-16
 
     @Comment("The maximum amount of animals (per type) until the feeding trough stops feeding.")
-    public int feedingTroughMaxAnimals = 8; // 1-max
+    public int feedingTroughMaxAnimals = 24; // 1-max
 
     @Comment("The range at which the chicken nest picks up laid eggs.")
     public int chickenNestRange = 8; // 1-16
