@@ -31,14 +31,5 @@
 "tooltip.farmingforblockheads:trait_healthy": "Büyümeyi Hızlandırır",
 "tooltip.farmingforblockheads:trait_rich": "Bitki Verimini Arttırır",
 "farmingforblockheads.subtitle.falling": "Çok yüksek bir yerden düşen bir şey",
-"entity.farmingforblockheads.merchant": "Tüccar",
-"text.autoconfig.farmingforblockheads.title": "Farming for Blockheads",
-"text.autoconfig.farmingforblockheads.option.merchantNames": "Tüccar İsimleri",
-"text.autoconfig.farmingforblockheads.option.feedingTroughRange": "Beslenme Oluğu Mesafesi",
-"text.autoconfig.farmingforblockheads.option.feedingTroughMaxAnimals": "Beslenme Oluğu Besleyebileceği Hayvan",
-"text.autoconfig.farmingforblockheads.option.chickenNestRange": "Tavuk Yuvası Mesafesi",
-"text.autoconfig.farmingforblockheads.option.fertilizerBonusCropChance": "Yeşil Gübre Bonus Bitki Şansı",
-"text.autoconfig.farmingforblockheads.option.fertilizerBonusGrowthChance": "Kırmızı Gübre Bonus Büyüme Şansı",
-"text.autoconfig.farmingforblockheads.option.fertilizerRegressionChance": "Gübre Regresyon Şansı",
-"text.autoconfig.farmingforblockheads.option.showRegistryWarnings": "Kayıt Hatalarını Göster"
+"entity.farmingforblockheads.merchant": "Tüccar"
 }
