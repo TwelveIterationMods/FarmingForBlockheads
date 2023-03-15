@@ -1,7 +1,8 @@
-- Added FeedingTroughEvent, which allows other mods to customize the feeding of their animals for special handling
-- Increased the default feedingTroughMaxAnimals from 8 to 24
-- Clarified in Feeding Trough tooltip that it will only feed animals that are ready to mate
-- Optimized the feeding trough's ability to detect whether animals are ready to mate
-- Added IC2 Classic Rubber Sapling to the market
-- Fixed missing language keys in Fabric config screen
-- Fixed DEFAULT_MERCHANT_NAMES falsely showing up on Fabric config screen
+- Updated to Minecraft 1.19.4
+- Added Azalea, Flowering Azalea, and Mangrove Propagule to market
+- Added Oh The Biomes You'll Go items to market (by DedicatedMedic)
+- Added Thermal Cultivation seeds to market (by x426)
+- Added Turkish Translaction (by x426)
+- Potatoes and Carrots now cost a diamond by default instead of an emerald
+- Animal Eggs (if enabled) now cost a diamond by default instead of an emerald
+- Vanilla Crops (if enabled) now cost a diamond by default instead of an emerald
