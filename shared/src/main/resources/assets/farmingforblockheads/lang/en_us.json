@@ -23,7 +23,7 @@
   "gui.farmingforblockheads:market.cost": "%dx %s",
   "jei.farmingforblockheads:market": "Market",
   "tooltip.farmingforblockheads:chicken_nest": "Collects eggs laid by chicken",
-  "tooltip.farmingforblockheads:feeding_trough": "Auto-feeds nearby animals",
+  "tooltip.farmingforblockheads:feeding_trough": "Auto-feeds nearby animals ready to mate",
   "tooltip.farmingforblockheads:fertilizer_healthy": "Speeds up growth",
   "tooltip.farmingforblockheads:fertilizer_rich": "Increases crop output",
   "tooltip.farmingforblockheads:fertilizer_stable": "Prevents trampling",
@@ -31,5 +31,14 @@
   "tooltip.farmingforblockheads:trait_healthy": "Speeds up growth",
   "tooltip.farmingforblockheads:trait_rich": "Increases crop output",
   "farmingforblockheads.subtitle.falling": "Something falling from a great height",
-  "entity.farmingforblockheads.merchant": "Merchant"
+  "entity.farmingforblockheads.merchant": "Merchant",
+  "text.autoconfig.farmingforblockheads.title": "Farming for Blockheads",
+  "text.autoconfig.farmingforblockheads.option.merchantNames": "Merchant Names",
+  "text.autoconfig.farmingforblockheads.option.feedingTroughRange": "Feeding Trough Range",
+  "text.autoconfig.farmingforblockheads.option.feedingTroughMaxAnimals": "Feeding Trough Max Animals",
+  "text.autoconfig.farmingforblockheads.option.chickenNestRange": "Chicken Nest Range",
+  "text.autoconfig.farmingforblockheads.option.fertilizerBonusCropChance": "Green Fertilizer Bonus Crop Chance",
+  "text.autoconfig.farmingforblockheads.option.fertilizerBonusGrowthChance": "Red Fertilizer Bonus Growth Chance",
+  "text.autoconfig.farmingforblockheads.option.fertilizerRegressionChance": "Fertilizer Regression Chance",
+  "text.autoconfig.farmingforblockheads.option.showRegistryWarnings": "Show Registry Warnings"
 }
