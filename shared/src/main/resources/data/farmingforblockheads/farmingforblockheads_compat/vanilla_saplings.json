@@ -26,6 +26,27 @@
     },
     {
       "output": "minecraft:dark_oak_sapling"
+    },
+    {
+      "output": "minecraft:azalea",
+      "payment": {
+        "item": "minecraft:emerald",
+        "count": 4
+      }
+    },
+    {
+      "output": "minecraft:flowering_azalea",
+      "payment": {
+        "item": "minecraft:emerald",
+        "count": 4
+      }
+    },
+    {
+      "output": "minecraft:mangrove_propagule",
+      "payment": {
+        "item": "minecraft:emerald",
+        "count": 4
+      }
     }
   ]
 }

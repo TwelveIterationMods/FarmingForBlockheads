@@ -4,7 +4,7 @@
     "name": "Animal Eggs",
     "enabledByDefault": false,
     "defaultPayment": {
-      "item": "minecraft:emerald"
+      "item": "minecraft:diamond"
     },
     "defaultCategory": "farmingforblockheads:other"
   },

@@ -4,7 +4,7 @@
     "name": "Vanilla Crops",
     "enabledByDefault": false,
     "defaultPayment": {
-      "item": "minecraft:emerald"
+      "item": "minecraft:diamond"
     },
     "defaultCategory": "farmingforblockheads:seeds"
   },

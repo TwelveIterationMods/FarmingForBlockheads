@@ -22,10 +22,16 @@
       "output": "minecraft:beetroot_seeds"
     },
     {
-      "output": "minecraft:potato"
+      "output": "minecraft:potato",
+      "payment": {
+        "item": "minecraft:diamond"
+      }
     },
     {
-      "output": "minecraft:carrot"
+      "output": "minecraft:carrot",
+      "payment": {
+        "item": "minecraft:diamond"
+      }
     }
   ]
 }
