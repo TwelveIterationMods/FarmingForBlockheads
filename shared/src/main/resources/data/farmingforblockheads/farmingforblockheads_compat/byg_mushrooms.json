@@ -1,5 +1,6 @@
 {
 	"modId": "byg",
+	"silent": true,
 	"group":
 	{
 		"name": "Oh The Biomes You'll Go Mushrooms",
