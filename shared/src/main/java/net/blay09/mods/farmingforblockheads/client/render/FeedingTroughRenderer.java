@@ -5,12 +5,13 @@ import com.mojang.math.Axis;
 import net.blay09.mods.farmingforblockheads.block.entity.FeedingTroughBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class FeedingTroughRenderer implements BlockEntityRenderer<FeedingTroughBlockEntity> {
 
@@ -25,19 +26,24 @@ public class FeedingTroughRenderer implements BlockEntityRenderer<FeedingTroughB
     }
 
     @Override
-    public void render(FeedingTroughBlockEntity tileEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffers, int combinedLight, int combinedOverlay) {
+    public void render(FeedingTroughBlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffers, int combinedLight, int combinedOverlay) {
+        if (!blockEntity.hasLevel()) {
+            return;
+        }
+
+        Level level = blockEntity.getLevel();
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 
         float x = 0;
         float y = 0;
         float z = 0;
-        ItemStack content = tileEntity.getContentStack();
+        ItemStack content = blockEntity.getContentStack();
         if (!content.isEmpty()) {
             for (int i = 0; i < Math.max(1, Math.min(CONTENT_POSITIONS.length / 3, content.getCount() / 12)); i++) {
                 poseStack.pushPose();
                 poseStack.translate(x + 0.5f + CONTENT_POSITIONS[i * 3], y + 0.5f + CONTENT_POSITIONS[i * 3 + 1], z + 0.4f + CONTENT_POSITIONS[i * 3 + 2]);
                 poseStack.mulPose(Axis.XP.rotationDegrees(90f));
-                itemRenderer.renderStatic(content, ItemTransforms.TransformType.GROUND, combinedLight, OverlayTexture.NO_OVERLAY, poseStack, buffers, 0);
+                itemRenderer.renderStatic(content, ItemDisplayContext.GROUND, combinedLight, OverlayTexture.NO_OVERLAY, poseStack, buffers, level, 0);
                 poseStack.popPose();
             }
         }

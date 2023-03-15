@@ -22,15 +22,15 @@ public class ModLootModifiers {
             Vec3 origin = context.getParamOrNull(LootContextParams.ORIGIN);
             BlockState plant = context.getParamOrNull(LootContextParams.BLOCK_STATE);
             if (origin == null || plant == null || !(plant.getBlock() instanceof BonemealableBlock)) {
-                return loot;
+                return;
             }
 
-            BlockPos pos = new BlockPos(origin);
+            BlockPos pos = BlockPos.containing(origin);
             // Other mods might trigger loot tables during world gen, which results in a deadlock when reading the
             // block state below as the world in the context is the server world, not the world gen region
             ChunkPos chunkPos = new ChunkPos(pos);
             if (!level.getChunkSource().hasChunk(chunkPos.x, chunkPos.z)) {
-                return loot;
+                return;
             }
 
             BlockPos posBelow = pos.below();
@@ -44,8 +44,6 @@ public class ModLootModifiers {
                     });
                 }
             }
-
-            return loot;
         });
     }
 

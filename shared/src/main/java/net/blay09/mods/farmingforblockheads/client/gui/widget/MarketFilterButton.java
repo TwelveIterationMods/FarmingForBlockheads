@@ -42,7 +42,7 @@ public class MarketFilterButton extends Button {
         RenderSystem.setShaderTexture(0, ICONS);
         blit(poseStack, getX(), getY(), 176, texY, width, height);
 
-        Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(category.getIconStack(), getX() + 2, getY() + 2);
+        Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(poseStack, category.getIconStack(), getX() + 2, getY() + 2);
     }
 
     public List<Component> getTooltipLines() {

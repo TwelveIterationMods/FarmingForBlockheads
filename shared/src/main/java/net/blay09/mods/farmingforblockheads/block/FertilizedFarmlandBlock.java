@@ -147,7 +147,7 @@ public class FertilizedFarmlandBlock extends FarmBlock implements CustomFarmBloc
             if (moisture > 0) {
                 level.setBlock(pos, state.setValue(MOISTURE, moisture - 1), 2);
             } else if (!FarmBlockAccessor.callIsUnderCrops(level, pos) && traits.stream().noneMatch(FarmlandTrait::isStable)) {
-                turnToDirt(state, level, pos);
+                turnToDirt(null, state, level, pos);
             }
         } else if (moisture < 7) {
             level.setBlock(pos, state.setValue(MOISTURE, 7), 2);

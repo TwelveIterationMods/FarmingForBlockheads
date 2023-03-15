@@ -203,7 +203,7 @@ public class MerchantEntity extends PathfinderMob {
 
     @Override
     protected void actuallyHurt(DamageSource damageSource, float damageAmount) {
-        if (!spawnDone && damageSource == DamageSource.FALL) {
+        if (!spawnDone && damageSource == level.damageSources().fall()) {
             double posX = getX();
             double posY = getY();
             double posZ = getZ();

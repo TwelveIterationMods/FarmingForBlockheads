@@ -12,8 +12,10 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class ChickenNestRenderer implements BlockEntityRenderer<ChickenNestBlockEntity> {
@@ -40,7 +42,11 @@ public class ChickenNestRenderer implements BlockEntityRenderer<ChickenNestBlock
 
     @Override
     public void render(ChickenNestBlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffers, int combinedLight, int combinedOverlay) {
-        poseStack.translate(0.5, 0, 0.5);
+        if (!blockEntity.hasLevel()) {
+            return;
+        }
+
+        Level level = blockEntity.getLevel();poseStack.translate(0.5, 0, 0.5);
 
         BlockState state = blockEntity.getBlockState();
         float angle = 0f;
@@ -54,7 +60,7 @@ public class ChickenNestRenderer implements BlockEntityRenderer<ChickenNestBlock
             poseStack.pushPose();
             poseStack.translate(EGG_POSITIONS[i * 3], 0.1f + EGG_POSITIONS[i * 3 + 1], -0.1f + EGG_POSITIONS[i * 3 + 2]);
             poseStack.mulPose(Axis.XP.rotationDegrees(45f));
-            itemRenderer.renderStatic(EGG_STACK, ItemTransforms.TransformType.GROUND, combinedLight, OverlayTexture.NO_OVERLAY, poseStack, buffers, 0);
+            itemRenderer.renderStatic(EGG_STACK, ItemDisplayContext.GROUND, combinedLight, OverlayTexture.NO_OVERLAY, poseStack, buffers, level, 0);
             poseStack.popPose();
         }
     }
