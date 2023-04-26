@@ -56,6 +56,9 @@ subprojects {
 
         // For WTHIT
         maven { url "https://maven.bai.lol" }
+
+        // For EMI
+        maven { url "https://maven.terraformersmc.com" }
     }
 
     tasks.withType(JavaCompile).configureEach {
