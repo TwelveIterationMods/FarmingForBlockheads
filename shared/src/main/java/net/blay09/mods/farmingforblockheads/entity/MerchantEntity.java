@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads.entity;
 
 import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.block.entity.MarketBlockEntity;
@@ -11,6 +12,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -35,6 +37,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class MerchantEntity extends PathfinderMob {
@@ -56,6 +59,8 @@ public class MerchantEntity extends PathfinderMob {
     private BlockPos marketEntityPos;
     private int diggingAnimation;
     private BlockState diggingBlockState;
+
+    private ResourceLocation textureLocation;
 
     public MerchantEntity(EntityType<MerchantEntity> type, Level level) {
         super(type, level);
@@ -166,8 +171,20 @@ public class MerchantEntity extends PathfinderMob {
 
             for (int i = 0; i < 4; i++) {
                 BlockState diggingState = diggingBlockState != null ? diggingBlockState : Blocks.DIRT.defaultBlockState();
-                level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, diggingState), posX, posY, posZ, Math.random() * 2 - 1, Math.random() * 4, Math.random() * 2 - 1);
-                level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, diggingState), posX, posY, posZ, (Math.random() - 0.5) * 0.5, Math.random() * 0.5f, (Math.random() - 0.5) * 0.5);
+                level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, diggingState),
+                        posX,
+                        posY,
+                        posZ,
+                        Math.random() * 2 - 1,
+                        Math.random() * 4,
+                        Math.random() * 2 - 1);
+                level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, diggingState),
+                        posX,
+                        posY,
+                        posZ,
+                        (Math.random() - 0.5) * 0.5,
+                        Math.random() * 0.5f,
+                        (Math.random() - 0.5) * 0.5);
             }
 
             if (diggingAnimation % 2 == 0) {
@@ -193,7 +210,13 @@ public class MerchantEntity extends PathfinderMob {
 
             level.playLocalSound(posX + 0.5, posY + 1, posZ + 0.5, SoundEvents.FIRECHARGE_USE, SoundSource.NEUTRAL, 0.2f, 1f, false);
             for (int i = 0; i < 50; i++) {
-                level.addParticle(ParticleTypes.FIREWORK, posX + 0.5, posY + 1, posZ + 0.5, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
+                level.addParticle(ParticleTypes.FIREWORK,
+                        posX + 0.5,
+                        posY + 1,
+                        posZ + 0.5,
+                        (Math.random() - 0.5) * 0.5f,
+                        (Math.random() - 0.5) * 0.5f,
+                        (Math.random() - 0.5) * 0.5f);
             }
             level.addParticle(ParticleTypes.EXPLOSION, posX + 0.5, posY + 1, posZ + 0.5, 0, 0, 0);
         } else {
@@ -289,7 +312,13 @@ public class MerchantEntity extends PathfinderMob {
 
         level.playLocalSound(posX, posY, posZ, SoundEvents.FIRECHARGE_USE, SoundSource.NEUTRAL, 1f, 1f, false);
         for (int i = 0; i < 50; i++) {
-            level.addParticle(ParticleTypes.FIREWORK, posX, posY + 1, posZ, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f, (Math.random() - 0.5) * 0.5f);
+            level.addParticle(ParticleTypes.FIREWORK,
+                    posX,
+                    posY + 1,
+                    posZ,
+                    (Math.random() - 0.5) * 0.5f,
+                    (Math.random() - 0.5) * 0.5f,
+                    (Math.random() - 0.5) * 0.5f);
         }
         level.addParticle(ParticleTypes.EXPLOSION, posX, posY + 1, posZ, 0, 0, 0);
         remove(RemovalReason.DISCARDED);
@@ -301,5 +330,25 @@ public class MerchantEntity extends PathfinderMob {
 
     public int getDiggingAnimation() {
         return diggingAnimation;
+    }
+
+    @Override
+    public void setCustomName(@Nullable Component component) {
+        super.setCustomName(component);
+        textureLocation = null; // reset to have it recalculate
+    }
+
+    @Nullable
+    public ResourceLocation getTextureLocation() {
+        Component customName = getCustomName();
+        if (textureLocation == null && customName != null) {
+            String normalizedName = customName.getString();
+            normalizedName = normalizedName.replaceAll("[^A-Za-z0-9]", "_");
+            normalizedName = normalizedName.toLowerCase(Locale.ENGLISH);
+            textureLocation = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/entity/merchant_" + normalizedName + ".png");
+        } else if (textureLocation != null && customName == null) {
+            textureLocation = null;
+        }
+        return textureLocation;
     }
 }
