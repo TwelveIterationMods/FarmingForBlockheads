@@ -1,8 +1,5 @@
-- Updated to Minecraft 1.19.4
-- Added Azalea, Flowering Azalea, and Mangrove Propagule to market
-- Added Oh The Biomes You'll Go items to market (by DedicatedMedic)
-- Added Thermal Cultivation seeds to market (by x426)
-- Added Turkish Translaction (by x426)
-- Potatoes and Carrots now cost a diamond by default instead of an emerald
-- Animal Eggs (if enabled) now cost a diamond by default instead of an emerald
-- Vanilla Crops (if enabled) now cost a diamond by default instead of an emerald
+- Fixed IMC API registrations being ignored
+- Added auto-fill of market payment slot when an entry is selected #162 BlayTheNinth 3 minutes ago
+- Added support for custom merchant textures by merchant name via resource packs (e.g. merchant_emerald_muncher.png)
+- Added option to treat merchants like babies to prevent exploits e.g. for infinite blood
+- Added EMI exclusion areas for market screen filter buttons (by Abbie)
