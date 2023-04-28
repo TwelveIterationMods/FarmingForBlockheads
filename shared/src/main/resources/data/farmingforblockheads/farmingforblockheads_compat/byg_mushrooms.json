@@ -1,0 +1,22 @@
+{
+	"modId": "byg",
+	"silent": true,
+	"group":
+	{
+		"name": "Oh The Biomes You'll Go Mushrooms",
+		"enabledByDefault": false,
+		"defaultPayment": 
+		{"item": "minecraft:emerald"},
+		"defaultCategory": "farmingforblockheads:other"
+	},
+	
+	"customEntries":
+	[
+		{"output": {"item": "byg:green_mushroom"}},
+		{"output": {"item": "byg:wood_blewit"}},
+		{"output": {"item": "byg:weeping_milkcap"}},
+		{"output": {"item": "byg:black_puff"}},
+		{"output": {"item": "byg:sythian_fungus"}},
+		{"output": {"item": "byg:imparius_mushroom"}}
+	]
+}
