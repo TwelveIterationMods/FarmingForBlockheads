@@ -1,7 +1,7 @@
-- Added FeedingTroughEvent, which allows other mods to customize the feeding of their animals for special handling
-- Increased the default feedingTroughMaxAnimals from 8 to 24
-- Clarified in Feeding Trough tooltip that it will only feed animals that are ready to mate
-- Optimized the feeding trough's ability to detect whether animals are ready to mate
-- Added IC2 Classic Rubber Sapling to the market
-- Fixed missing language keys in Fabric config screen
-- Fixed DEFAULT_MERCHANT_NAMES falsely showing up on Fabric config screen
+- Fixed IMC API registrations being ignored
+- Added auto-fill of market payment slot when an entry is selected #162 BlayTheNinth 3 minutes ago
+- Added support for custom merchant textures by merchant name via resource packs (e.g. merchant_emerald_muncher.png)
+- Added option to treat merchants like babies to prevent exploits e.g. for infinite blood
+- Added EMI exclusion areas for market screen filter buttons (by Abbie)
+- Added Azalea, Flowering Azalea, and Mangrove Propagule to market
+- Added Oh The Biomes You'll Go items to market (by DedicatedMedic)
