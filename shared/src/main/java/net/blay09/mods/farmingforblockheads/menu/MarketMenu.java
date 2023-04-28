@@ -11,6 +11,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -27,6 +28,9 @@ public class MarketMenu extends AbstractContainerMenu {
     private final DefaultContainer marketInputBuffer = new DefaultContainer(1);
     private final DefaultContainer marketOutputBuffer = new DefaultContainer(1);
     protected final List<MarketFakeSlot> marketSlots = new ArrayList<>();
+    private final int playerInventoryStart;
+    private final MarketPaymentSlot paymentSlot;
+    protected final DataSlot canBuy = DataSlot.standalone();
 
     private boolean sentItemList;
     protected IMarketEntry selectedEntry;
@@ -36,7 +40,7 @@ public class MarketMenu extends AbstractContainerMenu {
         this.player = playerInventory.player;
         this.pos = pos;
 
-        addSlot(new Slot(marketInputBuffer, 0, 23, 39));
+        addSlot(paymentSlot = new MarketPaymentSlot(marketInputBuffer, 0, 23, 39));
         addSlot(new MarketBuySlot(this, marketOutputBuffer, 0, 61, 39));
 
         Container fakeInventory = new DefaultContainer(4 * 3);
@@ -49,6 +53,7 @@ public class MarketMenu extends AbstractContainerMenu {
             }
         }
 
+        playerInventoryStart = slots.size();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
                 addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 92 + i * 18));
@@ -58,6 +63,9 @@ public class MarketMenu extends AbstractContainerMenu {
         for (int i = 0; i < 9; i++) {
             addSlot(new Slot(playerInventory, i, 8 + i * 18, 150));
         }
+
+        canBuy.set(1);
+        addDataSlot(canBuy);
     }
 
     @Override
@@ -110,7 +118,8 @@ public class MarketMenu extends AbstractContainerMenu {
 
     private boolean isPaymentItem(ItemStack itemStack) {
         return (selectedEntry == null && itemStack.getItem() == Items.EMERALD)
-                || (selectedEntry != null && selectedEntry.getCostItem().sameItem(itemStack) && ItemStack.isSameItemSameTags(selectedEntry.getCostItem(), itemStack));
+                || (selectedEntry != null && selectedEntry.getCostItem().sameItem(itemStack) && ItemStack.isSameItemSameTags(selectedEntry.getCostItem(),
+                itemStack));
     }
 
     @Override
@@ -136,7 +145,9 @@ public class MarketMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.level.getBlockState(pos).getBlock() == ModBlocks.market && player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= 64;
+        return player.level.getBlockState(pos).getBlock() == ModBlocks.market && player.distanceToSqr(pos.getX() + 0.5,
+                pos.getY() + 0.5,
+                pos.getZ() + 0.5) <= 64;
     }
 
     @Override
@@ -146,11 +157,40 @@ public class MarketMenu extends AbstractContainerMenu {
         } else {
             marketOutputBuffer.setItem(0, ItemStack.EMPTY);
         }
+        canBuy.set(isValidPaymentProvided() ? 1 : 0);
     }
 
-    public void selectMarketEntry(UUID entryId) {
+    public void selectMarketEntry(UUID entryId, boolean stack) {
         selectedEntry = MarketRegistry.getEntryById(entryId);
+        if (selectedEntry != null) {
+            ItemStack costItem = selectedEntry.getCostItem();
+            ItemStack currentInput = marketInputBuffer.getItem(0);
+            if (!costItem.sameItem(currentInput)) {
+                quickMoveStack(player, 0);
+                quickMoveCost(costItem, stack ? 64 : 1);
+            } else if (stack && currentInput.getCount() < 64) {
+                quickMoveCost(costItem, 64);
+            } else if(!stack && currentInput.getCount() > 1) {
+                quickMoveStack(player, 0);
+                quickMoveCost(costItem, 1);
+            }
+        }
         slotsChanged(marketInputBuffer);
+    }
+
+    private void quickMoveCost(ItemStack costItem, int desiredCount) {
+        paymentSlot.setMaxStackSizeOverride(desiredCount);
+        for (int i = playerInventoryStart; i < slots.size(); i++) {
+            ItemStack slotStack = slots.get(i).getItem();
+            if (slotStack.sameItem(costItem)) {
+                quickMoveStack(player, i);
+            }
+
+            if (paymentSlot.getItem().getCount() >= desiredCount) {
+                break;
+            }
+        }
+        paymentSlot.resetMaxStackSizeOverride();
     }
 
     @Nullable
@@ -164,6 +204,10 @@ public class MarketMenu extends AbstractContainerMenu {
     }
 
     public boolean isReadyToBuy() {
+        return isValidPaymentProvided();
+    }
+
+    public boolean isValidPaymentProvided() {
         ItemStack payment = marketInputBuffer.getItem(0);
         return selectedEntry != null && !payment.isEmpty() && isPaymentItem(payment) && payment.getCount() >= selectedEntry.getCostItem().getCount();
     }

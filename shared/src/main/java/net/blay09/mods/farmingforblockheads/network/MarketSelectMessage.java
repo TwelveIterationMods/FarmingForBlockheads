@@ -10,24 +10,28 @@ import java.util.UUID;
 public class MarketSelectMessage {
 
     private final UUID entryId;
+    private final boolean stack;
 
-    public MarketSelectMessage(UUID entryId) {
+    public MarketSelectMessage(UUID entryId, boolean stack) {
         this.entryId = entryId;
+        this.stack = stack;
     }
 
     public static void encode(MarketSelectMessage message, FriendlyByteBuf buf) {
         buf.writeUUID(message.entryId);
+        buf.writeBoolean(message.stack);
     }
 
     public static MarketSelectMessage decode(FriendlyByteBuf buf) {
         UUID entryId = buf.readUUID();
-        return new MarketSelectMessage(entryId);
+        boolean stack = buf.readBoolean();
+        return new MarketSelectMessage(entryId, stack);
     }
 
     public static void handle(ServerPlayer player, MarketSelectMessage message) {
         AbstractContainerMenu container = player.containerMenu;
         if (container instanceof MarketMenu marketMenu) {
-            marketMenu.selectMarketEntry(message.entryId);
+            marketMenu.selectMarketEntry(message.entryId, message.stack);
         }
     }
 
