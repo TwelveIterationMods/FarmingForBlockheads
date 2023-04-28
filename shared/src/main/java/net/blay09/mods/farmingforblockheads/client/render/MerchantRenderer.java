@@ -3,6 +3,7 @@ package net.blay09.mods.farmingforblockheads.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.entity.MerchantEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.VillagerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -11,9 +12,15 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class MerchantRenderer extends LivingEntityRenderer<MerchantEntity, VillagerModel<MerchantEntity>> {
 
     private static final ResourceLocation MERCHANT_TEXTURE = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/entity/merchant.png");
+    private static final Map<ResourceLocation, ResourceLocation> verifiedTextures = new HashMap<>();
 
     public MerchantRenderer(EntityRendererProvider.Context context) {
         super(context, new VillagerModel<>(context.bakeLayer(ModelLayers.VILLAGER)), 0.5f);
@@ -22,7 +29,17 @@ public class MerchantRenderer extends LivingEntityRenderer<MerchantEntity, Villa
 
     @Override
     public ResourceLocation getTextureLocation(MerchantEntity entity) {
-        return MERCHANT_TEXTURE;
+        ResourceLocation textureLocation = entity.getTextureLocation();
+        if (textureLocation == null) {
+            return MERCHANT_TEXTURE;
+        }
+
+        return verifiedTextures.computeIfAbsent(textureLocation, it -> {
+            if (Minecraft.getInstance().getResourceManager().getResource(it).isPresent()) {
+                return it;
+            }
+            return MERCHANT_TEXTURE;
+        });
     }
 
     @Override
