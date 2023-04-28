@@ -237,6 +237,11 @@ public class MerchantEntity extends PathfinderMob {
         return false;
     }
 
+    @Override
+    public boolean isBaby() {
+        return FarmingForBlockheadsConfig.getActive().treatMerchantsLikeBabies;
+    }
+
     public void setMarket(BlockPos marketPos, Direction facing) {
         this.marketPos = marketPos;
         this.marketEntityPos = marketPos.relative(facing.getOpposite());

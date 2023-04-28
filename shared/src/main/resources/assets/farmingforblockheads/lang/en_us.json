@@ -40,5 +40,5 @@
   "text.autoconfig.farmingforblockheads.option.fertilizerBonusCropChance": "Green Fertilizer Bonus Crop Chance",
   "text.autoconfig.farmingforblockheads.option.fertilizerBonusGrowthChance": "Red Fertilizer Bonus Growth Chance",
   "text.autoconfig.farmingforblockheads.option.fertilizerRegressionChance": "Fertilizer Regression Chance",
-  "text.autoconfig.farmingforblockheads.option.showRegistryWarnings": "Show Registry Warnings"
+  "text.autoconfig.farmingforblockheads.option.treatMerchantsLikeBabies": "Treat Merchants like Babies"
 }
