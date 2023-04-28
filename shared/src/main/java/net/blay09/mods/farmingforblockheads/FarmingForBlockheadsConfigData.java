@@ -31,9 +31,6 @@ public class FarmingForBlockheadsConfigData implements BalmConfigData {
     @Comment("The chance for Fertilized Farmland to turn back into regular Farmland (per provided bonus).")
     public double fertilizerRegressionChance = 0f; // 0-1
 
-    @Comment("Set this to true if you're a modpack dev to see Farming for Blockheads registry warnings in chat. Errors will always display.")
-    public boolean showRegistryWarnings = false;
-
     @Comment("If true, merchants will be considered babies (on a technical level only), which may resolve exploits based on merchant death loot (like blood)")
     public boolean treatMerchantsLikeBabies = false; // TODO default: true in 1.20
 
