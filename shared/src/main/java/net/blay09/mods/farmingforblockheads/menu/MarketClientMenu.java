@@ -40,7 +40,7 @@ public class MarketClientMenu extends MarketMenu {
                     IMarketEntry entry = marketSlot.getEntry();
                     if (entry != null) {
                         selectedEntry = entry;
-                        Balm.getNetworking().sendToServer(new MarketSelectMessage(entry.getEntryId()));
+                        Balm.getNetworking().sendToServer(new MarketSelectMessage(entry.getEntryId(), clickType == ClickType.QUICK_MOVE));
                     }
                 }
             }
@@ -128,6 +128,11 @@ public class MarketClientMenu extends MarketMenu {
         populateMarketSlots();
 
         setDirty(true);
+    }
+
+    @Override
+    public boolean isReadyToBuy() {
+        return canBuy.get() == 1;
     }
 
     @Nullable
