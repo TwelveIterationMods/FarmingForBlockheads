@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads.api;
 
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
 public interface IMarketRegistryDefaultHandler {
@@ -18,5 +19,7 @@ public interface IMarketRegistryDefaultHandler {
      * @deprecated Not actually called anymore, instead register will only receive a payment ItemStack if payment has been overridden for this group.
      */
     @Deprecated
-    ItemStack getDefaultPayment();
+    default ItemStack getDefaultPayment() {
+        return new ItemStack(Items.EMERALD);
+    }
 }
