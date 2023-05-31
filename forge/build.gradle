@@ -140,6 +140,9 @@ dependencies {
     compileOnly fg.deobf("curse.maven:jade-324717:$jade_forge_version")
     compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-$wthit_version")
     compileOnly fg.deobf("curse.maven:the-one-probe-245211:$theoneprobe_version")
+
+    compileOnly fg.deobf("dev.emi:emi-forge:$emi_version+$minecraft_version:api")
+    runtimeOnly fg.deobf("dev.emi:emi-forge:$emi_version+$minecraft_version")
 }
 
 apply from: 'dependencies.gradle'
