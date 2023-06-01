@@ -34,7 +34,9 @@ minecraft {
                 arg "-mixin.config=${mod_id}.mixins.json"
             }
 
-            property "mixin.env.disableRefMap", "true"
+//            property "mixin.env.disableRefMap", "true"
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property "mixin.debug.export", "true"
             property "mixin.debug.export.decompile", "false"
             property "mixin.debug.verbose", "true"
@@ -61,7 +63,9 @@ minecraft {
                 arg "-mixin.config=${mod_id}.mixins.json"
             }
 
-            property "mixin.env.disableRefMap", "true"
+//            property "mixin.env.disableRefMap", "true"
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property "mixin.debug.export", "true"
             property "mixin.debug.export.decompile", "false"
             property "mixin.debug.verbose", "true"
@@ -90,7 +94,9 @@ minecraft {
                 arg "-mixin.config=${mod_id}.mixins.json"
             }
 
-            property "mixin.env.disableRefMap", "true"
+//            property "mixin.env.disableRefMap", "true"
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property "mixin.debug.export", "true"
             property "mixin.debug.export.decompile", "false"
             property "mixin.debug.verbose", "true"
