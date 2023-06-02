@@ -30,6 +30,9 @@
     ],
     "emi": [
       "net.blay09.mods.farmingforblockheads.compat.emi.EmiIntegration"
+    ],
+    "jei_mod_plugin": [
+      "net.blay09.mods.farmingforblockheads.compat.jei.JEIAddon"
     ]
   },
   "mixins": [
