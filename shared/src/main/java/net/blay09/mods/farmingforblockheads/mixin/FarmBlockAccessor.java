@@ -15,7 +15,7 @@ public interface FarmBlockAccessor {
     }
 
     @Invoker
-    static boolean callIsUnderCrops(BlockGetter blockGetter, BlockPos pos) {
+    static boolean callShouldMaintainFarmland(BlockGetter blockGetter, BlockPos pos) {
         throw new AssertionError();
     }
 }

@@ -7,6 +7,7 @@ import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
 import net.blay09.mods.farmingforblockheads.menu.MarketClientMenu;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -29,7 +30,7 @@ public class MarketFilterButton extends Button {
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
 
         int texY = 14;
@@ -38,11 +39,10 @@ public class MarketFilterButton extends Button {
         } else if (isHovered) {
             texY += 20;
         }
-        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-        RenderSystem.setShaderTexture(0, ICONS);
-        blit(poseStack, getX(), getY(), 176, texY, width, height);
+        guiGraphics.setColor(1f, 1f, 1f, 1f);
+        guiGraphics.blit(ICONS, getX(), getY(), 176, texY, width, height);
 
-        Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(poseStack, category.getIconStack(), getX() + 2, getY() + 2);
+        guiGraphics.renderItem(category.getIconStack(), getX() + 2, getY() + 2);
     }
 
     public List<Component> getTooltipLines() {

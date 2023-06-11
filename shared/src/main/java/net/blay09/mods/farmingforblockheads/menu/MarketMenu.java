@@ -118,15 +118,14 @@ public class MarketMenu extends AbstractContainerMenu {
 
     private boolean isPaymentItem(ItemStack itemStack) {
         return (selectedEntry == null && itemStack.getItem() == Items.EMERALD)
-                || (selectedEntry != null && selectedEntry.getCostItem().sameItem(itemStack) && ItemStack.isSameItemSameTags(selectedEntry.getCostItem(),
-                itemStack));
+                || (selectedEntry != null && ItemStack.isSameItemSameTags(selectedEntry.getCostItem(), itemStack));
     }
 
     @Override
     public void broadcastChanges() {
         super.broadcastChanges();
 
-        if (!player.level.isClientSide && !sentItemList) {
+        if (!player.level().isClientSide && !sentItemList) {
             Balm.getNetworking().sendTo(player, new MarketListMessage(MarketRegistry.getGroupedEntries()));
             sentItemList = true;
         }
@@ -135,7 +134,7 @@ public class MarketMenu extends AbstractContainerMenu {
     @Override
     public void removed(Player player) {
         super.removed(player);
-        if (!player.level.isClientSide) {
+        if (!player.level().isClientSide) {
             ItemStack itemStack = this.marketInputBuffer.removeItemNoUpdate(0);
             if (!itemStack.isEmpty() && !player.addItem(itemStack)) {
                 player.drop(itemStack, false);
@@ -145,7 +144,7 @@ public class MarketMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.level.getBlockState(pos).getBlock() == ModBlocks.market && player.distanceToSqr(pos.getX() + 0.5,
+        return player.level().getBlockState(pos).getBlock() == ModBlocks.market && player.distanceToSqr(pos.getX() + 0.5,
                 pos.getY() + 0.5,
                 pos.getZ() + 0.5) <= 64;
     }
@@ -165,7 +164,7 @@ public class MarketMenu extends AbstractContainerMenu {
         if (selectedEntry != null) {
             ItemStack costItem = selectedEntry.getCostItem();
             ItemStack currentInput = marketInputBuffer.getItem(0);
-            if (!costItem.sameItem(currentInput)) {
+            if (!ItemStack.isSameItem(costItem, currentInput)) {
                 quickMoveStack(player, 0);
                 quickMoveCost(costItem, stack ? 64 : 1);
             } else if (stack && currentInput.getCount() < 64) {
@@ -182,7 +181,7 @@ public class MarketMenu extends AbstractContainerMenu {
         paymentSlot.setMaxStackSizeOverride(desiredCount);
         for (int i = playerInventoryStart; i < slots.size(); i++) {
             ItemStack slotStack = slots.get(i).getItem();
-            if (slotStack.sameItem(costItem)) {
+            if (ItemStack.isSameItem(slotStack, costItem)) {
                 quickMoveStack(player, i);
             }
 

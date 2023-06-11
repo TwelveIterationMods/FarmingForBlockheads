@@ -82,7 +82,7 @@ public class MerchantEntity extends PathfinderMob {
         MarketBlockEntity market = getMarketTileEntity();
         if (market != null) {
             Balm.getNetworking().openGui(player, market);
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
 
         return super.mobInteract(player, hand);
@@ -144,6 +144,7 @@ public class MerchantEntity extends PathfinderMob {
     @Override
     public void tick() {
         super.tick();
+        var level = level();
         if (!level.isClientSide) {
             if (tickCount % 20 == 0) {
                 if (!isMarketValid()) {
@@ -195,6 +196,7 @@ public class MerchantEntity extends PathfinderMob {
 
     @Override
     public void handleEntityEvent(byte id) {
+        var level = level();
         if (id == 12) {
             disappear();
         } else if (id == 13) {
@@ -226,11 +228,11 @@ public class MerchantEntity extends PathfinderMob {
 
     @Override
     protected void actuallyHurt(DamageSource damageSource, float damageAmount) {
-        if (!spawnDone && damageSource == level.damageSources().fall()) {
+        if (!spawnDone && damageSource == level().damageSources().fall()) {
             double posX = getX();
             double posY = getY();
             double posZ = getZ();
-            level.playLocalSound(posX, posY, posZ, getHurtSound(damageSource), SoundSource.NEUTRAL, 1f, 2f, false);
+            level().playLocalSound(posX, posY, posZ, getHurtSound(damageSource), SoundSource.NEUTRAL, 1f, 2f, false);
             spawnDone = true;
             return;
         }
@@ -286,7 +288,7 @@ public class MerchantEntity extends PathfinderMob {
             return null;
         }
 
-        BlockEntity tileEntity = level.getBlockEntity(marketPos);
+        BlockEntity tileEntity = level().getBlockEntity(marketPos);
         if (tileEntity instanceof MarketBlockEntity market) {
             return market;
         }
@@ -295,7 +297,7 @@ public class MerchantEntity extends PathfinderMob {
     }
 
     private boolean isMarketValid() {
-        return marketPos != null && level.getBlockState(marketPos).getBlock() == ModBlocks.market;
+        return marketPos != null && level().getBlockState(marketPos).getBlock() == ModBlocks.market;
     }
 
     public void setToFacingAngle() {
@@ -310,6 +312,7 @@ public class MerchantEntity extends PathfinderMob {
         double posY = getY();
         double posZ = getZ();
 
+        var level = level();
         level.playLocalSound(posX, posY, posZ, SoundEvents.FIRECHARGE_USE, SoundSource.NEUTRAL, 1f, 1f, false);
         for (int i = 0; i < 50; i++) {
             level.addParticle(ParticleTypes.FIREWORK,

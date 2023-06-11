@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -102,7 +101,7 @@ public class FertilizedFarmlandBlock extends FarmBlock implements CustomFarmBloc
     private final List<FarmlandTrait> traits;
 
     public FertilizedFarmlandBlock(FarmlandTrait... traits) {
-        super(BlockBehaviour.Properties.of(Material.DIRT).sound(SoundType.GRAVEL).strength(0.6f).randomTicks());
+        super(BlockBehaviour.Properties.of().sound(SoundType.GRAVEL).strength(0.6f).randomTicks());
         this.traits = Lists.newArrayList(traits);
     }
 
@@ -146,7 +145,7 @@ public class FertilizedFarmlandBlock extends FarmBlock implements CustomFarmBloc
         if (!FarmBlockAccessor.callIsNearWater(level, pos) && !level.isRainingAt(pos.above())) {
             if (moisture > 0) {
                 level.setBlock(pos, state.setValue(MOISTURE, moisture - 1), 2);
-            } else if (!FarmBlockAccessor.callIsUnderCrops(level, pos) && traits.stream().noneMatch(FarmlandTrait::isStable)) {
+            } else if (!FarmBlockAccessor.callShouldMaintainFarmland(level, pos) && traits.stream().noneMatch(FarmlandTrait::isStable)) {
                 turnToDirt(null, state, level, pos);
             }
         } else if (moisture < 7) {

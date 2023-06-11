@@ -1,13 +1,13 @@
 package net.blay09.mods.farmingforblockheads;
 
-import me.shedaniel.autoconfig.annotation.Config;
 import net.blay09.mods.balm.api.config.BalmConfigData;
 import net.blay09.mods.balm.api.config.Comment;
+import net.blay09.mods.balm.api.config.Config;
 
 import java.util.List;
 import java.util.Random;
 
-@Config(name = FarmingForBlockheads.MOD_ID)
+@Config(FarmingForBlockheads.MOD_ID)
 public class FarmingForBlockheadsConfigData implements BalmConfigData {
 
     @Comment("List of names the merchant can have.")

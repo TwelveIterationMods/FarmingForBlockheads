@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -39,7 +38,7 @@ public class FeedingTroughBlock extends BaseEntityBlock {
     private static final VoxelShape RENDER_SHAPE = SHAPE.move(0, 0.01, 0);
 
     protected FeedingTroughBlock() {
-        super(BlockBehaviour.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(2f));
+        super(BlockBehaviour.Properties.of().sound(SoundType.WOOD).strength(2f));
     }
 
     @Nullable

@@ -17,6 +17,7 @@ import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -67,11 +68,11 @@ public class MarketCategory implements IRecipeCategory<IMarketEntry> {
     }
 
     @Override
-    public void draw(IMarketEntry recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
+    public void draw(IMarketEntry recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         Component costText = getFormattedCostString(recipe);
-        Font fontRenderer = Minecraft.getInstance().font;
-        int stringWidth = fontRenderer.width(costText);
-        fontRenderer.drawShadow(poseStack, costText.getVisualOrderText(), 42 - stringWidth / 2f, 35, 0xFFFFFF);
+        Font font = Minecraft.getInstance().font;
+        int stringWidth = font.width(costText);
+        guiGraphics.drawString(font, costText.getVisualOrderText(), 42 - stringWidth / 2, 35, 0xFFFFFF, true);
     }
 
     private Component getFormattedCostString(IMarketEntry entry) {

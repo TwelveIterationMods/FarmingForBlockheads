@@ -29,7 +29,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -46,7 +45,7 @@ public class ChickenNestBlock extends BaseEntityBlock {
     private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 3, 15);
 
     protected ChickenNestBlock() {
-        super(BlockBehaviour.Properties.of(Material.WOOD).sound(SoundType.WET_GRASS).strength(1f));
+        super(BlockBehaviour.Properties.of().sound(SoundType.WET_GRASS).strength(1f));
     }
 
     @Override

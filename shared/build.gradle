@@ -26,7 +26,7 @@ dependencies {
 
     compileOnly "mezz.jei:jei-$jei_minecraft_version-common-api:$jei_version"
 
-    compileOnly "dev.emi:emi-xplat-mojmap:$emi_version+$minecraft_version:api"
+    compileOnly "dev.emi:emi-xplat-mojmap:$emi_version:api"
 
     compileOnly "mcp.mobius.waila:wthit-api:mojmap-$wthit_version"
 }
@@ -65,8 +65,8 @@ publishing {
 
     repositories {
         maven {
-            var releasesRepoUrl = "https://maventwelveiterations.com/repository/maven-releases/"
-            var snapshotsRepoUrl = "https://maventwelveiterations.com/repository/maven-snapshots/"
+            var releasesRepoUrl = "https://maven.twelveiterations.com/repository/maven-releases/"
+            var snapshotsRepoUrl = "https://maven.twelveiterations.com/repository/maven-snapshots/"
             url = uri(version.toString().endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl)
             name = "twelveIterationsNexus"
             credentials(PasswordCredentials)

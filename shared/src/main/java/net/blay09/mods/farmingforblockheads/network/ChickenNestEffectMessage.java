@@ -23,7 +23,7 @@ public class ChickenNestEffectMessage {
     }
 
     public static void handle(Player player, ChickenNestEffectMessage message) {
-        player.level.addParticle(ParticleTypes.EXPLOSION, message.pos.getX() + 0.5f, message.pos.getY() + 0.5f, message.pos.getZ() + 0.5f, 0, 0, 0);
+        player.level().addParticle(ParticleTypes.EXPLOSION, message.pos.getX() + 0.5f, message.pos.getY() + 0.5f, message.pos.getZ() + 0.5f, 0, 0, 0);
     }
 
 }

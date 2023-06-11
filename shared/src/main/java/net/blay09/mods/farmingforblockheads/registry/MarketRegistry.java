@@ -81,7 +81,7 @@ public class MarketRegistry {
     @Nullable
     public static IMarketEntry getEntryFor(ItemStack outputItem) {
         for (IMarketEntry entry : INSTANCE.entries.values()) {
-            if (entry.getOutputItem().sameItem(outputItem) && ItemStack.isSameItemSameTags(entry.getOutputItem(), outputItem) && outputItem.getCount() == entry.getOutputItem().getCount()) {
+            if (ItemStack.isSameItemSameTags(entry.getOutputItem(), outputItem) && outputItem.getCount() == entry.getOutputItem().getCount()) {
                 return entry;
             }
         }

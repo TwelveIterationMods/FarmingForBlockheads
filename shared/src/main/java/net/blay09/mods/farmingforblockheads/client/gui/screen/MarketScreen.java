@@ -13,6 +13,7 @@ import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.language.I18n;
@@ -25,6 +26,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 // TODO @MouseTweaksIgnore
 public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
@@ -167,21 +169,21 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(poseStack);
-        super.render(poseStack, mouseX, mouseY, partialTicks);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        renderBackground(guiGraphics);
+        super.render(guiGraphics, mouseX, mouseY, partialTicks);
 
         for (MarketFilterButton sortButton : filterButtons) {
             if (sortButton.isMouseOver(mouseX, mouseY) && sortButton.active) {
-                renderComponentTooltip(poseStack, sortButton.getTooltipLines(), mouseX, mouseY);
+                guiGraphics.renderTooltip(font, sortButton.getTooltipLines(), Optional.empty(), mouseX, mouseY);
             }
         }
 
-        renderTooltip(poseStack, mouseX, mouseY);
+        renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         if (clientContainer.isDirty()) {
             updateCategoryFilters();
             recalculateScrollBar();
@@ -190,11 +192,10 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
 
         Font font = minecraft.font;
 
-        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        blit(poseStack, leftPos, topPos - 10, 0, 0, imageWidth, imageHeight + 10);
+        guiGraphics.setColor(1f, 1f, 1f, 1f);
+        guiGraphics.blit(TEXTURE, leftPos, topPos - 10, 0, 0, imageWidth, imageHeight + 10);
         if (menu.getSelectedEntry() != null && !menu.isReadyToBuy()) {
-            blit(poseStack, leftPos + 43, topPos + 40, 176, 0, 14, 14);
+            guiGraphics.blit(TEXTURE, leftPos + 43, topPos + 40, 176, 0, 14, 14);
         }
 
         if (mouseClickY != -1) {
@@ -208,21 +209,21 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
             }
         }
 
-        font.drawShadow(poseStack, I18n.get("container.farmingforblockheads.market"), leftPos + 10, topPos + 10, 0xFFFFFF);
+        guiGraphics.drawString(font, I18n.get("container.farmingforblockheads.market"), leftPos + 10, topPos + 10, 0xFFFFFF, true);
 
         if (menu.getSelectedEntry() == null) {
-            drawCenteredString(poseStack, font, I18n.get("gui.farmingforblockheads:market.no_selection"), leftPos + 49, topPos + 65, 0xFFFFFF);
+            guiGraphics.drawCenteredString(font, I18n.get("gui.farmingforblockheads:market.no_selection"), leftPos + 49, topPos + 65, 0xFFFFFF);
         } else {
-            drawCenteredString(poseStack, font, getPriceText(menu.getSelectedEntry()), leftPos + 49, topPos + 65, 0xFFFFFF);
+            guiGraphics.drawCenteredString(font, getPriceText(menu.getSelectedEntry()), leftPos + 49, topPos + 65, 0xFFFFFF);
         }
 
-        fill(poseStack, scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
+        guiGraphics.fill(scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
 
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
     }
 
     @Override
-    protected void renderLabels(PoseStack poseStack, int x, int y) {
+    protected void renderLabels(GuiGraphics guiGraphics, int x, int y) {
     }
 
     public Collection<MarketFilterButton> getFilterButtons() {

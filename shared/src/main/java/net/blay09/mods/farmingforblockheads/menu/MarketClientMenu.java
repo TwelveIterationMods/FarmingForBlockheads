@@ -35,7 +35,7 @@ public class MarketClientMenu extends MarketMenu {
     public void clicked(int slotNumber, int dragType, ClickType clickType, Player player) {
         if (slotNumber >= 0 && slotNumber < slots.size()) {
             Slot slot = slots.get(slotNumber);
-            if (player.level.isClientSide) {
+            if (player.level().isClientSide) {
                 if (slot instanceof MarketFakeSlot marketSlot) {
                     IMarketEntry entry = marketSlot.getEntry();
                     if (entry != null) {
