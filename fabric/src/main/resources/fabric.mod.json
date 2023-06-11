@@ -9,7 +9,7 @@
     "BlayTheNinth"
   ],
   "contact": {
-    "homepage": "https://blay09.net/mods/farmingforblockheads",
+    "homepage": "https://mods.twelveiterations.com/mc/farmingforblockheads",
     "sources": "https://github.com/TwelveIterationMods/FarmingForBlockheads",
     "issues": "https://github.com/TwelveIterationMods/FarmingForBlockheads/issues"
   },
@@ -36,15 +36,13 @@
     "farmingforblockheads.mixins.json"
   ],
   "depends": {
-    "cloth-config2": ">=9.0.0",
-    "balm-fabric": ">=6.0.0",
-    "fabricloader": ">=0.14.7",
+    "balm-fabric": ">=7.0.0",
+    "fabricloader": ">=0.14.21",
     "fabric-api": "*",
-    "minecraft": ">=1.19.4",
+    "minecraft": ">=1.20",
     "java": ">=17"
   },
   "suggests": {
-    "modmenu": "*"
   },
   "custom": {
     "modmenu": {

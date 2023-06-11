@@ -1,5 +1,3 @@
-- Fixed IMC API registrations being ignored
-- Added auto-fill of market payment slot when an entry is selected #162 BlayTheNinth 3 minutes ago
-- Added support for custom merchant textures by merchant name via resource packs (e.g. merchant_emerald_muncher.png)
-- Added option to treat merchants like babies to prevent exploits e.g. for infinite blood
-- Added EMI exclusion areas for market screen filter buttons (by Abbie)
+- Updated to Minecraft 1.20
+- Added EMI support (by Lgmrszd)
+- Made JEI support work on Fabric too (by Lgmrszd)
