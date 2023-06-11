@@ -28,7 +28,8 @@ dependencies {
 
 	modCompileOnly "curse.maven:modmenu-308702:$modmenu_version"
 
-	modCompileOnly "mezz.jei:jei-$jei_minecraft_version-fabric-api:$jei_version"
+	modImplementation "mezz.jei:jei-$jei_minecraft_version-common-api:$jei_version"
+	modImplementation "mezz.jei:jei-$jei_minecraft_version-fabric-api:$jei_version"
 	if (jei_minecraft_version == minecraft_version) {
 		modRuntimeOnly "mezz.jei:jei-$jei_minecraft_version-fabric:$jei_version"
 	}
@@ -37,6 +38,9 @@ dependencies {
 
 	modCompileOnly "curse.maven:jade-324717:$jade_forge_version"
 	modCompileOnly "mcp.mobius.waila:wthit-api:mojmap-$wthit_version"
+
+	modCompileOnly "dev.emi:emi-fabric:$emi_version+$minecraft_version:api"
+	modLocalRuntime "dev.emi:emi-fabric:$emi_version+$minecraft_version"
 }
 
 apply from: 'dependencies.gradle'

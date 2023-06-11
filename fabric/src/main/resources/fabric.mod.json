@@ -29,7 +29,10 @@
       "net.blay09.mods.farmingforblockheads.compat.ModMenuIntegration"
     ],
     "emi": [
-      "net.blay09.mods.farmingforblockheads.compat.EmiIntegration"
+      "net.blay09.mods.farmingforblockheads.compat.emi.EmiIntegration"
+    ],
+    "jei_mod_plugin": [
+      "net.blay09.mods.farmingforblockheads.compat.jei.JEIAddon"
     ]
   },
   "mixins": [
