@@ -34,7 +34,9 @@ minecraft {
                 arg "-mixin.config=${mod_id}.mixins.json"
             }
 
-            property "mixin.env.disableRefMap", "true"
+//            property "mixin.env.disableRefMap", "true"
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property "mixin.debug.export", "true"
             property "mixin.debug.export.decompile", "false"
             property "mixin.debug.verbose", "true"
@@ -61,7 +63,9 @@ minecraft {
                 arg "-mixin.config=${mod_id}.mixins.json"
             }
 
-            property "mixin.env.disableRefMap", "true"
+//            property "mixin.env.disableRefMap", "true"
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property "mixin.debug.export", "true"
             property "mixin.debug.export.decompile", "false"
             property "mixin.debug.verbose", "true"
@@ -90,7 +94,9 @@ minecraft {
                 arg "-mixin.config=${mod_id}.mixins.json"
             }
 
-            property "mixin.env.disableRefMap", "true"
+//            property "mixin.env.disableRefMap", "true"
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property "mixin.debug.export", "true"
             property "mixin.debug.export.decompile", "false"
             property "mixin.debug.verbose", "true"
@@ -131,6 +137,7 @@ dependencies {
     implementation "org.jetbrains:annotations:22.0.0"
 
     compileOnly fg.deobf("mezz.jei:jei-$jei_minecraft_version-common-api:$jei_version")
+    compileOnly fg.deobf("mezz.jei:jei-$jei_minecraft_version-forge-api:$jei_version")
     if (jei_minecraft_version == minecraft_version) {
         runtimeOnly fg.deobf("mezz.jei:jei-$jei_minecraft_version-forge:$jei_version")
     }
@@ -140,6 +147,9 @@ dependencies {
     compileOnly fg.deobf("curse.maven:jade-324717:$jade_forge_version")
     compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-$wthit_version")
     compileOnly fg.deobf("curse.maven:the-one-probe-245211:$theoneprobe_version")
+
+    compileOnly fg.deobf("dev.emi:emi-forge:$emi_version+$minecraft_version:api")
+    runtimeOnly fg.deobf("dev.emi:emi-forge:$emi_version+$minecraft_version")
 }
 
 apply from: 'dependencies.gradle'
