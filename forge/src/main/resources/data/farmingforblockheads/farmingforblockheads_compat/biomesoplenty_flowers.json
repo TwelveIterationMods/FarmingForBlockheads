@@ -62,12 +62,22 @@
     },
     {
       "output": {
+        "item": "biomesoplenty:tall_lavender"
+      }
+    },
+    {
+      "output": {
         "item": "biomesoplenty:blue_hydrangea"
       }
     },
     {
       "output": {
         "item": "biomesoplenty:goldenrod"
+      }
+    },
+    {
+      "output": {
+        "item": "biomesoplenty:icy_iris"
       }
     }
   ]
