@@ -22,6 +22,11 @@
     },
     {
       "output": {
+        "item": "biomesoplenty:rainbow_birch_sapling"
+      }
+    },
+    {
+      "output": {
         "item": "biomesoplenty:yellow_autumn_sapling"
       }
     },
