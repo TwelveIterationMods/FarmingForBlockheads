@@ -11,7 +11,14 @@
   },
   "customEntries": [
     {
-      "output": "biomesoplenty:glowshroom"
+      "output": {
+        "item": "biomesoplenty:toadstool"
+      }
+    },
+	{
+      "output": {
+        "item": "biomesoplenty:glowshroom"
+      }
     }
   ]
 }
