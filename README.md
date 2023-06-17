@@ -40,6 +40,9 @@ Enabled by Default:
     * Vanilla Seeds
     * Vanilla Saplings
     * Bone Meal
+* Pam's Harvestcraft 2
+   * Pam's HarvestCraft 2 Crops Seeds
+   * Pam's HarvestCraft 2 Trees Saplings
 * Biomes O' Plenty
     * BiomesOPlenty Saplings
 * Create
