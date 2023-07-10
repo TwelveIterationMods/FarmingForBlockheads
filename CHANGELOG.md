@@ -1,7 +1,1 @@
-- Fixed IMC API registrations being ignored
-- Added auto-fill of market payment slot when an entry is selected #162 BlayTheNinth 3 minutes ago
-- Added support for custom merchant textures by merchant name via resource packs (e.g. merchant_emerald_muncher.png)
-- Added option to treat merchants like babies to prevent exploits e.g. for infinite blood
-- Added EMI exclusion areas for market screen filter buttons (by Abbie)
-- Added Azalea, Flowering Azalea, and Mangrove Propagule to market
-- Added Oh The Biomes You'll Go items to market (by DedicatedMedic)
+- Updated Oh The Biomes You'll Go support (by LiskoSlayer63)
