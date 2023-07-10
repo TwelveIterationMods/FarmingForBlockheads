@@ -1,6 +1,1 @@
-- Updated to Minecraft 1.20
-- Added EMI support (by Lgmrszd)
-- Made JEI support work on Fabric too (by Lgmrszd)
-- Enabled `treatMerchantsLikeBabies` option by default
-- Fixed Oh The Biomes You'll Go support
-- Updated Biomes O' Plenty support
+- Fixed config failing to load merchantNames
