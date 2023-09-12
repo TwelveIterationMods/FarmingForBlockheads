@@ -1,2 +1,3 @@
 - Added missing seeds to Pam's Harvestcraft compatibility
 - Fixed a dupe bug related to some special crops
+- Added Japanese Translation (by ALFEECLARE)
