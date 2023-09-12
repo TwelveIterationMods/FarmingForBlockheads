@@ -28,6 +28,9 @@
       "output": "minecraft:dark_oak_sapling"
     },
     {
+      "output": "minecraft:cherry_sapling"
+    },
+    {
       "output": "minecraft:azalea",
       "payment": {
         "item": "minecraft:emerald",
