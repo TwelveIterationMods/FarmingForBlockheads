@@ -1,1 +1,2 @@
-- Updated Oh The Biomes You'll Go support (by LiskoSlayer63)
+- Added missing seeds to Pam's Harvestcraft compatibility
+- Fixed a dupe bug related to some special crops
