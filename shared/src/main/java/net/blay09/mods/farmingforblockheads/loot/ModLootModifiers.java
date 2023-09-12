@@ -35,7 +35,7 @@ public class ModLootModifiers {
             }
 
             if (plant.getBlock() instanceof CropBlock crop && !crop.isMaxAge(plant)) {
-                return;
+                return loot;
             }
 
             BlockPos posBelow = pos.below();
