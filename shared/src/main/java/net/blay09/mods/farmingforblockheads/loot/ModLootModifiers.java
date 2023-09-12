@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
@@ -30,6 +31,10 @@ public class ModLootModifiers {
             // block state below as the world in the context is the server world, not the world gen region
             ChunkPos chunkPos = new ChunkPos(pos);
             if (!level.getChunkSource().hasChunk(chunkPos.x, chunkPos.z)) {
+                return;
+            }
+
+            if (plant.getBlock() instanceof CropBlock crop && !crop.isMaxAge(plant)) {
                 return;
             }
 
