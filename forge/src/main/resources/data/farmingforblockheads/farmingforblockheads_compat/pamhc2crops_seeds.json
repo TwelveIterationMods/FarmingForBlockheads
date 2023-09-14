@@ -399,6 +399,96 @@
       "output": {
         "item": "pamhc2crops:zucchiniseeditem"
       }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:wolfberryseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:barrelcactusseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:chiaseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:nopalesseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:yuccaseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:papyrusseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:cloudberryseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:truffleseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:nettlesseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:lotusseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:cattailseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:sorghumseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:calabashseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:bokchoyseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:guaranaseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:canolaseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:aloeseeditem"
+      }
+    },
+    {
+      "output": {
+        "item": "pamhc2crops:alfalfaseeditem"
+      }
     }
   ]
 }
