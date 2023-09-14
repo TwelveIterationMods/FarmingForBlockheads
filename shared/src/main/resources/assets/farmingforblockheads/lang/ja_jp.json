@@ -29,7 +29,7 @@
   "tooltip.farmingforblockheads:fertilizer_stable": "踏まれても破壊されません",
   "tooltip.farmingforblockheads:trait_stable": "踏まれても破壊されません",
   "tooltip.farmingforblockheads:trait_healthy": "成長が早くなります",
-  "tooltip.farmingforblockheads:trait_rich": "収穫が増えます"
+  "tooltip.farmingforblockheads:trait_rich": "収穫が増えます",
   "farmingforblockheads.subtitle.falling": "何かがもの凄い高さから落ちてきた",
   "entity.farmingforblockheads.merchant": "商人",
   "config.farmingforblockheads.title": "Farming for Blockheads",
