@@ -20,7 +20,7 @@ public class FarmlandHandler {
             BlockState farmland = level.getBlockState(event.getPos().below());
             if (farmland.getBlock() instanceof FertilizedFarmlandBlock farmlandBlock) {
                 if (Math.random() <= farmlandBlock.getDoubleGrowthChance()) {
-                    if (growable.isValidBonemealTarget(level, pos, plant, level.isClientSide)) {
+                    if (growable.isValidBonemealTarget(level, pos, plant)) {
                         growable.performBonemeal(((ServerLevel) level), level.getRandom(), pos, plant);
                         level.levelEvent(2005, pos, 0);
                         rollRegression(level, pos.below(), farmland);

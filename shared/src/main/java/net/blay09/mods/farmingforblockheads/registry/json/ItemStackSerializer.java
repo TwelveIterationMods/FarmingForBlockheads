@@ -3,6 +3,7 @@ package net.blay09.mods.farmingforblockheads.registry.json;
 import com.google.gson.*;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.util.GsonHelper;
@@ -15,11 +16,11 @@ public class ItemStackSerializer implements JsonDeserializer<ItemStack>, JsonSer
     @Override
     public ItemStack deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         if (json.isJsonPrimitive()) {
-            Item item = GsonHelper.convertToItem(json, "item");
+            Holder<Item> item = GsonHelper.convertToItem(json, "item");
             return new ItemStack(item);
         } else {
             JsonObject jsonObject = json.getAsJsonObject();
-            Item item = GsonHelper.getAsItem(jsonObject, "item");
+            Holder<Item> item = GsonHelper.getAsItem(jsonObject, "item");
             int count = GsonHelper.getAsInt(jsonObject, "count", 1);
             ItemStack itemStack = new ItemStack(item, count);
 

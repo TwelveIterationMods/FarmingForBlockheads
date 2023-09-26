@@ -2,7 +2,6 @@ package net.blay09.mods.farmingforblockheads.client.gui.screen;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.blay09.mods.balm.mixin.ScreenAccessor;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
@@ -103,9 +102,9 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-        if (Math.abs(delta) > 0f) {
-            setCurrentOffset(delta > 0 ? currentOffset - 1 : currentOffset + 1);
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+        if (Math.abs(deltaY) > 0f) {
+            setCurrentOffset(deltaY > 0 ? currentOffset - 1 : currentOffset + 1);
             return true;
         }
 
@@ -170,7 +169,6 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(guiGraphics);
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
 
         for (MarketFilterButton sortButton : filterButtons) {
