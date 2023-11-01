@@ -12,7 +12,7 @@
   "item.farmingforblockheads.yellow_fertilizer": "Gelber Dünger",
   "itemGroup.farmingforblockheads.farmingforblockheads": "Farming for Blockheads",
   "container.farmingforblockheads.market": "Markt",
-  "commands.farmingforblockheads:reload.success": "Farming for Blockheads-Register neu geladen.",
+  "commands.farmingforblockheads:reload.success": "Farming for Blockheads Registrierung wurde neu geladen.",
   "gui.farmingforblockheads:market.no_selection": "Keine Auswahl",
   "gui.farmingforblockheads:market.tooltip_cost": "Kosten: %s",
   "gui.farmingforblockheads:market.tooltip_seeds": "Samen",
