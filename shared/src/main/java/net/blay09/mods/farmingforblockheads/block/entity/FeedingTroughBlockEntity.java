@@ -108,24 +108,34 @@ public class FeedingTroughBlockEntity extends BalmBlockEntity implements BalmCon
         for (Class<? extends Animal> key : keys) {
             List<Animal> list = map.get(key);
             if (list.size() < FarmingForBlockheadsConfig.getActive().feedingTroughMaxAnimals) {
-                if (list.stream().filter(p -> isSubmissiveAndBreedable(p, itemStack)).count() >= 2) {
-                    for (Animal entity : list) {
-                        if ( isSubmissiveAndBreedable(entity, itemStack)) {
-                            FeedingTroughEvent event = new FeedingTroughEvent(this, entity, itemStack);
-                            Balm.getEvents().fireEvent(event);
-                            if (!event.isCanceled()) {
-                                entity.setInLove(null);
-                                ContainerUtils.extractItem(container, 0, 1, false);
-                                setChanged();
-                            }
-                            if (event.shouldPlayEffect()) {
-                                Balm.getNetworking().sendToTracking(((ServerLevel) level), worldPosition, new ChickenNestEffectMessage(worldPosition));
-                            }
+                final var breedingCandidates = new ArrayList<Animal>();
+                for (Animal animal : list) {
+                    if (isSubmissiveAndBreedable(animal, itemStack)) {
+                        breedingCandidates.add(animal);
+                        if (breedingCandidates.size() >= 2) {
                             break;
                         }
                     }
                 }
+                if (breedingCandidates.size() == 2) {
+                    for (Animal animal : breedingCandidates) {
+                        feed(animal, itemStack);
+                    }
+                }
             }
+        }
+    }
+
+    private void feed(Animal animal, ItemStack itemStack) {
+        FeedingTroughEvent event = new FeedingTroughEvent(this, animal, itemStack);
+        Balm.getEvents().fireEvent(event);
+        if (!event.isCanceled()) {
+            animal.setInLove(null);
+            ContainerUtils.extractItem(container, 0, 1, false);
+            setChanged();
+        }
+        if (event.shouldPlayEffect()) {
+            Balm.getNetworking().sendToTracking(((ServerLevel) level), worldPosition, new ChickenNestEffectMessage(worldPosition));
         }
     }
 
