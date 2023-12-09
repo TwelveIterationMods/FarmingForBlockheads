@@ -1,0 +1,17 @@
+{
+  "modId": "cinderscapes",
+  "silent": true,
+  "group": {
+    "name": "Cinderscapes Berries",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:seeds"
+  },
+  "customEntries": [
+    {
+      "output": "cinderscapes:bramble_berries"
+    }
+  ]
+}

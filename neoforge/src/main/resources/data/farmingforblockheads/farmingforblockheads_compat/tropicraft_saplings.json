@@ -1,0 +1,32 @@
+{
+  "modId": "tropicraft",
+  "silent": true,
+  "group": {
+    "name": "Tropicraft Saplings",
+    "enabledByDefault": true,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:saplings"
+  },
+  "customEntries": [
+    {
+      "output": "tropicraft:grapefruit_sapling"
+    },
+    {
+      "output": "tropicraft:lemon_sapling"
+    },
+    {
+      "output": "tropicraft:lime_sapling"
+    },
+    {
+      "output": "tropicraft:orange_sapling"
+    },
+    {
+      "output": "tropicraft:mahogany_sapling"
+    },
+    {
+      "output": "tropicraft:palm_sapling"
+    }
+  ]
+}

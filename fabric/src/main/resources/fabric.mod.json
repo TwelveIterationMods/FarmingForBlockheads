@@ -1,47 +1,49 @@
 {
   "schemaVersion": 1,
-  "id": "farmingforblockheads",
+  "id": "${mod_id}",
   "version": "${version}",
 
-  "name": "Farming for Blockheads",
-  "description": "Adds a seed market with a search bar and a scrolling grid and more farming utilities.",
+  "name": "${mod_name}",
+  "description": "${description}",
   "authors": [
     "BlayTheNinth"
   ],
   "contact": {
-    "homepage": "https://mods.twelveiterations.com/mc/farmingforblockheads",
-    "sources": "https://github.com/TwelveIterationMods/FarmingForBlockheads",
-    "issues": "https://github.com/TwelveIterationMods/FarmingForBlockheads/issues"
+    "homepage": "${homepage}",
+    "sources": "${sources}",
+    "issues": "${issues}"
   },
 
-  "license": "All Rights Reserved",
-  "icon": "farmingforblockheads-icon.png",
+  "license": "${license}",
+  "icon": "${mod_id}.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.blay09.mods.farmingforblockheads.FabricFarmingForBlockheads"
+      "net.blay09.mods.${mod_id}.fabric.Fabric${mod_main}"
     ],
     "client": [
-      "net.blay09.mods.farmingforblockheads.client.FabricFarmingForBlockheadsClient"
+      "net.blay09.mods.${mod_id}.fabric.client.Fabric${mod_main}Client"
     ],
     "modmenu": [
-      "net.blay09.mods.farmingforblockheads.compat.ModMenuIntegration"
+      "net.blay09.mods.${mod_id}.fabric.compat.ModMenuIntegration"
     ],
     "emi": [
-      "net.blay09.mods.farmingforblockheads.compat.emi.EmiIntegration"
+      "net.blay09.mods.${mod_id}.compat.emi.EmiIntegration"
     ],
     "jei_mod_plugin": [
-      "net.blay09.mods.farmingforblockheads.compat.jei.JEIAddon"
+      "net.blay09.mods.${mod_id}.compat.jei.JEIAddon"
     ]
   },
   "mixins": [
-    "farmingforblockheads.mixins.json"
+    "${mod_id}.mixins.json",
+    "${mod_id}.fabric.mixins.json"
   ],
+
   "depends": {
-    "balm-fabric": ">=8.0.0",
-    "fabricloader": ">=0.14.22",
+    "fabricloader": ">=0.14",
     "fabric-api": "*",
+    "balm-fabric": "*",
     "minecraft": ">=1.20.2",
     "java": ">=17"
   },

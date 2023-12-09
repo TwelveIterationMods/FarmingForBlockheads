@@ -1,0 +1,26 @@
+{
+  "modId": "theabyss",
+  "silent": true,
+  "group": {
+    "name": "The Abyss Soil",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:other"
+  },
+  "customEntries": [
+    {
+      "output": "theabyss:tantra_grass"
+    },
+    {
+      "output": "theabyss:infected_grass"
+    },
+    {
+      "output": "theabyss:roma_mud"
+    },
+    {
+      "output": "theabyss:roma_mud_2"
+    }
+  ]
+}

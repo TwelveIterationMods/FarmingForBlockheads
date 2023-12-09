@@ -1,6 +1,7 @@
-package net.blay09.mods.farmingforblockheads;
+package net.blay09.mods.farmingforblockheads.fabric;
 
 import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.fabricmc.api.ModInitializer;
 
 public class FabricFarmingForBlockheads implements ModInitializer {

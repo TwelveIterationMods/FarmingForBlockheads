@@ -1,11 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.blay09.mods.farmingforblockheads.mixin",
+  "package": "net.blay09.mods.farmingforblockheads.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "farmingforblockheads.refmap.json",
+  "refmap": "${mod_id}.refmap.json",
   "mixins": [
-    "FarmBlockAccessor"
   ],
   "client": [
   ],

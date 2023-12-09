@@ -1,0 +1,17 @@
+{
+  "modId": "outer_end",
+  "silent": true,
+  "group": {
+    "name": "Outer End Soil",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:other"
+  },
+  "customEntries": [
+    {
+      "output": "outer_end:azure_grass"
+    }
+  ]
+}

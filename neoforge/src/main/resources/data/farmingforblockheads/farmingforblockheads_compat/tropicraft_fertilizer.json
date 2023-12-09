@@ -1,0 +1,17 @@
+{
+  "modId": "tropicraft",
+  "silent": true,
+  "group": {
+    "name": "Tropicraft Fertilizer",
+    "enabledByDefault": true,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:other"
+  },
+  "customEntries": [
+    {
+      "output": "tropicraft:tropical_fertilizer"
+    }
+  ]
+}

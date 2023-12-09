@@ -1,0 +1,17 @@
+{
+  "modId": "outer_end",
+  "silent": true,
+  "group": {
+    "name": "Outer End Berries",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:seeds"
+  },
+  "customEntries": [
+    {
+      "output": "outer_end:azure_berries"
+    }
+  ]
+}

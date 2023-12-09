@@ -1,0 +1,17 @@
+{
+  "modId": "outer_end",
+  "silent": true,
+  "group": {
+    "name": "Outer End Flowers",
+    "enabledByDefault": false,
+    "defaultPayment": {
+      "item": "minecraft:emerald"
+    },
+    "defaultCategory": "farmingforblockheads:flowers"
+  },
+  "customEntries": [
+    {
+      "output": "outer_end:azure_bud"
+    }
+  ]
+}
