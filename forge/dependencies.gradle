@@ -1,4 +1,5 @@
 dependencies {
-    compileOnly "mezz.jei:jei-$jei_minecraft_version-common-api:$jei_version"
-    compileOnly "dev.emi:emi-xplat-mojmap:$emi_version:api"
+    compileOnly fg.deobf("mezz.jei:jei-$jei_minecraft_version-common-api:$jei_version")
+    compileOnly fg.deobf("mezz.jei:jei-$jei_minecraft_version-forge-api:$jei_version")
+    compileOnly fg.deobf("dev.emi:emi-forge:$emi_version:api")
 }
