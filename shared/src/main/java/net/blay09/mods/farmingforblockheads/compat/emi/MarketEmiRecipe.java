@@ -81,7 +81,7 @@ public class MarketEmiRecipe implements EmiRecipe {
     }
 
     private Component getFormattedCostString() {
-        final MutableComponent result = Component.translatable("gui.farmingforblockheads:market.cost",
+        final MutableComponent result = Component.translatable("gui.farmingforblockheads.market.cost",
                 this.input.get(0).getAmount(),
                 this.input.get(0).getItemStack().getDisplayName());
         ChatFormatting color = ChatFormatting.GREEN;

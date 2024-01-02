@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "farmingforblockheads:block/market" },
-    "facing=east":  { "model": "farmingforblockheads:block/market", "y": 90 },
-    "facing=south": { "model": "farmingforblockheads:block/market", "y": 180 },
-    "facing=west":  { "model": "farmingforblockheads:block/market", "y": 270 }
-  }
-}

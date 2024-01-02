@@ -25,9 +25,9 @@ import java.util.*;
 public class FertilizerItem extends Item {
 
     public enum FertilizerType {
-        HEALTHY(Component.translatable("tooltip.farmingforblockheads:red_fertilizer").withStyle(ChatFormatting.DARK_RED)),
-        RICH(Component.translatable("tooltip.farmingforblockheads:green_fertilizer").withStyle(ChatFormatting.GREEN)),
-        STABLE(Component.translatable("tooltip.farmingforblockheads:yellow_fertilizer").withStyle(ChatFormatting.YELLOW));
+        HEALTHY(Component.translatable("tooltip.farmingforblockheads.red_fertilizer").withStyle(ChatFormatting.DARK_RED)),
+        RICH(Component.translatable("tooltip.farmingforblockheads.green_fertilizer").withStyle(ChatFormatting.GREEN)),
+        STABLE(Component.translatable("tooltip.farmingforblockheads.yellow_fertilizer").withStyle(ChatFormatting.YELLOW));
 
         private final Component tooltip;
 

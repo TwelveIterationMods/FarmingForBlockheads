@@ -28,7 +28,7 @@ public class EmiIntegration implements EmiPlugin {
             new EmiRecipeCategory(new ResourceLocation("farmingforblockheads:market"), MARKET, TRADE_ICON) {
                 @Override
                 public Component getName() {
-                    return Component.translatable("jei.farmingforblockheads:market");
+                    return Component.translatable("jei.farmingforblockheads.market");
                 }
             };
     @Override

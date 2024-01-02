@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "farmingforblockheads:block/chicken_nest",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "farmingforblockheads:block/chicken_nest"
+    },
+    "facing=south": {
+      "model": "farmingforblockheads:block/chicken_nest",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "farmingforblockheads:block/chicken_nest",
+      "y": 270
+    }
+  }
+}

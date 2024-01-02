@@ -25,6 +25,9 @@
     "client": [
       "net.blay09.mods.farmingforblockheads.fabric.client.FabricFarmingForBlockheadsClient"
     ],
+    "fabric-datagen": [
+      "net.blay09.mods.farmingforblockheads.fabric.datagen.ModDataGenerator"
+    ],
     "modmenu": [
       "net.blay09.mods.farmingforblockheads.fabric.compat.ModMenuIntegration"
     ],

@@ -48,10 +48,10 @@ public class FarmingForBlockheads {
         Balm.initializeIfLoaded(Compat.TERRAQUEOUS, "net.blay09.mods.farmingforblockheads.compat.TerraqueousAddon");
 
         Balm.getEvents().onEvent(MarketRegistryReloadEvent.Pre.class, event -> {
-            FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_SEEDS, "gui.farmingforblockheads:market.tooltip_seeds", new ItemStack(Items.WHEAT_SEEDS), 10);
-            FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_SAPLINGS, "gui.farmingforblockheads:market.tooltip_saplings", new ItemStack(Items.OAK_SAPLING), 20);
-            FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_FLOWERS, "gui.farmingforblockheads:market.tooltip_flowers", new ItemStack(Items.DANDELION), 30);
-            FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_OTHER, "gui.farmingforblockheads:market.tooltip_other", new ItemStack(Items.BONE_MEAL), 40);
+            FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_SEEDS, "gui.farmingforblockheads.market.tooltip_seeds", new ItemStack(Items.WHEAT_SEEDS), 10);
+            FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_SAPLINGS, "gui.farmingforblockheads.market.tooltip_saplings", new ItemStack(Items.OAK_SAPLING), 20);
+            FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_FLOWERS, "gui.farmingforblockheads.market.tooltip_flowers", new ItemStack(Items.DANDELION), 30);
+            FarmingForBlockheadsAPI.registerMarketCategory(FarmingForBlockheadsAPI.MARKET_CATEGORY_OTHER, "gui.farmingforblockheads.market.tooltip_other", new ItemStack(Items.BONE_MEAL), 40);
         });
 
         Balm.getEvents().onEvent(PlayerLoginEvent.class, MarketRegistryLoader::onLogin);

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "moisture=0": {
+      "model": "farmingforblockheads:block/fertilized_farmland_healthy"
+    },
+    "moisture=1": {
+      "model": "farmingforblockheads:block/fertilized_farmland_healthy"
+    },
+    "moisture=2": {
+      "model": "farmingforblockheads:block/fertilized_farmland_healthy"
+    },
+    "moisture=3": {
+      "model": "farmingforblockheads:block/fertilized_farmland_healthy"
+    },
+    "moisture=4": {
+      "model": "farmingforblockheads:block/fertilized_farmland_healthy"
+    },
+    "moisture=5": {
+      "model": "farmingforblockheads:block/fertilized_farmland_healthy"
+    },
+    "moisture=6": {
+      "model": "farmingforblockheads:block/fertilized_farmland_healthy"
+    },
+    "moisture=7": {
+      "model": "farmingforblockheads:block/fertilized_farmland_healthy_moist"
+    }
+  }
+}

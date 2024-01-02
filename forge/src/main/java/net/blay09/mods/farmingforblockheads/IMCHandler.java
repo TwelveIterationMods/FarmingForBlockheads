@@ -97,7 +97,7 @@ public class IMCHandler {
                         ResourceLocation registryName = new ResourceLocation(tagCompound.getString("RegistryName"));
                         if (registryName.getNamespace().equals(sender)) {
                             String tooltipLangKey = tagCompound.contains("Tooltip",
-                                    Tag.TAG_STRING) ? tagCompound.getString("Tooltip") : "gui.farmingforblockheads:market.tooltip_none";
+                                    Tag.TAG_STRING) ? tagCompound.getString("Tooltip") : "gui.farmingforblockheads.market.tooltip_none";
                             ItemStack icon = ItemStack.of(tagCompound.getCompound("Icon"));
                             int sortIndex = tagCompound.getInt("SortIndex");
 

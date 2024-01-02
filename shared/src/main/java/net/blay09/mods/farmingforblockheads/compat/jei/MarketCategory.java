@@ -76,7 +76,7 @@ public class MarketCategory implements IRecipeCategory<IMarketEntry> {
     }
 
     private Component getFormattedCostString(IMarketEntry entry) {
-        final MutableComponent result = Component.translatable("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
+        final MutableComponent result = Component.translatable("gui.farmingforblockheads.market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
         ChatFormatting color = ChatFormatting.GREEN;
         if (entry.getCostItem().getItem() == Items.DIAMOND) {
             color = ChatFormatting.AQUA;

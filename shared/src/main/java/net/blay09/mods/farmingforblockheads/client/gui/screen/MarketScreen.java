@@ -210,7 +210,7 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
         guiGraphics.drawString(font, I18n.get("container.farmingforblockheads.market"), leftPos + 10, topPos + 10, 0xFFFFFF, true);
 
         if (menu.getSelectedEntry() == null) {
-            guiGraphics.drawCenteredString(font, I18n.get("gui.farmingforblockheads:market.no_selection"), leftPos + 49, topPos + 65, 0xFFFFFF);
+            guiGraphics.drawCenteredString(font, I18n.get("gui.farmingforblockheads.market.no_selection"), leftPos + 49, topPos + 65, 0xFFFFFF);
         } else {
             guiGraphics.drawCenteredString(font, getPriceText(menu.getSelectedEntry()), leftPos + 49, topPos + 65, 0xFFFFFF);
         }
@@ -244,7 +244,7 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     }
 
     public static Component getPriceText(IMarketEntry entry) {
-        MutableComponent textComponent = Component.translatable("gui.farmingforblockheads:market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
+        MutableComponent textComponent = Component.translatable("gui.farmingforblockheads.market.cost", entry.getCostItem().getCount(), entry.getCostItem().getDisplayName());
         textComponent.withStyle(getPriceColor(entry));
         return textComponent;
     }

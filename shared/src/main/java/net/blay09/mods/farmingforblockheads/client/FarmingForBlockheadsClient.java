@@ -40,7 +40,7 @@ public class FarmingForBlockheadsClient {
     }
 
     private static Component getPriceTooltipText(IMarketEntry entry) {
-        MutableComponent result = Component.translatable("gui.farmingforblockheads:market.tooltip_cost", MarketScreen.getPriceText(entry));
+        MutableComponent result = Component.translatable("gui.farmingforblockheads.market.tooltip_cost", MarketScreen.getPriceText(entry));
         result.withStyle(MarketScreen.getPriceColor(entry));
         return result;
     }
