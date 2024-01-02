@@ -3,8 +3,10 @@ package net.blay09.mods.farmingforblockheads.loot;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.loot.BalmLootTables;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.FarmlandHandler;
 import net.blay09.mods.farmingforblockheads.block.FertilizedFarmlandBlock;
+import net.blay09.mods.farmingforblockheads.tag.ModBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -40,8 +42,9 @@ public class ModLootModifiers {
 
             BlockPos posBelow = pos.below();
             BlockState farmland = level.getBlockState(posBelow);
-            if (farmland.getBlock() instanceof FertilizedFarmlandBlock) {
-                if (Math.random() <= ((FertilizedFarmlandBlock) farmland.getBlock()).getBonusCropChance()) {
+            if (farmland.is(ModBlockTags.RICH_FARMLAND)) {
+                final var bonusCropChance = (float) FarmingForBlockheadsConfig.getActive().fertilizerBonusCropChance;
+                if (Math.random() <= bonusCropChance) {
                     loot.stream().filter(p -> !isProbablySeed(p)).findAny().ifPresent(c -> {
                         loot.add(c.copy());
                         level.levelEvent(2005, pos, 0);

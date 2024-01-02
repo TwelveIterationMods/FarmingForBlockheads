@@ -20,24 +20,24 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.blay09.mods.${mod_id}.fabric.Fabric${mod_main}"
+      "net.blay09.mods.farmingforblockheads.fabric.FabricFarmingForBlockheads"
     ],
     "client": [
-      "net.blay09.mods.${mod_id}.fabric.client.Fabric${mod_main}Client"
+      "net.blay09.mods.farmingforblockheads.fabric.client.FabricFarmingForBlockheadsClient"
     ],
     "modmenu": [
-      "net.blay09.mods.${mod_id}.fabric.compat.ModMenuIntegration"
+      "net.blay09.mods.farmingforblockheads.fabric.compat.ModMenuIntegration"
     ],
     "emi": [
-      "net.blay09.mods.${mod_id}.compat.emi.EmiIntegration"
+      "net.blay09.mods.farmingforblockheads.compat.emi.EmiIntegration"
     ],
     "jei_mod_plugin": [
-      "net.blay09.mods.${mod_id}.compat.jei.JEIAddon"
+      "net.blay09.mods.farmingforblockheads.compat.jei.JEIAddon"
     ]
   },
   "mixins": [
-    "${mod_id}.mixins.json",
-    "${mod_id}.fabric.mixins.json"
+    "farmingforblockheads.mixins.json",
+    "farmingforblockheads.fabric.mixins.json"
   ],
 
   "depends": {

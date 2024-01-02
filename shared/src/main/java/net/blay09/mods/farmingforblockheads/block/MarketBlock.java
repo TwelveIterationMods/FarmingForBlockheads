@@ -1,5 +1,6 @@
 package net.blay09.mods.farmingforblockheads.block;
 
+import com.mojang.serialization.MapCodec;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.farmingforblockheads.block.entity.MarketBlockEntity;
 import net.blay09.mods.farmingforblockheads.entity.MerchantEntity;
@@ -28,12 +29,14 @@ import org.jetbrains.annotations.Nullable;
 
 public class MarketBlock extends BaseEntityBlock {
 
+    public static final MapCodec<ChickenNestBlock> CODEC = simpleCodec(ChickenNestBlock::new);
+
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     private static final VoxelShape RENDER_SHAPE = Block.box(0, 0.01, 0, 16, 16, 16);
 
-    public MarketBlock() {
-        super(Properties.of().sound(SoundType.WOOD).strength(2f));
+    public MarketBlock(Properties properties) {
+        super(properties.sound(SoundType.WOOD).strength(2f));
     }
 
     @Override
@@ -115,5 +118,10 @@ public class MarketBlock extends BaseEntityBlock {
     @Override
     public VoxelShape getOcclusionShape(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return RENDER_SHAPE;
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 }

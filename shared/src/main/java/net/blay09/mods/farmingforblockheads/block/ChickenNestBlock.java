@@ -1,5 +1,7 @@
 package net.blay09.mods.farmingforblockheads.block;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.blay09.mods.balm.api.container.ContainerUtils;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.block.entity.ChickenNestBlockEntity;
@@ -12,6 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -38,14 +41,14 @@ import java.util.List;
 
 public class ChickenNestBlock extends BaseEntityBlock {
 
-    public static final String name = "chicken_nest";
-    public static final ResourceLocation registryName = new ResourceLocation(FarmingForBlockheads.MOD_ID, name);
+    public static final MapCodec<ChickenNestBlock> CODEC = simpleCodec(ChickenNestBlock::new);
+
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 3, 15);
 
-    protected ChickenNestBlock() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.WET_GRASS).strength(1f));
+    public ChickenNestBlock(Properties properties) {
+        super(properties.sound(SoundType.WET_GRASS).strength(1f));
     }
 
     @Override
@@ -118,5 +121,10 @@ public class ChickenNestBlock extends BaseEntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide ? null : createTickerHelper(type, ModBlockEntities.chickenNest.get(), ChickenNestBlockEntity::serverTick);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 }

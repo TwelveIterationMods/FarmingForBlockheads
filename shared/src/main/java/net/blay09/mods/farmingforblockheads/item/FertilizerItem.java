@@ -2,6 +2,8 @@ package net.blay09.mods.farmingforblockheads.item;
 
 import net.blay09.mods.farmingforblockheads.block.FertilizedFarmlandBlock;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
+import net.blay09.mods.farmingforblockheads.tag.ModBlockTags;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -18,16 +20,24 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class FertilizerItem extends Item {
 
     public enum FertilizerType {
-        HEALTHY,
-        RICH,
-        STABLE;
+        HEALTHY(Component.translatable("tooltip.farmingforblockheads:red_fertilizer").withStyle(ChatFormatting.DARK_RED)),
+        RICH(Component.translatable("tooltip.farmingforblockheads:green_fertilizer").withStyle(ChatFormatting.GREEN)),
+        STABLE(Component.translatable("tooltip.farmingforblockheads:yellow_fertilizer").withStyle(ChatFormatting.YELLOW));
+
+        private final Component tooltip;
+
+        FertilizerType(Component tooltip) {
+            this.tooltip = tooltip;
+        }
+
+        public Component getTooltip() {
+            return tooltip;
+        }
 
         public boolean canFertilize(BlockState state) {
             Block sourceBlock = state.getBlock();
@@ -40,11 +50,18 @@ public class FertilizerItem extends Item {
             }
 
             int moisture = state.getValue(BlockStateProperties.MOISTURE);
-            List<FertilizedFarmlandBlock.FarmlandTrait> traits = new ArrayList<>();
-            traits.add(getFarmlandTrait());
-            Block sourceBlock = state.getBlock();
-            if (sourceBlock instanceof FertilizedFarmlandBlock) {
-                traits.addAll(((FertilizedFarmlandBlock) sourceBlock).getTraits());
+            final var traits = new HashSet<FertilizerType>();
+            traits.add(this);
+            if (state.is(ModBlockTags.HEALTHY_FARMLAND)) {
+                traits.add(HEALTHY);
+            }
+
+            if (state.is(ModBlockTags.RICH_FARMLAND)) {
+                traits.add(RICH);
+            }
+
+            if (state.is(ModBlockTags.STABLE_FARMLAND)) {
+                traits.add(STABLE);
             }
 
             Block targetBlock = getBlockForTraits(traits);
@@ -56,20 +73,11 @@ public class FertilizerItem extends Item {
             return newState.setValue(FertilizedFarmlandBlock.MOISTURE, moisture);
         }
 
-        private FertilizedFarmlandBlock.FarmlandTrait getFarmlandTrait() {
-            return switch (this) {
-                case HEALTHY -> new FertilizedFarmlandBlock.FarmlandHealthyTrait();
-                case RICH -> new FertilizedFarmlandBlock.FarmlandRichTrait();
-                case STABLE -> new FertilizedFarmlandBlock.FarmlandStableTrait();
-            };
-
-        }
-
         @Nullable
-        private static Block getBlockForTraits(List<FertilizedFarmlandBlock.FarmlandTrait> traits) {
-            boolean hasStableTrait = traits.stream().anyMatch(it -> it instanceof FertilizedFarmlandBlock.FarmlandStableTrait);
-            boolean hasHealthyTrait = traits.stream().anyMatch(it -> it instanceof FertilizedFarmlandBlock.FarmlandHealthyTrait);
-            boolean hasRichTrait = traits.stream().anyMatch(it -> it instanceof FertilizedFarmlandBlock.FarmlandRichTrait);
+        private static Block getBlockForTraits(Set<FertilizerType> traits) {
+            boolean hasStableTrait = traits.contains(STABLE);
+            boolean hasHealthyTrait = traits.contains(HEALTHY);
+            boolean hasRichTrait = traits.contains(RICH);
             if (hasStableTrait && !hasRichTrait && !hasHealthyTrait) {
                 return ModBlocks.fertilizedFarmlandStable;
             }
@@ -136,9 +144,7 @@ public class FertilizerItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        MutableComponent chatComponent = Component.translatable("tooltip.farmingforblockheads:fertilizer_" + fertilizerType.name().toLowerCase(Locale.ENGLISH));
-        chatComponent.withStyle(fertilizerType.getFarmlandTrait().getTraitColor());
-        tooltip.add(chatComponent);
+        tooltip.add(fertilizerType.getTooltip());
     }
 
 }

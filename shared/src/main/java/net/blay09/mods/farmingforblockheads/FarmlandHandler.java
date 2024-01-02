@@ -2,6 +2,7 @@ package net.blay09.mods.farmingforblockheads;
 
 import net.blay09.mods.balm.api.event.CropGrowEvent;
 import net.blay09.mods.farmingforblockheads.block.FertilizedFarmlandBlock;
+import net.blay09.mods.farmingforblockheads.tag.ModBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -18,8 +19,9 @@ public class FarmlandHandler {
         BlockState plant = level.getBlockState(event.getPos());
         if (plant.getBlock() instanceof BonemealableBlock growable) {
             BlockState farmland = level.getBlockState(event.getPos().below());
-            if (farmland.getBlock() instanceof FertilizedFarmlandBlock farmlandBlock) {
-                if (Math.random() <= farmlandBlock.getDoubleGrowthChance()) {
+            if (farmland.is(ModBlockTags.HEALTHY_FARMLAND)) {
+                final var doubleGrowthChance = (float) FarmingForBlockheadsConfig.getActive().fertilizerBonusGrowthChance;
+                if (Math.random() <= doubleGrowthChance) {
                     if (growable.isValidBonemealTarget(level, pos, plant)) {
                         growable.performBonemeal(((ServerLevel) level), level.getRandom(), pos, plant);
                         level.levelEvent(2005, pos, 0);

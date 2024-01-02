@@ -1,2 +1,1 @@
-- Fixed feeding trough previously only feeding animals when at least 3 are present (2 for breeding and one just watching)
-- Updated German Translation (by Wizqok)
+- Updated to Minecraft 1.20.4

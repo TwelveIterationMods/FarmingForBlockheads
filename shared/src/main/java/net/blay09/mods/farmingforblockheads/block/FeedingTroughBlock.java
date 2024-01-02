@@ -1,5 +1,6 @@
 package net.blay09.mods.farmingforblockheads.block;
 
+import com.mojang.serialization.MapCodec;
 import net.blay09.mods.balm.api.container.ContainerUtils;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.block.entity.FeedingTroughBlockEntity;
@@ -34,11 +35,13 @@ import java.util.List;
 
 public class FeedingTroughBlock extends BaseEntityBlock {
 
+    public static final MapCodec<FeedingTroughBlock> CODEC = simpleCodec(FeedingTroughBlock::new);
+
     private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 10, 16);
     private static final VoxelShape RENDER_SHAPE = SHAPE.move(0, 0.01, 0);
 
-    protected FeedingTroughBlock() {
-        super(BlockBehaviour.Properties.of().sound(SoundType.WOOD).strength(2f));
+    protected FeedingTroughBlock(Properties properties) {
+        super(properties.sound(SoundType.WOOD).strength(2f));
     }
 
     @Nullable
@@ -115,5 +118,10 @@ public class FeedingTroughBlock extends BaseEntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide ? null : createTickerHelper(type, ModBlockEntities.feedingTrough.get(), FeedingTroughBlockEntity::serverTick);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 }

@@ -1,14 +1,15 @@
 package net.blay09.mods.farmingforblockheads.block;
 
-import com.google.common.collect.Lists;
+import com.mojang.serialization.MapCodec;
 import net.blay09.mods.balm.api.block.CustomFarmBlock;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
+import net.blay09.mods.farmingforblockheads.item.FertilizerItem;
 import net.blay09.mods.farmingforblockheads.mixin.FarmBlockAccessor;
-import net.minecraft.ChatFormatting;
+import net.blay09.mods.farmingforblockheads.tag.ModBlockTags;
+import net.blay09.mods.farmingforblockheads.tag.ModItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -19,90 +20,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 public class FertilizedFarmlandBlock extends FarmBlock implements CustomFarmBlock {
 
-    public interface FarmlandTrait {
-        default float getDoubleGrowthChance() {
-            return 0f;
-        }
+    public static final MapCodec<FarmBlock> CODEC = simpleCodec(FertilizedFarmlandBlock::new);
 
-        default float getBonusCropChance() {
-            return 0f;
-        }
-
-        default boolean isStable() {
-            return false;
-        }
-
-        String getTraitName();
-
-        ChatFormatting getTraitColor();
-    }
-
-    public static class FarmlandHealthyTrait implements FarmlandTrait {
-        @Override
-        public float getDoubleGrowthChance() {
-            return (float) FarmingForBlockheadsConfig.getActive().fertilizerBonusGrowthChance;
-        }
-
-        @Override
-        public String getTraitName() {
-            return "healthy";
-        }
-
-        @Override
-        public ChatFormatting getTraitColor() {
-            return ChatFormatting.DARK_RED;
-        }
-    }
-
-    public static class FarmlandRichTrait implements FarmlandTrait {
-        @Override
-        public float getBonusCropChance() {
-            return (float) FarmingForBlockheadsConfig.getActive().fertilizerBonusCropChance;
-        }
-
-        @Override
-        public String getTraitName() {
-            return "rich";
-        }
-
-        @Override
-        public ChatFormatting getTraitColor() {
-            return ChatFormatting.GREEN;
-        }
-    }
-
-    public static class FarmlandStableTrait implements FarmlandTrait {
-        @Override
-        public boolean isStable() {
-            return true;
-        }
-
-        @Override
-        public String getTraitName() {
-            return "stable";
-        }
-
-        @Override
-        public ChatFormatting getTraitColor() {
-            return ChatFormatting.YELLOW;
-        }
-    }
-
-    private final List<FarmlandTrait> traits;
-
-    public FertilizedFarmlandBlock(FarmlandTrait... traits) {
-        super(BlockBehaviour.Properties.of().sound(SoundType.GRAVEL).strength(0.6f).randomTicks());
-        this.traits = Lists.newArrayList(traits);
+    public FertilizedFarmlandBlock(Properties properties) {
+        super(properties.sound(SoundType.GRAVEL).strength(0.6f).randomTicks());
     }
 
     @Override
@@ -115,25 +43,13 @@ public class FertilizedFarmlandBlock extends FarmBlock implements CustomFarmBloc
         return state.getValue(MOISTURE) > 0;
     }
 
-    public float getDoubleGrowthChance() {
-        return (float) traits.stream().mapToDouble(FarmlandTrait::getDoubleGrowthChance).sum();
-    }
-
-    public float getBonusCropChance() {
-        return (float) traits.stream().mapToDouble(FarmlandTrait::getBonusCropChance).sum();
-    }
-
     public float getRegressionChance() {
         return (float) FarmingForBlockheadsConfig.getActive().fertilizerRegressionChance;
     }
 
-    private boolean isStable() {
-        return traits.stream().anyMatch(FarmlandTrait::isStable);
-    }
-
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (!isStable()) {
+        if (!state.is(ModBlockTags.STABLE_FARMLAND)) {
             super.fallOn(level, state, pos, entity, fallDistance);
         }
     }
@@ -145,7 +61,7 @@ public class FertilizedFarmlandBlock extends FarmBlock implements CustomFarmBloc
         if (!FarmBlockAccessor.callIsNearWater(level, pos) && !level.isRainingAt(pos.above())) {
             if (moisture > 0) {
                 level.setBlock(pos, state.setValue(MOISTURE, moisture - 1), 2);
-            } else if (!FarmBlockAccessor.callShouldMaintainFarmland(level, pos) && traits.stream().noneMatch(FarmlandTrait::isStable)) {
+            } else if (!FarmBlockAccessor.callShouldMaintainFarmland(level, pos) && state.is(ModBlockTags.STABLE_FARMLAND)) {
                 turnToDirt(null, state, level, pos);
             }
         } else if (moisture < 7) {
@@ -153,16 +69,21 @@ public class FertilizedFarmlandBlock extends FarmBlock implements CustomFarmBloc
         }
     }
 
-    public Collection<FarmlandTrait> getTraits() {
-        return traits;
+    @Override
+    public void appendHoverText(ItemStack itemStack, @Nullable BlockGetter blockGetter, List<Component> tooltip, TooltipFlag flag) {
+        if(itemStack.is(ModItemTags.HEALTHY_FARMLAND)) {
+            tooltip.add(FertilizerItem.FertilizerType.HEALTHY.getTooltip());
+        }
+        if(itemStack.is(ModItemTags.RICH_FARMLAND)) {
+            tooltip.add(FertilizerItem.FertilizerType.RICH.getTooltip());
+        }
+        if(itemStack.is(ModItemTags.STABLE_FARMLAND)) {
+            tooltip.add(FertilizerItem.FertilizerType.STABLE.getTooltip());
+        }
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable BlockGetter blockGetter, List<Component> tooltip, TooltipFlag flag) {
-        for (FarmlandTrait trait : traits) {
-            MutableComponent traitComponent = Component.translatable("tooltip.farmingforblockheads:trait_" + trait.getTraitName());
-            traitComponent.withStyle(trait.getTraitColor());
-            tooltip.add(traitComponent);
-        }
+    public MapCodec<FarmBlock> codec() {
+        return CODEC;
     }
 }
