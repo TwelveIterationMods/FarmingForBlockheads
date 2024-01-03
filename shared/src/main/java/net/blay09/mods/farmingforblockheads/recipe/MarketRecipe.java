@@ -5,8 +5,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.registry.PaymentImpl;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -15,7 +18,8 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class MarketRecipe implements Recipe<Container> {
 
@@ -24,11 +28,11 @@ public class MarketRecipe implements Recipe<Container> {
     private final ItemStack resultItem;
     private final Payment payment;
 
-    public MarketRecipe(ItemStack resultItem, ResourceLocation category, ResourceLocation preset, @Nullable Payment payment) {
+    public MarketRecipe(ItemStack resultItem, ResourceLocation category, ResourceLocation preset, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<Payment> payment) {
         this.preset = preset;
         this.category = category;
         this.resultItem = resultItem;
-        this.payment = payment;
+        this.payment = payment.orElse(null);
     }
 
     private PaymentImpl getDefaultPayment(ResourceLocation preset) {
@@ -79,13 +83,20 @@ public class MarketRecipe implements Recipe<Container> {
 
     static class Serializer implements RecipeSerializer<MarketRecipe> {
 
+        private static final Codec<ItemStack> RESULT_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+                BuiltInRegistries.ITEM.holderByNameCodec().fieldOf("item")
+                        .orElse(BuiltInRegistries.ITEM.wrapAsHolder(Items.AIR))
+                        .forGetter(ItemStack::getItemHolder),
+                ExtraCodecs.strictOptionalField(ExtraCodecs.POSITIVE_INT, "count", 1).forGetter(ItemStack::getCount),
+                CompoundTag.CODEC.optionalFieldOf("tag").forGetter((itemStack) -> Optional.ofNullable(itemStack.getTag()))
+        ).apply(instance, ItemStack::new));
+
         private static final Codec<MarketRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                        ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("result").forGetter(recipe -> recipe.resultItem),
-                        ResourceLocation.CODEC.fieldOf("category").forGetter(recipe -> recipe.category),
-                        ResourceLocation.CODEC.fieldOf("preset").forGetter(recipe -> recipe.preset),
-                        PaymentImpl.CODEC.optionalFieldOf("payment", null).forGetter(recipe -> recipe.payment)
-                )
-                .apply(instance, MarketRecipe::new));
+                RESULT_CODEC.fieldOf("result").forGetter(recipe -> recipe.resultItem),
+                ResourceLocation.CODEC.fieldOf("category").forGetter(recipe -> recipe.category),
+                ResourceLocation.CODEC.fieldOf("preset").forGetter(recipe -> recipe.preset),
+                PaymentImpl.CODEC.optionalFieldOf("payment").forGetter(recipe -> Optional.ofNullable(recipe.payment))
+        ).apply(instance, MarketRecipe::new));
 
         @Override
         public Codec<MarketRecipe> codec() {
@@ -98,7 +109,7 @@ public class MarketRecipe implements Recipe<Container> {
             final var category = buf.readResourceLocation();
             final var preset = buf.readResourceLocation();
             final var payment = PaymentImpl.fromNetwork(buf);
-            return new MarketRecipe(resultItem, category, preset, payment);
+            return new MarketRecipe(resultItem, category, preset, Optional.of(payment));
         }
 
         @Override

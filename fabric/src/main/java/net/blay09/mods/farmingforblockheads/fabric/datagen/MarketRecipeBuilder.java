@@ -14,6 +14,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 public class MarketRecipeBuilder implements RecipeBuilder {
 
     private final ResourceLocation category;
@@ -46,7 +48,7 @@ public class MarketRecipeBuilder implements RecipeBuilder {
 
     @Override
     public void save(RecipeOutput recipeOutput, ResourceLocation resourceLocation) {
-        final var marketRecipe = new MarketRecipe(new ItemStack(result, count), category, preset, payment);
+        final var marketRecipe = new MarketRecipe(new ItemStack(result, count), category, preset, Optional.ofNullable(payment));
         recipeOutput.accept(resourceLocation, marketRecipe, null);
     }
 
