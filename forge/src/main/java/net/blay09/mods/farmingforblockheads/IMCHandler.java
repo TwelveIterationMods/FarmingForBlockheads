@@ -2,9 +2,8 @@ package net.blay09.mods.farmingforblockheads;
 
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
-import net.blay09.mods.farmingforblockheads.api.IMarketCategory;
+import net.blay09.mods.farmingforblockheads.api.MarketCategory;
 import net.blay09.mods.farmingforblockheads.api.IMarketRegistryDefaultHandler;
-import net.blay09.mods.farmingforblockheads.api.MarketRegistryReloadEvent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
@@ -48,7 +47,7 @@ public class IMCHandler {
                     registration.icon,
                     registration.sortIndex));
             entries.forEach(registration -> {
-                IMarketCategory category = FarmingForBlockheadsAPI.getMarketCategory(registration.categoryId);
+                MarketCategory category = FarmingForBlockheadsAPI.getMarketCategory(registration.categoryId);
                 if (category != null) {
                     ItemStack effectiveOutputItem = overrideCount != null ? new ItemStack(registration.outputItem.getItem(), overrideCount) : registration.outputItem;
                     ItemStack effectiveCostItem = overridePayment != null ? overridePayment : registration.costItem;

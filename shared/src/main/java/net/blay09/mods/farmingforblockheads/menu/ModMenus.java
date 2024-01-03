@@ -13,7 +13,7 @@ public class ModMenus {
     public static void initialize(BalmMenus menus) {
         market = menus.registerMenu(id("market"), (windowId, playerInventory, data) -> {
             BlockPos pos = data.readBlockPos();
-            return new MarketClientMenu(windowId, playerInventory, pos);
+            return new MarketMenu(windowId, playerInventory, pos);
         });
     }
 

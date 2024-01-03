@@ -22,7 +22,7 @@ public class ModItems {
         items.registerItem(() -> redFertilizer = new FertilizerItem(FertilizerItem.FertilizerType.HEALTHY), id("red_fertilizer"));
         items.registerItem(() -> yellowFertilizer = new FertilizerItem(FertilizerItem.FertilizerType.STABLE), id("yellow_fertilizer"));
 
-        items.registerCreativeModeTab(id("farmingforblockheads"), () -> new ItemStack(ModBlocks.market));
+        items.registerCreativeModeTab(() -> new ItemStack(ModBlocks.market), id("farmingforblockheads"));
 
         EGGS_TAG = Balm.getRegistries().getItemTag(new ResourceLocation("balm", "eggs"));
     }

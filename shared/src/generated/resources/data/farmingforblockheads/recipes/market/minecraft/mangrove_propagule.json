@@ -1,0 +1,14 @@
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:saplings",
+  "payment": {
+    "count": 4,
+    "ingredient": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "preset": "minecraft:saplings",
+  "result": {
+    "item": "minecraft:mangrove_propagule"
+  }
+}
