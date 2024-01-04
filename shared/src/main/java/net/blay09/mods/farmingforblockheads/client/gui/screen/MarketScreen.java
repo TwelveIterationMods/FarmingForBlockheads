@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.blay09.mods.balm.mixin.ScreenAccessor;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.api.MarketCategory;
 import net.blay09.mods.farmingforblockheads.client.gui.widget.MarketFilterButton;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
@@ -22,7 +21,6 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
 
@@ -76,15 +74,15 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
         filterButtons.clear();
 
         int curY = -80;
-        MarketCategory[] categories = menu.getCategories().stream().sorted().toArray(MarketCategory[]::new);
-        for (MarketCategory category : categories) {
+        final var categories = menu.getCategories();
+        for (final var category : categories) {
             MarketFilterButton filterButton = new MarketFilterButton(width / 2 + 87, height / 2 + curY, menu, category, button -> {
-                if (menu.getCurrentCategory() == category) {
-                    menu.setFilterCategory(null);
+                if (menu.getCurrentCategory().map(it -> it.equals(category)).orElse(false)) {
+                    menu.setCategory(null);
                 } else {
-                    menu.setFilterCategory(category);
+                    menu.setCategory(category);
                 }
-                menu.populateMarketSlots();
+                menu.updateListingSlots();
                 setCurrentOffset(currentOffset);
             });
 
@@ -120,8 +118,8 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 1 && mouseX >= searchBar.getX() && mouseX < searchBar.getX() + searchBar.getWidth() && mouseY >= searchBar.getY() && mouseY < searchBar.getY() + searchBar.getHeight()) {
             searchBar.setValue("");
-            menu.search(null);
-            menu.populateMarketSlots();
+            menu.setSearch(null);
+            menu.updateListingSlots();
             setCurrentOffset(currentOffset);
             return true;
         } else if (mouseX >= scrollBarXPos && mouseX <= scrollBarXPos + SCROLLBAR_WIDTH && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight) {
@@ -137,8 +135,8 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     public boolean charTyped(char c, int keyCode) {
         boolean result = super.charTyped(c, keyCode);
 
-        menu.search(searchBar.getValue());
-        menu.populateMarketSlots();
+        menu.setSearch(searchBar.getValue());
+        menu.updateListingSlots();
         setCurrentOffset(currentOffset);
 
         return result;
@@ -150,8 +148,8 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
             if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
                 minecraft.player.closeContainer();
             } else {
-                menu.search(searchBar.getValue());
-                menu.populateMarketSlots();
+                menu.setSearch(searchBar.getValue());
+                menu.updateListingSlots();
                 setCurrentOffset(currentOffset);
             }
 
@@ -164,22 +162,15 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
-
-        for (MarketFilterButton sortButton : filterButtons) {
-            if (sortButton.isMouseOver(mouseX, mouseY) && sortButton.active) {
-                guiGraphics.renderTooltip(font, sortButton.getTooltipLines(), Optional.empty(), mouseX, mouseY);
-            }
-        }
-
         renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        if (menu.isDirty()) {
+        if (menu.isScrollOffsetDirty()) {
             updateCategoryFilters();
             recalculateScrollBar();
-            menu.setDirty(false);
+            menu.setScrollOffsetDirty(false);
         }
 
         Font font = minecraft.font;

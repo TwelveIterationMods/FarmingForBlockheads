@@ -1,4 +1,5 @@
 {
+  "optional": true,
   "payment": {
     "ingredient": {
       "item": "minecraft:diamond"

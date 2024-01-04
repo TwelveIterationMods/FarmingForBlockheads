@@ -4,12 +4,22 @@ import net.blay09.mods.balm.api.config.BalmConfigData;
 import net.blay09.mods.balm.api.config.Comment;
 import net.blay09.mods.balm.api.config.Config;
 import net.blay09.mods.balm.api.config.ExpectedType;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Config(FarmingForBlockheads.MOD_ID)
 public class FarmingForBlockheadsConfigData implements BalmConfigData {
+
+    @ExpectedType(ResourceLocation.class)
+    @Comment("List of default presets to disable.")
+    public Set<ResourceLocation> disabledDefaultPresets = Set.of();
+
+    @ExpectedType(ResourceLocation.class)
+    @Comment("List of optional presets to enable.")
+    public Set<ResourceLocation> enabledOptionalPresets = Set.of();
 
     @ExpectedType(String.class)
     @Comment("List of names the merchant can have.")

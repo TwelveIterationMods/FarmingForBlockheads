@@ -1,4 +1,7 @@
 {
+  "tooltip": {
+    "translate": "category.farmingforblockheads.flowers"
+  },
   "icon": {
     "item": "minecraft:dandelion"
   },

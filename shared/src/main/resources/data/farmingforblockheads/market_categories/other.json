@@ -1,4 +1,7 @@
 {
+  "tooltip": {
+    "translate": "category.farmingforblockheads.other"
+  },
   "icon": {
     "item": "minecraft:bone_meal"
   },

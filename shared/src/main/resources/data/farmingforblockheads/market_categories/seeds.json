@@ -1,4 +1,7 @@
 {
+  "tooltip": {
+    "translate": "category.farmingforblockheads.seeds"
+  },
   "icon": {
     "item": "minecraft:wheat_seeds"
   },

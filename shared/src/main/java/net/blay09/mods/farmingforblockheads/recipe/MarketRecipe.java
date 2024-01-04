@@ -2,7 +2,9 @@ package net.blay09.mods.farmingforblockheads.recipe;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.blay09.mods.farmingforblockheads.api.MarketPreset;
 import net.blay09.mods.farmingforblockheads.api.Payment;
+import net.blay09.mods.farmingforblockheads.registry.MarketPresetRegistry;
 import net.blay09.mods.farmingforblockheads.registry.PaymentImpl;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,10 +35,6 @@ public class MarketRecipe implements Recipe<Container> {
         this.category = category;
         this.resultItem = resultItem;
         this.payment = payment.orElse(null);
-    }
-
-    private PaymentImpl getDefaultPayment(ResourceLocation preset) {
-        return new PaymentImpl(Ingredient.of(Items.EMERALD), 1); // TODO make configurable per preset
     }
 
     @Override
@@ -75,6 +73,10 @@ public class MarketRecipe implements Recipe<Container> {
 
     public ResourceLocation getCategory() {
         return category;
+    }
+
+    private Payment getDefaultPayment(ResourceLocation presetId) {
+        return MarketPresetRegistry.INSTANCE.get(presetId).map(MarketPreset::payment).orElseGet(() -> new PaymentImpl(Ingredient.of(Items.EMERALD), 1));
     }
 
     public Payment getPaymentOrDefault() {

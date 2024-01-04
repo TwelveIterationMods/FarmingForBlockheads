@@ -16,7 +16,7 @@ public class MarketPresetLoader implements ResourceManagerReloadListener {
 
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
-        final var registry = MarketCategoryRegistry.INSTANCE;
+        final var registry = MarketPresetRegistry.INSTANCE;
         registry.clear();
 
         for (final var entry : MARKET_CATEGORIES.listMatchingResources(resourceManager).entrySet()) {

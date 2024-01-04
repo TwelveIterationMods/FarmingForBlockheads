@@ -9,7 +9,7 @@ public class ModNetworking {
         networking.registerClientboundPacket(id("market_categories"), MarketCategoriesMessage.class, MarketCategoriesMessage::encode, MarketCategoriesMessage::decode, MarketCategoriesMessage::handle);
         networking.registerClientboundPacket(id("chicken_nest_effect"), ChickenNestEffectMessage.class, ChickenNestEffectMessage::encode, ChickenNestEffectMessage::decode, ChickenNestEffectMessage::handle);
 
-        networking.registerServerboundPacket(id("market_select"), MarketSelectMessage.class, MarketSelectMessage::encode, MarketSelectMessage::decode, MarketSelectMessage::handle);
+        networking.registerServerboundPacket(id("market_select"), MarketPutInBasketMessage.class, MarketPutInBasketMessage::encode, MarketPutInBasketMessage::decode, MarketPutInBasketMessage::handle);
     }
 
     private static ResourceLocation id(String path) {
