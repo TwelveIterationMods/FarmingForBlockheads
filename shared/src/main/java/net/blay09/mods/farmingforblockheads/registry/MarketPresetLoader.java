@@ -3,6 +3,7 @@ package net.blay09.mods.farmingforblockheads.registry;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 
@@ -21,7 +22,8 @@ public class MarketPresetLoader implements ResourceManagerReloadListener {
 
         for (final var entry : MARKET_CATEGORIES.listMatchingResources(resourceManager).entrySet()) {
             try (final var reader = entry.getValue().openAsReader()) {
-                registry.loadAdditionally(reader);
+                final var id = MARKET_CATEGORIES.fileToId(entry.getKey());
+                registry.loadAdditionally(id, reader);
             } catch (Exception e) {
                 FarmingForBlockheads.logger.error("Error loading Farming for Blockheads market preset file at {}", entry.getKey(), e);
             }
@@ -31,8 +33,9 @@ public class MarketPresetLoader implements ResourceManagerReloadListener {
         if (configDir.exists() || configDir.mkdirs()) {
             try (final var files = Files.walk(configDir.toPath())) {
                 files.filter(it -> it.getFileName().endsWith(".json")).forEach(it -> {
+                    final var id = new ResourceLocation(FarmingForBlockheads.MOD_ID, it.getFileName().toString().replace(".json", ""));
                     try (final var reader = Files.newBufferedReader(it)) {
-                        registry.loadAdditionally(reader);
+                        registry.loadAdditionally(id, reader);
                     } catch (Exception e) {
                         FarmingForBlockheads.logger.error("Error loading Farming for Blockheads market preset file at {}", it, e);
                     }
