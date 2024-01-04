@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.blay09.mods.balm.mixin.ScreenAccessor;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.blay09.mods.farmingforblockheads.client.FarmingForBlockheadsClient;
 import net.blay09.mods.farmingforblockheads.client.gui.widget.MarketFilterButton;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
@@ -195,10 +196,14 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
 
         guiGraphics.drawString(font, I18n.get("container.farmingforblockheads.market"), leftPos + 10, topPos + 10, 0xFFFFFF, true);
 
-        if (menu.getSelectedRecipe() == null) {
+        final var selectedRecipe = menu.getSelectedRecipe();
+        if (selectedRecipe == null) {
             guiGraphics.drawCenteredString(font, I18n.get("gui.farmingforblockheads.market.no_selection"), leftPos + 49, topPos + 65, 0xFFFFFF);
         } else {
-            guiGraphics.drawCenteredString(font, getPriceText(menu.getSelectedRecipe().value()), leftPos + 49, topPos + 65, 0xFFFFFF);
+            final var paymentComponent = FarmingForBlockheads.getPaymentComponent(selectedRecipe.value().getPaymentOrDefault());
+            final var component = Component.translatable("gui.farmingforblockheads.market.cost", paymentComponent)
+                    .withStyle(ChatFormatting.GREEN);
+            guiGraphics.drawCenteredString(font, component, leftPos + 49, topPos + 65, 0xFFFFFF);
         }
 
         guiGraphics.fill(scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
@@ -229,11 +234,6 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
         menu.setScrollOffset(this.currentOffset);
 
         recalculateScrollBar();
-    }
-
-    public static Component getPriceText(MarketRecipe entry) {
-        return Component.translatable("gui.farmingforblockheads.market.cost", entry.getPaymentOrDefault().count(), entry.getPaymentOrDefault().ingredient())
-                .withStyle(ChatFormatting.GREEN);
     }
 
 }

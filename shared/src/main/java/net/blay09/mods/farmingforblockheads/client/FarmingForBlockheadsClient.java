@@ -4,6 +4,7 @@ import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.client.BalmClient;
 import net.blay09.mods.balm.api.event.client.ItemTooltipEvent;
 import net.blay09.mods.balm.mixin.AbstractContainerScreenAccessor;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
 import net.blay09.mods.farmingforblockheads.menu.MarketBasketSlot;
 import net.blay09.mods.farmingforblockheads.menu.MarketListingSlot;
@@ -33,14 +34,14 @@ public class FarmingForBlockheadsClient {
                     }
 
                     if (hoverRecipe != null) {
-                        event.getToolTip().add(getPriceTooltipText(hoverRecipe.value()));
+                        final var paymentComponent = FarmingForBlockheads.getPaymentComponent(hoverRecipe.value().getPaymentOrDefault());
+                        final var tooltipComponent = Component.translatable("tooltip.farmingforblockheads.payment", paymentComponent)
+                                .withStyle(ChatFormatting.GREEN);
+                        event.getToolTip().add(tooltipComponent);
                     }
                 }
             }
         });
     }
 
-    private static Component getPriceTooltipText(MarketRecipe recipe) {
-        return Component.translatable("gui.farmingforblockheads.market.tooltip_cost", MarketScreen.getPriceText(recipe)).withStyle(ChatFormatting.GREEN);
-    }
 }
