@@ -8,6 +8,7 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
