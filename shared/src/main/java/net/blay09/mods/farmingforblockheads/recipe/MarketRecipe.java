@@ -76,7 +76,9 @@ public class MarketRecipe implements Recipe<Container> {
     }
 
     private Payment getDefaultPayment(ResourceLocation presetId) {
-        return MarketPresetRegistry.INSTANCE.get(presetId).map(MarketPreset::payment).orElseGet(() -> new PaymentImpl(Ingredient.of(Items.EMERALD), 1));
+        return MarketPresetRegistry.INSTANCE.get(presetId)
+                .map(MarketPreset::payment)
+                .orElseGet(() -> new PaymentImpl(Ingredient.of(Items.EMERALD), 1, Optional.empty()));
     }
 
     public Payment getPaymentOrDefault() {

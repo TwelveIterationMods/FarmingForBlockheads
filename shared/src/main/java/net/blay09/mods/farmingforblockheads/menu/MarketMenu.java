@@ -180,7 +180,7 @@ public class MarketMenu extends AbstractContainerMenu {
 
     private Payment getExpectedPayment(@Nullable RecipeHolder<MarketRecipe> recipe) {
         if (recipe == null) {
-            return new PaymentImpl(Ingredient.of(Items.EMERALD), 1);
+            return new PaymentImpl(Ingredient.of(Items.EMERALD), 1, Optional.empty());
         }
 
         return recipe.value().getPaymentOrDefault();

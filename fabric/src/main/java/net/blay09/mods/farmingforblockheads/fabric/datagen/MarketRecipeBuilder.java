@@ -7,6 +7,7 @@ import net.minecraft.advancements.Criterion;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -82,7 +83,11 @@ public class MarketRecipeBuilder implements RecipeBuilder {
     }
 
     public RecipeBuilder costs(ItemLike payment, int count) {
-        this.payment = new PaymentImpl(Ingredient.of(payment), count);
+        return costs(payment, count, null);
+    }
+
+    public RecipeBuilder costs(ItemLike payment, int count, @Nullable Component tooltip) {
+        this.payment = new PaymentImpl(Ingredient.of(payment), count, Optional.ofNullable(tooltip));
         return this;
     }
 }

@@ -4,10 +4,9 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.blay09.mods.balm.mixin.ScreenAccessor;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.client.FarmingForBlockheadsClient;
+import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.client.gui.widget.MarketFilterButton;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
-import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -200,9 +199,13 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
         if (selectedRecipe == null) {
             guiGraphics.drawCenteredString(font, I18n.get("gui.farmingforblockheads.market.no_selection"), leftPos + 49, topPos + 65, 0xFFFFFF);
         } else {
-            final var paymentComponent = FarmingForBlockheads.getPaymentComponent(selectedRecipe.value().getPaymentOrDefault());
+            final var payment = selectedRecipe.value().getPaymentOrDefault();
+            final var paymentComponent = payment.tooltip().orElseGet(() -> FarmingForBlockheads.getDefaultPaymentComponent(payment));
             final var component = Component.translatable("gui.farmingforblockheads.market.cost", paymentComponent)
                     .withStyle(ChatFormatting.GREEN);
+            final var width = font.width(component);
+            guiGraphics.fillGradient((int) (leftPos + 49 - width / 2f - 2), topPos + 65 - 2,
+                    (int) (leftPos + 49 + width / 2f + 2), topPos + 65 + 9, 0x88000000, 0x99000000);
             guiGraphics.drawCenteredString(font, component, leftPos + 49, topPos + 65, 0xFFFFFF);
         }
 

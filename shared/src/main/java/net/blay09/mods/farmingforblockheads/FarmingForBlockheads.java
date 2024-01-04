@@ -11,16 +11,13 @@ import net.blay09.mods.farmingforblockheads.menu.ModMenus;
 import net.blay09.mods.farmingforblockheads.item.ModItems;
 import net.blay09.mods.farmingforblockheads.loot.ModLootModifiers;
 import net.blay09.mods.farmingforblockheads.network.ModNetworking;
-import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
 import net.blay09.mods.farmingforblockheads.registry.MarketCategoryLoader;
 import net.blay09.mods.farmingforblockheads.registry.MarketCategoryRegistry;
 import net.blay09.mods.farmingforblockheads.registry.MarketPresetLoader;
 import net.blay09.mods.farmingforblockheads.sound.ModSounds;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Ingredient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,13 +46,15 @@ public class FarmingForBlockheads {
         Balm.getEvents().onEvent(CropGrowEvent.Post.class, FarmlandHandler::onGrowEvent);
     }
 
-    public static Component getPaymentComponent(Payment payment) {
+    public static Component getDefaultPaymentComponent(Payment payment) {
         final var ingredient = payment.ingredient();
         if (ingredient.isEmpty()) {
             return Component.literal("<invalid>");
         }
 
-        final var itemStack = ingredient.getItems()[0];
+        final var candidates = ingredient.getItems();
+        final var index = (int) (System.currentTimeMillis() / 1500L % candidates.length);
+        final var itemStack = candidates[index];
         return Component.translatable("tooltip.farmingforblockheads.payment_item", payment.count(), itemStack.getHoverName());
     }
 }

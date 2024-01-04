@@ -5,6 +5,7 @@ import net.blay09.mods.balm.api.client.BalmClient;
 import net.blay09.mods.balm.api.event.client.ItemTooltipEvent;
 import net.blay09.mods.balm.mixin.AbstractContainerScreenAccessor;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
 import net.blay09.mods.farmingforblockheads.menu.MarketBasketSlot;
 import net.blay09.mods.farmingforblockheads.menu.MarketListingSlot;
@@ -34,7 +35,8 @@ public class FarmingForBlockheadsClient {
                     }
 
                     if (hoverRecipe != null) {
-                        final var paymentComponent = FarmingForBlockheads.getPaymentComponent(hoverRecipe.value().getPaymentOrDefault());
+                        final var payment = hoverRecipe.value().getPaymentOrDefault();
+                        final var paymentComponent = payment.tooltip().orElseGet(() -> FarmingForBlockheads.getDefaultPaymentComponent(payment));
                         final var tooltipComponent = Component.translatable("tooltip.farmingforblockheads.payment", paymentComponent)
                                 .withStyle(ChatFormatting.GREEN);
                         event.getToolTip().add(tooltipComponent);
