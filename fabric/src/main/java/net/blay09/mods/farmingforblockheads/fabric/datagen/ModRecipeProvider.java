@@ -89,17 +89,21 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         market(MarketCategories.SAPLINGS, vanillaSaplings, Items.ACACIA_SAPLING).save(exporter);
         market(MarketCategories.SAPLINGS, vanillaSaplings, Items.DARK_OAK_SAPLING).save(exporter);
         market(MarketCategories.SAPLINGS, vanillaSaplings, Items.CHERRY_SAPLING).save(exporter);
-        market(MarketCategories.SAPLINGS, vanillaSaplings, Items.AZALEA).costs(Items.EMERALD, 4).save(exporter);
-        market(MarketCategories.SAPLINGS, vanillaSaplings, Items.FLOWERING_AZALEA).costs(Items.EMERALD, 4).save(exporter);
-        market(MarketCategories.SAPLINGS, vanillaSaplings, Items.MANGROVE_PROPAGULE).costs(Items.EMERALD, 4).save(exporter);
+
+        final var vanillaExoticSaplings = new ResourceLocation("minecraft", "exotic_saplings");
+        market(MarketCategories.SAPLINGS, vanillaExoticSaplings, Items.AZALEA).save(exporter);
+        market(MarketCategories.SAPLINGS, vanillaExoticSaplings, Items.FLOWERING_AZALEA).save(exporter);
+        market(MarketCategories.SAPLINGS, vanillaExoticSaplings, Items.MANGROVE_PROPAGULE).save(exporter);
 
         final var vanillaSeeds = new ResourceLocation("minecraft", "seeds");
         market(MarketCategories.SEEDS, vanillaSeeds, Items.WHEAT_SEEDS).save(exporter);
         market(MarketCategories.SEEDS, vanillaSeeds, Items.BEETROOT_SEEDS).save(exporter);
         market(MarketCategories.SEEDS, vanillaSeeds, Items.MELON_SEEDS).save(exporter);
         market(MarketCategories.SEEDS, vanillaSeeds, Items.PUMPKIN_SEEDS).save(exporter);
-        market(MarketCategories.SEEDS, vanillaSeeds, Items.POTATO).costs(Items.DIAMOND, 1).save(exporter);
-        market(MarketCategories.SEEDS, vanillaSeeds, Items.CARROT).costs(Items.DIAMOND, 1).save(exporter);
+
+        final var vanillaSeedCrops = new ResourceLocation("minecraft", "seed_crops");
+        market(MarketCategories.SEEDS, vanillaSeedCrops, Items.POTATO).save(exporter);
+        market(MarketCategories.SEEDS, vanillaSeedCrops, Items.CARROT).save(exporter);
 
         final var vanillaFlowers = new ResourceLocation("minecraft", "flowers");
         market(MarketCategories.FLOWERS, vanillaFlowers, Items.DANDELION).save(exporter);

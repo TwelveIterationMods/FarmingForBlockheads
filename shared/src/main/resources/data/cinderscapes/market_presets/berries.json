@@ -1,1 +1,1 @@
-{"optional":true,"payment":{"ingredient":{"item":"minecraft:emerald"},"count":1}}
+{"enabled":false,"payment":{"ingredient":{"item":"minecraft:emerald"},"count":1}}

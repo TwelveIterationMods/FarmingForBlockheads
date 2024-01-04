@@ -1,9 +1,6 @@
 package net.blay09.mods.farmingforblockheads;
 
-import net.blay09.mods.balm.api.config.BalmConfigData;
-import net.blay09.mods.balm.api.config.Comment;
-import net.blay09.mods.balm.api.config.Config;
-import net.blay09.mods.balm.api.config.ExpectedType;
+import net.blay09.mods.balm.api.config.*;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
@@ -15,10 +12,12 @@ public class FarmingForBlockheadsConfigData implements BalmConfigData {
 
     @ExpectedType(ResourceLocation.class)
     @Comment("List of default presets to disable.")
+    @Synced
     public Set<ResourceLocation> disabledDefaultPresets = Set.of();
 
     @ExpectedType(ResourceLocation.class)
     @Comment("List of optional presets to enable.")
+    @Synced
     public Set<ResourceLocation> enabledOptionalPresets = Set.of();
 
     @ExpectedType(String.class)

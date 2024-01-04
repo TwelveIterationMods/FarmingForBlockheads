@@ -2,6 +2,7 @@ package net.blay09.mods.farmingforblockheads.menu;
 
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.container.DefaultContainer;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.api.MarketCategory;
 import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
@@ -9,6 +10,7 @@ import net.blay09.mods.farmingforblockheads.network.MarketPutInBasketMessage;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
 import net.blay09.mods.farmingforblockheads.registry.MarketCategoryRegistry;
+import net.blay09.mods.farmingforblockheads.registry.MarketPresetRegistry;
 import net.blay09.mods.farmingforblockheads.registry.PaymentImpl;
 import net.blay09.mods.farmingforblockheads.registry.SimpleHolder;
 import net.minecraft.core.BlockPos;
@@ -42,10 +44,14 @@ public class MarketMenu extends AbstractContainerMenu {
 
     private String currentSearch;
     private SimpleHolder<MarketCategory> currentCategory;
-    private final Comparator<RecipeHolder<MarketRecipe>> currentSorting = Comparator.comparing(recipe -> recipe.value()
-            .getResultItem(RegistryAccess.EMPTY)
-            .getDisplayName()
-            .getString());
+    private final Comparator<RecipeHolder<MarketRecipe>> currentSorting = Comparator.comparingInt(
+                    (RecipeHolder<MarketRecipe> recipe) -> MarketCategoryRegistry.INSTANCE.get(recipe.value().getCategory())
+                            .map(MarketCategory::sortIndex)
+                            .orElse(0))
+            .thenComparing(recipe -> recipe.value()
+                    .getResultItem(RegistryAccess.EMPTY)
+                    .getDisplayName()
+                    .getString());
 
     private boolean scrollOffsetDirty;
     private int scrollOffset;
@@ -58,19 +64,20 @@ public class MarketMenu extends AbstractContainerMenu {
         this.player = playerInventory.player;
         this.pos = pos;
 
-        categories = MarketCategoryRegistry.INSTANCE.getAll().entrySet()
-                .stream()
-                .filter(entry -> includeOnlyCategories.isEmpty() || includeOnlyCategories.contains(entry.getKey()))
-                .sorted(Comparator.comparingInt(entry -> entry.getValue().sortIndex()))
-                .map(it -> new SimpleHolder<>(it.getKey(), it.getValue()))
-                .toList();
-
         recipes = player.level()
                 .getRecipeManager()
                 .getAllRecipesFor(ModRecipes.marketRecipeType)
                 .stream()
                 .filter(recipe -> includeOnlyPresets.isEmpty() || includeOnlyPresets.contains(recipe.value().getPreset()))
-                .filter(recipe -> !recipe.value().getResultItem(RegistryAccess.EMPTY).isEmpty())
+                .filter(recipe -> isRecipeEnabled(recipe.value()))
+                .toList();
+
+        categories = MarketCategoryRegistry.INSTANCE.getAll().entrySet()
+                .stream()
+                .filter(entry -> includeOnlyCategories.isEmpty() || includeOnlyCategories.contains(entry.getKey()))
+                .filter(entry -> recipes.stream().anyMatch(it -> it.value().getCategory().equals(entry.getKey())))
+                .sorted(Comparator.comparingInt(entry -> entry.getValue().sortIndex()))
+                .map(it -> new SimpleHolder<>(it.getKey(), it.getValue()))
                 .toList();
 
         addSlot(paymentSlot = new MarketPaymentSlot(marketInputBuffer, 0, 23, 39));
@@ -97,6 +104,21 @@ public class MarketMenu extends AbstractContainerMenu {
 
         updateFilteredRecipes();
         setScrollOffset(0);
+    }
+
+    private boolean isRecipeEnabled(MarketRecipe recipe) {
+        final var disabledDefaultPresets = FarmingForBlockheadsConfig.getActive().disabledDefaultPresets;
+        if (disabledDefaultPresets.contains(recipe.getPreset())) {
+            return false;
+        }
+
+        final var enabledOptionalPresets = FarmingForBlockheadsConfig.getActive().enabledOptionalPresets;
+        final var preset = MarketPresetRegistry.INSTANCE.get(recipe.getPreset());
+        if (preset.map(it -> !it.enabledByDefault() && !enabledOptionalPresets.contains(recipe.getPreset())).orElse(false)) {
+            return false;
+        }
+
+        return !recipe.getResultItem(RegistryAccess.EMPTY).isEmpty();
     }
 
     @Override
