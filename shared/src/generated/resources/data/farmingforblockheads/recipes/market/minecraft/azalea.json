@@ -4,7 +4,7 @@
   "payment": {
     "count": 4,
     "ingredient": {
-      "tag": "minecraft:planks"
+      "item": "minecraft:emerald"
     }
   },
   "preset": "minecraft:saplings",
