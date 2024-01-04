@@ -1,13 +1,7 @@
 {
   "type": "farmingforblockheads:market",
   "category": "farmingforblockheads:seeds",
-  "payment": {
-    "count": 1,
-    "ingredient": {
-      "item": "minecraft:diamond"
-    }
-  },
-  "preset": "minecraft:seeds",
+  "preset": "minecraft:seed_crops",
   "result": {
     "item": "minecraft:potato"
   }
