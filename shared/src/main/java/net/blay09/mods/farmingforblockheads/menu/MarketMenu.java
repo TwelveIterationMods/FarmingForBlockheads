@@ -278,6 +278,8 @@ public class MarketMenu extends AbstractContainerMenu {
                 }
             }
         }
+
+        super.clicked(slotNumber, dragType, clickType, player);
     }
 
     public void setSearch(@Nullable String term) {

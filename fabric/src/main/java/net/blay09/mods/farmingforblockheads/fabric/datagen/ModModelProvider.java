@@ -1,5 +1,6 @@
 package net.blay09.mods.farmingforblockheads.fabric.datagen;
 
+import net.blay09.mods.farmingforblockheads.block.MarketBlock;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -7,14 +8,20 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.data.models.blockstates.PropertyDispatch;
+import net.minecraft.data.models.blockstates.Variant;
+import net.minecraft.data.models.blockstates.VariantProperties;
+import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.data.models.model.ModelTemplates;
 import net.minecraft.data.models.model.TextureMapping;
 import net.minecraft.data.models.model.TextureSlot;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 import static net.minecraft.data.models.BlockModelGenerators.createEmptyOrFullDispatch;
+import static net.minecraft.data.models.BlockModelGenerators.createHorizontalFacingDispatch;
 
 public class ModModelProvider extends FabricModelProvider {
     public ModModelProvider(FabricDataOutput output) {
@@ -23,11 +30,9 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
-        blockStateModelGenerator.skipAutoItemBlock(ModBlocks.market);
-
         blockStateModelGenerator.createNonTemplateModelBlock(ModBlocks.feedingTrough);
 
-        blockStateModelGenerator.createNonTemplateHorizontalBlock(ModBlocks.market);
+        createDoubleBlockMarket(blockStateModelGenerator, ModBlocks.market, ModBlocks.market);
         blockStateModelGenerator.createNonTemplateHorizontalBlock(ModBlocks.chickenNest);
 
         createFertilizedFarmland(blockStateModelGenerator, ModBlocks.fertilizedFarmlandHealthy);
@@ -55,5 +60,17 @@ public class ModModelProvider extends FabricModelProvider {
                 blockStateModelGenerator.modelOutput);
         blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(farmland)
                 .with(createEmptyOrFullDispatch(BlockStateProperties.MOISTURE, 7, moistModel, model)));
+    }
+
+    private void createDoubleBlockMarket(BlockModelGenerators blockStateModelGenerator, Block block, Block modelBlock) {
+        final var topModelLocation = ModelLocationUtils.getModelLocation(modelBlock, "_top");
+        final var bottomModelLocation = ModelLocationUtils.getModelLocation(modelBlock, "_bottom");
+        final var generator = MultiVariantGenerator.multiVariant(block)
+                .with(createHorizontalFacingDispatch())
+                .with(PropertyDispatch.property(MarketBlock.HALF)
+                        .select(DoubleBlockHalf.LOWER, Variant.variant().with(VariantProperties.MODEL, bottomModelLocation))
+                        .select(DoubleBlockHalf.UPPER, Variant.variant().with(VariantProperties.MODEL, topModelLocation)));
+        blockStateModelGenerator.blockStateOutput.accept(generator);
+        blockStateModelGenerator.skipAutoItemBlock(block);
     }
 }

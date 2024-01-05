@@ -1,9 +1,12 @@
 package net.blay09.mods.farmingforblockheads.fabric.datagen;
 
+import net.blay09.mods.farmingforblockheads.block.MarketBlock;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
     protected ModBlockLootTableProvider(FabricDataOutput dataOutput) {
@@ -12,7 +15,7 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-        dropSelf(ModBlocks.market);
+        createSinglePropConditionTable(ModBlocks.market, MarketBlock.HALF, DoubleBlockHalf.LOWER);
         dropSelf(ModBlocks.chickenNest);
         dropSelf(ModBlocks.feedingTrough);
         dropOther(ModBlocks.fertilizedFarmlandHealthy, Blocks.DIRT);

@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=east": {
-      "model": "farmingforblockheads:block/market",
+    "facing=east,half=lower": {
+      "model": "farmingforblockheads:block/market_bottom",
       "y": 90
     },
-    "facing=north": {
-      "model": "farmingforblockheads:block/market"
+    "facing=east,half=upper": {
+      "model": "farmingforblockheads:block/market_top",
+      "y": 90
     },
-    "facing=south": {
-      "model": "farmingforblockheads:block/market",
+    "facing=north,half=lower": {
+      "model": "farmingforblockheads:block/market_bottom"
+    },
+    "facing=north,half=upper": {
+      "model": "farmingforblockheads:block/market_top"
+    },
+    "facing=south,half=lower": {
+      "model": "farmingforblockheads:block/market_bottom",
       "y": 180
     },
-    "facing=west": {
-      "model": "farmingforblockheads:block/market",
+    "facing=south,half=upper": {
+      "model": "farmingforblockheads:block/market_top",
+      "y": 180
+    },
+    "facing=west,half=lower": {
+      "model": "farmingforblockheads:block/market_bottom",
+      "y": 270
+    },
+    "facing=west,half=upper": {
+      "model": "farmingforblockheads:block/market_top",
       "y": 270
     }
   }
