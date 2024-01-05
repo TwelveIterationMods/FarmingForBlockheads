@@ -7,10 +7,9 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.Bounds;
-import net.blay09.mods.farmingforblockheads.api.IMarketEntry;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
+import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -36,8 +35,9 @@ public class EmiIntegration implements EmiPlugin {
         registry.addCategory(MARKET_CATEGORY);
         registry.addWorkstation(MARKET_CATEGORY, MARKET);
 
-        for (IMarketEntry marketRecipe : MarketRegistry.getEntries()) {
-            registry.addRecipe(new MarketEmiRecipe(marketRecipe));
+        final var marketRecipes = registry.getRecipeManager().getAllRecipesFor(ModRecipes.marketRecipeType);
+        for (final var marketRecipe : marketRecipes) {
+            registry.addRecipe(new MarketEmiRecipe(marketRecipe.id(), marketRecipe.value()));
         }
 
         registry.addExclusionArea(MarketScreen.class, (screen, consumer) ->

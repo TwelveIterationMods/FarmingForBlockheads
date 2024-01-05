@@ -1,0 +1,8 @@
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:other",
+  "preset": "minecraft:crops",
+  "result": {
+    "item": "minecraft:sweet_berries"
+  }
+}

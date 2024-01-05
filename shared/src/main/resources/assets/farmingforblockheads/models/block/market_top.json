@@ -1,0 +1,86 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "block/spruce_log",
+		"log": "block/spruce_log",
+		"roof": "farmingforblockheads:block/market_roof"
+	},
+	"elements": [
+		{
+			"name": "supportBackEast",
+			"from": [14.5, 0, 14.5],
+			"to": [15.5, 12, 15.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -16, 0]},
+			"faces": {
+				"north": {"uv": [8, 4, 9, 16], "texture": "#log"},
+				"east": {"uv": [8, 4, 9, 16], "texture": "#log"},
+				"south": {"uv": [8, 4, 9, 16], "texture": "#log"},
+				"west": {"uv": [8, 4, 9, 16], "texture": "#log"}
+			}
+		},
+		{
+			"name": "supportBackWest",
+			"from": [0.5, 0, 14.5],
+			"to": [1.5, 12, 15.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -16, 0]},
+			"faces": {
+				"north": {"uv": [3, 4, 4, 16], "texture": "#log"},
+				"east": {"uv": [3, 4, 4, 16], "texture": "#log"},
+				"south": {"uv": [3, 4, 4, 16], "texture": "#log"},
+				"west": {"uv": [3, 4, 4, 16], "texture": "#log"}
+			}
+		},
+		{
+			"name": "supportFrontEast",
+			"from": [14.5, 0, 5.5],
+			"to": [15.5, 12, 6.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -16, 0]},
+			"faces": {
+				"north": {"uv": [11, 4, 12, 16], "texture": "#log"},
+				"east": {"uv": [11, 4, 12, 16], "texture": "#log"},
+				"south": {"uv": [11, 4, 12, 16], "texture": "#log"},
+				"west": {"uv": [11, 4, 12, 16], "texture": "#log"}
+			}
+		},
+		{
+			"name": "supportFrontWest",
+			"from": [0.5, 0, 5.5],
+			"to": [1.5, 12, 6.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -16, 0]},
+			"faces": {
+				"north": {"uv": [5, 4, 6, 16], "texture": "#log"},
+				"east": {"uv": [5, 4, 6, 16], "texture": "#log"},
+				"south": {"uv": [5, 4, 6, 16], "texture": "#log"},
+				"west": {"uv": [5, 4, 6, 16], "texture": "#log"}
+			}
+		},
+		{
+			"name": "roof",
+			"from": [0, 12, 5],
+			"to": [16, 13, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -16, 0]},
+			"faces": {
+				"north": {"uv": [16, 4, 0, 5], "texture": "#roof"},
+				"east": {"uv": [15, 4, 16, 15], "rotation": 90, "texture": "#roof"},
+				"south": {"uv": [0, 14, 16, 15], "texture": "#roof"},
+				"west": {"uv": [0, 4, 1, 15], "rotation": 270, "texture": "#roof"},
+				"up": {"uv": [0, 4, 16, 15], "texture": "#roof"},
+				"down": {"uv": [0, 15, 16, 4], "texture": "#roof"}
+			}
+		},
+		{
+			"name": "roofSlanted",
+			"from": [0, 12, 1],
+			"to": [16, 13, 5],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [0, 12, 5]},
+			"faces": {
+				"north": {"uv": [16, 0, 0, 1], "texture": "#roof"},
+				"east": {"uv": [15, 0, 16, 4], "rotation": 90, "texture": "#roof"},
+				"south": {"uv": [0, 3, 16, 4], "texture": "#roof"},
+				"west": {"uv": [0, 0, 1, 4], "rotation": 270, "texture": "#roof"},
+				"up": {"uv": [0, 0, 16, 4], "texture": "#roof"},
+				"down": {"uv": [0, 4, 16, 0], "texture": "#roof"}
+			}
+		}
+	]
+}

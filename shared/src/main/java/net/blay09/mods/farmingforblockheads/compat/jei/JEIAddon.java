@@ -9,11 +9,14 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
-import net.blay09.mods.farmingforblockheads.registry.MarketRegistry;
+import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
+import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +26,14 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(MarketCategory.TYPE, MarketRegistry.getEntries().stream().toList());
+        final var recipeManager = Minecraft.getInstance().level.getRecipeManager();
+        final var marketRecipes = recipeManager.getAllRecipesFor(ModRecipes.marketRecipeType).stream().map(RecipeHolder::value).toList();
+        registration.addRecipes(JeiMarketRecipeCategory.TYPE, marketRecipes);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.market), MarketCategory.TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.market), JeiMarketRecipeCategory.TYPE);
     }
 
     @Override
@@ -47,7 +52,7 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
-        registry.addRecipeCategories(new MarketCategory(registry.getJeiHelpers().getGuiHelper()));
+        registry.addRecipeCategories(new JeiMarketRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
     }
 
     @Override

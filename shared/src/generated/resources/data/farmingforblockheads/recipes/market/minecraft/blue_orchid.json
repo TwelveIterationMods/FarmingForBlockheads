@@ -1,0 +1,8 @@
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:flowers",
+  "preset": "minecraft:flowers",
+  "result": {
+    "item": "minecraft:blue_orchid"
+  }
+}

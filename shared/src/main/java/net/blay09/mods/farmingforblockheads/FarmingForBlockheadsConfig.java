@@ -7,11 +7,12 @@ import java.util.List;
 
 public class FarmingForBlockheadsConfig {
 
-    public static final List<String> DEFAULT_MERCHANT_NAMES = Arrays.asList(
+    public static final List<String> DEFAULT_MERCHANT_NAMES = List.of(
             "Swap-O-Matic",
             "Emerald Muncher",
             "Weathered Salesperson"
     );
+
     public static FarmingForBlockheadsConfigData getActive() {
         return Balm.getConfig().getActive(FarmingForBlockheadsConfigData.class);
     }

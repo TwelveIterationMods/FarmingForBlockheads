@@ -4,6 +4,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated(forRemoval = true)
 public interface IMarketRegistryDefaultHandler {
     @Deprecated
     default void register(@Nullable ItemStack overridePayment) {

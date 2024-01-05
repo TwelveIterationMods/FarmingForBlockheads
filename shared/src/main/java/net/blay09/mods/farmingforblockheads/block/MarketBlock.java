@@ -17,22 +17,31 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class MarketBlock extends BaseEntityBlock {
 
-    public static final MapCodec<ChickenNestBlock> CODEC = simpleCodec(ChickenNestBlock::new);
+    public static final MapCodec<MarketBlock> CODEC = simpleCodec(MarketBlock::new);
 
+    public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
+    private static final VoxelShape TOP_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
     private static final VoxelShape RENDER_SHAPE = Block.box(0, 0.01, 0, 16, 16, 16);
 
     public MarketBlock(Properties properties) {
@@ -41,7 +50,55 @@ public class MarketBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(HALF);
         builder.add(FACING);
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState directionState, LevelAccessor world, BlockPos pos, BlockPos directionPos) {
+        final var half = state.getValue(HALF);
+        if ((direction.getAxis() != Direction.Axis.Y)
+                || ((half == DoubleBlockHalf.LOWER) != (direction == Direction.UP))
+                || ((directionState.getBlock() == this)
+                && (directionState.getValue(HALF) != half))) {
+            if ((half != DoubleBlockHalf.LOWER) || (direction != Direction.DOWN) || state.canSurvive(world, pos)) {
+                return state;
+            }
+        }
+
+        return Blocks.AIR.defaultBlockState();
+    }
+
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!level.isClientSide && (player.isCreative() || !player.hasCorrectToolForDrops(state))) {
+            preventDropFromBottomPart(level, pos, state, player);
+        }
+
+        return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    private static void preventDropFromBottomPart(Level level, BlockPos pos, BlockState blockState, Player player) {
+        final var half = blockState.getValue(HALF);
+        if (half == DoubleBlockHalf.UPPER) {
+            final var posBelow = pos.below();
+            final var stateBelow = level.getBlockState(posBelow);
+            if (stateBelow.is(blockState.getBlock()) && stateBelow.getValue(HALF) == DoubleBlockHalf.LOWER) {
+                final var newStateBelow = stateBelow.getFluidState().is(Fluids.WATER) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
+                level.setBlock(posBelow, newStateBelow, 35);
+                level.levelEvent(player, 2001, posBelow, Block.getId(stateBelow));
+            }
+        }
+    }
+
+    @Override
+    public void playerDestroy(Level world, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
+        super.playerDestroy(world, player, pos, Blocks.AIR.defaultBlockState(), blockEntity, stack);
+    }
+
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        final var posBelow = pos.below();
+        final var stateBelow = level.getBlockState(posBelow);
+        return state.getValue(HALF) == DoubleBlockHalf.LOWER ? super.canSurvive(state, level, pos) : stateBelow.is(this);
     }
 
     @Nullable
@@ -53,7 +110,7 @@ public class MarketBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext useContext) {
-        return defaultBlockState().setValue(FACING, useContext.getHorizontalDirection().getOpposite());
+        return defaultBlockState().setValue(FACING, useContext.getHorizontalDirection().getOpposite()).setValue(HALF, DoubleBlockHalf.LOWER);
     }
 
     @Override
@@ -85,6 +142,8 @@ public class MarketBlock extends BaseEntityBlock {
             level.addFreshEntity(merchant);
             merchant.finalizeSpawn(((ServerLevel) level), level.getCurrentDifficultyAt(pos), MobSpawnType.STRUCTURE, null, null);
         }
+
+        level.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
     }
 
     @Override
@@ -111,12 +170,31 @@ public class MarketBlock extends BaseEntityBlock {
     }
 
     @Override
+    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            final var TOP_SHAPES = new VoxelShape[] {
+                    Block.box(0, 0, 0, 16, 13, 11),
+                    Block.box(5, 0, 0, 16, 13, 16),
+                    Block.box(0, 0, 5, 16, 13, 16),
+                    Block.box(0, 0, 0, 11, 13, 16),
+            };
+            return TOP_SHAPES[state.getValue(FACING).get2DDataValue()];
+        }
+
+        return super.getShape(state, blockGetter, pos, collisionContext);
+    }
+
+    @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
 
     @Override
     public VoxelShape getOcclusionShape(BlockState state, BlockGetter worldIn, BlockPos pos) {
+        if(state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            return Shapes.empty();
+        }
+
         return RENDER_SHAPE;
     }
 

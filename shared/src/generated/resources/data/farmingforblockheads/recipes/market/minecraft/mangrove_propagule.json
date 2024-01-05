@@ -1,0 +1,8 @@
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:saplings",
+  "preset": "minecraft:exotic_saplings",
+  "result": {
+    "item": "minecraft:mangrove_propagule"
+  }
+}

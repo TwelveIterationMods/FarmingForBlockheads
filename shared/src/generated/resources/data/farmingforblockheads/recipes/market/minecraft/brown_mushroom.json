@@ -1,0 +1,8 @@
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:other",
+  "preset": "minecraft:mushrooms",
+  "result": {
+    "item": "minecraft:brown_mushroom"
+  }
+}
