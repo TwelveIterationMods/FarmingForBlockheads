@@ -1,5 +1,6 @@
 package net.blay09.mods.farmingforblockheads.fabric.client;
 
+import net.blay09.mods.balm.api.EmptyLoadContext;
 import net.blay09.mods.balm.api.client.BalmClient;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.client.FarmingForBlockheadsClient;
@@ -9,6 +10,6 @@ public class FabricFarmingForBlockheadsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        BalmClient.initialize(FarmingForBlockheads.MOD_ID, FarmingForBlockheadsClient::initialize);
+        BalmClient.initialize(FarmingForBlockheads.MOD_ID, EmptyLoadContext.INSTANCE, FarmingForBlockheadsClient::initialize);
     }
 }

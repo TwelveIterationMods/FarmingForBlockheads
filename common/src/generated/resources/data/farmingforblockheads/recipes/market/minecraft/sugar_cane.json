@@ -1,0 +1,9 @@
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:other",
+  "preset": "minecraft:crops",
+  "result": {
+    "count": 1,
+    "item": "minecraft:sugar_cane"
+  }
+}

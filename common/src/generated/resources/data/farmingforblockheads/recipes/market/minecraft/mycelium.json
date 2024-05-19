@@ -1,0 +1,9 @@
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:other",
+  "preset": "minecraft:soil",
+  "result": {
+    "count": 1,
+    "item": "minecraft:mycelium"
+  }
+}

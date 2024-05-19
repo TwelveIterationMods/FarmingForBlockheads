@@ -1,3 +1,5 @@
+Updated to Minecraft 1.20.6
+
 - Added new ways of defining Market Presets, Market Categories and Market Items
     - See [here](https://mods.twelveiterations.com/mc/farming-for-blockheads/customization/) for documentation
       and [here](https://mods.twelveiterations.com/mc/farming-for-blockheads/migration-to-1204/) for an automatic

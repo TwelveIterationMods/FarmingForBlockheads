@@ -1,0 +1,9 @@
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:seeds",
+  "preset": "minecraft:seed_crops",
+  "result": {
+    "count": 1,
+    "item": "minecraft:potato"
+  }
+}

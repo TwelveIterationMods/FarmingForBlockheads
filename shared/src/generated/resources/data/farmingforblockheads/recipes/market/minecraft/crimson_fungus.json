@@ -1,8 +1,0 @@
-{
-  "type": "farmingforblockheads:market",
-  "category": "farmingforblockheads:other",
-  "preset": "minecraft:mushrooms",
-  "result": {
-    "item": "minecraft:crimson_fungus"
-  }
-}

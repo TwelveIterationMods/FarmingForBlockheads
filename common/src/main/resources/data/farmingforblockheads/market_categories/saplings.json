@@ -1,0 +1,9 @@
+{
+  "tooltip": {
+    "translate": "category.farmingforblockheads.saplings"
+  },
+  "icon": {
+    "id": "minecraft:oak_sapling"
+  },
+  "sortIndex": 20
+}
