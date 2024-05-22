@@ -62,7 +62,7 @@ public class FeedingTroughBlockEntity extends BalmBlockEntity implements BalmCon
 
     @Override
     protected void loadAdditional(CompoundTag tagCompound, HolderLookup.Provider provider) {
-        container.deserialize(provider, tagCompound.getCompound("ItemHandler"));
+        container.deserialize(tagCompound.getCompound("ItemHandler"), provider);
     }
 
     @Override

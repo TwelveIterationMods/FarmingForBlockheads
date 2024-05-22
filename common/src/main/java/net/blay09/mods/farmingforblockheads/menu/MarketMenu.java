@@ -16,6 +16,7 @@ import net.blay09.mods.farmingforblockheads.registry.SimpleHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -34,7 +35,10 @@ import java.util.*;
 
 public class MarketMenu extends AbstractContainerMenu {
 
-    public static final StreamCodec<FriendlyByteBuf, MarketMenuData> CODEC = StreamCodec.of((buf, data) -> {
+    public record Data(BlockPos pos, Set<ResourceLocation> presetFilters, Set<ResourceLocation> categoryFilters) {
+    }
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, Data> STREAM_CODEC = StreamCodec.of((buf, data) -> {
         buf.writeBlockPos(data.pos());
         buf.writeInt(data.presetFilters().size());
         for (ResourceLocation location : data.presetFilters()) {
@@ -56,7 +60,7 @@ public class MarketMenu extends AbstractContainerMenu {
         for (int i = 0; i < categoryFilterSize; i++) {
             categoryFilters.add(buf.readResourceLocation());
         }
-        return new MarketMenuData(pos, presetFilters, categoryFilters);
+        return new Data(pos, presetFilters, categoryFilters);
     });
 
     private final Player player;

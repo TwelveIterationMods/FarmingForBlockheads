@@ -3,9 +3,9 @@ package net.blay09.mods.farmingforblockheads.block.entity;
 import net.blay09.mods.balm.api.menu.BalmMenuProvider;
 import net.blay09.mods.balm.common.BalmBlockEntity;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
-import net.blay09.mods.farmingforblockheads.menu.MarketMenuData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvider<MarketMenuData> {
+public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvider<MarketMenu.Data> {
     public MarketBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.market.get(), pos, state);
     }
@@ -46,12 +46,12 @@ public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvid
     }
 
     @Override
-    public MarketMenuData getScreenOpeningData(ServerPlayer serverPlayer) {
-        return new MarketMenuData(worldPosition, getPresetFilter(), getCategoryFilter());
+    public MarketMenu.Data getScreenOpeningData(ServerPlayer serverPlayer) {
+        return new MarketMenu.Data(worldPosition, getPresetFilter(), getCategoryFilter());
     }
 
     @Override
-    public StreamCodec<FriendlyByteBuf, MarketMenuData> getCodec() {
-        return MarketMenu.CODEC;
+    public StreamCodec<RegistryFriendlyByteBuf, MarketMenu.Data> getScreenStreamCodec() {
+        return MarketMenu.STREAM_CODEC;
     }
 }

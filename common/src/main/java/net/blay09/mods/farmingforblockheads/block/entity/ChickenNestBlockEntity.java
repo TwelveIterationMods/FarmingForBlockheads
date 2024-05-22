@@ -71,7 +71,7 @@ public class ChickenNestBlockEntity extends BalmBlockEntity implements BalmConta
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-        container.deserialize(provider, tag.getCompound("ItemHandler"));
+        container.deserialize(tag.getCompound("ItemHandler"), provider);
     }
 
     @Override
