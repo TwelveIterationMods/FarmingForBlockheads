@@ -9,7 +9,7 @@
       "item": "minecraft:gold_nugget"
     },
     "R": {
-      "tag": "c:red_dyes"
+      "tag": "c:dyes/red"
     },
     "S": {
       "item": "minecraft:wheat_seeds"

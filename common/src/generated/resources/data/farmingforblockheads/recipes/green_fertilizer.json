@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "G": {
-      "tag": "c:green_dyes"
+      "tag": "c:dyes/green"
     },
     "N": {
       "item": "minecraft:gold_nugget"
