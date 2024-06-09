@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class MarketFilterButton extends Button {
 
-    private static final ResourceLocation ICONS = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
+    private static final ResourceLocation ICONS = ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
 
     private final MarketMenu menu;
     private final SimpleHolder<MarketCategory> category;

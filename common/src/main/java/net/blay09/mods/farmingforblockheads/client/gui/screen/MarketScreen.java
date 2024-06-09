@@ -30,7 +30,7 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     private static final int SCROLLBAR_HEIGHT = 77;
     private static final int VISIBLE_ROWS = 4;
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "textures/gui/market.png");
 
     private final List<MarketFilterButton> filterButtons = Lists.newArrayList();
 

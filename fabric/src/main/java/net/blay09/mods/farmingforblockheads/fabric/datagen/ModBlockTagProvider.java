@@ -19,17 +19,17 @@ public class ModBlockTagProvider extends FabricTagProvider<Block> {
 
     @Override
     protected void addTags(HolderLookup.Provider arg) {
-        final var dirtTag = TagKey.create(Registries.BLOCK, new ResourceLocation("minecraft", "dirt"));
+        final var dirtTag = TagKey.create(Registries.BLOCK, ResourceLocation.withDefaultNamespace("dirt"));
         getOrCreateTagBuilder(dirtTag).add(ModBlocks.fertilizedFarmlandHealthy,
                 ModBlocks.fertilizedFarmlandRich,
                 ModBlocks.fertilizedFarmlandStable,
                 ModBlocks.fertilizedFarmlandHealthyStable,
                 ModBlocks.fertilizedFarmlandRichStable);
 
-        final var mineableAxeTag = TagKey.create(Registries.BLOCK, new ResourceLocation("minecraft", "mineable/axe"));
+        final var mineableAxeTag = TagKey.create(Registries.BLOCK, ResourceLocation.withDefaultNamespace("mineable/axe"));
         getOrCreateTagBuilder(mineableAxeTag).add(ModBlocks.market, ModBlocks.chickenNest, ModBlocks.feedingTrough);
 
-        final var mineableShovelTag = TagKey.create(Registries.BLOCK, new ResourceLocation("minecraft", "mineable/shovel"));
+        final var mineableShovelTag = TagKey.create(Registries.BLOCK, ResourceLocation.withDefaultNamespace("mineable/shovel"));
         getOrCreateTagBuilder(mineableShovelTag).add(ModBlocks.fertilizedFarmlandHealthyStable,
                 ModBlocks.fertilizedFarmlandRichStable,
                 ModBlocks.fertilizedFarmlandStable,

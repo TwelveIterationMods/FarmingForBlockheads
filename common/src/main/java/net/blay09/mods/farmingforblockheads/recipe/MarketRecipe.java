@@ -21,7 +21,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 
-public class MarketRecipe implements Recipe<Container> {
+public class MarketRecipe implements Recipe<RecipeInput> {
 
     private final ResourceLocation preset;
     private final ResourceLocation category;
@@ -36,12 +36,12 @@ public class MarketRecipe implements Recipe<Container> {
     }
 
     @Override
-    public boolean matches(Container container, Level level) {
+    public boolean matches(RecipeInput container, Level level) {
         return true;
     }
 
     @Override
-    public ItemStack assemble(Container container, HolderLookup.Provider provider) {
+    public ItemStack assemble(RecipeInput container, HolderLookup.Provider provider) {
         return resultItem.copy();
     }
 

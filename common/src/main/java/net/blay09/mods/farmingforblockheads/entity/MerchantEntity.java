@@ -253,7 +253,7 @@ public class MerchantEntity extends PathfinderMob {
     }
 
     @Override
-    public boolean canBeLeashed(Player player) {
+    public boolean canBeLeashed() {
         return false;
     }
 
@@ -343,7 +343,7 @@ public class MerchantEntity extends PathfinderMob {
             String normalizedName = customName.getString();
             normalizedName = normalizedName.replaceAll("[^A-Za-z0-9]", "_");
             normalizedName = normalizedName.toLowerCase(Locale.ENGLISH);
-            textureLocation = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/entity/merchant_" + normalizedName + ".png");
+            textureLocation = ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "textures/entity/merchant_" + normalizedName + ".png");
         } else if (textureLocation != null && customName == null) {
             textureLocation = null;
         }

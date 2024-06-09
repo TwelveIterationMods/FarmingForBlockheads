@@ -20,7 +20,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class ModLootModifiers {
     public static void initialize(BalmLootTables lootTables) {
-        lootTables.registerLootModifier(new ResourceLocation(FarmingForBlockheads.MOD_ID, "rich_farmland"), (context, loot) -> {
+        lootTables.registerLootModifier(ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "rich_farmland"), (context, loot) -> {
             Level level = context.getLevel();
             Vec3 origin = context.getParamOrNull(LootContextParams.ORIGIN);
             BlockState plant = context.getParamOrNull(LootContextParams.BLOCK_STATE);

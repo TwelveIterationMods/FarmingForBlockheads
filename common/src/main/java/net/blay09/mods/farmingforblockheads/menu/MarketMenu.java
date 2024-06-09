@@ -221,7 +221,7 @@ public class MarketMenu extends AbstractContainerMenu {
     @Override
     public void slotsChanged(Container container) {
         if (selectedRecipe != null) {
-            marketOutputBuffer.setItem(0, selectedRecipe.value().assemble(new TransientCraftingContainer(this, 0, 0), RegistryAccess.EMPTY));
+            marketOutputBuffer.setItem(0, selectedRecipe.value().assemble(new TransientCraftingContainer(this, 0, 0).asCraftInput(), RegistryAccess.EMPTY));
         } else {
             marketOutputBuffer.setItem(0, ItemStack.EMPTY);
         }

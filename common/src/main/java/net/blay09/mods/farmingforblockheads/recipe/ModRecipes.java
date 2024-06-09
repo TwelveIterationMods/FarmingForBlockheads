@@ -9,7 +9,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 public class ModRecipes {
 
     public static final String MARKET_RECIPE_GROUP = "market";
-    public static final ResourceLocation MARKET_RECIPE_TYPE = new ResourceLocation(FarmingForBlockheads.MOD_ID, MARKET_RECIPE_GROUP);
+    public static final ResourceLocation MARKET_RECIPE_TYPE = ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, MARKET_RECIPE_GROUP);
 
     public static RecipeType<MarketRecipe> marketRecipeType;
     public static RecipeSerializer<MarketRecipe> marketRecipeSerializer;

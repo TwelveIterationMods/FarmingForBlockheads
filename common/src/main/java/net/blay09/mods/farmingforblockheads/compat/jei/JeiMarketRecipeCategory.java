@@ -24,10 +24,10 @@ import net.minecraft.world.item.ItemStack;
 
 public class JeiMarketRecipeCategory implements IRecipeCategory<MarketRecipe> {
 
-    public static final ResourceLocation UID = new ResourceLocation("farmingforblockheads:market");
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath("farmingforblockheads", "market");
     public static final RecipeType<MarketRecipe> TYPE = new RecipeType<>(UID, MarketRecipe.class);
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/gui/jei_market.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "textures/gui/jei_market.png");
 
     private final IDrawable icon;
     private final IDrawableStatic background;

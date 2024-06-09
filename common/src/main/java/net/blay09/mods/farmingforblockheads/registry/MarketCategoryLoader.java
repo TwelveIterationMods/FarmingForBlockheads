@@ -33,7 +33,7 @@ public class MarketCategoryLoader implements ResourceManagerReloadListener {
         if (configDir.exists() || configDir.mkdirs()) {
             try (final var files = Files.walk(configDir.toPath())) {
                 files.filter(it -> it.getFileName().endsWith(".json")).forEach(it -> {
-                    final var id = new ResourceLocation(FarmingForBlockheads.MOD_ID, it.getFileName().toString().replace(".json", ""));
+                    final var id = ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, it.getFileName().toString().replace(".json", ""));
                     try (final var reader = Files.newBufferedReader(it)) {
                         registry.loadAdditionally(id, reader);
                     } catch (Exception e) {

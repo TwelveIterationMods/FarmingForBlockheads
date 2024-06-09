@@ -24,11 +24,11 @@ public class ModItems {
 
         items.registerCreativeModeTab(() -> new ItemStack(ModBlocks.market), id("farmingforblockheads"));
 
-        EGGS_TAG = Balm.getRegistries().getItemTag(new ResourceLocation("balm", "eggs"));
+        EGGS_TAG = Balm.getRegistries().getItemTag(ResourceLocation.fromNamespaceAndPath("c", "eggs"));
     }
 
     private static ResourceLocation id(String path) {
-        return new ResourceLocation(FarmingForBlockheads.MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, path);
     }
 
 }

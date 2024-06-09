@@ -61,7 +61,7 @@ public class MarketRecipeBuilder implements RecipeBuilder {
     @Override
     public void save(RecipeOutput recipeOutput, String string) {
         ResourceLocation defaultRecipeId = getDefaultRecipeId(this.getResult());
-        ResourceLocation recipeId = new ResourceLocation(string);
+        ResourceLocation recipeId = ResourceLocation.parse(string);
         if (recipeId.equals(defaultRecipeId)) {
             throw new IllegalStateException("Recipe " + string + " should remove its 'save' argument as it is equal to default one");
         } else {
@@ -71,7 +71,7 @@ public class MarketRecipeBuilder implements RecipeBuilder {
 
     private static ResourceLocation getDefaultRecipeId(ItemLike itemLike) {
         final var itemId = BuiltInRegistries.ITEM.getKey(itemLike.asItem());
-        return new ResourceLocation(itemId.getNamespace(), "market/" + itemId.getNamespace() + "/" + itemId.getPath());
+        return ResourceLocation.fromNamespaceAndPath(itemId.getNamespace(), "market/" + itemId.getNamespace() + "/" + itemId.getPath());
     }
 
     public static MarketRecipeBuilder market(ResourceLocation category, ResourceLocation preset, ItemLike result) {

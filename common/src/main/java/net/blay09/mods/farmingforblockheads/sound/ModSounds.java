@@ -10,7 +10,7 @@ public class ModSounds {
     public static DeferredObject<SoundEvent> falling;
 
     public static void initialize(BalmSounds sounds) {
-        falling = sounds.register(new ResourceLocation(FarmingForBlockheads.MOD_ID, "falling"));
+        falling = sounds.register(ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "falling"));
     }
 
 }

@@ -2,7 +2,7 @@ dependencies {
     modImplementation("net.blay09.mods:balm-fabric:${balm_version}") {
         changing = balm_version.contains("SNAPSHOT")
     }
-    modImplementation "com.terraformersmc:modmenu:$modmenu_version"
+    modCompileOnly "com.terraformersmc:modmenu:$modmenu_version"
     modCompileOnly "mezz.jei:jei-$jei_minecraft_version-common-api:$jei_version"
     modCompileOnly "mezz.jei:jei-$jei_minecraft_version-fabric-api:$jei_version"
     modCompileOnly "dev.emi:emi-fabric:$emi_version:api"

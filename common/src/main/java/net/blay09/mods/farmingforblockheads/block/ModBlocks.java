@@ -40,6 +40,6 @@ public class ModBlocks {
     }
 
     private static ResourceLocation id(String path) {
-        return new ResourceLocation(FarmingForBlockheads.MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, path);
     }
 }

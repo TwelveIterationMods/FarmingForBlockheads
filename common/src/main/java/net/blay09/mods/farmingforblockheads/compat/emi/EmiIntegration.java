@@ -17,14 +17,14 @@ import static net.blay09.mods.farmingforblockheads.FarmingForBlockheads.MOD_ID;
 
 @EmiEntrypoint
 public class EmiIntegration implements EmiPlugin {
-    public static final EmiTexture TRADE_ICON = new EmiTexture(new ResourceLocation(MOD_ID, "textures/gui/market.png"),
+    public static final EmiTexture TRADE_ICON = new EmiTexture(ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/gui/market.png"),
             240, 240, 16, 16);
-    public static final EmiTexture BACKGROUND = new EmiTexture(new ResourceLocation(MOD_ID, "textures/gui/market.png"),
+    public static final EmiTexture BACKGROUND = new EmiTexture(ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/gui/market.png"),
             154, 208, 86, 48);
 
     public static final EmiStack MARKET = EmiStack.of(ModBlocks.market);
     public static final EmiRecipeCategory MARKET_CATEGORY =
-            new EmiRecipeCategory(new ResourceLocation("farmingforblockheads:market"), MARKET, TRADE_ICON) {
+            new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath("farmingforblockheads", "market"), MARKET, TRADE_ICON) {
                 @Override
                 public Component getName() {
                     return Component.translatable("jei.farmingforblockheads.market");

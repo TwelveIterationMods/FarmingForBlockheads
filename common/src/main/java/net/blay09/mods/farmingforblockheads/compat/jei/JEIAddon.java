@@ -7,6 +7,7 @@ import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
@@ -57,6 +58,6 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation("farmingforblockheads", "jei");
+        return ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "jei");
     }
 }

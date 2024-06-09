@@ -1,5 +1,6 @@
 package net.blay09.mods.farmingforblockheads.network;
 
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -9,7 +10,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 
 public class MarketPutInBasketMessage implements CustomPacketPayload {
 
-    public static final CustomPacketPayload.Type<MarketPutInBasketMessage> TYPE = new CustomPacketPayload.Type<>(new ResourceLocation("farmingforblockheads",
+    public static final CustomPacketPayload.Type<MarketPutInBasketMessage> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(
+            FarmingForBlockheads.MOD_ID,
             "market_put_in_basket"));
 
     private final ResourceLocation recipeId;

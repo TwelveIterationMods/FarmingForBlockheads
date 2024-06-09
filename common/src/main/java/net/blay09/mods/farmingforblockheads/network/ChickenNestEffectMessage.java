@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 
 public class ChickenNestEffectMessage implements CustomPacketPayload {
 
-    public static final CustomPacketPayload.Type<ChickenNestEffectMessage> TYPE = new CustomPacketPayload.Type<>(new ResourceLocation(FarmingForBlockheads.MOD_ID,
+    public static final CustomPacketPayload.Type<ChickenNestEffectMessage> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID,
             "chicken_nest_effect"));
 
     private final BlockPos pos;

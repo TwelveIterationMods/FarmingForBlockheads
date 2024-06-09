@@ -13,13 +13,11 @@ import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class MerchantRenderer extends LivingEntityRenderer<MerchantEntity, VillagerModel<MerchantEntity>> {
 
-    private static final ResourceLocation MERCHANT_TEXTURE = new ResourceLocation(FarmingForBlockheads.MOD_ID, "textures/entity/merchant.png");
+    private static final ResourceLocation MERCHANT_TEXTURE = ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "textures/entity/merchant.png");
     private static final Map<ResourceLocation, ResourceLocation> verifiedTextures = new HashMap<>();
 
     public MerchantRenderer(EntityRendererProvider.Context context) {

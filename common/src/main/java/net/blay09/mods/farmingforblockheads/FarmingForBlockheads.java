@@ -39,8 +39,8 @@ public class FarmingForBlockheads {
         ModLootModifiers.initialize(Balm.getLootTables());
         ModRecipes.initialize(Balm.getRecipes());
 
-        Balm.addServerReloadListener(new ResourceLocation(MOD_ID, "market_category_loader"), new MarketCategoryLoader());
-        Balm.addServerReloadListener(new ResourceLocation(MOD_ID, "market_preset_loader"), new MarketPresetLoader());
+        Balm.addServerReloadListener(ResourceLocation.fromNamespaceAndPath(MOD_ID, "market_category_loader"), new MarketCategoryLoader());
+        Balm.addServerReloadListener(ResourceLocation.fromNamespaceAndPath(MOD_ID, "market_preset_loader"), new MarketPresetLoader());
 
         Balm.getEvents().onEvent(PlayerLoginEvent.class, MarketCategoryRegistry.INSTANCE::onLogin);
         Balm.getEvents().onEvent(CropGrowEvent.Post.class, FarmlandHandler::onGrowEvent);
