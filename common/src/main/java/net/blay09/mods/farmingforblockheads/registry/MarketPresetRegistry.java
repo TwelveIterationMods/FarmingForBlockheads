@@ -5,7 +5,10 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.api.MarketPreset;
+import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.BufferedReader;
@@ -46,5 +49,20 @@ public class MarketPresetRegistry {
         final var json = gson.fromJson(reader, JsonElement.class);
         final var category = CODEC.parse(JsonOps.INSTANCE, json).getOrThrow();
         register(id, category);
+    }
+
+    public static boolean isRecipeEnabled(MarketRecipe recipe) {
+        final var disabledDefaultPresets = FarmingForBlockheadsConfig.getActive().disabledDefaultPresets;
+        if (disabledDefaultPresets.contains(recipe.getPreset())) {
+            return false;
+        }
+
+        final var enabledOptionalPresets = FarmingForBlockheadsConfig.getActive().enabledOptionalPresets;
+        final var preset = MarketPresetRegistry.INSTANCE.get(recipe.getPreset());
+        if (preset.map(it -> !it.enabledByDefault() && !enabledOptionalPresets.contains(recipe.getPreset())).orElse(false)) {
+            return false;
+        }
+
+        return !recipe.getResultItem(RegistryAccess.EMPTY).isEmpty();
     }
 }

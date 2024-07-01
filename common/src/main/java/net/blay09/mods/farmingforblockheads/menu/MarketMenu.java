@@ -101,7 +101,7 @@ public class MarketMenu extends AbstractContainerMenu {
                 .getAllRecipesFor(ModRecipes.marketRecipeType)
                 .stream()
                 .filter(recipe -> includeOnlyPresets.isEmpty() || includeOnlyPresets.contains(recipe.value().getPreset()))
-                .filter(recipe -> isRecipeEnabled(recipe.value()))
+                .filter(recipe -> MarketPresetRegistry.isRecipeEnabled(recipe.value()))
                 .toList();
 
         categories = MarketCategoryRegistry.INSTANCE.getAll().entrySet()
@@ -136,21 +136,6 @@ public class MarketMenu extends AbstractContainerMenu {
 
         updateFilteredRecipes();
         setScrollOffset(0);
-    }
-
-    private boolean isRecipeEnabled(MarketRecipe recipe) {
-        final var disabledDefaultPresets = FarmingForBlockheadsConfig.getActive().disabledDefaultPresets;
-        if (disabledDefaultPresets.contains(recipe.getPreset())) {
-            return false;
-        }
-
-        final var enabledOptionalPresets = FarmingForBlockheadsConfig.getActive().enabledOptionalPresets;
-        final var preset = MarketPresetRegistry.INSTANCE.get(recipe.getPreset());
-        if (preset.map(it -> !it.enabledByDefault() && !enabledOptionalPresets.contains(recipe.getPreset())).orElse(false)) {
-            return false;
-        }
-
-        return !recipe.getResultItem(RegistryAccess.EMPTY).isEmpty();
     }
 
     @Override

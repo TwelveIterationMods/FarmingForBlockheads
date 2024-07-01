@@ -10,8 +10,8 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
-import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
+import net.blay09.mods.farmingforblockheads.registry.MarketPresetRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.Rect2i;
@@ -28,7 +28,11 @@ public class JEIAddon implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         final var recipeManager = Minecraft.getInstance().level.getRecipeManager();
-        final var marketRecipes = recipeManager.getAllRecipesFor(ModRecipes.marketRecipeType).stream().map(RecipeHolder::value).toList();
+        final var marketRecipes = recipeManager.getAllRecipesFor(ModRecipes.marketRecipeType)
+                .stream()
+                .map(RecipeHolder::value)
+                .filter(MarketPresetRegistry::isRecipeEnabled)
+                .toList();
         registration.addRecipes(JeiMarketRecipeCategory.TYPE, marketRecipes);
     }
 

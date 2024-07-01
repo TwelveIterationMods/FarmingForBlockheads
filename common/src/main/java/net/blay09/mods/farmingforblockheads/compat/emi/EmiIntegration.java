@@ -10,6 +10,7 @@ import dev.emi.emi.api.widget.Bounds;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
 import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
+import net.blay09.mods.farmingforblockheads.registry.MarketPresetRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -30,6 +31,7 @@ public class EmiIntegration implements EmiPlugin {
                     return Component.translatable("jei.farmingforblockheads.market");
                 }
             };
+
     @Override
     public void register(EmiRegistry registry) {
         registry.addCategory(MARKET_CATEGORY);
@@ -37,7 +39,9 @@ public class EmiIntegration implements EmiPlugin {
 
         final var marketRecipes = registry.getRecipeManager().getAllRecipesFor(ModRecipes.marketRecipeType);
         for (final var marketRecipe : marketRecipes) {
-            registry.addRecipe(new MarketEmiRecipe(marketRecipe.id(), marketRecipe.value()));
+            if (MarketPresetRegistry.isRecipeEnabled(marketRecipe.value())) {
+                registry.addRecipe(new MarketEmiRecipe(marketRecipe.id(), marketRecipe.value()));
+            }
         }
 
         registry.addExclusionArea(MarketScreen.class, (screen, consumer) ->
