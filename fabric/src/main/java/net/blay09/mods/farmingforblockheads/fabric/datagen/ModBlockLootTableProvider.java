@@ -17,7 +17,7 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-        createSinglePropConditionTable(ModBlocks.market, MarketBlock.HALF, DoubleBlockHalf.LOWER);
+        add(ModBlocks.market, createSinglePropConditionTable(ModBlocks.market, MarketBlock.HALF, DoubleBlockHalf.LOWER));
         dropSelf(ModBlocks.chickenNest);
         dropSelf(ModBlocks.feedingTrough);
         dropOther(ModBlocks.fertilizedFarmlandHealthy, Blocks.DIRT);
