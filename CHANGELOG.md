@@ -1,1 +1,1 @@
-- Updated to Minecraft 1.21
+- Fixed market block not dropping itself
