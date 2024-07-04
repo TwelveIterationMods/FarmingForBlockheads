@@ -5,5 +5,6 @@ dependencies {
     modCompileOnly "com.terraformersmc:modmenu:$modmenu_version"
     modCompileOnly "mezz.jei:jei-$jei_minecraft_version-common-api:$jei_version"
     modCompileOnly "mezz.jei:jei-$jei_minecraft_version-fabric-api:$jei_version"
+    modRuntimeOnly "mezz.jei:jei-$jei_minecraft_version-fabric:$jei_version"
     modCompileOnly "dev.emi:emi-fabric:$emi_version:api"
 }

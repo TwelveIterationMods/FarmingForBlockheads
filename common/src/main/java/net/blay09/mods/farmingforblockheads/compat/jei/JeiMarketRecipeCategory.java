@@ -13,6 +13,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
+import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -21,11 +22,12 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
-public class JeiMarketRecipeCategory implements IRecipeCategory<MarketRecipe> {
+public class JeiMarketRecipeCategory implements IRecipeCategory<RecipeHolder<MarketRecipe>> {
 
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath("farmingforblockheads", "market");
-    public static final RecipeType<MarketRecipe> TYPE = new RecipeType<>(UID, MarketRecipe.class);
+    public static final RecipeType<RecipeHolder<MarketRecipe>> TYPE = RecipeType.createFromVanilla(ModRecipes.marketRecipeType);
 
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "textures/gui/jei_market.png");
 
@@ -38,7 +40,7 @@ public class JeiMarketRecipeCategory implements IRecipeCategory<MarketRecipe> {
     }
 
     @Override
-    public RecipeType<MarketRecipe> getRecipeType() {
+    public RecipeType<RecipeHolder<MarketRecipe>> getRecipeType() {
         return TYPE;
     }
 
@@ -58,7 +60,8 @@ public class JeiMarketRecipeCategory implements IRecipeCategory<MarketRecipe> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, MarketRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<MarketRecipe> recipeHolder, IFocusGroup focuses) {
+        final var recipe = recipeHolder.value();
         builder.addSlot(RecipeIngredientRole.INPUT, 16, 13)
                 .addIngredients(recipe.getPaymentOrDefault().ingredient());
         builder.addSlot(RecipeIngredientRole.OUTPUT, 54, 13)
@@ -66,8 +69,8 @@ public class JeiMarketRecipeCategory implements IRecipeCategory<MarketRecipe> {
     }
 
     @Override
-    public void draw(MarketRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        Component costText = getFormattedCostString(recipe);
+    public void draw(RecipeHolder<MarketRecipe> recipeHolder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        Component costText = getFormattedCostString(recipeHolder.value());
         Font font = Minecraft.getInstance().font;
         int stringWidth = font.width(costText);
         guiGraphics.drawString(font, costText.getVisualOrderText(), 42 - stringWidth / 2, 35, 0xFFFFFF, true);
