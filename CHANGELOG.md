@@ -1,2 +1,2 @@
-- Fixed disabled market recipes still showing up in JEI and EMI
-- Fixed market block not dropping itself
+- Fixed market block still not dropping itself
+- Made it so market recipes can be bookmarked in JEI
