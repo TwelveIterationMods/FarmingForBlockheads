@@ -70,32 +70,6 @@ public class MarketBlock extends BaseEntityBlock {
         return Blocks.AIR.defaultBlockState();
     }
 
-    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide && (player.isCreative() || !player.hasCorrectToolForDrops(state))) {
-            preventDropFromBottomPart(level, pos, state, player);
-        }
-
-        return super.playerWillDestroy(level, pos, state, player);
-    }
-
-    private static void preventDropFromBottomPart(Level level, BlockPos pos, BlockState blockState, Player player) {
-        final var half = blockState.getValue(HALF);
-        if (half == DoubleBlockHalf.UPPER) {
-            final var posBelow = pos.below();
-            final var stateBelow = level.getBlockState(posBelow);
-            if (stateBelow.is(blockState.getBlock()) && stateBelow.getValue(HALF) == DoubleBlockHalf.LOWER) {
-                final var newStateBelow = stateBelow.getFluidState().is(Fluids.WATER) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
-                level.setBlock(posBelow, newStateBelow, 35);
-                level.levelEvent(player, 2001, posBelow, Block.getId(stateBelow));
-            }
-        }
-    }
-
-    @Override
-    public void playerDestroy(Level world, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
-        super.playerDestroy(world, player, pos, Blocks.AIR.defaultBlockState(), blockEntity, stack);
-    }
-
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         final var posBelow = pos.below();
         final var stateBelow = level.getBlockState(posBelow);
