@@ -14,7 +14,6 @@ import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -26,7 +25,6 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 
 public class JeiMarketRecipeCategory implements IRecipeCategory<RecipeHolder<MarketRecipe>> {
 
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath("farmingforblockheads", "market");
     public static final RecipeType<RecipeHolder<MarketRecipe>> TYPE = RecipeType.createFromVanilla(ModRecipes.marketRecipeType);
 
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "textures/gui/jei_market.png");
@@ -46,7 +44,7 @@ public class JeiMarketRecipeCategory implements IRecipeCategory<RecipeHolder<Mar
 
     @Override
     public Component getTitle() {
-        return Component.translatable("jei." + UID);
+        return Component.translatable("jei.farmingforblockheads.market");
     }
 
     @Override
@@ -77,7 +75,7 @@ public class JeiMarketRecipeCategory implements IRecipeCategory<RecipeHolder<Mar
     }
 
     private Component getFormattedCostString(MarketRecipe recipe) {
-        return Component.translatable("gui.farmingforblockheads.market.cost", recipe.getPaymentOrDefault().count(), recipe.getPaymentOrDefault().ingredient())
-                .withStyle(ChatFormatting.GREEN);
+        final var payment = recipe.getPaymentOrDefault();
+        return payment.tooltip().orElseGet(() -> FarmingForBlockheads.getDefaultPaymentComponent(payment));
     }
 }
