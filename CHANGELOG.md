@@ -1,1 +1,4 @@
 - Updated to Minecraft 1.21.1
+- Fixed crash due to mixin not being applied on NeoForge and Forge
+- Fixed missing lang entry for JEI support
+- Fixed incorrect payment text display
