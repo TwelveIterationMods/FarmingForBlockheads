@@ -1,2 +1,1 @@
-- Fixed market block still not dropping itself
-- Made it so market recipes can be bookmarked in JEI
+- Updated to Minecraft 1.21.1
