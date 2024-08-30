@@ -1,4 +1,1 @@
-- Updated to Minecraft 1.21.1
-- Fixed crash due to mixin not being applied on NeoForge and Forge
-- Fixed missing lang entry for JEI support
-- Fixed incorrect payment text display
+- Fixed market block replacing the block above it when placed even if it's not replaceable
