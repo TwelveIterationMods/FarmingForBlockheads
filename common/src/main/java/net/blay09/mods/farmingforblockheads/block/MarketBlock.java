@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -85,7 +86,15 @@ public class MarketBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext useContext) {
-        return defaultBlockState().setValue(FACING, useContext.getHorizontalDirection().getOpposite()).setValue(HALF, DoubleBlockHalf.LOWER);
+        final var world = useContext.getLevel();
+        final var pos = useContext.getClickedPos();
+        if (pos.getY() < world.getHeight() - 1) {
+            if (world.getBlockState(pos.above()).canBeReplaced(useContext)) {
+                return defaultBlockState().setValue(FACING, useContext.getHorizontalDirection().getOpposite()).setValue(HALF, DoubleBlockHalf.LOWER);
+            }
+        }
+
+        return null;
     }
 
     @Override
