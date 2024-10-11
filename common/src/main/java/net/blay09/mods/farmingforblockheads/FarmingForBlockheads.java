@@ -48,13 +48,13 @@ public class FarmingForBlockheads {
 
     public static Component getDefaultPaymentComponent(Payment payment) {
         final var ingredient = payment.ingredient();
-        if (ingredient.isEmpty()) {
+        if (ingredient.items().isEmpty()) {
             return Component.literal("<invalid>");
         }
 
-        final var candidates = ingredient.getItems();
-        final var index = (int) (System.currentTimeMillis() / 1500L % candidates.length);
-        final var itemStack = candidates[index];
-        return Component.translatable("tooltip.farmingforblockheads.payment_item", payment.count(), itemStack.getHoverName());
+        final var candidates = ingredient.items();
+        final var index = (int) (System.currentTimeMillis() / 1500L % candidates.size());
+        final var itemHolder = candidates.get(index);
+        return Component.translatable("tooltip.farmingforblockheads.payment_item", payment.count(), itemHolder.value().getName());
     }
 }

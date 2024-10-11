@@ -8,7 +8,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.api.MarketPreset;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.BufferedReader;
@@ -63,6 +62,6 @@ public class MarketPresetRegistry {
             return false;
         }
 
-        return !recipe.getResultItem(RegistryAccess.EMPTY).isEmpty();
+        return !recipe.getResultItem().isEmpty();
     }
 }

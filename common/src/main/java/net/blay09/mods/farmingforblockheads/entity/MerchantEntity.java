@@ -13,6 +13,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -82,7 +83,7 @@ public class MerchantEntity extends PathfinderMob {
         MarketBlockEntity market = getMarketTileEntity();
         if (market != null) {
             Balm.getNetworking().openGui(player, market);
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+            return InteractionResult.SUCCESS;
         }
 
         return super.mobInteract(player, hand);
@@ -227,21 +228,21 @@ public class MerchantEntity extends PathfinderMob {
     }
 
     @Override
-    protected void actuallyHurt(DamageSource damageSource, float damageAmount) {
-        if (!spawnDone && damageSource == level().damageSources().fall()) {
+    protected void actuallyHurt(ServerLevel level, DamageSource damageSource, float damageAmount) {
+        if (!spawnDone && damageSource == level.damageSources().fall()) {
             double posX = getX();
             double posY = getY();
             double posZ = getZ();
-            level().playLocalSound(posX, posY, posZ, getHurtSound(damageSource), SoundSource.NEUTRAL, 1f, 2f, false);
+            level.playLocalSound(posX, posY, posZ, getHurtSound(damageSource), SoundSource.NEUTRAL, 1f, 2f, false);
             spawnDone = true;
             return;
         }
-        super.actuallyHurt(damageSource, damageAmount);
+        super.actuallyHurt(level, damageSource, damageAmount);
     }
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData) {
         if (Math.random() < 0.001) {
             setCustomName(Component.literal(Math.random() <= 0.5 ? "Pam" : "Blay"));
         } else {
@@ -249,7 +250,7 @@ public class MerchantEntity extends PathfinderMob {
             setCustomName(Component.literal(merchantName));
         }
 
-        return super.finalizeSpawn(level, difficulty, mobSpawnType, spawnGroupData);
+        return super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData);
     }
 
     @Override

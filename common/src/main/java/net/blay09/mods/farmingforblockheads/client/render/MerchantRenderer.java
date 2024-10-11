@@ -8,26 +8,27 @@ import net.minecraft.client.model.VillagerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
+import net.minecraft.client.renderer.entity.state.VillagerRenderState;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MerchantRenderer extends LivingEntityRenderer<MerchantEntity, VillagerModel<MerchantEntity>> {
+public class MerchantRenderer extends MobRenderer<MerchantEntity, VillagerRenderState, VillagerModel> {
 
     private static final ResourceLocation MERCHANT_TEXTURE = ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "textures/entity/merchant.png");
     private static final Map<ResourceLocation, ResourceLocation> verifiedTextures = new HashMap<>();
 
     public MerchantRenderer(EntityRendererProvider.Context context) {
-        super(context, new VillagerModel<>(context.bakeLayer(ModelLayers.VILLAGER)), 0.5f);
-        this.addLayer(new CustomHeadLayer<>(this, context.getModelSet(), context.getItemInHandRenderer()));
+        super(context, new VillagerModel(context.bakeLayer(ModelLayers.VILLAGER)), 0.5f);
+        this.addLayer(new CustomHeadLayer<>(this, context.getModelSet(), context.getItemRenderer()));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MerchantEntity entity) {
-        ResourceLocation textureLocation = entity.getTextureLocation();
+    public ResourceLocation getTextureLocation(VillagerRenderState state) {
+        ResourceLocation textureLocation = state instanceof MerchantRenderState merchantRenderState ? merchantRenderState.textureLocation : null;
         if (textureLocation == null) {
             return MERCHANT_TEXTURE;
         }
@@ -41,16 +42,31 @@ public class MerchantRenderer extends LivingEntityRenderer<MerchantEntity, Villa
     }
 
     @Override
-    public void render(MerchantEntity entity, float p_225623_2_, float p_225623_3_, PoseStack poseStack, MultiBufferSource buffers, int p_225623_6_) {
-        int diggingAnimation = entity.getDiggingAnimation();
+    public void render(VillagerRenderState state, PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
+        final var diggingAnimation = state instanceof MerchantRenderState merchantRenderState ? merchantRenderState.diggingAnimation : 0;
         if (diggingAnimation > 0) {
             poseStack.translate(0.0, -diggingAnimation * 0.05, 0.0);
         }
-        super.render(entity, p_225623_2_, p_225623_3_, poseStack, buffers, p_225623_6_);
+        super.render(state, poseStack, multiBufferSource, i);
     }
 
     @Override
-    protected boolean shouldShowName(MerchantEntity entity) {
-        return entity.getDiggingAnimation() <= 0 && super.shouldShowName(entity);
+    public void extractRenderState(MerchantEntity entity, VillagerRenderState state, float delta) {
+        super.extractRenderState(entity, state, delta);
+        if (state instanceof MerchantRenderState merchantRenderState) {
+            merchantRenderState.textureLocation = entity.getTextureLocation();
+            merchantRenderState.diggingAnimation = entity.getDiggingAnimation();
+        }
     }
+
+    @Override
+    protected boolean shouldShowName(MerchantEntity entity, double distance) {
+        return entity.getDiggingAnimation() <= 0 && super.shouldShowName(entity, distance);
+    }
+
+    @Override
+    public MerchantRenderState createRenderState() {
+        return new MerchantRenderState();
+    }
+
 }

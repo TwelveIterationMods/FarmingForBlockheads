@@ -8,28 +8,22 @@ import net.blay09.mods.farmingforblockheads.entity.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -41,7 +35,7 @@ public class MarketBlock extends BaseEntityBlock {
     public static final MapCodec<MarketBlock> CODEC = simpleCodec(MarketBlock::new);
 
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     private static final VoxelShape TOP_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
     private static final VoxelShape RENDER_SHAPE = Block.box(0, 0.01, 0, 16, 16, 16);
@@ -57,13 +51,13 @@ public class MarketBlock extends BaseEntityBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState directionState, LevelAccessor world, BlockPos pos, BlockPos directionPos) {
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos directionPos, BlockState directionState, RandomSource randomSource) {
         final var half = state.getValue(HALF);
         if ((direction.getAxis() != Direction.Axis.Y)
                 || ((half == DoubleBlockHalf.LOWER) != (direction == Direction.UP))
                 || ((directionState.getBlock() == this)
                 && (directionState.getValue(HALF) != half))) {
-            if ((half != DoubleBlockHalf.LOWER) || (direction != Direction.DOWN) || state.canSurvive(world, pos)) {
+            if ((half != DoubleBlockHalf.LOWER) || (direction != Direction.DOWN) || state.canSurvive(level, pos)) {
                 return state;
             }
         }
@@ -124,7 +118,7 @@ public class MarketBlock extends BaseEntityBlock {
             }
 
             level.addFreshEntity(merchant);
-            merchant.finalizeSpawn(((ServerLevel) level), level.getCurrentDifficultyAt(pos), MobSpawnType.STRUCTURE, null);
+            merchant.finalizeSpawn(((ServerLevel) level), level.getCurrentDifficultyAt(pos), EntitySpawnReason.STRUCTURE, null);
         }
 
         level.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
@@ -137,9 +131,9 @@ public class MarketBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+    protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
         use(state, level, pos, player);
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     private void use(BlockState state, Level level, BlockPos pos, Player player) {
@@ -183,7 +177,7 @@ public class MarketBlock extends BaseEntityBlock {
     }
 
     @Override
-    public VoxelShape getOcclusionShape(BlockState state, BlockGetter worldIn, BlockPos pos) {
+    public VoxelShape getOcclusionShape(BlockState state) {
         if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
             return Shapes.empty();
         }

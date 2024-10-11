@@ -81,7 +81,7 @@ public class MarketMenu extends AbstractContainerMenu {
                             .map(MarketCategory::sortIndex)
                             .orElse(0))
             .thenComparing(recipe -> recipe.value()
-                    .getResultItem(RegistryAccess.EMPTY)
+                    .getResultItem()
                     .getDisplayName()
                     .getString());
 
@@ -327,7 +327,7 @@ public class MarketMenu extends AbstractContainerMenu {
         }
 
         final var recipe = recipeHolder.value();
-        final var resultItem = recipe.getResultItem(RegistryAccess.EMPTY);
+        final var resultItem = recipe.getResultItem();
         final var lowerCaseSearch = currentSearch.toLowerCase();
         if (resultItem.getDisplayName().getString().toLowerCase(Locale.ENGLISH).contains(lowerCaseSearch)) {
             return true;

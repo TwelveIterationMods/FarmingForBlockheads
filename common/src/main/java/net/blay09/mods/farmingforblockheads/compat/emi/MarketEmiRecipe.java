@@ -23,7 +23,7 @@ public class MarketEmiRecipe implements EmiRecipe {
     public MarketEmiRecipe(ResourceLocation id, MarketRecipe recipe) {
         this.id = id;
         this.input = List.of(EmiIngredient.of(recipe.getPaymentOrDefault().ingredient(), recipe.getPaymentOrDefault().count()));
-        this.output = List.of(EmiStack.of(recipe.getResultItem(RegistryAccess.EMPTY)));
+        this.output = List.of(EmiStack.of(recipe.getResultItem()));
     }
 
     @Override

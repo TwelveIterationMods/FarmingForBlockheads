@@ -19,7 +19,7 @@ public class MarketListingSlot extends FakeSlot {
 
 	@Override
 	public ItemStack getItem() {
-		return recipe != null ? recipe.value().getResultItem(RegistryAccess.EMPTY) : ItemStack.EMPTY;
+		return recipe != null ? recipe.value().getResultItem() : ItemStack.EMPTY;
 	}
 
 	@Override

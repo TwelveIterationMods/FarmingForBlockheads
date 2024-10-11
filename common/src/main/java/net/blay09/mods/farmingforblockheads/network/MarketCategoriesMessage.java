@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class MarketCategoriesMessage implements CustomPacketPayload {
 
-    public static final CustomPacketPayload.Type<MarketCategoriesMessage> TYPE = new CustomPacketPayload.Type(ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID,
+    public static final CustomPacketPayload.Type<MarketCategoriesMessage> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID,
             "market_categories"));
 
     private final Map<ResourceLocation, MarketCategory> categories;

@@ -5,7 +5,6 @@ import net.blay09.mods.balm.api.loot.BalmLootTables;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.FarmlandHandler;
-import net.blay09.mods.farmingforblockheads.block.FertilizedFarmlandBlock;
 import net.blay09.mods.farmingforblockheads.tag.ModBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -22,8 +21,8 @@ public class ModLootModifiers {
     public static void initialize(BalmLootTables lootTables) {
         lootTables.registerLootModifier(ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "rich_farmland"), (context, loot) -> {
             Level level = context.getLevel();
-            Vec3 origin = context.getParamOrNull(LootContextParams.ORIGIN);
-            BlockState plant = context.getParamOrNull(LootContextParams.BLOCK_STATE);
+            Vec3 origin = context.getOptionalParameter(LootContextParams.ORIGIN);
+            BlockState plant = context.getOptionalParameter(LootContextParams.BLOCK_STATE);
             if (origin == null || plant == null || !(plant.getBlock() instanceof BonemealableBlock)) {
                 return;
             }

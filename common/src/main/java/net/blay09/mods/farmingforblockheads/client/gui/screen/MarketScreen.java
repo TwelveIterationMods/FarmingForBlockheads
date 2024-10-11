@@ -13,6 +13,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -175,10 +176,9 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
 
         Font font = minecraft.font;
 
-        guiGraphics.setColor(1f, 1f, 1f, 1f);
-        guiGraphics.blit(TEXTURE, leftPos, topPos - 10, 0, 0, imageWidth, imageHeight + 10);
+        guiGraphics.blit(RenderType::guiTextured, TEXTURE, leftPos, topPos - 10, 0, 0, imageWidth, imageHeight + 10, 256, 256);
         if (menu.getSelectedRecipe() != null && !menu.isReadyToBuy()) {
-            guiGraphics.blit(TEXTURE, leftPos + 43, topPos + 40, 176, 0, 14, 14);
+            guiGraphics.blit(RenderType::guiTextured, TEXTURE, leftPos + 43, topPos + 40, 176, 0, 14, 14, 256, 256);
         }
 
         if (mouseClickY != -1) {

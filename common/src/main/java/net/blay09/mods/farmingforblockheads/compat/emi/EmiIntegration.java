@@ -37,12 +37,12 @@ public class EmiIntegration implements EmiPlugin {
         registry.addCategory(MARKET_CATEGORY);
         registry.addWorkstation(MARKET_CATEGORY, MARKET);
 
-        final var marketRecipes = registry.getRecipeManager().getAllRecipesFor(ModRecipes.marketRecipeType);
-        for (final var marketRecipe : marketRecipes) {
-            if (MarketPresetRegistry.isRecipeEnabled(marketRecipe.value())) {
-                registry.addRecipe(new MarketEmiRecipe(marketRecipe.id(), marketRecipe.value()));
-            }
-        }
+        // TODO final var marketRecipes = registry.getRecipeManager().getAllRecipesFor(ModRecipes.marketRecipeType);
+        // TODO for (final var marketRecipe : marketRecipes) {
+        // TODO     if (MarketPresetRegistry.isRecipeEnabled(marketRecipe.value())) {
+        // TODO         registry.addRecipe(new MarketEmiRecipe(marketRecipe.id(), marketRecipe.value()));
+        // TODO     }
+        // TODO }
 
         registry.addExclusionArea(MarketScreen.class, (screen, consumer) ->
                 screen.getFilterButtons().forEach(b ->

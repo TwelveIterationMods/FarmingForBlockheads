@@ -27,12 +27,12 @@ public class JEIAddon implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        final var recipeManager = Minecraft.getInstance().level.getRecipeManager();
-        final var marketRecipes = recipeManager.getAllRecipesFor(ModRecipes.marketRecipeType)
-                .stream()
-                .filter(recipe -> MarketPresetRegistry.isRecipeEnabled(recipe.value()))
-                .toList();
-        registration.addRecipes(JeiMarketRecipeCategory.TYPE, marketRecipes);
+        // TODO final var recipeManager = Minecraft.getInstance().level.getRecipeManager();
+        // TODO final var marketRecipes = recipeManager.getAllRecipesFor(ModRecipes.marketRecipeType)
+        // TODO         .stream()
+        // TODO         .filter(recipe -> MarketPresetRegistry.isRecipeEnabled(recipe.value()))
+        // TODO         .toList();
+        // TODO registration.addRecipes(JeiMarketRecipeCategory.TYPE, marketRecipes);
     }
 
     @Override

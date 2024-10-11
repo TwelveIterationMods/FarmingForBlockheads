@@ -45,24 +45,28 @@ public class MarketRecipe implements Recipe<RecipeInput> {
         return resultItem.copy();
     }
 
-    @Override
-    public boolean canCraftInDimensions(int i, int i1) {
-        return true;
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider provider) {
+    public ItemStack getResultItem() {
         return resultItem;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<RecipeInput>> getSerializer() {
         return ModRecipes.marketRecipeSerializer;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<RecipeInput>> getType() {
         return ModRecipes.marketRecipeType;
+    }
+
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return RecipeBookCategories.CAMPFIRE;
     }
 
     public ResourceLocation getPreset() {

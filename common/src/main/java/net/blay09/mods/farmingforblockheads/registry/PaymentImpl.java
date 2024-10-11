@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public record PaymentImpl(Ingredient ingredient, int count, Optional<Component> tooltip) implements Payment {
     public static final Codec<Payment> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(Payment::ingredient),
+            Ingredient.CODEC.fieldOf("ingredient").forGetter(Payment::ingredient),
             Codec.INT.fieldOf("count").forGetter(Payment::count),
             ComponentSerialization.CODEC.optionalFieldOf("tooltip").forGetter(Payment::tooltip)
     ).apply(instance, PaymentImpl::new));

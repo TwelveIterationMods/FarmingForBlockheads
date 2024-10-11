@@ -63,7 +63,7 @@ public class JeiMarketRecipeCategory implements IRecipeCategory<RecipeHolder<Mar
         builder.addSlot(RecipeIngredientRole.INPUT, 16, 13)
                 .addIngredients(recipe.getPaymentOrDefault().ingredient());
         builder.addSlot(RecipeIngredientRole.OUTPUT, 54, 13)
-                .addIngredient(VanillaTypes.ITEM_STACK, recipe.getResultItem(RegistryAccess.EMPTY));
+                .addIngredient(VanillaTypes.ITEM_STACK, recipe.getResultItem());
     }
 
     @Override
