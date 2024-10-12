@@ -4,17 +4,13 @@ import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.client.BalmClient;
 import net.blay09.mods.balm.api.event.client.ItemTooltipEvent;
 import net.blay09.mods.balm.mixin.AbstractContainerScreenAccessor;
-import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
-import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
 import net.blay09.mods.farmingforblockheads.menu.MarketBasketSlot;
 import net.blay09.mods.farmingforblockheads.menu.MarketListingSlot;
-import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
-import net.minecraft.ChatFormatting;
+import net.blay09.mods.farmingforblockheads.recipe.MarketRecipeDisplay;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
 
 public class FarmingForBlockheadsClient {
 
@@ -26,7 +22,7 @@ public class FarmingForBlockheadsClient {
             if (Minecraft.getInstance().screen instanceof MarketScreen screen) {
                 Slot hoverSlot = ((AbstractContainerScreenAccessor) screen).getHoveredSlot();
                 if (hoverSlot != null && event.getItemStack() == hoverSlot.getItem()) {
-                    RecipeHolder<MarketRecipe> hoverRecipe = null;
+                    RecipeDisplayEntry hoverRecipe = null;
 
                     if (hoverSlot instanceof MarketListingSlot marketListingSlot) {
                         hoverRecipe = marketListingSlot.getRecipe();
@@ -34,12 +30,11 @@ public class FarmingForBlockheadsClient {
                         hoverRecipe = screen.getMenu().getSelectedRecipe();
                     }
 
-                    if (hoverRecipe != null) {
-                        final var payment = hoverRecipe.value().getPaymentOrDefault();
-                        final var paymentComponent = payment.tooltip().orElseGet(() -> FarmingForBlockheads.getDefaultPaymentComponent(payment));
-                        final var tooltipComponent = Component.translatable("tooltip.farmingforblockheads.payment", paymentComponent)
-                                .withStyle(ChatFormatting.GREEN);
-                        event.getToolTip().add(tooltipComponent);
+                    if (hoverRecipe != null && hoverRecipe.display() instanceof MarketRecipeDisplay marketRecipeDisplay) {
+                        // TODO final var paymentComponent = payment.tooltip().orElseGet(() -> FarmingForBlockheads.getDefaultPaymentComponent(payment));
+                        // TODO final var tooltipComponent = Component.translatable("tooltip.farmingforblockheads.payment", paymentComponent)
+                        // TODO         .withStyle(ChatFormatting.GREEN);
+                        // TODO event.getToolTip().add(tooltipComponent);
                     }
                 }
             }

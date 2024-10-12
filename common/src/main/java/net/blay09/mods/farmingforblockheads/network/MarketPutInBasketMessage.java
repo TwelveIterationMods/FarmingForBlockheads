@@ -7,6 +7,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 
 public class MarketPutInBasketMessage implements CustomPacketPayload {
 
@@ -14,29 +15,29 @@ public class MarketPutInBasketMessage implements CustomPacketPayload {
             FarmingForBlockheads.MOD_ID,
             "market_put_in_basket"));
 
-    private final ResourceLocation recipeId;
+    private final RecipeDisplayId recipeDisplayId;
     private final boolean stack;
 
-    public MarketPutInBasketMessage(ResourceLocation recipeId, boolean stack) {
-        this.recipeId = recipeId;
+    public MarketPutInBasketMessage(RecipeDisplayId recipeDisplayId, boolean stack) {
+        this.recipeDisplayId = recipeDisplayId;
         this.stack = stack;
     }
 
     public static void encode(FriendlyByteBuf buf, MarketPutInBasketMessage message) {
-        buf.writeResourceLocation(message.recipeId);
+        RecipeDisplayId.STREAM_CODEC.encode(buf, message.recipeDisplayId);
         buf.writeBoolean(message.stack);
     }
 
     public static MarketPutInBasketMessage decode(FriendlyByteBuf buf) {
-        final var recipeId = buf.readResourceLocation();
+        final var recipeDisplayId = RecipeDisplayId.STREAM_CODEC.decode(buf);
         boolean stack = buf.readBoolean();
-        return new MarketPutInBasketMessage(recipeId, stack);
+        return new MarketPutInBasketMessage(recipeDisplayId, stack);
     }
 
     public static void handle(ServerPlayer player, MarketPutInBasketMessage message) {
         AbstractContainerMenu container = player.containerMenu;
         if (container instanceof MarketMenu marketMenu) {
-            marketMenu.selectMarketEntry(message.recipeId, message.stack);
+            marketMenu.selectMarketEntry(message.recipeDisplayId, message.stack);
         }
     }
 
