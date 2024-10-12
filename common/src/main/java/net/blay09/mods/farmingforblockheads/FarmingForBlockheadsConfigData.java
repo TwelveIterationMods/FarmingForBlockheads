@@ -10,9 +10,11 @@ import java.util.Set;
 public class FarmingForBlockheadsConfigData implements BalmConfigData {
 
     @Comment("List of groups to enable. 'default' is an alias for the inbuilt defaults (selling.seeds, selling.saplings and selling.fertilizers.minecraft).")
+    @ExpectedType(String.class)
     public Set<String> includedGroups = Set.of("default");
 
     @Comment("List of groups to disable. Has precedence over includedGroups. 'selling.seeds' for example would disable all seeds from the market.")
+    @ExpectedType(String.class)
     public Set<String> excludedPresets = Set.of();
 
     @ExpectedType(String.class)

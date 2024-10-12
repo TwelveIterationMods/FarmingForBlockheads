@@ -105,8 +105,8 @@ public class FertilizerItem extends Item {
 
     private final FertilizerType fertilizerType;
 
-    public FertilizerItem(FertilizerType fertilizerType) {
-        super(new Item.Properties());
+    public FertilizerItem(Item.Properties properties, FertilizerType fertilizerType) {
+        super(properties);
         this.fertilizerType = fertilizerType;
     }
 
