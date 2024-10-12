@@ -1,0 +1,55 @@
+{
+  "selling": {
+    "category": "farmingforblockheads:other",
+    "payment": {
+      "ingredient": "minecraft:emerald",
+      "count": 1
+    }
+  },
+  "selling.mushrooms": {
+  },
+  "selling.flowers": {
+    "category": "farmingforblockheads:flowers"
+  },
+  "selling.saplings": {
+    "category": "farmingforblockheads:saplings"
+  },
+  "selling.seeds": {
+    "category": "farmingforblockheads:seeds"
+  },
+  "selling.soils": {
+  },
+  "selling.bees": {
+  },
+  "selling.berries": {
+  },
+  "selling.fertilizers": {
+  },
+  "selling.eggs": {
+  },
+  "selling.spawn_eggs": {
+    "payment": {
+      "ingredient": "minecraft:diamond",
+      "count": 1
+    }
+  },
+  "selling.rare": {
+    "payment": {
+      "ingredient": "minecraft:emerald",
+      "count": 4
+    }
+  },
+  "selling.seed_crops": {
+    "category": "farmingforblockheads:seeds",
+    "payment": {
+      "ingredient": "minecraft:diamond",
+      "count": 1
+    }
+  },
+  "selling.crops": {
+    "payment": {
+      "ingredient": "minecraft:diamond",
+      "count": 1
+    }
+  }
+}

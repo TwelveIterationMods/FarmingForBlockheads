@@ -1,1 +1,37 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"betterendforge:soil","result":{"item":"betterendforge:amber_moss"}}
+{
+  "type": "farmingforblockheads:market",
+  "defaults": "selling.soils.betterendforge",
+  "result": {
+    "item": "betterendforge:amber_moss"
+  },
+  "conditions": [
+    {
+      "type": "farmingforblockheads:preset_enabled",
+      "preset": "selling.soils.betterendforge"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "mod": "betterendforge"
+    }
+  ],
+  "fabric:conditions": [
+    {
+      "type": "farmingforblockheads:preset_enabled",
+      "preset": "selling.soils.betterendforge"
+    },
+    {
+      "type": "fabric:all_mods_loaded",
+      "values": ["betterendforge"]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "farmingforblockheads:preset_enabled",
+      "preset": "selling.soils.betterendforge"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "betterendforge"
+    }
+  ]
+}

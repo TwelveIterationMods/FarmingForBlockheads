@@ -1,7 +1,6 @@
 package net.blay09.mods.farmingforblockheads;
 
 import net.blay09.mods.balm.api.config.*;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Random;
@@ -10,15 +9,11 @@ import java.util.Set;
 @Config(FarmingForBlockheads.MOD_ID)
 public class FarmingForBlockheadsConfigData implements BalmConfigData {
 
-    @ExpectedType(ResourceLocation.class)
-    @Comment("List of default presets to disable.")
-    @Synced
-    public Set<ResourceLocation> disabledDefaultPresets = Set.of();
+    @Comment("List of groups to enable. 'default' is an alias for the inbuilt defaults (selling.seeds, selling.saplings and selling.fertilizers.minecraft).")
+    public Set<String> includedGroups = Set.of("default");
 
-    @ExpectedType(ResourceLocation.class)
-    @Comment("List of optional presets to enable.")
-    @Synced
-    public Set<ResourceLocation> enabledOptionalPresets = Set.of();
+    @Comment("List of groups to disable. Has precedence over includedGroups. 'selling.seeds' for example would disable all seeds from the market.")
+    public Set<String> excludedPresets = Set.of();
 
     @ExpectedType(String.class)
     @Comment("List of names the merchant can have.")

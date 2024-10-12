@@ -2,20 +2,16 @@ package net.blay09.mods.farmingforblockheads.menu;
 
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.container.DefaultContainer;
-import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.api.MarketCategory;
 import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.network.MarketPutInBasketMessage;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
-import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
 import net.blay09.mods.farmingforblockheads.registry.MarketCategoryRegistry;
-import net.blay09.mods.farmingforblockheads.registry.MarketPresetRegistry;
 import net.blay09.mods.farmingforblockheads.registry.PaymentImpl;
 import net.blay09.mods.farmingforblockheads.registry.SimpleHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
@@ -35,34 +31,6 @@ import java.util.*;
 
 public class MarketMenu extends AbstractContainerMenu {
 
-    public record Data(BlockPos pos, Set<ResourceLocation> presetFilters, Set<ResourceLocation> categoryFilters) {
-    }
-
-    public static final StreamCodec<RegistryFriendlyByteBuf, Data> STREAM_CODEC = StreamCodec.of((buf, data) -> {
-        buf.writeBlockPos(data.pos());
-        buf.writeInt(data.presetFilters().size());
-        for (ResourceLocation location : data.presetFilters()) {
-            buf.writeResourceLocation(location);
-        }
-        buf.writeInt(data.categoryFilters().size());
-        for (ResourceLocation location : data.categoryFilters()) {
-            buf.writeResourceLocation(location);
-        }
-    }, (buf) -> {
-        BlockPos pos = buf.readBlockPos();
-        int presetFilterSize = buf.readInt();
-        Set<ResourceLocation> presetFilters = new HashSet<>();
-        for (int i = 0; i < presetFilterSize; i++) {
-            presetFilters.add(buf.readResourceLocation());
-        }
-        int categoryFilterSize = buf.readInt();
-        Set<ResourceLocation> categoryFilters = new HashSet<>();
-        for (int i = 0; i < categoryFilterSize; i++) {
-            categoryFilters.add(buf.readResourceLocation());
-        }
-        return new Data(pos, presetFilters, categoryFilters);
-    });
-
     private final Player player;
     private final BlockPos pos;
 
@@ -71,8 +39,8 @@ public class MarketMenu extends AbstractContainerMenu {
     private final List<MarketListingSlot> marketSlots = new ArrayList<>();
     private final MarketPaymentSlot paymentSlot;
 
-    private final List<SimpleHolder<MarketCategory>> categories;
-    private final List<RecipeHolder<MarketRecipe>> recipes;
+    private List<SimpleHolder<MarketCategory>> categories;
+    private List<RecipeHolder<MarketRecipe>> recipes;
 
     private String currentSearch;
     private SimpleHolder<MarketCategory> currentCategory;
@@ -91,26 +59,10 @@ public class MarketMenu extends AbstractContainerMenu {
     private final List<RecipeHolder<MarketRecipe>> filteredRecipes = new ArrayList<>();
     private RecipeHolder<MarketRecipe> selectedRecipe;
 
-    public MarketMenu(int windowId, Inventory playerInventory, BlockPos pos, Set<ResourceLocation> includeOnlyPresets, Set<ResourceLocation> includeOnlyCategories) {
+    public MarketMenu(int windowId, Inventory playerInventory, BlockPos pos) {
         super(ModMenus.market.get(), windowId);
         this.player = playerInventory.player;
         this.pos = pos;
-
-        recipes = player.level()
-                .getRecipeManager()
-                .getAllRecipesFor(ModRecipes.marketRecipeType)
-                .stream()
-                .filter(recipe -> includeOnlyPresets.isEmpty() || includeOnlyPresets.contains(recipe.value().getPreset()))
-                .filter(recipe -> MarketPresetRegistry.isRecipeEnabled(recipe.value()))
-                .toList();
-
-        categories = MarketCategoryRegistry.INSTANCE.getAll().entrySet()
-                .stream()
-                .filter(entry -> includeOnlyCategories.isEmpty() || includeOnlyCategories.contains(entry.getKey()))
-                .filter(entry -> recipes.stream().anyMatch(it -> it.value().getCategory().equals(entry.getKey())))
-                .sorted(Comparator.comparingInt(entry -> entry.getValue().sortIndex()))
-                .map(it -> new SimpleHolder<>(it.getKey(), it.getValue()))
-                .toList();
 
         addSlot(paymentSlot = new MarketPaymentSlot(marketInputBuffer, 0, 23, 39));
         addSlot(new MarketBasketSlot(this, marketOutputBuffer, 0, 61, 39));
@@ -388,4 +340,12 @@ public class MarketMenu extends AbstractContainerMenu {
         return categories;
     }
 
+    public void setRecipes(List<RecipeHolder<MarketRecipe>> recipes) {
+        this.recipes = recipes;
+        updateFilteredRecipes();
+    }
+
+    public void setCategories(List<SimpleHolder<MarketCategory>> categories) {
+        this.categories = categories;
+    }
 }

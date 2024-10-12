@@ -7,18 +7,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
-
-public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvider<MarketMenu.Data> {
+public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvider<BlockPos> {
     public MarketBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.market.get(), pos, state);
     }
@@ -31,26 +27,16 @@ public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvid
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player) {
-        return new MarketMenu(windowId, playerInventory, worldPosition, getPresetFilter(), getCategoryFilter());
-    }
-
-    @NotNull
-    private static Set<ResourceLocation> getCategoryFilter() {
-        return Set.of();
-    }
-
-    @NotNull
-    private static Set<ResourceLocation> getPresetFilter() {
-        return Set.of();
+        return new MarketMenu(windowId, playerInventory, worldPosition);
     }
 
     @Override
-    public MarketMenu.Data getScreenOpeningData(ServerPlayer serverPlayer) {
-        return new MarketMenu.Data(worldPosition, getPresetFilter(), getCategoryFilter());
+    public BlockPos getScreenOpeningData(ServerPlayer serverPlayer) {
+        return worldPosition;
     }
 
     @Override
-    public StreamCodec<RegistryFriendlyByteBuf, MarketMenu.Data> getScreenStreamCodec() {
-        return MarketMenu.STREAM_CODEC;
+    public StreamCodec<RegistryFriendlyByteBuf, BlockPos> getScreenStreamCodec() {
+        return BlockPos.STREAM_CODEC.cast();
     }
 }
