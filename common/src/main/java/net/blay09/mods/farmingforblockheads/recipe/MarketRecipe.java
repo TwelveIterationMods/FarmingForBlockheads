@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.blay09.mods.farmingforblockheads.api.MarketPreset;
 import net.blay09.mods.farmingforblockheads.api.Payment;
-import net.blay09.mods.farmingforblockheads.registry.MarketPresetRegistry;
 import net.blay09.mods.farmingforblockheads.registry.PaymentImpl;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentPatch;
@@ -22,14 +21,14 @@ import java.util.Optional;
 
 public class MarketRecipe implements Recipe<RecipeInput> {
 
-    private final ResourceLocation preset;
+    private final String defaults;
     private final ResourceLocation category;
     private final ItemStack resultItem;
     private final Payment payment;
 
-    public MarketRecipe(ItemStack resultItem, ResourceLocation category, ResourceLocation preset, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<Payment> payment) {
-        this.preset = preset;
-        this.category = category;
+    public MarketRecipe(ItemStack resultItem, String defaults, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<ResourceLocation> category, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<Payment> payment) {
+        this.defaults = defaults;
+        this.category = category.orElse(null);
         this.resultItem = resultItem;
         this.payment = payment.orElse(null);
     }
@@ -68,22 +67,12 @@ public class MarketRecipe implements Recipe<RecipeInput> {
         return RecipeBookCategories.CAMPFIRE;
     }
 
-    public ResourceLocation getPreset() {
-        return preset;
+    public Optional<Payment> getPayment() {
+        return Optional.ofNullable(payment);
     }
 
-    public ResourceLocation getCategory() {
-        return category;
-    }
-
-    private Payment getDefaultPayment(ResourceLocation presetId) {
-        return MarketPresetRegistry.INSTANCE.get(presetId)
-                .map(MarketPreset::payment)
-                .orElseGet(() -> new PaymentImpl(Ingredient.of(Items.EMERALD), 1, Optional.empty()));
-    }
-
-    public Payment getPaymentOrDefault() {
-        return payment != null ? payment : getDefaultPayment(preset);
+    public Optional<ResourceLocation> getCategory() {
+        return Optional.ofNullable(category);
     }
 
     static class Serializer implements RecipeSerializer<MarketRecipe> {
@@ -98,9 +87,9 @@ public class MarketRecipe implements Recipe<RecipeInput> {
 
         private static final MapCodec<MarketRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 RESULT_CODEC.fieldOf("result").forGetter(recipe -> recipe.resultItem),
-                ResourceLocation.CODEC.fieldOf("category").forGetter(recipe -> recipe.category),
-                ResourceLocation.CODEC.fieldOf("preset").forGetter(recipe -> recipe.preset),
-                PaymentImpl.CODEC.optionalFieldOf("payment").forGetter(recipe -> Optional.ofNullable(recipe.payment))
+                ExtraCodecs.NON_EMPTY_STRING.fieldOf("defaults").forGetter(recipe -> recipe.defaults),
+                ResourceLocation.CODEC.optionalFieldOf("category").forGetter(MarketRecipe::getCategory),
+                PaymentImpl.CODEC.optionalFieldOf("payment").forGetter(MarketRecipe::getPayment)
         ).apply(instance, MarketRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, MarketRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
@@ -117,17 +106,17 @@ public class MarketRecipe implements Recipe<RecipeInput> {
 
         public static MarketRecipe fromNetwork(RegistryFriendlyByteBuf buf) {
             final var resultItem = ItemStack.OPTIONAL_STREAM_CODEC.decode(buf);
+            final var defaults = buf.readUtf();
             final var category = buf.readResourceLocation();
-            final var preset = buf.readResourceLocation();
             final var payment = PaymentImpl.fromNetwork(buf);
-            return new MarketRecipe(resultItem, category, preset, Optional.of(payment));
+            return new MarketRecipe(resultItem, defaults, Optional.of(category), Optional.of(payment));
         }
 
         public static void toNetwork(RegistryFriendlyByteBuf buf, MarketRecipe recipe) {
             ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, recipe.resultItem);
-            buf.writeResourceLocation(recipe.category);
-            buf.writeResourceLocation(recipe.preset);
-            PaymentImpl.toNetwork(buf, recipe.getPaymentOrDefault());
+            buf.writeUtf(recipe.defaults);
+            buf.writeResourceLocation(recipe.category); // TODO resolve default
+            PaymentImpl.toNetwork(buf, recipe.payment); // TODO resolve default
         }
     }
 

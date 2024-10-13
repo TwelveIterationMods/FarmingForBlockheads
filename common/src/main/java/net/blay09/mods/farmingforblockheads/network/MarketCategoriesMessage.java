@@ -2,7 +2,9 @@ package net.blay09.mods.farmingforblockheads.network;
 
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.MarketCategory;
+import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
 import net.blay09.mods.farmingforblockheads.registry.MarketCategoryImpl;
+import net.blay09.mods.farmingforblockheads.registry.SimpleHolder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -15,7 +17,8 @@ import java.util.Map;
 
 public class MarketCategoriesMessage implements CustomPacketPayload {
 
-    public static final CustomPacketPayload.Type<MarketCategoriesMessage> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID,
+    public static final CustomPacketPayload.Type<MarketCategoriesMessage> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(
+            FarmingForBlockheads.MOD_ID,
             "market_categories"));
 
     private final Map<ResourceLocation, MarketCategory> categories;
@@ -49,7 +52,9 @@ public class MarketCategoriesMessage implements CustomPacketPayload {
     }
 
     public static void handle(Player player, MarketCategoriesMessage message) {
-
+        if (player.containerMenu instanceof MarketMenu marketMenu) {
+            marketMenu.setCategories(message.categories.entrySet().stream().map(SimpleHolder::new).toList());
+        }
     }
 
     @Override

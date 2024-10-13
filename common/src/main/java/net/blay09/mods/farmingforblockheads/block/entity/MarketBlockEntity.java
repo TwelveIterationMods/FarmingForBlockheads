@@ -3,7 +3,9 @@ package net.blay09.mods.farmingforblockheads.block.entity;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.menu.BalmMenuProvider;
 import net.blay09.mods.balm.common.BalmBlockEntity;
+import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
+import net.blay09.mods.farmingforblockheads.network.MarketCategoriesMessage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -43,5 +45,7 @@ public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvid
 
     public void openMenu(Player player) {
         Balm.getNetworking().openGui(player, this);
+        final var categories = FarmingForBlockheadsAPI.getMarketCategories();
+        Balm.getNetworking().sendTo(player, new MarketCategoriesMessage(categories));
     }
 }

@@ -14,10 +14,10 @@ import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
+import net.blay09.mods.farmingforblockheads.registry.MarketDefaultsRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -60,8 +60,9 @@ public class JeiMarketRecipeCategory implements IRecipeCategory<RecipeHolder<Mar
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<MarketRecipe> recipeHolder, IFocusGroup focuses) {
         final var recipe = recipeHolder.value();
+        final var payment = MarketDefaultsRegistry.resolvePayment(recipe);
         builder.addSlot(RecipeIngredientRole.INPUT, 16, 13)
-                .addIngredients(recipe.getPaymentOrDefault().ingredient());
+                .addIngredients(payment.ingredient());
         builder.addSlot(RecipeIngredientRole.OUTPUT, 54, 13)
                 .addIngredient(VanillaTypes.ITEM_STACK, recipe.getResultItem());
     }
@@ -75,7 +76,7 @@ public class JeiMarketRecipeCategory implements IRecipeCategory<RecipeHolder<Mar
     }
 
     private Component getFormattedCostString(MarketRecipe recipe) {
-        final var payment = recipe.getPaymentOrDefault();
+        final var payment = MarketDefaultsRegistry.resolvePayment(recipe);
         return payment.tooltip().orElseGet(() -> FarmingForBlockheads.getDefaultPaymentComponent(payment));
     }
 }

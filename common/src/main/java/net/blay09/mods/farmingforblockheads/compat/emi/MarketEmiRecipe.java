@@ -6,9 +6,8 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
-import net.minecraft.core.RegistryAccess;
+import net.blay09.mods.farmingforblockheads.registry.MarketDefaultsRegistry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -20,9 +19,11 @@ public class MarketEmiRecipe implements EmiRecipe {
     private final ResourceLocation id;
     private final List<EmiIngredient> input;
     private final List<EmiStack> output;
+
     public MarketEmiRecipe(ResourceLocation id, MarketRecipe recipe) {
         this.id = id;
-        this.input = List.of(EmiIngredient.of(recipe.getPaymentOrDefault().ingredient(), recipe.getPaymentOrDefault().count()));
+        final var payment = MarketDefaultsRegistry.resolvePayment(recipe);
+        this.input = List.of(EmiIngredient.of(payment.ingredient(), payment.count()));
         this.output = List.of(EmiStack.of(recipe.getResultItem()));
     }
 
@@ -59,8 +60,8 @@ public class MarketEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addTexture(BACKGROUND, 0, 0);
-        widgets.addSlot(this.input.get(0), 15, 12);
-        widgets.addSlot(this.output.get(0), 53, 12).recipeContext(this);
+        widgets.addSlot(this.input.getFirst(), 15, 12);
+        widgets.addSlot(this.output.getFirst(), 53, 12).recipeContext(this);
         widgets.addTexture(TRADE_ICON, 35, 13);
     }
 

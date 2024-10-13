@@ -29,7 +29,7 @@ public class MarketCategoryLoader implements ResourceManagerReloadListener {
             }
         }
 
-        final var configDir = new File(Balm.getConfig().getConfigDir(), "market_categories");
+        final var configDir = new File(Balm.getConfig().getConfigDir(), "farmingforblockheads/market_categories");
         if (configDir.exists() || configDir.mkdirs()) {
             try (final var files = Files.walk(configDir.toPath())) {
                 files.filter(it -> it.getFileName().endsWith(".json")).forEach(it -> {
@@ -44,9 +44,5 @@ public class MarketCategoryLoader implements ResourceManagerReloadListener {
                 FarmingForBlockheads.logger.error("Error loading Farming for Blockheads market category files from {}", configDir, e);
             }
         }
-    }
-
-    public void onLogin(PlayerLoginEvent event) {
-
     }
 }

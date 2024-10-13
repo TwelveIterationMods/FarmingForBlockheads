@@ -9,8 +9,6 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.Bounds;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
-import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
-import net.blay09.mods.farmingforblockheads.registry.MarketPresetRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 

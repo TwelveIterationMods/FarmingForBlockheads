@@ -6,9 +6,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
+import net.blay09.mods.farmingforblockheads.api.MarketCategory;
 import net.blay09.mods.farmingforblockheads.api.MarketPreset;
+import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.io.BufferedReader;
 import java.util.Collection;
@@ -16,14 +23,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class MarketPresetRegistry {
+public class MarketDefaultsRegistry {
 
     private static final Codec<MarketPreset> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
             PaymentImpl.CODEC.fieldOf("payment").forGetter(MarketPreset::payment),
             Codec.BOOL.fieldOf("enabled").orElse(true).forGetter(MarketPreset::enabledByDefault)
     ).apply(instance, MarketPresetImpl::new));
 
-    public static final MarketPresetRegistry INSTANCE = new MarketPresetRegistry();
+    public static final MarketDefaultsRegistry INSTANCE = new MarketDefaultsRegistry();
 
     private final Map<ResourceLocation, MarketPreset> presets = new HashMap<>();
 
@@ -51,17 +58,21 @@ public class MarketPresetRegistry {
     }
 
     public static boolean isRecipeEnabled(MarketRecipe recipe) {
-        final var disabledDefaultPresets = FarmingForBlockheadsConfig.getActive().excludedPresets;
-        if (disabledDefaultPresets.contains(recipe.getPreset())) {
-            return false;
-        }
+        // final var disabledDefaultPresets = FarmingForBlockheadsConfig.getActive().excludedPresets;
+        // if (disabledDefaultPresets.contains(recipe.getPreset())) {
+        //     return false;
+        // }
 
-        final var enabledOptionalPresets = FarmingForBlockheadsConfig.getActive().includedGroups;
-        final var preset = MarketPresetRegistry.INSTANCE.get(recipe.getPreset());
-        if (preset.map(it -> !it.enabledByDefault() && !enabledOptionalPresets.contains(recipe.getPreset())).orElse(false)) {
-            return false;
-        }
+        // final var enabledOptionalPresets = FarmingForBlockheadsConfig.getActive().includedGroups;
+        // final var preset = MarketPresetRegistry.INSTANCE.get(recipe.getPreset());
+        // if (preset.map(it -> !it.enabledByDefault() && !enabledOptionalPresets.contains(recipe.getPreset())).orElse(false)) {
+        //     return false;
+        // }
 
         return !recipe.getResultItem().isEmpty();
+    }
+
+    public static Payment resolvePayment(MarketRecipe recipe) {
+        return recipe.getPayment().orElse(new PaymentImpl(Ingredient.of(Items.EMERALD), 1, Optional.empty()));
     }
 }

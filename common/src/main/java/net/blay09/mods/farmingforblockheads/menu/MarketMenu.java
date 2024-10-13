@@ -8,6 +8,7 @@ import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.network.MarketPutInBasketMessage;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipeDisplay;
+import net.blay09.mods.farmingforblockheads.registry.MarketDefaultsRegistry;
 import net.blay09.mods.farmingforblockheads.registry.SimpleHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
@@ -194,7 +195,7 @@ public class MarketMenu extends AbstractContainerMenu {
     }
 
     public void quickMovePayment(MarketRecipe recipe, boolean stack) {
-        final var payment = recipe.getPaymentOrDefault();
+        final var payment = MarketDefaultsRegistry.resolvePayment(recipe);
         final var currentInput = marketInputBuffer.getItem(0);
         if (!payment.ingredient().test(currentInput)) {
             quickMoveStack(player, 0);
@@ -234,7 +235,7 @@ public class MarketMenu extends AbstractContainerMenu {
     public boolean verifyPayment() {
         if (selectedRecipe != null) {
             final var recipe = resolveRecipe(selectedRecipe);
-            final var payment = recipe.getPaymentOrDefault();
+            final var payment = MarketDefaultsRegistry.resolvePayment(recipe);
             final var currentInput = marketInputBuffer.getItem(0);
             if (currentInput.isEmpty()) {
                 return false;
@@ -253,7 +254,8 @@ public class MarketMenu extends AbstractContainerMenu {
     public void onItemBought() {
         final var recipe = resolveRecipe(selectedRecipe);
         if (recipe != null) {
-            marketInputBuffer.removeItem(0, recipe.getPaymentOrDefault().count());
+            final var payment = MarketDefaultsRegistry.resolvePayment(recipe);
+            marketInputBuffer.removeItem(0, payment.count());
             slotsChanged(marketInputBuffer);
         }
     }
