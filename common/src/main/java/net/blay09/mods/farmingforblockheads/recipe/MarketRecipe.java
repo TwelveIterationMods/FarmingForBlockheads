@@ -2,7 +2,6 @@ package net.blay09.mods.farmingforblockheads.recipe;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.blay09.mods.farmingforblockheads.api.MarketPreset;
 import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.registry.PaymentImpl;
 import net.minecraft.core.HolderLookup;
@@ -45,6 +44,10 @@ public class MarketRecipe implements Recipe<RecipeInput> {
 
     public ItemStack getResultItem() {
         return resultItem;
+    }
+
+    public String getDefaults() {
+        return defaults;
     }
 
     @Override
