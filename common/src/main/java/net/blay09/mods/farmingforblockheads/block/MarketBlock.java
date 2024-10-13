@@ -138,9 +138,8 @@ public class MarketBlock extends BaseEntityBlock {
 
     private void use(BlockState state, Level level, BlockPos pos, Player player) {
         if (!level.isClientSide) {
-            BlockEntity tileEntity = level.getBlockEntity(pos);
-            if (tileEntity instanceof MarketBlockEntity market) {
-                Balm.getNetworking().openGui(player, market);
+            if (level.getBlockEntity(pos) instanceof MarketBlockEntity market) {
+                market.openMenu(player);
             }
         }
     }

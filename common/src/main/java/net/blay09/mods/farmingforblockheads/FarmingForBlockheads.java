@@ -13,7 +13,6 @@ import net.blay09.mods.farmingforblockheads.loot.ModLootModifiers;
 import net.blay09.mods.farmingforblockheads.network.ModNetworking;
 import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
 import net.blay09.mods.farmingforblockheads.registry.MarketCategoryLoader;
-import net.blay09.mods.farmingforblockheads.registry.MarketCategoryRegistry;
 import net.blay09.mods.farmingforblockheads.registry.MarketPresetLoader;
 import net.blay09.mods.farmingforblockheads.sound.ModSounds;
 import net.minecraft.network.chat.Component;
@@ -42,7 +41,6 @@ public class FarmingForBlockheads {
         Balm.addServerReloadListener(ResourceLocation.fromNamespaceAndPath(MOD_ID, "market_category_loader"), new MarketCategoryLoader());
         Balm.addServerReloadListener(ResourceLocation.fromNamespaceAndPath(MOD_ID, "market_preset_loader"), new MarketPresetLoader());
 
-        Balm.getEvents().onEvent(PlayerLoginEvent.class, MarketCategoryRegistry.INSTANCE::onLogin);
         Balm.getEvents().onEvent(CropGrowEvent.Post.class, FarmlandHandler::onGrowEvent);
     }
 

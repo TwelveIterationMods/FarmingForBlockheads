@@ -80,9 +80,9 @@ public class MerchantEntity extends PathfinderMob {
 
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        MarketBlockEntity market = getMarketTileEntity();
+        final var market = getMarketBlockEntity();
         if (market != null) {
-            Balm.getNetworking().openGui(player, market);
+            market.openMenu(player);
             return InteractionResult.SUCCESS;
         }
 
@@ -279,7 +279,7 @@ public class MerchantEntity extends PathfinderMob {
     }
 
     @Nullable
-    private MarketBlockEntity getMarketTileEntity() {
+    private MarketBlockEntity getMarketBlockEntity() {
         if (marketPos == null) {
             return null;
         }

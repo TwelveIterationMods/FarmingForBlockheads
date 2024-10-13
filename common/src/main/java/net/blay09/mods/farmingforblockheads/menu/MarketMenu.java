@@ -8,10 +8,10 @@ import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.network.MarketPutInBasketMessage;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipeDisplay;
-import net.blay09.mods.farmingforblockheads.registry.MarketCategoryRegistry;
 import net.blay09.mods.farmingforblockheads.registry.SimpleHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -37,8 +37,8 @@ public class MarketMenu extends AbstractContainerMenu {
     private final List<MarketListingSlot> marketSlots = new ArrayList<>();
     private final MarketPaymentSlot paymentSlot;
 
-    private List<SimpleHolder<MarketCategory>> categories;
-    private List<RecipeDisplayEntry> recipes;
+    private List<SimpleHolder<MarketCategory>> categories = List.of();
+    private List<RecipeDisplayEntry> recipes = List.of();
 
     private String currentSearch;
     private SimpleHolder<MarketCategory> currentCategory;
@@ -378,11 +378,14 @@ public class MarketMenu extends AbstractContainerMenu {
         this.categories = categories;
     }
 
-    public Comparator<RecipeDisplayEntry> sorting(Level level) {
+    private Optional<MarketCategory> resolveMarketCategory(ResourceLocation identifier) {
+        return categories.stream().filter(it -> it.id().equals(identifier)).findFirst().map(SimpleHolder::value);
+    }
+
+    private Comparator<RecipeDisplayEntry> sorting(Level level) {
         final var contextMap = SlotDisplayContext.fromLevel(player.level());
         return Comparator.comparingInt(
-                        (RecipeDisplayEntry recipe) -> recipe.display() instanceof MarketRecipeDisplay marketRecipeDisplay ? MarketCategoryRegistry.INSTANCE.get(
-                                        marketRecipeDisplay.category())
+                        (RecipeDisplayEntry recipe) -> recipe.display() instanceof MarketRecipeDisplay marketRecipeDisplay ? resolveMarketCategory(marketRecipeDisplay.category())
                                 .map(MarketCategory::sortIndex)
                                 .orElse(0) : 0)
                 .thenComparing(recipe -> recipe.display().result().resolveForFirstStack(contextMap)

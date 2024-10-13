@@ -56,8 +56,4 @@ public class MarketCategoryRegistry {
         this.categories.clear();
         categories.forEach(this::register);
     }
-
-    public void onLogin(PlayerLoginEvent event) {
-        Balm.getNetworking().sendTo(event.getPlayer(), new MarketCategoriesMessage(categories));
-    }
 }

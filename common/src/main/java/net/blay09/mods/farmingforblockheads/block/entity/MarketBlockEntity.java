@@ -1,5 +1,6 @@
 package net.blay09.mods.farmingforblockheads.block.entity;
 
+import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.menu.BalmMenuProvider;
 import net.blay09.mods.balm.common.BalmBlockEntity;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
@@ -38,5 +39,9 @@ public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvid
     @Override
     public StreamCodec<RegistryFriendlyByteBuf, BlockPos> getScreenStreamCodec() {
         return BlockPos.STREAM_CODEC.cast();
+    }
+
+    public void openMenu(Player player) {
+        Balm.getNetworking().openGui(player, this);
     }
 }

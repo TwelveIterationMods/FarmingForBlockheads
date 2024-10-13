@@ -3,7 +3,6 @@ package net.blay09.mods.farmingforblockheads.network;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.api.MarketCategory;
 import net.blay09.mods.farmingforblockheads.registry.MarketCategoryImpl;
-import net.blay09.mods.farmingforblockheads.registry.MarketCategoryRegistry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -50,7 +49,7 @@ public class MarketCategoriesMessage implements CustomPacketPayload {
     }
 
     public static void handle(Player player, MarketCategoriesMessage message) {
-        MarketCategoryRegistry.INSTANCE.load(message.categories);
+
     }
 
     @Override
