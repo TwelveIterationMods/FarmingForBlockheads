@@ -24,7 +24,7 @@ public class MarketEmiRecipe implements EmiRecipe {
         this.id = id;
         final var payment = MarketDefaultsRegistry.resolvePayment(recipe);
         this.input = List.of(EmiIngredient.of(payment.ingredient(), payment.count()));
-        this.output = List.of(EmiStack.of(recipe.getResultItem()));
+        this.output = List.of(EmiStack.of(recipe.result()));
     }
 
     @Override
