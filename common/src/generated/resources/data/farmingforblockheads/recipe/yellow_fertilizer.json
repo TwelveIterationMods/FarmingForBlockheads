@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "D": {
-      "item": "minecraft:dirt"
-    },
-    "G": {
-      "tag": "c:dyes/yellow"
-    },
-    "N": {
-      "tag": "c:nuggets/gold"
-    },
-    "S": {
-      "item": "minecraft:wheat_seeds"
-    }
+    "D": "minecraft:dirt",
+    "G": "#c:dyes/yellow",
+    "N": "#c:nuggets/gold",
+    "S": "minecraft:wheat_seeds"
   },
   "pattern": [
     "GGG",

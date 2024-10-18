@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "H": {
-      "item": "minecraft:hay_block"
-    },
-    "P": {
-      "tag": "minecraft:planks"
-    }
+    "H": "minecraft:hay_block",
+    "P": "#minecraft:planks"
   },
   "pattern": [
     "PHP"
