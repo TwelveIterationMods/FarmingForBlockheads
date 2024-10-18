@@ -13,7 +13,7 @@ import java.nio.file.Files;
 
 public class MarketCategoryLoader implements ResourceManagerReloadListener {
 
-    private static final FileToIdConverter MARKET_CATEGORIES = FileToIdConverter.json("market_categories");
+    private static final FileToIdConverter MARKET_CATEGORIES = FileToIdConverter.json("farmingforblockheads/market_categories");
 
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
