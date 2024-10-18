@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"farmersdelight:mushrooms","result":{"item":"farmersdelight:red_mushroom_colony"}}
+{"type":"farmingforblockheads:market","result":{"item":"farmersdelight:red_mushroom_colony"},"defaults":"selling.mushrooms.farmersdelight","conditions":[{"type":"forge:mod_loaded","mod":"farmersdelight"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["farmersdelight"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"farmersdelight"}]}

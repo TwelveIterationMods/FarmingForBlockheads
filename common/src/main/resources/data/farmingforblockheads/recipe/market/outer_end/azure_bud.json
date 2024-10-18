@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"outer_end:end","result":{"item":"outer_end:azure_bud"}}
+{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","result":{"item":"outer_end:azure_bud"},"defaults":"selling.end.outer_end","conditions":[{"type":"forge:mod_loaded","mod":"outer_end"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["outer_end"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"outer_end"}]}
