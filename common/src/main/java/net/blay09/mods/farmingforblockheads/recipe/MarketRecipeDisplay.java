@@ -1,21 +1,24 @@
 package net.blay09.mods.farmingforblockheads.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.blay09.mods.farmingforblockheads.registry.MarketDefaultsRegistry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 
-public record MarketRecipeDisplay(SlotDisplay payment, SlotDisplay result, SlotDisplay craftingStation, ResourceLocation category) implements RecipeDisplay {
+public record MarketRecipeDisplay(SlotDisplay payment, SlotDisplay result, SlotDisplay craftingStation, ResourceLocation category,
+                                  boolean enabled) implements RecipeDisplay {
     public static final MapCodec<MarketRecipeDisplay> MAP_CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
             SlotDisplay.CODEC.fieldOf("payment").forGetter(MarketRecipeDisplay::payment),
             SlotDisplay.CODEC.fieldOf("result").forGetter(MarketRecipeDisplay::result),
             SlotDisplay.CODEC.fieldOf("crafting_station").forGetter(MarketRecipeDisplay::craftingStation),
-            ResourceLocation.CODEC.fieldOf("category").forGetter(MarketRecipeDisplay::category)
+            ResourceLocation.CODEC.fieldOf("category").forGetter(MarketRecipeDisplay::category),
+            Codec.BOOL.fieldOf("enabled").forGetter(MarketRecipeDisplay::enabled)
     ).apply(instance, MarketRecipeDisplay::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, MarketRecipeDisplay> STREAM_CODEC = StreamCodec.composite(SlotDisplay.STREAM_CODEC,
             MarketRecipeDisplay::payment,
@@ -25,6 +28,8 @@ public record MarketRecipeDisplay(SlotDisplay payment, SlotDisplay result, SlotD
             MarketRecipeDisplay::craftingStation,
             ResourceLocation.STREAM_CODEC,
             MarketRecipeDisplay::category,
+            ByteBufCodecs.BOOL,
+            MarketRecipeDisplay::enabled,
             MarketRecipeDisplay::new);
     public static final RecipeDisplay.Type<MarketRecipeDisplay> TYPE = new RecipeDisplay.Type<>(MAP_CODEC, STREAM_CODEC);
 
@@ -49,6 +54,6 @@ public record MarketRecipeDisplay(SlotDisplay payment, SlotDisplay result, SlotD
 
     @Override
     public boolean isEnabled(FeatureFlagSet featureFlagSet) {
-        return RecipeDisplay.super.isEnabled(featureFlagSet);
+        return RecipeDisplay.super.isEnabled(featureFlagSet) && enabled;
     }
 }

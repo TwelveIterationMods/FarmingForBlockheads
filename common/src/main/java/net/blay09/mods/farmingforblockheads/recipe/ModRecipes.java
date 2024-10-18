@@ -17,6 +17,7 @@ public class ModRecipes {
 
     public static void initialize(BalmRecipes registry) {
         registry.registerRecipeBookCategory(RecipeBookCategory::new, ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "market"));
+        registry.registerRecipeDisplayType(() -> MarketRecipeDisplay.TYPE, ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "market"));
         registry.registerRecipeType(() -> marketRecipeType = new RecipeType<>() {
                     @Override
                     public String toString() {

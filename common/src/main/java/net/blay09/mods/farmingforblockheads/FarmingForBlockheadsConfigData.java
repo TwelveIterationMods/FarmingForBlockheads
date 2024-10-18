@@ -15,7 +15,7 @@ public class FarmingForBlockheadsConfigData implements BalmConfigData {
 
     @Comment("List of groups to disable. Has precedence over includedGroups. 'selling.seeds' for example would disable all seeds from the market.")
     @ExpectedType(String.class)
-    public Set<String> excludedPresets = Set.of();
+    public Set<String> excludedGroups = Set.of();
 
     @ExpectedType(String.class)
     @Comment("List of names the merchant can have.")

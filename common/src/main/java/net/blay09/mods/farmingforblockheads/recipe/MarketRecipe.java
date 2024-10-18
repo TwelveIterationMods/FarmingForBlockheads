@@ -56,12 +56,20 @@ public class MarketRecipe implements Recipe<RecipeInput> {
         return defaults;
     }
 
+    public boolean enabled() {
+        return MarketDefaultsRegistry.isEnabled(this);
+    }
+
     @Override
     public List<RecipeDisplay> display() {
         final var effectivePayment = MarketDefaultsRegistry.resolvePayment(this);
         final var effectiveCategory = MarketDefaultsRegistry.resolveCategory(this);
-        return List.of(new MarketRecipeDisplay(effectivePayment.ingredient().display(), new SlotDisplay.ItemStackSlotDisplay(result()), new SlotDisplay.ItemSlotDisplay(
-                ModBlocks.market.asItem()), effectiveCategory));
+        return List.of(new MarketRecipeDisplay(effectivePayment.ingredient().display(),
+                new SlotDisplay.ItemStackSlotDisplay(result()),
+                new SlotDisplay.ItemSlotDisplay(
+                        ModBlocks.market.asItem()),
+                effectiveCategory,
+                enabled()));
     }
 
     @Override
@@ -132,8 +140,8 @@ public class MarketRecipe implements Recipe<RecipeInput> {
         public static void toNetwork(RegistryFriendlyByteBuf buf, MarketRecipe recipe) {
             ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, recipe.result);
             buf.writeUtf(recipe.defaults);
-            buf.writeResourceLocation(recipe.category); // TODO resolve default
-            PaymentImpl.toNetwork(buf, recipe.payment); // TODO resolve default
+            buf.writeResourceLocation(recipe.category);
+            PaymentImpl.toNetwork(buf, recipe.payment);
         }
     }
 
