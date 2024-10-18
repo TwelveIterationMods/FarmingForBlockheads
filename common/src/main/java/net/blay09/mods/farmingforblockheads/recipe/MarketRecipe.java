@@ -3,6 +3,9 @@ package net.blay09.mods.farmingforblockheads.recipe;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.blay09.mods.farmingforblockheads.api.Payment;
+import net.blay09.mods.farmingforblockheads.block.ModBlocks;
+import net.blay09.mods.farmingforblockheads.item.ModItems;
+import net.blay09.mods.farmingforblockheads.registry.MarketDefaultsRegistry;
 import net.blay09.mods.farmingforblockheads.registry.PaymentImpl;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentPatch;
@@ -14,21 +17,24 @@ import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 
+import java.util.List;
 import java.util.Optional;
 
 public class MarketRecipe implements Recipe<RecipeInput> {
 
     private final String defaults;
     private final ResourceLocation category;
-    private final ItemStack resultItem;
+    private final ItemStack result;
     private final Payment payment;
 
-    public MarketRecipe(ItemStack resultItem, String defaults, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<ResourceLocation> category, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<Payment> payment) {
+    public MarketRecipe(ItemStack result, String defaults, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<ResourceLocation> category, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<Payment> payment) {
         this.defaults = defaults;
         this.category = category.orElse(null);
-        this.resultItem = resultItem;
+        this.result = result;
         this.payment = payment.orElse(null);
     }
 
@@ -39,15 +45,23 @@ public class MarketRecipe implements Recipe<RecipeInput> {
 
     @Override
     public ItemStack assemble(RecipeInput container, HolderLookup.Provider provider) {
-        return resultItem.copy();
+        return result.copy();
     }
 
-    public ItemStack getResultItem() {
-        return resultItem;
+    public ItemStack result() {
+        return result;
     }
 
     public String getDefaults() {
         return defaults;
+    }
+
+    @Override
+    public List<RecipeDisplay> display() {
+        final var effectivePayment = MarketDefaultsRegistry.resolvePayment(this);
+        final var effectiveCategory = MarketDefaultsRegistry.resolveCategory(this);
+        return List.of(new MarketRecipeDisplay(effectivePayment.ingredient().display(), new SlotDisplay.ItemStackSlotDisplay(result()), new SlotDisplay.ItemSlotDisplay(
+                ModBlocks.market.asItem()), effectiveCategory));
     }
 
     @Override
@@ -89,7 +103,7 @@ public class MarketRecipe implements Recipe<RecipeInput> {
         ).apply(instance, ItemStack::new));
 
         private static final MapCodec<MarketRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                RESULT_CODEC.fieldOf("result").forGetter(recipe -> recipe.resultItem),
+                RESULT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
                 ExtraCodecs.NON_EMPTY_STRING.fieldOf("defaults").forGetter(recipe -> recipe.defaults),
                 ResourceLocation.CODEC.optionalFieldOf("category").forGetter(MarketRecipe::getCategory),
                 PaymentImpl.CODEC.optionalFieldOf("payment").forGetter(MarketRecipe::getPayment)
@@ -116,7 +130,7 @@ public class MarketRecipe implements Recipe<RecipeInput> {
         }
 
         public static void toNetwork(RegistryFriendlyByteBuf buf, MarketRecipe recipe) {
-            ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, recipe.resultItem);
+            ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, recipe.result);
             buf.writeUtf(recipe.defaults);
             buf.writeResourceLocation(recipe.category); // TODO resolve default
             PaymentImpl.toNetwork(buf, recipe.payment); // TODO resolve default

@@ -51,21 +51,6 @@ public class MarketDefaultsRegistry {
         register(id, category);
     }
 
-    public static boolean isRecipeEnabled(MarketRecipe recipe) {
-        // final var disabledDefaultPresets = FarmingForBlockheadsConfig.getActive().excludedPresets;
-        // if (disabledDefaultPresets.contains(recipe.getPreset())) {
-        //     return false;
-        // }
-
-        // final var enabledOptionalPresets = FarmingForBlockheadsConfig.getActive().includedGroups;
-        // final var preset = MarketPresetRegistry.INSTANCE.get(recipe.getPreset());
-        // if (preset.map(it -> !it.enabledByDefault() && !enabledOptionalPresets.contains(recipe.getPreset())).orElse(false)) {
-        //     return false;
-        // }
-
-        return !recipe.getResultItem().isEmpty();
-    }
-
     public static MarketDefault resolveExactDefault(String defaults) {
 
         return new MarketDefaultImpl(Optional.empty(), Optional.empty());
