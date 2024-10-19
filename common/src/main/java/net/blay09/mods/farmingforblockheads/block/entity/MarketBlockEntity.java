@@ -4,30 +4,28 @@ import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.menu.BalmMenuProvider;
 import net.blay09.mods.balm.common.BalmBlockEntity;
 import net.blay09.mods.farmingforblockheads.api.FarmingForBlockheadsAPI;
+import net.blay09.mods.farmingforblockheads.api.MarketCategory;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
 import net.blay09.mods.farmingforblockheads.mixin.RecipeManagerAccessor;
 import net.blay09.mods.farmingforblockheads.network.MarketCategoriesMessage;
 import net.blay09.mods.farmingforblockheads.network.MarketRecipesMessage;
-import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipeDisplay;
 import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
+import net.blay09.mods.farmingforblockheads.registry.SimpleHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvider<BlockPos> {
     public MarketBlockEntity(BlockPos pos, BlockState state) {
@@ -42,7 +40,12 @@ public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvid
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player) {
-        return new MarketMenu(windowId, playerInventory, worldPosition);
+        final var displays = getRecipeDisplays();
+        final var categories = getCategories(displays);
+        final var menu = new MarketMenu(windowId, playerInventory, worldPosition);
+        menu.setCategories(categories);
+        menu.setRecipes(displays);
+        return menu;
     }
 
     @Override
@@ -55,21 +58,30 @@ public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvid
         return BlockPos.STREAM_CODEC.cast();
     }
 
-    public void openMenu(Player player) {
-        Balm.getNetworking().openGui(player, this);
+    private List<SimpleHolder<MarketCategory>> getCategories(List<RecipeDisplayEntry> displays) {
+        final var categories = FarmingForBlockheadsAPI.getMarketCategories();
+        final var usedCategories = displays.stream().map(it -> ((MarketRecipeDisplay) it.display()).category()).collect(Collectors.toSet());
+        return usedCategories.stream().map(it -> SimpleHolder.of(it, categories.get(it))).filter(Objects::nonNull).toList();
+    }
+
+    private List<RecipeDisplayEntry> getRecipeDisplays() {
         final var recipeManager = level.getServer().getRecipeManager();
-        final var usedCategories = new HashSet<ResourceLocation>();
+        final var result = new ArrayList<RecipeDisplayEntry>();
         if (recipeManager instanceof RecipeManagerAccessor accessor) {
-            final var displays = new ArrayList<RecipeDisplayEntry>();
             final var recipes = accessor.getRecipes().byType(ModRecipes.marketRecipeType);
             for (final var recipeHolder : recipes) {
-                recipeManager.listDisplaysForRecipe(recipeHolder.id(), displays::add);
+                recipeManager.listDisplaysForRecipe(recipeHolder.id(), result::add);
             }
-            displays.forEach(it -> usedCategories.add(((MarketRecipeDisplay) it.display()).category()));
-            Balm.getNetworking().sendTo(player, new MarketRecipesMessage(displays));
         }
-        final var categories = FarmingForBlockheadsAPI.getMarketCategories();
-        categories.keySet().removeIf(it -> !usedCategories.contains(it));
+        return result;
+    }
+
+    public void openMenu(Player player) {
+        Balm.getNetworking().openGui(player, this);
+
+        final var displays = getRecipeDisplays();
+        final var categories = getCategories(displays);
         Balm.getNetworking().sendTo(player, new MarketCategoriesMessage(categories));
+        Balm.getNetworking().sendTo(player, new MarketRecipesMessage(displays));
     }
 }

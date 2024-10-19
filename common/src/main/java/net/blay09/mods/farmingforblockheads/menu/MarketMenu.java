@@ -80,9 +80,6 @@ public class MarketMenu extends AbstractContainerMenu {
         }
 
         addDataSlot(canBuy);
-
-        updateFilteredRecipes();
-        setScrollOffset(0);
     }
 
     @Override
@@ -178,6 +175,7 @@ public class MarketMenu extends AbstractContainerMenu {
             marketOutputBuffer.setItem(0, recipe.assemble(new TransientCraftingContainer(this, 0, 0).asCraftInput(), RegistryAccess.EMPTY));
             quickMovePayment(recipe, stack);
         }
+        slotsChanged(marketInputBuffer);
     }
 
     private MarketRecipe resolveRecipe(@Nullable RecipeDisplayEntry recipeDisplayEntry) {

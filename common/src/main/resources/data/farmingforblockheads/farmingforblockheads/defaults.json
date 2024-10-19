@@ -2,7 +2,7 @@
   "selling": {
     "category": "farmingforblockheads:other",
     "payment": {
-      "ingredient": ["minecraft:dirt"],
+      "ingredient": ["minecraft:emerald"],
       "count": 1
     }
   },
