@@ -6,7 +6,6 @@ import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
 import net.blay09.mods.farmingforblockheads.client.gui.widget.MarketFilterButton;
 import net.blay09.mods.farmingforblockheads.menu.MarketListingSlot;
 import net.blay09.mods.farmingforblockheads.menu.MarketMenu;
-import net.blay09.mods.farmingforblockheads.menu.MarketPaymentSlot;
 import net.blay09.mods.farmingforblockheads.mixin.GhostSlotsAccessor;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipeDisplay;
 import net.minecraft.client.Minecraft;
@@ -20,11 +19,9 @@ import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.recipebook.PlaceRecipeHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractCraftingMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.crafting.display.*;
@@ -33,7 +30,6 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 public class MarketScreen extends AbstractContainerScreen<MarketMenu> implements RecipeUpdateListener {
 
@@ -197,9 +193,6 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> implements
         Font font = minecraft.font;
 
         guiGraphics.blit(RenderType::guiTextured, TEXTURE, leftPos, topPos - 10, 0, 0, imageWidth, imageHeight + 10, 256, 256);
-        // TODO if (menu.getSelectedRecipe() != null && !menu.canAfford()) {
-        // TODO     guiGraphics.blit(RenderType::guiTextured, TEXTURE, leftPos + 43, topPos + 40, 176, 0, 14, 14, 256, 256);
-        // TODO }
 
         if (mouseClickY != -1) {
             float pixelsPerFilter = (SCROLLBAR_HEIGHT - scrollBarScaledHeight) / (float) Math.max(1,
@@ -214,20 +207,6 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> implements
         }
 
         guiGraphics.drawString(font, I18n.get("container.farmingforblockheads.market"), leftPos + 10, topPos + 10, 0xFFFFFF, true);
-
-        // TODO final var selectedRecipe = menu.getSelectedRecipe();
-        // TODO if (selectedRecipe == null) {
-        // TODO     guiGraphics.drawCenteredString(font, I18n.get("gui.farmingforblockheads.market.no_selection"), leftPos + 49, topPos + 65, 0xFFFFFF);
-        // TODO } else {
-        // TODO     // TODO final var payment = selectedRecipe.value().getPaymentOrDefault();
-        // TODO     // TODO final var paymentComponent = payment.tooltip().orElseGet(() -> FarmingForBlockheads.getDefaultPaymentComponent(payment));
-        // TODO     // TODO final var component = Component.translatable("gui.farmingforblockheads.market.cost", paymentComponent)
-        // TODO     // TODO         .withStyle(ChatFormatting.GREEN);
-        // TODO     // TODO final var width = font.width(component);
-        // TODO     // TODO guiGraphics.fillGradient((int) (leftPos + 49 - width / 2f - 2), topPos + 65 - 2,
-        // TODO     // TODO         (int) (leftPos + 49 + width / 2f + 2), topPos + 65 + 9, 0x88000000, 0x99000000);
-        // TODO     // TODO guiGraphics.drawCenteredString(font, component, leftPos + 49, topPos + 65, 0xFFFFFF);
-        // TODO }
 
         guiGraphics.fill(scrollBarXPos, scrollBarYPos, scrollBarXPos + SCROLLBAR_WIDTH, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
 
