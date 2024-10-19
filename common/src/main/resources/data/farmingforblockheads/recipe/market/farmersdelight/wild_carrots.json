@@ -1,1 +1,28 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","result":{"item":"farmersdelight:wild_carrots"},"defaults":"selling.wildplants.farmersdelight","conditions":[{"type":"forge:mod_loaded","mod":"farmersdelight"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["farmersdelight"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"farmersdelight"}]}
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:flowers",
+  "result": {
+    "item": "farmersdelight:wild_carrots"
+  },
+  "defaults": "selling.wildplants.farmersdelight.wild_carrots",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "mod": "farmersdelight"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "farmersdelight"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "farmersdelight"
+    }
+  ]
+}

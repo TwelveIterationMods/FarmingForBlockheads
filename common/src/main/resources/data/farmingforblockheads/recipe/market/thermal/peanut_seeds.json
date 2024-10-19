@@ -1,1 +1,27 @@
-{"type":"farmingforblockheads:market","result":{"item":"thermal:peanut_seeds"},"defaults":"selling.seeds.thermal","conditions":[{"type":"forge:mod_loaded","mod":"thermal"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["thermal"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"thermal"}]}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "item": "thermal:peanut_seeds"
+  },
+  "defaults": "selling.seeds.thermal.peanut_seeds",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "mod": "thermal"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "thermal"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal"
+    }
+  ]
+}

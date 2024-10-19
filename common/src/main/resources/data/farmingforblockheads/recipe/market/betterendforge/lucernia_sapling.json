@@ -1,1 +1,27 @@
-{"type":"farmingforblockheads:market","result":{"item":"betterendforge:lucernia_sapling"},"defaults":"selling.saplings.betterendforge","conditions":[{"type":"forge:mod_loaded","mod":"betterendforge"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["betterendforge"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"betterendforge"}]}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "item": "betterendforge:lucernia_sapling"
+  },
+  "defaults": "selling.saplings.betterendforge.lucernia_sapling",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "mod": "betterendforge"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "betterendforge"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "betterendforge"
+    }
+  ]
+}

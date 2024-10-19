@@ -1,1 +1,27 @@
-{"type":"farmingforblockheads:market","result":{"item":"twilightforest:mangrove_sapling"},"defaults":"selling.saplings.twilightforest","conditions":[{"type":"forge:mod_loaded","mod":"twilightforest"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["twilightforest"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"twilightforest"}]}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "item": "twilightforest:mangrove_sapling"
+  },
+  "defaults": "selling.saplings.twilightforest.mangrove_sapling",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "mod": "twilightforest"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "twilightforest"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ]
+}

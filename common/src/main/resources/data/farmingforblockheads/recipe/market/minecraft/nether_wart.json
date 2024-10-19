@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:nether_wart"},"defaults":"selling.crops.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:nether_wart"
+  },
+  "defaults": "selling.crops.minecraft.nether_wart"
+}

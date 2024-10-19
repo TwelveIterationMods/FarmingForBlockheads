@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:oak_sapling"},"defaults":"selling.saplings.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:oak_sapling"
+  },
+  "defaults": "selling.saplings.minecraft.oak_sapling"
+}

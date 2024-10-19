@@ -1,1 +1,27 @@
-{"type":"farmingforblockheads:market","result":{"item":"betterendforge:end_mycelium"},"defaults":"selling.soils.betterendforge","conditions":[{"type":"forge:mod_loaded","mod":"betterendforge"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["betterendforge"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"betterendforge"}]}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "item": "betterendforge:end_mycelium"
+  },
+  "defaults": "selling.soils.betterendforge.end_mycelium",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "mod": "betterendforge"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "betterendforge"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "betterendforge"
+    }
+  ]
+}

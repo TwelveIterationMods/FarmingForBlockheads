@@ -1,1 +1,27 @@
-{"type":"farmingforblockheads:market","result":{"item":"nethers_delight:soul_compost"},"defaults":"selling.delight.nethers_delight","conditions":[{"type":"forge:mod_loaded","mod":"nethers_delight"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["nethers_delight"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"nethers_delight"}]}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "item": "nethers_delight:soul_compost"
+  },
+  "defaults": "selling.delight.nethers_delight.soul_compost",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "mod": "nethers_delight"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "nethers_delight"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "nethers_delight"
+    }
+  ]
+}

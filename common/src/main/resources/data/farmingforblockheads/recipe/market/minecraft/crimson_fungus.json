@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:crimson_fungus"},"defaults":"selling.mushrooms.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:crimson_fungus"
+  },
+  "defaults": "selling.mushrooms.minecraft.crimson_fungus"
+}

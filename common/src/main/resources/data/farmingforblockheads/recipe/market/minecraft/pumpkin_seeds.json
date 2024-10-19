@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:pumpkin_seeds"},"defaults":"selling.seeds.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:pumpkin_seeds"
+  },
+  "defaults": "selling.seeds.minecraft.pumpkin_seeds"
+}

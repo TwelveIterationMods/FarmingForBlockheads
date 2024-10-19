@@ -1,1 +1,9 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","result":{"count":1,"item":"minecraft:potato"},"defaults":"selling.seed_crops.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:seeds",
+  "result": {
+    "count": 1,
+    "item": "minecraft:potato"
+  },
+  "defaults": "selling.seed_crops.minecraft.potato"
+}

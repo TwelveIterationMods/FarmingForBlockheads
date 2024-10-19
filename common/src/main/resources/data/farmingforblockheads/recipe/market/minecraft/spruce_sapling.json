@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:spruce_sapling"},"defaults":"selling.saplings.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:spruce_sapling"
+  },
+  "defaults": "selling.saplings.minecraft.spruce_sapling"
+}

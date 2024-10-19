@@ -1,1 +1,27 @@
-{"type":"farmingforblockheads:market","result":{"item":"pamhc2crops:quinoaseeditem"},"defaults":"selling.seeds.pamhc2crops","conditions":[{"type":"forge:mod_loaded","mod":"pamhc2crops"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["pamhc2crops"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"pamhc2crops"}]}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "item": "pamhc2crops:quinoaseeditem"
+  },
+  "defaults": "selling.seeds.pamhc2crops.quinoaseeditem",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "mod": "pamhc2crops"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "pamhc2crops"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "pamhc2crops"
+    }
+  ]
+}

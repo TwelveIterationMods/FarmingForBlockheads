@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:allium"},"defaults":"selling.flowers.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:allium"
+  },
+  "defaults": "selling.flowers.minecraft.allium"
+}

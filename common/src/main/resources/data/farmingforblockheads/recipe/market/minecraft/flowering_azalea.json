@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:flowering_azalea"},"defaults":"selling.rare.saplings.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:flowering_azalea"
+  },
+  "defaults": "selling.rare.saplings.minecraft.flowering_azalea"
+}

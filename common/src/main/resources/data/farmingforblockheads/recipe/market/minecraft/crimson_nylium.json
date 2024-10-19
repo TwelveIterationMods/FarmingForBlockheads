@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:crimson_nylium"},"defaults":"selling.soils.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:crimson_nylium"
+  },
+  "defaults": "selling.soils.minecraft.crimson_nylium"
+}

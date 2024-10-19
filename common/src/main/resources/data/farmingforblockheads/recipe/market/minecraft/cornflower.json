@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:cornflower"},"defaults":"selling.flowers.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:cornflower"
+  },
+  "defaults": "selling.flowers.minecraft.cornflower"
+}

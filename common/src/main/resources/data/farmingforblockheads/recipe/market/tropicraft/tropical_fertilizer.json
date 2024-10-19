@@ -1,1 +1,27 @@
-{"type":"farmingforblockheads:market","result":{"item":"tropicraft:tropical_fertilizer"},"defaults":"selling.fertilizer.tropicraft","conditions":[{"type":"forge:mod_loaded","mod":"tropicraft"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["tropicraft"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"tropicraft"}]}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "item": "tropicraft:tropical_fertilizer"
+  },
+  "defaults": "selling.fertilizer.tropicraft.tropical_fertilizer",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "mod": "tropicraft"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "tropicraft"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "tropicraft"
+    }
+  ]
+}

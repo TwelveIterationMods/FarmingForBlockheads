@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:soul_sand"},"defaults":"selling.soils.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:soul_sand"
+  },
+  "defaults": "selling.soils.minecraft.soul_sand"
+}

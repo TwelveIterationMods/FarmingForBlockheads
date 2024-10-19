@@ -1,6 +1,6 @@
 {
   "type": "farmingforblockheads:market",
-  "defaults": "selling.soils.betterendforge",
+  "defaults": "selling.soils.betterendforge.amber_moss",
   "result": {
     "item": "betterendforge:amber_moss"
   },
@@ -13,7 +13,9 @@
   "fabric:load_conditions": [
     {
       "condition": "fabric:all_mods_loaded",
-      "values": ["betterendforge"]
+      "values": [
+        "betterendforge"
+      ]
     }
   ],
   "neoforge:conditions": [

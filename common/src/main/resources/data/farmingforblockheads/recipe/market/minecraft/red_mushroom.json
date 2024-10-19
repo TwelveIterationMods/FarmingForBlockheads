@@ -1,1 +1,8 @@
-{"type":"farmingforblockheads:market","result":{"count":1,"item":"minecraft:red_mushroom"},"defaults":"selling.mushrooms.minecraft"}
+{
+  "type": "farmingforblockheads:market",
+  "result": {
+    "count": 1,
+    "item": "minecraft:red_mushroom"
+  },
+  "defaults": "selling.mushrooms.minecraft.red_mushroom"
+}

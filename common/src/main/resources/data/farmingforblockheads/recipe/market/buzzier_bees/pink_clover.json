@@ -1,1 +1,28 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","result":{"item":"buzzier_bees:pink_clover"},"defaults":"selling.bees.buzzier_bees","conditions":[{"type":"forge:mod_loaded","mod":"buzzier_bees"}],"fabric:load_conditions":[{"condition":"fabric:all_mods_loaded","values":["buzzier_bees"]}],"neoforge:conditions":[{"type":"neoforge:mod_loaded","modid":"buzzier_bees"}]}
+{
+  "type": "farmingforblockheads:market",
+  "category": "farmingforblockheads:flowers",
+  "result": {
+    "item": "buzzier_bees:pink_clover"
+  },
+  "defaults": "selling.bees.buzzier_bees.pink_clover",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "mod": "buzzier_bees"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "buzzier_bees"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "buzzier_bees"
+    }
+  ]
+}
