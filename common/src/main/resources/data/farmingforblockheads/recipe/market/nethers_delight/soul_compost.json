@@ -3,7 +3,7 @@
   "result": {
     "item": "nethers_delight:soul_compost"
   },
-  "defaults": "selling.delight.nethers_delight.soul_compost",
+  "defaults": "selling.nether.soils.nethers_delight.soul_compost",
   "conditions": [
     {
       "type": "forge:mod_loaded",

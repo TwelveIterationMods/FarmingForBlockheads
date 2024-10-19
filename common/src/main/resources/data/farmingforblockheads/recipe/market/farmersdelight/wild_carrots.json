@@ -4,7 +4,7 @@
   "result": {
     "item": "farmersdelight:wild_carrots"
   },
-  "defaults": "selling.wildplants.farmersdelight.wild_carrots",
+  "defaults": "selling.wild.crops.farmersdelight.wild_carrots",
   "conditions": [
     {
       "type": "forge:mod_loaded",

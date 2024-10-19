@@ -3,7 +3,7 @@
   "result": {
     "item": "biomesoplenty:toadstool"
   },
-  "defaults": "selling.mushroom.biomesoplenty.toadstool",
+  "defaults": "selling.mushrooms.biomesoplenty.toadstool",
   "conditions": [
     {
       "type": "forge:mod_loaded",

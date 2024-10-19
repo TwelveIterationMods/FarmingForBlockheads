@@ -4,7 +4,7 @@
   "result": {
     "item": "farmersdelight:wild_tomatoes"
   },
-  "defaults": "selling.wildplants.farmersdelight.wild_tomatoes",
+  "defaults": "selling.wild.crops.farmersdelight.wild_tomatoes",
   "conditions": [
     {
       "type": "forge:mod_loaded",

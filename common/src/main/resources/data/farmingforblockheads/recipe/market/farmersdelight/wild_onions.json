@@ -4,7 +4,7 @@
   "result": {
     "item": "farmersdelight:wild_onions"
   },
-  "defaults": "selling.wildplants.farmersdelight.wild_onions",
+  "defaults": "selling.wild.crops.farmersdelight.wild_onions",
   "conditions": [
     {
       "type": "forge:mod_loaded",

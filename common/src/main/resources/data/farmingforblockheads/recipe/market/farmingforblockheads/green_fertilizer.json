@@ -3,7 +3,7 @@
   "result": {
     "item": "farmingforblockheads:green_fertilizer"
   },
-  "defaults": "selling.fertilizer.farmingforblockheads.green_fertilizer",
+  "defaults": "selling.fertilizers.farmingforblockheads.green_fertilizer",
   "conditions": [
     {
       "type": "forge:mod_loaded",

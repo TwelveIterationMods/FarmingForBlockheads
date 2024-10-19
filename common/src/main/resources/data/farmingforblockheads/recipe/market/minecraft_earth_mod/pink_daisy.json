@@ -4,7 +4,7 @@
   "result": {
     "item": "minecraft_earth_mod:pink_daisy"
   },
-  "defaults": "selling.earth.minecraft_earth_mod.pink_daisy",
+  "defaults": "selling.flowers.minecraft_earth_mod.pink_daisy",
   "conditions": [
     {
       "type": "forge:mod_loaded",

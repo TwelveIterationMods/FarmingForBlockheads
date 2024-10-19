@@ -4,7 +4,7 @@
   "result": {
     "item": "farmersdelight:wild_cabbages"
   },
-  "defaults": "selling.wildplants.farmersdelight.wild_cabbages",
+  "defaults": "selling.wild.crops.farmersdelight.wild_cabbages",
   "conditions": [
     {
       "type": "forge:mod_loaded",

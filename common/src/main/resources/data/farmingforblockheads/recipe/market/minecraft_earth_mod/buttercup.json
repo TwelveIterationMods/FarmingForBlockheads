@@ -4,7 +4,7 @@
   "result": {
     "item": "minecraft_earth_mod:buttercup"
   },
-  "defaults": "selling.earth.minecraft_earth_mod.buttercup",
+  "defaults": "selling.flowers.minecraft_earth_mod.buttercup",
   "conditions": [
     {
       "type": "forge:mod_loaded",

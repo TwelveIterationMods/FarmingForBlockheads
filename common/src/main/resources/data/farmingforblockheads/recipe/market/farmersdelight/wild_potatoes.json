@@ -4,7 +4,7 @@
   "result": {
     "item": "farmersdelight:wild_potatoes"
   },
-  "defaults": "selling.wildplants.farmersdelight.wild_potatoes",
+  "defaults": "selling.wild.crops.farmersdelight.wild_potatoes",
   "conditions": [
     {
       "type": "forge:mod_loaded",

@@ -3,7 +3,7 @@
   "result": {
     "item": "create:tree_fertilizer"
   },
-  "defaults": "selling.fertilizer.create.tree_fertilizer",
+  "defaults": "selling.fertilizers.create.tree_fertilizer",
   "conditions": [
     {
       "type": "forge:mod_loaded",

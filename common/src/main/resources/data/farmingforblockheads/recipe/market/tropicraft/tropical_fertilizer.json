@@ -3,7 +3,7 @@
   "result": {
     "item": "tropicraft:tropical_fertilizer"
   },
-  "defaults": "selling.fertilizer.tropicraft.tropical_fertilizer",
+  "defaults": "selling.fertilizers.tropicraft.tropical_fertilizer",
   "conditions": [
     {
       "type": "forge:mod_loaded",

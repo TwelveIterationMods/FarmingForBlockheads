@@ -3,7 +3,7 @@
   "result": {
     "item": "biomesoplenty:glowshroom"
   },
-  "defaults": "selling.mushroom.biomesoplenty.glowshroom",
+  "defaults": "selling.mushrooms.biomesoplenty.glowshroom",
   "conditions": [
     {
       "type": "forge:mod_loaded",

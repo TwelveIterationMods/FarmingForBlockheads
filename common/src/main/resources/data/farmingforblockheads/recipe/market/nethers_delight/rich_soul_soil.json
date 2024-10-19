@@ -3,7 +3,7 @@
   "result": {
     "item": "nethers_delight:rich_soul_soil"
   },
-  "defaults": "selling.delight.nethers_delight.rich_soul_soil",
+  "defaults": "selling.nether.soils.nethers_delight.rich_soul_soil",
   "conditions": [
     {
       "type": "forge:mod_loaded",

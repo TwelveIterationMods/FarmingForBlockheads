@@ -4,7 +4,7 @@
   "result": {
     "item": "farmersdelight:wild_rice"
   },
-  "defaults": "selling.wildplants.farmersdelight.wild_rice",
+  "defaults": "selling.wild.crops.farmersdelight.wild_rice",
   "conditions": [
     {
       "type": "forge:mod_loaded",

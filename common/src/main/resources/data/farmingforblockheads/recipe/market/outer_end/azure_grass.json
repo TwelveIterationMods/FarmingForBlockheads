@@ -3,7 +3,7 @@
   "result": {
     "item": "outer_end:azure_grass"
   },
-  "defaults": "selling.end.outer_end.azure_grass",
+  "defaults": "selling.end.grass.outer_end.azure_grass",
   "conditions": [
     {
       "type": "forge:mod_loaded",
