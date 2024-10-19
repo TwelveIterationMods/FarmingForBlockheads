@@ -26,7 +26,6 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
 import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 import net.minecraft.world.item.crafting.display.SlotDisplayContext;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -46,7 +45,7 @@ public class MarketMenu extends AbstractContainerMenu {
     private final Player player;
     private boolean placingRecipe;
 
-    private final MarketPaymentContainer paymentSlots = new MarketPaymentContainer(1);
+    private final MarketPaymentContainer paymentSlots = new MarketPaymentContainer(this, 1);
     private final MarketResultContainer resultSlots = new MarketResultContainer();
     private final List<MarketListingSlot> listingSlots = new ArrayList<>();
 
@@ -60,7 +59,9 @@ public class MarketMenu extends AbstractContainerMenu {
     private int scrollOffset;
 
     private final List<RecipeDisplayEntry> filteredRecipes = new ArrayList<>();
+
     private RecipeDisplayEntry selectedRecipeDisplayEntry;
+    private RecipeHolder<MarketRecipe> serverSelectedRecipe;
 
     public MarketMenu(int windowId, Inventory playerInventory, ContainerLevelAccess access) {
         super(ModMenus.market.get(), windowId);
@@ -105,16 +106,21 @@ public class MarketMenu extends AbstractContainerMenu {
 
     @Override
     public void slotsChanged(Container pContainer) {
-        access.execute((level, pos) -> {
-            if (level instanceof ServerLevel serverLevel) {
-                slotChangedMarket(this, serverLevel, player, paymentSlots, resultSlots, null);
-            }
-        });
+        if (!placingRecipe) {
+            access.execute((level, pos) -> {
+                if (level instanceof ServerLevel serverLevel) {
+                    slotChangedMarket(this, serverLevel, player, paymentSlots, resultSlots, serverSelectedRecipe);
+                }
+            });
+        }
     }
 
     public RecipeBookMenu.PostPlaceAction handlePlacement(boolean useMaxItems, boolean creative, RecipeHolder<?> genericRecipeHolder, ServerLevel level, Inventory inventory) {
         final var recipeHolder = ((RecipeHolder<MarketRecipe>) genericRecipeHolder);
         beginPlacingRecipe();
+        if (serverSelectedRecipe != recipeHolder) {
+            clearContainer(player, paymentSlots);
+        }
 
         RecipeBookMenu.PostPlaceAction postPlaceAction;
         try {
@@ -153,6 +159,7 @@ public class MarketMenu extends AbstractContainerMenu {
 
     public void finishPlacingRecipe(ServerLevel level, RecipeHolder<MarketRecipe> recipeHolder) {
         this.placingRecipe = false;
+        serverSelectedRecipe = recipeHolder;
         slotChangedMarket(this, level, player, paymentSlots, resultSlots, recipeHolder);
     }
 
@@ -249,7 +256,7 @@ public class MarketMenu extends AbstractContainerMenu {
     public void clicked(int slotNumber, int dragType, ClickType clickType, Player player) {
         if (slotNumber >= 0 && slotNumber < slots.size()) {
             final var slot = slots.get(slotNumber);
-            if (player.level().isClientSide) {
+            if (player.level().isClientSide && clickType != ClickType.PICKUP_ALL) {
                 if (slot instanceof MarketListingSlot listingSlot) {
                     final var recipe = listingSlot.getRecipeDisplayEntry();
                     if (recipe != null) {

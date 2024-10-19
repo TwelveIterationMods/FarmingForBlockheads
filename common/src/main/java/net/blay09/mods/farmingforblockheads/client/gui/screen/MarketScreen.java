@@ -11,17 +11,21 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Collection;
 import java.util.List;
 
-public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
+public class MarketScreen extends AbstractContainerScreen<MarketMenu> implements RecipeUpdateListener {
 
     private static final int SCROLLBAR_COLOR = 0xFFAAAAAA;
     private static final int SCROLLBAR_Y = 8;
@@ -237,4 +241,15 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
         recalculateScrollBar();
     }
 
+    @Override
+    public void recipesUpdated() {
+    }
+
+    @Override
+    public void fillGhostRecipe(RecipeDisplay recipeDisplay) {
+        final var level = Minecraft.getInstance().level;
+        final var contextMap = SlotDisplayContext.fromLevel(level);
+        final var resultStack = recipeDisplay.result().resolveForFirstStack(contextMap);
+        System.out.println(resultStack);
+    }
 }
