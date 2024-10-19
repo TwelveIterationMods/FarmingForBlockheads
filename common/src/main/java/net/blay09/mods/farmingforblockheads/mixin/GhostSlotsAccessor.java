@@ -10,6 +10,9 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(GhostSlots.class)
 public interface GhostSlotsAccessor {
     @Invoker
+    void callSetSlot(Slot slot, ContextMap contextMap, SlotDisplay slotDisplay, boolean isResultSlot);
+
+    @Invoker
     void callSetInput(Slot slot, ContextMap contextMap, SlotDisplay slotDisplay);
 
     @Invoker

@@ -271,7 +271,8 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> implements
             accessor.callSetResult(menu.getResultSlot(), contextMap, recipeDisplay.result());
 
             if (recipeDisplay instanceof MarketRecipeDisplay marketRecipeDisplay) {
-                accessor.callSetInput(menu.getPaymentSlot(), contextMap, marketRecipeDisplay.payment());
+                // We pretend the input is a result slot so it renders the count too
+                accessor.callSetSlot(menu.getPaymentSlot(), contextMap, marketRecipeDisplay.payment(), true);
             }
         }
     }

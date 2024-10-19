@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
-import net.blay09.mods.farmingforblockheads.item.ModItems;
 import net.blay09.mods.farmingforblockheads.registry.MarketDefaultsRegistry;
 import net.blay09.mods.farmingforblockheads.registry.PaymentImpl;
 import net.minecraft.core.HolderLookup;
@@ -21,6 +20,7 @@ import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,11 +62,22 @@ public class MarketRecipe implements Recipe<RecipeInput> {
         return MarketDefaultsRegistry.isEnabled(this);
     }
 
+    private SlotDisplay paymentSlotDisplay(Payment payment) {
+        final var ingredient = payment.ingredient();
+        final List<SlotDisplay> slotDisplays = new ArrayList<>();
+        ingredient.items().stream()
+                .map(it -> new ItemStack(it.value(), payment.count()))
+                .map(SlotDisplay.ItemStackSlotDisplay::new)
+                .forEach(slotDisplays::add);
+        return new SlotDisplay.Composite(slotDisplays);
+    }
+
     @Override
     public List<RecipeDisplay> display() {
         final var effectivePayment = MarketDefaultsRegistry.resolvePayment(this);
         final var effectiveCategory = MarketDefaultsRegistry.resolveCategory(this);
-        return List.of(new MarketRecipeDisplay(effectivePayment.ingredient().display(),
+        return List.of(new MarketRecipeDisplay(
+                paymentSlotDisplay(effectivePayment),
                 new SlotDisplay.ItemStackSlotDisplay(result()),
                 new SlotDisplay.ItemSlotDisplay(
                         ModBlocks.market.asItem()),
