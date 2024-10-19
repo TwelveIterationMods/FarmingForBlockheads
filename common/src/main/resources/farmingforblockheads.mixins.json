@@ -9,6 +9,7 @@
     "RecipeManagerAccessor"
   ],
   "client": [
+    "GhostSlotsAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
