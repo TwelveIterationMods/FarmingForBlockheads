@@ -2,6 +2,7 @@ package net.blay09.mods.farmingforblockheads.registry;
 
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.farmingforblockheads.FarmingForBlockheads;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -15,6 +16,12 @@ public class MarketDefaultsLoader implements ResourceManagerReloadListener {
 
     private static final FileToIdConverter MARKET_DEFAULTS = new FileToIdConverter("farmingforblockheads", "defaults.json");
 
+    private final HolderLookup.Provider registries;
+
+    public MarketDefaultsLoader(HolderLookup.Provider registries) {
+        this.registries = registries;
+    }
+
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
         final var registry = MarketDefaultsRegistry.INSTANCE;
@@ -22,8 +29,7 @@ public class MarketDefaultsLoader implements ResourceManagerReloadListener {
 
         for (final var entry : MARKET_DEFAULTS.listMatchingResources(resourceManager).entrySet()) {
             try (final var reader = entry.getValue().openAsReader()) {
-                final var id = MARKET_DEFAULTS.fileToId(entry.getKey());
-                registry.loadAdditionally(id, reader);
+                registry.loadAdditionally(registries, reader);
             } catch (Exception e) {
                 FarmingForBlockheads.logger.error("Error loading Farming for Blockheads market defaults file at {}", entry.getKey(), e);
             }
@@ -32,7 +38,7 @@ public class MarketDefaultsLoader implements ResourceManagerReloadListener {
         final var configFile = new File(Balm.getConfig().getConfigDir(), "farmingforblockheads/defaults.json");
         if (configFile.exists()) {
             try (final var reader = Files.newBufferedReader(configFile.toPath())) {
-                registry.loadAdditionally(ResourceLocation.fromNamespaceAndPath(FarmingForBlockheads.MOD_ID, "config"), reader);
+                registry.loadAdditionally(registries, reader);
             } catch (Exception e) {
                 FarmingForBlockheads.logger.error("Error loading Farming for Blockheads market defaults file at {}", configFile, e);
             }

@@ -1,7 +1,7 @@
 package net.blay09.mods.farmingforblockheads.registry;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,8 +10,9 @@ import net.blay09.mods.farmingforblockheads.FarmingForBlockheadsConfig;
 import net.blay09.mods.farmingforblockheads.api.MarketDefault;
 import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -26,35 +27,30 @@ public class MarketDefaultsRegistry {
     ).apply(instance, MarketDefaultImpl::new));
 
     public static final MarketDefaultsRegistry INSTANCE = new MarketDefaultsRegistry();
+    private static final MarketDefault EMPTY_DEFAULT = new MarketDefaultImpl(Optional.empty(), Optional.empty());
 
-    private final Map<ResourceLocation, MarketDefault> presets = new HashMap<>();
+    private final Map<String, MarketDefault> defaultsByGroup = new HashMap<>();
 
-    public void register(ResourceLocation id, MarketDefault preset) {
-        presets.put(id, preset);
-    }
-
-    public Collection<MarketDefault> getAll() {
-        return INSTANCE.presets.values();
-    }
-
-    public Optional<MarketDefault> get(ResourceLocation id) {
-        return Optional.ofNullable(INSTANCE.presets.get(id));
+    public void register(String group, MarketDefault preset) {
+        defaultsByGroup.put(group, preset);
     }
 
     public void clear() {
-        presets.clear();
+        defaultsByGroup.clear();
     }
 
-    public void loadAdditionally(ResourceLocation id, BufferedReader reader) {
+    public void loadAdditionally(HolderLookup.Provider registries, BufferedReader reader) {
         final var gson = new Gson();
-        final var json = gson.fromJson(reader, JsonElement.class);
-        final var category = CODEC.parse(JsonOps.INSTANCE, json).getOrThrow();
-        register(id, category);
+        final var json = gson.fromJson(reader, JsonObject.class);
+        final var ops = RegistryOps.create(JsonOps.INSTANCE, registries);
+        for (final var entry : json.entrySet()) {
+            final var defaults = CODEC.parse(ops, entry.getValue()).getOrThrow();
+            register(entry.getKey(), defaults);
+        }
     }
 
     public static MarketDefault resolveExactDefault(String defaults) {
-        // TODO
-        return new MarketDefaultImpl(Optional.empty(), Optional.empty());
+        return INSTANCE.defaultsByGroup.getOrDefault(defaults, EMPTY_DEFAULT);
     }
 
     public static List<String> flattenDefaults(String defaults) {

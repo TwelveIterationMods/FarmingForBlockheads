@@ -9,11 +9,13 @@ import net.blay09.mods.farmingforblockheads.mixin.RecipeManagerAccessor;
 import net.blay09.mods.farmingforblockheads.network.MarketCategoriesMessage;
 import net.blay09.mods.farmingforblockheads.network.MarketRecipesMessage;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
+import net.blay09.mods.farmingforblockheads.recipe.MarketRecipeDisplay;
 import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvider<BlockPos> {
@@ -54,16 +57,19 @@ public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvid
 
     public void openMenu(Player player) {
         Balm.getNetworking().openGui(player, this);
-        final var categories = FarmingForBlockheadsAPI.getMarketCategories();
-        Balm.getNetworking().sendTo(player, new MarketCategoriesMessage(categories));
         final var recipeManager = level.getServer().getRecipeManager();
+        final var usedCategories = new HashSet<ResourceLocation>();
         if (recipeManager instanceof RecipeManagerAccessor accessor) {
             final var displays = new ArrayList<RecipeDisplayEntry>();
             final var recipes = accessor.getRecipes().byType(ModRecipes.marketRecipeType);
             for (final var recipeHolder : recipes) {
                 recipeManager.listDisplaysForRecipe(recipeHolder.id(), displays::add);
             }
+            displays.forEach(it -> usedCategories.add(((MarketRecipeDisplay) it.display()).category()));
             Balm.getNetworking().sendTo(player, new MarketRecipesMessage(displays));
         }
+        final var categories = FarmingForBlockheadsAPI.getMarketCategories();
+        categories.keySet().removeIf(it -> !usedCategories.contains(it));
+        Balm.getNetworking().sendTo(player, new MarketCategoriesMessage(categories));
     }
 }

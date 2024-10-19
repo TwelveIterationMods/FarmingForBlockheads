@@ -374,10 +374,12 @@ public class MarketMenu extends AbstractContainerMenu {
     public void setRecipes(List<RecipeDisplayEntry> recipes) {
         this.recipes = recipes;
         updateFilteredRecipes();
+        setScrollOffset(0);
     }
 
     public void setCategories(List<SimpleHolder<MarketCategory>> categories) {
         this.categories = categories;
+        setScrollOffsetDirty(true);
     }
 
     private Optional<MarketCategory> resolveMarketCategory(ResourceLocation identifier) {

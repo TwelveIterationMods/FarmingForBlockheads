@@ -2,7 +2,7 @@
   "selling": {
     "category": "farmingforblockheads:other",
     "payment": {
-      "ingredient": "minecraft:emerald",
+      "ingredient": ["minecraft:dirt"],
       "count": 1
     }
   },
@@ -29,26 +29,26 @@
   },
   "selling.spawn_eggs": {
     "payment": {
-      "ingredient": "minecraft:diamond",
+      "ingredient": ["minecraft:diamond"],
       "count": 1
     }
   },
   "selling.rare": {
     "payment": {
-      "ingredient": "minecraft:emerald",
+      "ingredient": ["minecraft:emerald"],
       "count": 4
     }
   },
   "selling.seed_crops": {
     "category": "farmingforblockheads:seeds",
     "payment": {
-      "ingredient": "minecraft:diamond",
+      "ingredient": ["minecraft:diamond"],
       "count": 1
     }
   },
   "selling.crops": {
     "payment": {
-      "ingredient": "minecraft:diamond",
+      "ingredient": ["minecraft:diamond"],
       "count": 1
     }
   }
