@@ -11,7 +11,6 @@ import net.blay09.mods.farmingforblockheads.recipe.MarketRecipeDisplay;
 import net.blay09.mods.farmingforblockheads.registry.MarketDefaultsRegistry;
 import net.blay09.mods.farmingforblockheads.registry.SimpleHolder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,6 +19,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
 import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 import net.minecraft.world.item.crafting.display.SlotDisplayContext;
@@ -37,6 +37,7 @@ public class MarketMenu extends AbstractContainerMenu {
     private final DefaultContainer marketOutputBuffer = new DefaultContainer(1);
     private final List<MarketListingSlot> marketSlots = new ArrayList<>();
     private final MarketPaymentSlot paymentSlot;
+    private final MarketBasketSlot basketSlot;
 
     private List<SimpleHolder<MarketCategory>> categories = List.of();
     private List<RecipeDisplayEntry> recipes = List.of();
@@ -58,7 +59,7 @@ public class MarketMenu extends AbstractContainerMenu {
         this.pos = pos;
 
         addSlot(paymentSlot = new MarketPaymentSlot(marketInputBuffer, 0, 23, 39));
-        addSlot(new MarketBasketSlot(this, marketOutputBuffer, 0, 61, 39));
+        addSlot(basketSlot = new MarketBasketSlot(this, marketOutputBuffer, 0, 61, 39));
 
         final var fakeInventory = new DefaultContainer(4 * 3);
         for (int i = 0; i < 4; i++) {
@@ -116,7 +117,7 @@ public class MarketMenu extends AbstractContainerMenu {
             }
 
             if (slotStack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
+                slot.setByPlayer(ItemStack.EMPTY);
             } else {
                 slot.setChanged();
             }
@@ -172,7 +173,7 @@ public class MarketMenu extends AbstractContainerMenu {
 
         final var recipe = resolveRecipe(selectedRecipe);
         if (recipe != null) {
-            marketOutputBuffer.setItem(0, recipe.assemble(new TransientCraftingContainer(this, 0, 0).asCraftInput(), RegistryAccess.EMPTY));
+            basketSlot.set(recipe.assemble(new SingleRecipeInput(marketInputBuffer.getItem(0)), player.level().registryAccess()));
             quickMovePayment(recipe, stack);
         }
         slotsChanged(marketInputBuffer);
@@ -183,7 +184,12 @@ public class MarketMenu extends AbstractContainerMenu {
             return null;
         }
 
-        final var recipeManager = player.getServer().getRecipeManager();
+        final var server = player.getServer();
+        if (server == null) {
+            return null;
+        }
+
+        final var recipeManager = server.getRecipeManager();
         var serverDisplayInfo = recipeManager.getRecipeFromDisplay(recipeDisplayEntry.id());
         if (serverDisplayInfo != null) {
             return (MarketRecipe) serverDisplayInfo.parent().value();
@@ -246,14 +252,16 @@ public class MarketMenu extends AbstractContainerMenu {
 
     @Override
     public void slotsChanged(Container container) {
-        canBuy.set(verifyPayment() ? 1 : 0);
+        if (!player.level().isClientSide) {
+            canBuy.set(verifyPayment() ? 1 : 0);
+        }
     }
 
     public void onItemBought() {
-        final var recipe = resolveRecipe(selectedRecipe);
-        if (recipe != null) {
-            final var payment = MarketDefaultsRegistry.resolvePayment(recipe);
-            marketInputBuffer.removeItem(0, payment.count());
+        if (selectedRecipe.display() instanceof MarketRecipeDisplay marketRecipeDisplay) {
+            final var contextMap = SlotDisplayContext.fromLevel(player.level());
+            final var payment = marketRecipeDisplay.payment().resolveForFirstStack(contextMap);
+            marketInputBuffer.removeItem(0, payment.getCount());
             slotsChanged(marketInputBuffer);
         }
     }
