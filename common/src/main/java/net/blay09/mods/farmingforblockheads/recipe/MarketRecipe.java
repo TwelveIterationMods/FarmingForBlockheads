@@ -42,7 +42,8 @@ public class MarketRecipe implements Recipe<RecipeInput> {
     public boolean matches(RecipeInput recipeInput, Level level) {
         final var effectivePayment = MarketDefaultsRegistry.resolvePayment(this);
         final var ingredient = effectivePayment.ingredient();
-        return ingredient.test(recipeInput.getItem(0));
+        final var itemStack = recipeInput.getItem(0);
+        return ingredient.test(itemStack) && itemStack.getCount() >= effectivePayment.count();
     }
 
     @Override
