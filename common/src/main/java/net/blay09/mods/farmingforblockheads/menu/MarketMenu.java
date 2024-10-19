@@ -3,11 +3,14 @@ package net.blay09.mods.farmingforblockheads.menu;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.container.DefaultContainer;
 import net.blay09.mods.farmingforblockheads.api.MarketCategory;
+import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
 import net.blay09.mods.farmingforblockheads.network.MarketPlaceRecipeMessage;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipeDisplay;
 import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
+import net.blay09.mods.farmingforblockheads.registry.MarketDefaultsRegistry;
+import net.blay09.mods.farmingforblockheads.registry.PaymentImpl;
 import net.blay09.mods.farmingforblockheads.registry.SimpleHolder;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.recipebook.ServerPlaceRecipe;
@@ -391,5 +394,17 @@ public class MarketMenu extends AbstractContainerMenu {
 
     public boolean containsRecipeDisplayId(RecipeDisplayId recipeDisplayId) {
         return recipes.stream().anyMatch(it -> it.id().equals(recipeDisplayId));
+    }
+
+    public Optional<Payment> getExpectedPayment() {
+        if (serverSelectedRecipe != null) {
+            return Optional.of(MarketDefaultsRegistry.resolvePayment(serverSelectedRecipe.value()));
+        } else if (selectedRecipeDisplayEntry != null && selectedRecipeDisplayEntry.display() instanceof MarketRecipeDisplay marketRecipeDisplay) {
+            final var contextMap = SlotDisplayContext.fromLevel(player.level());
+            final var paymentItems = marketRecipeDisplay.payment().resolveForStacks(contextMap);
+            final var ingredient = Ingredient.of(paymentItems.stream().map(ItemStack::getItem));
+            return Optional.of(new PaymentImpl(ingredient, 0, Optional.empty()));
+        }
+        return Optional.empty();
     }
 }

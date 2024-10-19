@@ -1,6 +1,7 @@
 package net.blay09.mods.farmingforblockheads.menu;
 
 import net.blay09.mods.balm.api.container.DefaultContainer;
+import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
@@ -39,5 +40,10 @@ public class MarketPaymentContainer extends DefaultContainer implements StackedC
 
     public RecipeInput asRecipeInput() {
         return new SingleRecipeInput(getItem(0));
+    }
+
+    public void removePayment(int slot) {
+        final var expectedPayment = menu.getExpectedPayment();
+        removeItem(slot, expectedPayment.map(Payment::count).orElse(1));
     }
 }

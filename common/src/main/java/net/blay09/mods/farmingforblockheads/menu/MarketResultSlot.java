@@ -63,7 +63,7 @@ public class MarketResultSlot extends Slot {
         final var paymentSlot = 0;
         var paymentStack = paymentSlots.getItem(paymentSlot);
         if (!paymentStack.isEmpty()) {
-            paymentSlots.removeItem(paymentSlot, 1);
+            paymentSlots.removePayment(paymentSlot);
             paymentStack = this.paymentSlots.getItem(paymentSlot);
         }
 
