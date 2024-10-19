@@ -5,7 +5,7 @@ import net.blay09.mods.balm.api.client.BalmClient;
 import net.blay09.mods.balm.api.event.client.ItemTooltipEvent;
 import net.blay09.mods.balm.mixin.AbstractContainerScreenAccessor;
 import net.blay09.mods.farmingforblockheads.client.gui.screen.MarketScreen;
-import net.blay09.mods.farmingforblockheads.menu.MarketBasketSlot;
+import net.blay09.mods.farmingforblockheads.menu.MarketResultSlot;
 import net.blay09.mods.farmingforblockheads.menu.MarketListingSlot;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipeDisplay;
 import net.minecraft.client.Minecraft;
@@ -19,25 +19,25 @@ public class FarmingForBlockheadsClient {
         ModRenderers.initialize(BalmClient.getRenderers());
 
         Balm.getEvents().onEvent(ItemTooltipEvent.class, event -> {
-            if (Minecraft.getInstance().screen instanceof MarketScreen screen) {
-                Slot hoverSlot = ((AbstractContainerScreenAccessor) screen).getHoveredSlot();
-                if (hoverSlot != null && event.getItemStack() == hoverSlot.getItem()) {
-                    RecipeDisplayEntry hoverRecipe = null;
-
-                    if (hoverSlot instanceof MarketListingSlot marketListingSlot) {
-                        hoverRecipe = marketListingSlot.getRecipe();
-                    } else if (hoverSlot instanceof MarketBasketSlot) {
-                        hoverRecipe = screen.getMenu().getSelectedRecipe();
-                    }
-
-                    if (hoverRecipe != null && hoverRecipe.display() instanceof MarketRecipeDisplay marketRecipeDisplay) {
-                        // TODO final var paymentComponent = payment.tooltip().orElseGet(() -> FarmingForBlockheads.getDefaultPaymentComponent(payment));
-                        // TODO final var tooltipComponent = Component.translatable("tooltip.farmingforblockheads.payment", paymentComponent)
-                        // TODO         .withStyle(ChatFormatting.GREEN);
-                        // TODO event.getToolTip().add(tooltipComponent);
-                    }
-                }
-            }
+            // TODO if (Minecraft.getInstance().screen instanceof MarketScreen screen) {
+            // TODO     Slot hoverSlot = ((AbstractContainerScreenAccessor) screen).getHoveredSlot();
+            // TODO     if (hoverSlot != null && event.getItemStack() == hoverSlot.getItem()) {
+            // TODO         RecipeDisplayEntry hoverRecipe = null;
+// TODO
+            // TODO         if (hoverSlot instanceof MarketListingSlot marketListingSlot) {
+            // TODO             hoverRecipe = marketListingSlot.getRecipeDisplayEntry();
+            // TODO         } else if (hoverSlot instanceof MarketResultSlot) {
+            // TODO             hoverRecipe = screen.getMenu().getSelectedRecipe();
+            // TODO         }
+// TODO
+            // TODO         if (hoverRecipe != null && hoverRecipe.display() instanceof MarketRecipeDisplay marketRecipeDisplay) {
+            // TODO             // TODO final var paymentComponent = payment.tooltip().orElseGet(() -> FarmingForBlockheads.getDefaultPaymentComponent(payment));
+            // TODO             // TODO final var tooltipComponent = Component.translatable("tooltip.farmingforblockheads.payment", paymentComponent)
+            // TODO             // TODO         .withStyle(ChatFormatting.GREEN);
+            // TODO             // TODO event.getToolTip().add(tooltipComponent);
+            // TODO         }
+            // TODO     }
+            // TODO }
         });
     }
 

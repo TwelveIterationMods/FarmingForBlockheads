@@ -39,12 +39,14 @@ public class MarketRecipe implements Recipe<RecipeInput> {
     }
 
     @Override
-    public boolean matches(RecipeInput container, Level level) {
-        return true;
+    public boolean matches(RecipeInput recipeInput, Level level) {
+        final var effectivePayment = MarketDefaultsRegistry.resolvePayment(this);
+        final var ingredient = effectivePayment.ingredient();
+        return ingredient.test(recipeInput.getItem(0));
     }
 
     @Override
-    public ItemStack assemble(RecipeInput container, HolderLookup.Provider provider) {
+    public ItemStack assemble(RecipeInput recipeInput, HolderLookup.Provider provider) {
         return result.copy();
     }
 
@@ -84,7 +86,8 @@ public class MarketRecipe implements Recipe<RecipeInput> {
 
     @Override
     public PlacementInfo placementInfo() {
-        return PlacementInfo.NOT_PLACEABLE;
+        final var effectivePayment = MarketDefaultsRegistry.resolvePayment(this);
+        return PlacementInfo.create(effectivePayment.ingredient());
     }
 
     @Override

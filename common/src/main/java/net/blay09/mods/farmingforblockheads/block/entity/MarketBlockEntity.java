@@ -20,6 +20,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +43,7 @@ public class MarketBlockEntity extends BalmBlockEntity implements BalmMenuProvid
     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player) {
         final var displays = getRecipeDisplays();
         final var categories = getCategories(displays);
-        final var menu = new MarketMenu(windowId, playerInventory, worldPosition);
+        final var menu = new MarketMenu(windowId, playerInventory, ContainerLevelAccess.create(level, worldPosition));
         menu.setCategories(categories);
         menu.setRecipes(displays);
         return menu;

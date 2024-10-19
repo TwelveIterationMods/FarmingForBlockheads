@@ -3,23 +3,26 @@ package net.blay09.mods.farmingforblockheads.menu;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.container.DefaultContainer;
 import net.blay09.mods.farmingforblockheads.api.MarketCategory;
-import net.blay09.mods.farmingforblockheads.api.Payment;
 import net.blay09.mods.farmingforblockheads.block.ModBlocks;
-import net.blay09.mods.farmingforblockheads.network.MarketPutInBasketMessage;
+import net.blay09.mods.farmingforblockheads.network.MarketPlaceRecipeMessage;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipe;
 import net.blay09.mods.farmingforblockheads.recipe.MarketRecipeDisplay;
-import net.blay09.mods.farmingforblockheads.registry.MarketDefaultsRegistry;
+import net.blay09.mods.farmingforblockheads.recipe.ModRecipes;
 import net.blay09.mods.farmingforblockheads.registry.SimpleHolder;
-import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+import net.minecraft.recipebook.ServerPlaceRecipe;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
 import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 import net.minecraft.world.item.crafting.display.SlotDisplayContext;
@@ -30,14 +33,22 @@ import java.util.*;
 
 public class MarketMenu extends AbstractContainerMenu {
 
-    private final Player player;
-    private final BlockPos pos;
+    private static final int PAYMENT_SLOT = 0;
+    private static final int RESULT_SLOT = 1;
+    private static final int LISTING_SLOT_START = 2;
+    private static final int LISTING_SLOT_END = 14;
+    private static final int INV_SLOT_START = 14;
+    private static final int INV_SLOT_END = 41;
+    private static final int USE_ROW_SLOT_START = 41;
+    private static final int USE_ROW_SLOT_END = 50;
 
-    private final DefaultContainer marketInputBuffer = new DefaultContainer(1);
-    private final DefaultContainer marketOutputBuffer = new DefaultContainer(1);
-    private final List<MarketListingSlot> marketSlots = new ArrayList<>();
-    private final MarketPaymentSlot paymentSlot;
-    private final MarketBasketSlot basketSlot;
+    private final ContainerLevelAccess access;
+    private final Player player;
+    private boolean placingRecipe;
+
+    private final MarketPaymentContainer paymentSlots = new MarketPaymentContainer(1);
+    private final MarketResultContainer resultSlots = new MarketResultContainer();
+    private final List<MarketListingSlot> listingSlots = new ArrayList<>();
 
     private List<SimpleHolder<MarketCategory>> categories = List.of();
     private List<RecipeDisplayEntry> recipes = List.of();
@@ -49,69 +60,140 @@ public class MarketMenu extends AbstractContainerMenu {
     private int scrollOffset;
 
     private final List<RecipeDisplayEntry> filteredRecipes = new ArrayList<>();
-    private RecipeDisplayEntry selectedRecipe;
+    private RecipeDisplayEntry selectedRecipeDisplayEntry;
 
-    private final DataSlot canBuy = DataSlot.standalone();
-
-    public MarketMenu(int windowId, Inventory playerInventory, BlockPos pos) {
+    public MarketMenu(int windowId, Inventory playerInventory, ContainerLevelAccess access) {
         super(ModMenus.market.get(), windowId);
+        this.access = access;
         this.player = playerInventory.player;
-        this.pos = pos;
 
-        addSlot(paymentSlot = new MarketPaymentSlot(marketInputBuffer, 0, 23, 39));
-        addSlot(basketSlot = new MarketBasketSlot(this, marketOutputBuffer, 0, 61, 39));
+        addSlot(new MarketPaymentSlot(paymentSlots, 0, 23, 39));
+        addSlot(new MarketResultSlot(player, paymentSlots, resultSlots, 0, 61, 39));
 
         final var fakeInventory = new DefaultContainer(4 * 3);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
                 MarketListingSlot slot = new MarketListingSlot(fakeInventory, j + i * 3, 102 + j * 18, 11 + i * 18, player.level());
-                marketSlots.add(slot);
+                listingSlots.add(slot);
                 addSlot(slot);
             }
         }
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 9; j++) {
-                addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 92 + i * 18));
+        addStandardInventorySlots(playerInventory, 8, 92);
+    }
+
+    protected static void slotChangedMarket(AbstractContainerMenu menu, ServerLevel level, Player player, MarketPaymentContainer container, ResultContainer resultContainer, @Nullable RecipeHolder<MarketRecipe> recipeHolder) {
+        final var recipeInput = container.asRecipeInput();
+        final var serverPlayer = (ServerPlayer) player;
+        var resultItem = ItemStack.EMPTY;
+        final var foundRecipe = level.getServer().getRecipeManager().getRecipeFor(ModRecipes.marketRecipeType, recipeInput, level, recipeHolder);
+        if (foundRecipe.isPresent()) {
+            final var foundRecipeHolder = foundRecipe.get();
+            final var recipe = foundRecipeHolder.value();
+            if (resultContainer.setRecipeUsed(serverPlayer, foundRecipeHolder)) {
+                final var assembledStack = recipe.assemble(recipeInput, level.registryAccess());
+                if (assembledStack.isItemEnabled(level.enabledFeatures())) {
+                    resultItem = assembledStack;
+                }
             }
         }
 
-        for (int i = 0; i < 9; i++) {
-            addSlot(new Slot(playerInventory, i, 8 + i * 18, 150));
+        resultContainer.setItem(0, resultItem);
+        menu.setRemoteSlot(RESULT_SLOT, resultItem);
+        serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(menu.containerId, menu.incrementStateId(), RESULT_SLOT, resultItem));
+    }
+
+    @Override
+    public void slotsChanged(Container pContainer) {
+        access.execute((level, pos) -> {
+            if (level instanceof ServerLevel serverLevel) {
+                slotChangedMarket(this, serverLevel, player, paymentSlots, resultSlots, null);
+            }
+        });
+    }
+
+    public RecipeBookMenu.PostPlaceAction handlePlacement(boolean useMaxItems, boolean creative, RecipeHolder<?> genericRecipeHolder, ServerLevel level, Inventory inventory) {
+        final var recipeHolder = ((RecipeHolder<MarketRecipe>) genericRecipeHolder);
+        beginPlacingRecipe();
+
+        RecipeBookMenu.PostPlaceAction postPlaceAction;
+        try {
+            final var paymentSlots = List.of(getPaymentSlot());
+            postPlaceAction = ServerPlaceRecipe.placeRecipe(new ServerPlaceRecipe.CraftingMenuAccess<>() {
+                @Override
+                public void fillCraftSlotsStackedContents(StackedItemContents stackedItemContents) {
+                    MarketMenu.this.fillCraftSlotsStackedContents(stackedItemContents);
+                }
+
+                @Override
+                public void clearCraftingContent() {
+                    MarketMenu.this.resultSlots.clearContent();
+                    MarketMenu.this.paymentSlots.clearContent();
+                }
+
+                @Override
+                public boolean recipeMatches(RecipeHolder<MarketRecipe> recipe) {
+                    return recipe.value().matches(MarketMenu.this.paymentSlots.asRecipeInput(), MarketMenu.this.owner().level());
+                }
+            }, 1, 1, paymentSlots, paymentSlots, inventory, recipeHolder, useMaxItems, creative);
+        } finally {
+            finishPlacingRecipe(level, recipeHolder);
         }
 
-        addDataSlot(canBuy);
+        return postPlaceAction;
+    }
+
+    private void fillCraftSlotsStackedContents(StackedItemContents stackedItemContents) {
+        paymentSlots.fillStackedContents(stackedItemContents);
+    }
+
+    public void beginPlacingRecipe() {
+        this.placingRecipe = true;
+    }
+
+    public void finishPlacingRecipe(ServerLevel level, RecipeHolder<MarketRecipe> recipeHolder) {
+        this.placingRecipe = false;
+        slotChangedMarket(this, level, player, paymentSlots, resultSlots, recipeHolder);
+    }
+
+    @Override
+    public void removed(Player pPlayer) {
+        super.removed(pPlayer);
+        clearContainer(player, paymentSlots);
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return stillValid(access, player, ModBlocks.market);
     }
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot = slots.get(index);
+        var itemStack = ItemStack.EMPTY;
+        final var slot = slots.get(index);
         if (slot != null && slot.hasItem()) {
-            ItemStack slotStack = slot.getItem();
+            final var slotStack = slot.getItem();
             itemStack = slotStack.copy();
-            if (index == 1) {
-                if (!isReadyToBuy()) {
+            if (index == RESULT_SLOT) {
+                if (!moveItemStackTo(slotStack, INV_SLOT_START, USE_ROW_SLOT_END, true)) {
                     return ItemStack.EMPTY;
                 }
-                if (!moveItemStackTo(slotStack, 14, 50, true)) {
-                    return ItemStack.EMPTY;
-                }
+
                 slot.onQuickCraft(slotStack, itemStack);
-            } else if (index == 0) {
-                if (!moveItemStackTo(slotStack, 14, 50, true)) {
+            } else if (index == PAYMENT_SLOT) {
+                if (!moveItemStackTo(slotStack, INV_SLOT_START, USE_ROW_SLOT_END, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (isValidPayment(slotStack)) {
-                if (!moveItemStackTo(slotStack, 0, 1, true)) {
+            } else if (isPayment(slotStack)) {
+                if (!moveItemStackTo(slotStack, PAYMENT_SLOT, PAYMENT_SLOT + 1, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (index >= 41 && index < 50) {
-                if (!moveItemStackTo(slotStack, 14, 41, true)) {
+            } else if (index >= USE_ROW_SLOT_START && index < USE_ROW_SLOT_END) {
+                if (!moveItemStackTo(slotStack, INV_SLOT_START, INV_SLOT_END, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (index >= 14 && index < 41) {
-                if (!moveItemStackTo(slotStack, 41, 50, false)) {
+            } else if (index >= INV_SLOT_START && index < INV_SLOT_END) {
+                if (!moveItemStackTo(slotStack, USE_ROW_SLOT_START, USE_ROW_SLOT_END, false)) {
                     return ItemStack.EMPTY;
                 }
             }
@@ -131,15 +213,13 @@ public class MarketMenu extends AbstractContainerMenu {
         return itemStack;
     }
 
-    private boolean isValidPayment(ItemStack itemStack) {
-        if (selectedRecipe != null) {
-            if (selectedRecipe.display() instanceof MarketRecipeDisplay marketRecipeDisplay) {
-                final var contextMap = SlotDisplayContext.fromLevel(player.level());
-                final var paymentStacks = marketRecipeDisplay.payment().resolveForStacks(contextMap);
-                for (final var paymentStack : paymentStacks) {
-                    if (ItemStack.isSameItemSameComponents(paymentStack, itemStack)) {
-                        return true;
-                    }
+    private boolean isPayment(ItemStack itemStack) {
+        if (selectedRecipeDisplayEntry != null && selectedRecipeDisplayEntry.display() instanceof MarketRecipeDisplay marketRecipeDisplay) {
+            final var contextMap = SlotDisplayContext.fromLevel(player.level());
+            final var paymentStacks = marketRecipeDisplay.payment().resolveForStacks(contextMap);
+            for (final var paymentStack : paymentStacks) {
+                if (ItemStack.isSameItemSameComponents(paymentStack, itemStack)) {
+                    return true;
                 }
             }
         }
@@ -147,123 +227,22 @@ public class MarketMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public void removed(Player player) {
-        super.removed(player);
-        if (!player.level().isClientSide) {
-            ItemStack itemStack = this.marketInputBuffer.removeItemNoUpdate(0);
-            if (!itemStack.isEmpty() && !player.addItem(itemStack)) {
-                player.drop(itemStack, false);
-            }
-        }
-    }
-
-    @Override
-    public boolean stillValid(Player player) {
-        return player.level().getBlockState(pos).getBlock() == ModBlocks.market
-                && player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= 64;
-    }
-
-    @Override
     public boolean canTakeItemForPickAll(ItemStack itemStack, Slot slot) {
-        return slot.container != this.marketOutputBuffer && super.canTakeItemForPickAll(itemStack, slot);
+        return slot.container != this.resultSlots && super.canTakeItemForPickAll(itemStack, slot);
     }
 
-    public void selectMarketEntry(RecipeDisplayId recipeDisplayId, boolean stack) {
-        selectedRecipe = recipes.stream().filter(it -> it.id().equals(recipeDisplayId)).findFirst().orElse(null);
-
-        final var recipe = resolveRecipe(selectedRecipe);
-        if (recipe != null) {
-            basketSlot.set(recipe.assemble(new SingleRecipeInput(marketInputBuffer.getItem(0)), player.level().registryAccess()));
-            quickMovePayment(recipe, stack);
-        }
-        slotsChanged(marketInputBuffer);
+    public Slot getPaymentSlot() {
+        // Awful suggestion by IntelliJ. What if PAYMENT_SLOT changes in the future?
+        // noinspection SequencedCollectionMethodCanBeUsed
+        return this.slots.get(PAYMENT_SLOT);
     }
 
-    private MarketRecipe resolveRecipe(@Nullable RecipeDisplayEntry recipeDisplayEntry) {
-        if (recipeDisplayEntry == null) {
-            return null;
-        }
-
-        final var server = player.getServer();
-        if (server == null) {
-            return null;
-        }
-
-        final var recipeManager = server.getRecipeManager();
-        var serverDisplayInfo = recipeManager.getRecipeFromDisplay(recipeDisplayEntry.id());
-        if (serverDisplayInfo != null) {
-            return (MarketRecipe) serverDisplayInfo.parent().value();
-        }
-
-        return null;
+    public Slot getResultSlot() {
+        return this.slots.get(RESULT_SLOT);
     }
 
-    public void quickMovePayment(MarketRecipe recipe, boolean stack) {
-        final var payment = MarketDefaultsRegistry.resolvePayment(recipe);
-        final var currentInput = marketInputBuffer.getItem(0);
-        if (!payment.ingredient().test(currentInput)) {
-            quickMoveStack(player, 0);
-            quickMoveCost(payment, stack ? 64 : 1);
-        } else if (stack && currentInput.getCount() < 64) {
-            quickMoveCost(payment, 64);
-        } else if (!stack && currentInput.getCount() > 1) {
-            quickMoveStack(player, 0);
-            quickMoveCost(payment, 1);
-        }
-    }
-
-    private void quickMoveCost(Payment payment, int desiredCount) {
-        paymentSlot.setMaxStackSizeOverride(desiredCount);
-        for (int i = 14; i < slots.size(); i++) {
-            final var slotStack = slots.get(i).getItem();
-            if (payment.ingredient().test(slotStack)) {
-                quickMoveStack(player, i);
-            }
-
-            if (paymentSlot.getItem().getCount() >= desiredCount) {
-                break;
-            }
-        }
-        paymentSlot.resetMaxStackSizeOverride();
-    }
-
-    @Nullable
-    public RecipeDisplayEntry getSelectedRecipe() {
-        return selectedRecipe;
-    }
-
-    public boolean isReadyToBuy() {
-        return canBuy.get() == 1;
-    }
-
-    public boolean verifyPayment() {
-        if (selectedRecipe != null) {
-            final var recipe = resolveRecipe(selectedRecipe);
-            final var payment = MarketDefaultsRegistry.resolvePayment(recipe);
-            final var currentInput = marketInputBuffer.getItem(0);
-            if (currentInput.isEmpty()) {
-                return false;
-            }
-            return payment.ingredient().test(currentInput) && currentInput.getCount() >= payment.count();
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public void slotsChanged(Container container) {
-        if (!player.level().isClientSide) {
-            canBuy.set(verifyPayment() ? 1 : 0);
-        }
-    }
-
-    public void onItemBought() {
-        if (selectedRecipe.display() instanceof MarketRecipeDisplay marketRecipeDisplay) {
-            final var contextMap = SlotDisplayContext.fromLevel(player.level());
-            final var payment = marketRecipeDisplay.payment().resolveForFirstStack(contextMap);
-            marketInputBuffer.removeItem(0, payment.getCount());
-            slotsChanged(marketInputBuffer);
-        }
+    protected Player owner() {
+        return this.player;
     }
 
     @Override
@@ -271,11 +250,11 @@ public class MarketMenu extends AbstractContainerMenu {
         if (slotNumber >= 0 && slotNumber < slots.size()) {
             final var slot = slots.get(slotNumber);
             if (player.level().isClientSide) {
-                if (slot instanceof MarketListingSlot marketSlot) {
-                    final var recipe = marketSlot.getRecipe();
+                if (slot instanceof MarketListingSlot listingSlot) {
+                    final var recipe = listingSlot.getRecipeDisplayEntry();
                     if (recipe != null) {
-                        selectedRecipe = recipe;
-                        Balm.getNetworking().sendToServer(new MarketPutInBasketMessage(recipe.id(), clickType == ClickType.QUICK_MOVE));
+                        selectedRecipeDisplayEntry = recipe;
+                        Balm.getNetworking().sendToServer(new MarketPlaceRecipeMessage(containerId, recipe.id(), clickType == ClickType.QUICK_MOVE));
                     }
                 }
             }
@@ -303,7 +282,7 @@ public class MarketMenu extends AbstractContainerMenu {
                 filteredRecipes.add(recipe);
             }
         }
-        filteredRecipes.sort(sorting(player.level()));
+        filteredRecipes.sort(sorting());
     }
 
     private boolean searchMatches(RecipeDisplayEntry recipeDisplayEntry) {
@@ -351,12 +330,12 @@ public class MarketMenu extends AbstractContainerMenu {
 
     public void updateListingSlots() {
         int i = scrollOffset * 3;
-        for (final var slot : marketSlots) {
+        for (final var slot : listingSlots) {
             if (i < filteredRecipes.size()) {
-                slot.setRecipe(filteredRecipes.get(i));
+                slot.setRecipeDisplayEntry(filteredRecipes.get(i));
                 i++;
             } else {
-                slot.setRecipe(null);
+                slot.setRecipeDisplayEntry(null);
             }
         }
     }
@@ -392,7 +371,7 @@ public class MarketMenu extends AbstractContainerMenu {
         return categories.stream().filter(it -> it.id().equals(identifier)).findFirst().map(SimpleHolder::value);
     }
 
-    private Comparator<RecipeDisplayEntry> sorting(Level level) {
+    private Comparator<RecipeDisplayEntry> sorting() {
         final var contextMap = SlotDisplayContext.fromLevel(player.level());
         return Comparator.comparingInt(
                         (RecipeDisplayEntry recipe) -> recipe.display() instanceof MarketRecipeDisplay marketRecipeDisplay ? resolveMarketCategory(marketRecipeDisplay.category())
@@ -401,5 +380,9 @@ public class MarketMenu extends AbstractContainerMenu {
                 .thenComparing(recipe -> recipe.display().result().resolveForFirstStack(contextMap)
                         .getDisplayName()
                         .getString());
+    }
+
+    public boolean containsRecipeDisplayId(RecipeDisplayId recipeDisplayId) {
+        return recipes.stream().anyMatch(it -> it.id().equals(recipeDisplayId));
     }
 }

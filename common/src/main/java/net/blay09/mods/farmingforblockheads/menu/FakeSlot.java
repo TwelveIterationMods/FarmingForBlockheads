@@ -57,4 +57,8 @@ public class FakeSlot extends Slot {
         return false;
     }
 
+    @Override
+    public boolean isFake() {
+        return true;
+    }
 }

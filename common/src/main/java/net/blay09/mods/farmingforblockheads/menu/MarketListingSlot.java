@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 public class MarketListingSlot extends FakeSlot {
 
     private final Level level;
-    private RecipeDisplayEntry recipe;
+    private RecipeDisplayEntry recipeDisplayEntry;
 
     public MarketListingSlot(Container container, int slotId, int x, int y, Level level) {
         super(container, slotId, x, y);
@@ -19,29 +19,33 @@ public class MarketListingSlot extends FakeSlot {
 
     @Override
     public ItemStack getItem() {
-        if (recipe != null) {
-            return recipe.display().result().resolveForFirstStack(SlotDisplayContext.fromLevel(level));
+        if (recipeDisplayEntry != null) {
+            return recipeDisplayEntry.display().result().resolveForFirstStack(SlotDisplayContext.fromLevel(level));
         }
         return ItemStack.EMPTY;
     }
 
     @Override
     public boolean hasItem() {
-        return recipe != null;
+        return recipeDisplayEntry != null;
     }
 
     @Override
     public boolean isActive() {
-        return recipe != null;
+        return recipeDisplayEntry != null;
     }
 
-    public void setRecipe(@Nullable RecipeDisplayEntry recipe) {
-        this.recipe = recipe;
+    public void setRecipeDisplayEntry(@Nullable RecipeDisplayEntry recipeDisplayEntry) {
+        this.recipeDisplayEntry = recipeDisplayEntry;
     }
 
     @Nullable
-    public RecipeDisplayEntry getRecipe() {
-        return recipe;
+    public RecipeDisplayEntry getRecipeDisplayEntry() {
+        return recipeDisplayEntry;
     }
 
+    @Override
+    public boolean isFake() {
+        return true;
+    }
 }

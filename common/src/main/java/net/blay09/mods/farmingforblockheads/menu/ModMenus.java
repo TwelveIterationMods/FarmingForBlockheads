@@ -10,13 +10,14 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 
 public class ModMenus {
     public static final DeferredObject<MenuType<MarketMenu>> market = Balm.getMenus().registerMenu(id("market"), new BalmMenuFactory<MarketMenu, BlockPos>() {
         @Override
         public MarketMenu create(int windowId, Inventory inventory, BlockPos data) {
-            return new MarketMenu(windowId, inventory, data);
+            return new MarketMenu(windowId, inventory, ContainerLevelAccess.create(inventory.player.level(), data));
         }
 
         @Override
