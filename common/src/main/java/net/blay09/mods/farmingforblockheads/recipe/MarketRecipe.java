@@ -108,7 +108,7 @@ public class MarketRecipe implements Recipe<RecipeInput> {
 
     @Override
     public RecipeBookCategory recipeBookCategory() {
-        return RecipeBookCategories.CAMPFIRE;
+        return ModRecipes.marketRecipeBookCategory;
     }
 
     public Optional<Payment> getPayment() {
