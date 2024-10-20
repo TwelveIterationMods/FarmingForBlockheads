@@ -99,7 +99,11 @@ public class MarketRecipe implements Recipe<RecipeInput> {
     @Override
     public PlacementInfo placementInfo() {
         final var effectivePayment = MarketDefaultsRegistry.resolvePayment(this);
-        return PlacementInfo.create(effectivePayment.ingredient());
+        final var ingredients = new ArrayList<Ingredient>();
+        for (int i = 0; i < effectivePayment.count(); i++) {
+            ingredients.add(effectivePayment.ingredient());
+        }
+        return PlacementInfo.create(ingredients);
     }
 
     @Override

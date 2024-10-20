@@ -127,11 +127,10 @@ public class MarketMenu extends AbstractContainerMenu {
 
         RecipeBookMenu.PostPlaceAction postPlaceAction;
         try {
-            final var paymentSlots = List.of(getPaymentSlot());
-            postPlaceAction = ServerPlaceRecipe.placeRecipe(new ServerPlaceRecipe.CraftingMenuAccess<>() {
+            postPlaceAction = ServerPlaceMarketRecipe.placeRecipe(new ServerPlaceRecipe.CraftingMenuAccess<>() {
                 @Override
                 public void fillCraftSlotsStackedContents(StackedItemContents stackedItemContents) {
-                    MarketMenu.this.fillCraftSlotsStackedContents(stackedItemContents);
+                    MarketMenu.this.fillPaymentSlotsStackedContents(stackedItemContents);
                 }
 
                 @Override
@@ -144,7 +143,7 @@ public class MarketMenu extends AbstractContainerMenu {
                 public boolean recipeMatches(RecipeHolder<MarketRecipe> recipe) {
                     return recipe.value().matches(MarketMenu.this.paymentSlots.asRecipeInput(), MarketMenu.this.owner().level());
                 }
-            }, 1, 1, paymentSlots, paymentSlots, inventory, recipeHolder, useMaxItems, creative);
+            }, getPaymentSlot(), inventory, recipeHolder, useMaxItems, creative);
         } finally {
             finishPlacingRecipe(level, recipeHolder);
         }
@@ -152,7 +151,7 @@ public class MarketMenu extends AbstractContainerMenu {
         return postPlaceAction;
     }
 
-    private void fillCraftSlotsStackedContents(StackedItemContents stackedItemContents) {
+    private void fillPaymentSlotsStackedContents(StackedItemContents stackedItemContents) {
         paymentSlots.fillStackedContents(stackedItemContents);
     }
 
