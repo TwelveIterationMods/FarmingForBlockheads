@@ -83,6 +83,10 @@ public class ServerPlaceMarketRecipe {
                     paymentSlotItem = paymentSlot.getItem();
                 } else if (ItemStack.isSameItemSameComponents(paymentSlotItem, slotItem)) {
                     toTake = Math.min(toTake, paymentSlotItem.getMaxStackSize() - paymentSlotItem.getCount());
+                    if (toTake <= 0) {
+                        break;
+                    }
+
                     slotItem.shrink(toTake);
                     paymentSlotItem.grow(toTake);
                 } else {
