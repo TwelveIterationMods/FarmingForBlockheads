@@ -40,7 +40,7 @@ dependencies {
     // Replace ${farmingforblockheads_file_id} and ${balm_file_id} with the id of the file you want to depend on.
     // You can find it in the URL of the file on CurseForge (e.g. 3914527).
     // Forge: implementation fg.deobf("curse.maven:balm-531761:${balm_file_id}")
-    // Fabric: modImplementation "curse.maven:balm-fabric-500525:${balm_file_id}"
+    // Fabric: modImplementation "curse.maven:balm-531761:${balm_file_id}"
     
     // Forge: implementation fg.deobf("curse.maven:farming-for-blockheads-261924:${farmingforblockheads_file_id}")
     // Fabric: modImplementation "curse.maven:farming-for-blockheads-fabric-554586:${farmingforblockheads_file_id}"
