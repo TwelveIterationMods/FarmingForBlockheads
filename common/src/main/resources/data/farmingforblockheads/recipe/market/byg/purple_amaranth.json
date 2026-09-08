@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"byg:flowers","result":{"item":"byg:purple_amaranth"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:purple_amaranth"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:purple_amaranth"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"byg:flowers","result":{"item":"byg:purple_amaranth"}}

@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"simplefarming:seeds","result":{"item":"simplefarming:corn_seeds"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"simplefarming:corn_seeds"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["simplefarming:corn_seeds"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"simplefarming:seeds","result":{"item":"simplefarming:corn_seeds"}}

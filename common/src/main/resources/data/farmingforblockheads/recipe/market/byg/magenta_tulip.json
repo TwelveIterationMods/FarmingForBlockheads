@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"byg:flowers","result":{"item":"byg:magenta_tulip"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:magenta_tulip"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:magenta_tulip"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"byg:flowers","result":{"item":"byg:magenta_tulip"}}

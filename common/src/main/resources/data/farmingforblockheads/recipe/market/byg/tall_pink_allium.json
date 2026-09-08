@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"byg:flowers","result":{"item":"byg:tall_pink_allium"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:tall_pink_allium"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:tall_pink_allium"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"byg:flowers","result":{"item":"byg:tall_pink_allium"}}

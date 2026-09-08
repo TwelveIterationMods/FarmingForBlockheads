@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"tropicraft:flowers","result":{"item":"tropicraft:pathos"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"tropicraft:pathos"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["tropicraft:pathos"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"tropicraft:flowers","result":{"item":"tropicraft:pathos"}}

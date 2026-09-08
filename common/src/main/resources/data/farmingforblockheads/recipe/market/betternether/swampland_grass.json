@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"betternether:soil","result":{"item":"betternether:swampland_grass"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"betternether:swampland_grass"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["betternether:swampland_grass"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"betternether:soil","result":{"item":"betternether:swampland_grass"}}

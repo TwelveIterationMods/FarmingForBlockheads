@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"thermal:seeds","result":{"item":"thermal:onion_seeds"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"thermal:onion_seeds"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["thermal:onion_seeds"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"thermal:seeds","result":{"item":"thermal:onion_seeds"}}

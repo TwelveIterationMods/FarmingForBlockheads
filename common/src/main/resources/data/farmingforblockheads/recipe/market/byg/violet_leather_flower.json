@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"byg:flowers","result":{"item":"byg:violet_leather_flower"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:violet_leather_flower"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:violet_leather_flower"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"byg:flowers","result":{"item":"byg:violet_leather_flower"}}

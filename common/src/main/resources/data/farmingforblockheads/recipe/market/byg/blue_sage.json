@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"byg:flowers","result":{"item":"byg:blue_sage"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:blue_sage"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:blue_sage"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"byg:flowers","result":{"item":"byg:blue_sage"}}

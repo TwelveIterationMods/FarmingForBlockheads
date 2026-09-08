@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"pamhc2crops:seeds","result":{"item":"pamhc2crops:cassavaseeditem"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"pamhc2crops:cassavaseeditem"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["pamhc2crops:cassavaseeditem"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"pamhc2crops:seeds","result":{"item":"pamhc2crops:cassavaseeditem"}}

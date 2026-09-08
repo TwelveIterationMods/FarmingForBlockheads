@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:saplings","preset":"byg:saplings","result":{"item":"byg:rainbow_eucalyptus_sapling"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:rainbow_eucalyptus_sapling"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:rainbow_eucalyptus_sapling"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:saplings","preset":"byg:saplings","result":{"item":"byg:rainbow_eucalyptus_sapling"}}

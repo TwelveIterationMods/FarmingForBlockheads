@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"minecraft_earth_mod:earth","result":{"item":"minecraft_earth_mod:buttercup"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"minecraft_earth_mod:buttercup"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["minecraft_earth_mod:buttercup"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"minecraft_earth_mod:earth","result":{"item":"minecraft_earth_mod:buttercup"}}

@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"tropicraft:flowers","result":{"item":"tropicraft:orange_anthurium"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"tropicraft:orange_anthurium"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["tropicraft:orange_anthurium"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"tropicraft:flowers","result":{"item":"tropicraft:orange_anthurium"}}

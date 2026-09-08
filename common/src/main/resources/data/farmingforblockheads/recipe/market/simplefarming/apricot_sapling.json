@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:saplings","preset":"simplefarming:saplings","result":{"item":"simplefarming:apricot_sapling"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"simplefarming:apricot_sapling"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["simplefarming:apricot_sapling"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:saplings","preset":"simplefarming:saplings","result":{"item":"simplefarming:apricot_sapling"}}

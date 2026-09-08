@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"biomesoplenty:flowers","result":{"item":"biomesoplenty:tall_lavender"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"biomesoplenty:tall_lavender"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["biomesoplenty:tall_lavender"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"biomesoplenty:flowers","result":{"item":"biomesoplenty:tall_lavender"}}

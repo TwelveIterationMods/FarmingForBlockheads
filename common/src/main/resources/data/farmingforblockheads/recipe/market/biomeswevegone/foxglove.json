@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"biomeswevegone:flowers","result":{"item":"biomeswevegone:foxglove"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"biomeswevegone:foxglove"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["biomeswevegone:foxglove"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"biomeswevegone:flowers","result":{"item":"biomeswevegone:foxglove"}}

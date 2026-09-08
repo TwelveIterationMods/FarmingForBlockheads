@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"betterendforge:soil","result":{"item":"betterendforge:shadow_grass"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"betterendforge:shadow_grass"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["betterendforge:shadow_grass"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"betterendforge:soil","result":{"item":"betterendforge:shadow_grass"}}

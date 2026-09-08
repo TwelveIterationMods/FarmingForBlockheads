@@ -1,4 +1,4 @@
-{
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"extradelight:chili_seeds"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["extradelight:chili_seeds"]}],
     "type": "farmingforblockheads:market",
     "category": "farmingforblockheads:seeds",
     "preset": "extradelight:seeds",

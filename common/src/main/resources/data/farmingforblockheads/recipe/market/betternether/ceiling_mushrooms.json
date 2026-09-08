@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"betternether:soil","result":{"item":"betternether:ceiling_mushrooms"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"betternether:ceiling_mushrooms"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["betternether:ceiling_mushrooms"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"betternether:soil","result":{"item":"betternether:ceiling_mushrooms"}}

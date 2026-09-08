@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"byg:mushrooms","result":{"item":"byg:bulbis_oddity"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:bulbis_oddity"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:bulbis_oddity"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"byg:mushrooms","result":{"item":"byg:bulbis_oddity"}}

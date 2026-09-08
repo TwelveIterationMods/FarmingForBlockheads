@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"pamhc2crops:seeds","result":{"item":"pamhc2crops:leekseeditem"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"pamhc2crops:leekseeditem"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["pamhc2crops:leekseeditem"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"pamhc2crops:seeds","result":{"item":"pamhc2crops:leekseeditem"}}

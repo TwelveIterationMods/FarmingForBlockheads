@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"byg:mushrooms","result":{"item":"byg:wood_blewit"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:wood_blewit"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:wood_blewit"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"byg:mushrooms","result":{"item":"byg:wood_blewit"}}

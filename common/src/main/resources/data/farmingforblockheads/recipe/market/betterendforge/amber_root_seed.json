@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"betterendforge:seeds","result":{"item":"betterendforge:amber_root_seed"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"betterendforge:amber_root_seed"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["betterendforge:amber_root_seed"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"betterendforge:seeds","result":{"item":"betterendforge:amber_root_seed"}}

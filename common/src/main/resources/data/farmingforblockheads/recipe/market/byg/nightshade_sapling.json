@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:saplings","preset":"byg:saplings","result":{"item":"byg:nightshade_sapling"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:nightshade_sapling"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:nightshade_sapling"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:saplings","preset":"byg:saplings","result":{"item":"byg:nightshade_sapling"}}

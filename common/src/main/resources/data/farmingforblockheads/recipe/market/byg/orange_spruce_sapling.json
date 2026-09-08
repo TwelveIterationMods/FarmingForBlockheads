@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:saplings","preset":"byg:saplings","result":{"item":"byg:orange_spruce_sapling"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:orange_spruce_sapling"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:orange_spruce_sapling"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:saplings","preset":"byg:saplings","result":{"item":"byg:orange_spruce_sapling"}}

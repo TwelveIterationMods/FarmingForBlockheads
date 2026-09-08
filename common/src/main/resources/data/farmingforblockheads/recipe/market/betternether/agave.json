@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"betternether:seeds","result":{"item":"betternether:agave"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"betternether:agave"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["betternether:agave"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"betternether:seeds","result":{"item":"betternether:agave"}}

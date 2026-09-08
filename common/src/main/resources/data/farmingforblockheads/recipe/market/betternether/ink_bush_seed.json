@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"betternether:seeds","result":{"item":"betternether:ink_bush_seed"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"betternether:ink_bush_seed"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["betternether:ink_bush_seed"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:seeds","preset":"betternether:seeds","result":{"item":"betternether:ink_bush_seed"}}

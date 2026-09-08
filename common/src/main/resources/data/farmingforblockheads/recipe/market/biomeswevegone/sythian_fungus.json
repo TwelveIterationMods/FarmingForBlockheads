@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"biomeswevegone:mushrooms","result":{"item":"biomeswevegone:sythian_fungus"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"biomeswevegone:sythian_fungus"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["biomeswevegone:sythian_fungus"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"biomeswevegone:mushrooms","result":{"item":"biomeswevegone:sythian_fungus"}}

@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"biomeswevegone:flowers","result":{"item":"biomeswevegone:yellow_daffodil"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"biomeswevegone:yellow_daffodil"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["biomeswevegone:yellow_daffodil"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"biomeswevegone:flowers","result":{"item":"biomeswevegone:yellow_daffodil"}}

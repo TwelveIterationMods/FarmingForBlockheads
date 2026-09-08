@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"biomeswevegone:flowers","result":{"item":"biomeswevegone:prairie_grass"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"biomeswevegone:prairie_grass"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["biomeswevegone:prairie_grass"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"biomeswevegone:flowers","result":{"item":"biomeswevegone:prairie_grass"}}

@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"byg:mushrooms","result":{"item":"byg:weeping_milkcap"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"byg:weeping_milkcap"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["byg:weeping_milkcap"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"byg:mushrooms","result":{"item":"byg:weeping_milkcap"}}

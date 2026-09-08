@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:saplings","preset":"biomeswevegone:saplings","result":{"item":"biomeswevegone:ether_sapling"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"biomeswevegone:ether_sapling"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["biomeswevegone:ether_sapling"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:saplings","preset":"biomeswevegone:saplings","result":{"item":"biomeswevegone:ether_sapling"}}

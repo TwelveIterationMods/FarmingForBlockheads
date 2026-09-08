@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"twilightforest:soil","result":{"item":"twilightforest:uberous_soil"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"twilightforest:uberous_soil"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["twilightforest:uberous_soil"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:other","preset":"twilightforest:soil","result":{"item":"twilightforest:uberous_soil"}}

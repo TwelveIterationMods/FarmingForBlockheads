@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"outer_end:end","result":{"item":"outer_end:azure_bud"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"outer_end:azure_bud"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["outer_end:azure_bud"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"outer_end:end","result":{"item":"outer_end:azure_bud"}}

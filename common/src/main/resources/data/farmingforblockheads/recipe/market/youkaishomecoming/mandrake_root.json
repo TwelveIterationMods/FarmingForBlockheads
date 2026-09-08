@@ -1,4 +1,4 @@
-{
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"youkaishomecoming:mandrake_root"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["youkaishomecoming:mandrake_root"]}],
     "type": "farmingforblockheads:market",
     "category": "farmingforblockheads:seeds",
     "preset": "youkaishomecoming:seeds",

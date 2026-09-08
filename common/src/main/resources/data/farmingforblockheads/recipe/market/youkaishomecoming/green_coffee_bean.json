@@ -1,4 +1,4 @@
-{
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"youkaishomecoming:green_coffee_bean"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["youkaishomecoming:green_coffee_bean"]}],
     "type": "farmingforblockheads:market",
     "category": "farmingforblockheads:seeds",
     "preset": "youkaishomecoming:seeds",

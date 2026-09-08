@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"biomesoplenty:flowers","result":{"item":"biomesoplenty:violet"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"biomesoplenty:violet"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["biomesoplenty:violet"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"biomesoplenty:flowers","result":{"item":"biomesoplenty:violet"}}

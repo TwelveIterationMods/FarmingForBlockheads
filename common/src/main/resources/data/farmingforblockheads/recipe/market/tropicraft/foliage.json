@@ -1,1 +1,1 @@
-{"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"tropicraft:flowers","result":{"item":"tropicraft:foliage"}}
+{"neoforge:conditions":[{"type":"neoforge:item_exists","item":"tropicraft:foliage"}],"fabric:load_conditions":[{"condition":"fabric:registry_contains","registry":"minecraft:item","values":["tropicraft:foliage"]}],"type":"farmingforblockheads:market","category":"farmingforblockheads:flowers","preset":"tropicraft:flowers","result":{"item":"tropicraft:foliage"}}
